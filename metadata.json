@@ -1,0 +1,6 @@
+{
+  "name": "PILES CLINIC ERP",
+  "description": "Professional medical clinic ERP for tracking patient enquiries and follow-ups offline.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
