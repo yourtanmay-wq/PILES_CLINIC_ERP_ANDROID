@@ -1,21 +1,65 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Clinica - Clinic Management & Patient Enquiry System
 
-# Run and deploy your AI Studio app
+A comprehensive, fully functional Android application for managing clinic staff, tracking patient registrations, recording enquiries, and handling follow-ups. Built with modern Android standards using Kotlin, Jetpack Compose, and Material Design 3.
 
-This contains everything you need to run your app locally.
+## Features
 
-View your app in AI Studio: https://ai.studio/apps/0c2f41b0-0d94-4d04-aa09-8b857ff5e978
+- **Authentication & Role-Based Access**: Log in as MASTER ADMIN, STAFF, etc., with session persistence and branch-specific default staff displays.
+- **Enquiry Form Module**: Create patient enquiries with 10-digit auto-formatting telephone numbers (`+91`), field validations, and automatic duplicate mobile checks across registered patients and existing enquiries.
+- **Enquiry Follow-Up List**: View, update status, record follow-up call outcomes, or reject enquiries with structured reasons.
+- **Clinic Dashboard**: High-level telemetry of pending enquiries, registrations, and status metrics.
+- **Room Database Integration**: Fully local database persistence keeping all patient and enquiry records secure offline.
 
-## Run Locally
+## Project Structure
 
-**Prerequisites:**  [Android Studio](https://developer.android.com/studio)
+```text
+├── app/
+│   ├── build.gradle.kts                      # Module-level build configuration
+│   └── src/
+│       └── main/
+│           ├── AndroidManifest.xml           # App Manifest (permissions, activities)
+│           ├── java/com/example/             # Kotlin package source directory
+│           │   ├── MainActivity.kt           # Main Application entry point
+│           │   ├── data/                     # Room Entities, DAOs, and Repositories
+│           │   ├── ui/                       # Jetpack Compose screens, ViewModels, and Theme
+│           │   └── util/                     # Utilities (Date formatters, etc.)
+│           └── res/                          # Android resources (Strings, drawables, etc.)
+├── gradle/
+│   └── libs.versions.toml                    # Centralized Version Catalog
+├── build.gradle.kts                          # Project-level build configuration
+├── settings.gradle.kts                       # Project settings
+├── gradle.properties                         # Gradle JVM configurations
+└── README.md                                 # Project documentation
+```
 
+## Prerequisites
 
-1. Open Android Studio
-2. Select **Open** and choose the directory containing this project
-3. Allow Android Studio to fix any incompatibilities as it imports the project.
-4. Create a file named `.env` in the project directory and set `GEMINI_API_KEY` in that file to your Gemini API key (see `.env.example` for an example)
-5. Remove this line from the app's `build.gradle.kts` file: `signingConfig = signingConfigs.getByName("debugConfig")`
-6. Run the app on an emulator or physical device
+To open, build, and run this project, make sure you have:
+- **Android Studio** Ladybug (2024.2.1) or newer.
+- **JDK 17** or higher configured in Android Studio.
+- **Android SDK** with compileSdk/targetSdk 35 installed.
+
+## Build & Run Instructions
+
+Follow these simple steps to import and run the project locally in Android Studio:
+
+### 1. Extract the Project ZIP
+Unzip the downloaded `project.zip` file to your local workspace folder.
+
+### 2. Import into Android Studio
+1. Open **Android Studio**.
+2. Select **File > Open** or choose **Import Project**.
+3. Navigate to the extracted project directory and select the root directory (containing `settings.gradle.kts`).
+4. Click **OK** and wait for Android Studio to sync Gradle dependencies.
+
+### 3. Build & Run
+1. Connect a physical Android device with USB Debugging enabled, or start an Android Virtual Device (Emulator).
+2. Click the **Run** button (green play icon in the top toolbar) or press `Shift + F10` to compile and install the application on your device.
+
+## Technologies Used
+
+- **Language**: Kotlin 100%
+- **UI Framework**: Jetpack Compose (Material 3)
+- **Architecture**: MVVM (Model-View-ViewModel) + Repository Pattern
+- **Persistence**: Room Database (SQLite)
+- **Dependency Management**: Gradle Version Catalog (`libs.versions.toml`)

@@ -1,5 +1,6 @@
 package com.example.ui.screens
 
+import android.app.DatePickerDialog
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
@@ -29,12 +30,14 @@ import com.example.data.model.Enquiry
 import com.example.ui.theme.WarningAmber
 import com.example.ui.viewmodel.EnquiryViewModel
 import com.example.util.DateUtils
+import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FollowUpScreen(
     viewModel: EnquiryViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onContinueRegistration: ((Enquiry) -> Unit)? = null
 ) {
     val context = LocalContext.current
     val enquiries by viewModel.enquiries.collectAsState()
@@ -173,7 +176,8 @@ fun FollowUpScreen(
                     items(filteredEnquiries) { enquiry ->
                         FollowUpEnquiryCard(
                             enquiry = enquiry,
-                            onClick = { selectedEnquiryForUpdate = enquiry }
+                            onClick = { selectedEnquiryForUpdate = enquiry },
+                            onContinueRegistration = onContinueRegistration
                         )
                     }
                 }
@@ -212,7 +216,41 @@ fun FollowUpScreen(
 }
 
 @Composable
-fun FollowUpEnquiryCard(enquiry: Enquiry, onClick: () -> Unit) {
+fun SignalIndicator(callCount: Int, modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier.width(28.dp).height(20.dp),
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
+        verticalAlignment = Alignment.Bottom
+    ) {
+        val activeBars = callCount.coerceIn(0, 5)
+        for (i in 1..5) {
+            val isActive = i <= activeBars
+            val barHeight = (3 * i).dp
+            val color = if (isActive) {
+                if (activeBars >= 5) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.15f)
+            }
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(barHeight)
+                    .clip(RoundedCornerShape(topStart = 1.dp, topEnd = 1.dp))
+                    .background(color)
+            )
+        }
+    }
+}
+
+@Composable
+fun FollowUpEnquiryCard(
+    enquiry: Enquiry,
+    onClick: () -> Unit,
+    onContinueRegistration: ((Enquiry) -> Unit)? = null
+) {
+    val context = LocalContext.current
+    val isDueTodayOrPast = DateUtils.isTodayOrPastDDMMYYYY(enquiry.nextFollowUpDate)
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -225,35 +263,46 @@ fun FollowUpEnquiryCard(enquiry: Enquiry, onClick: () -> Unit) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Top
+                verticalAlignment = Alignment.CenterVertically
             ) {
+                // Signal Indicator on left side of card
+                SignalIndicator(
+                    callCount = enquiry.callCount,
+                    modifier = Modifier.padding(end = 12.dp)
+                )
+
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = enquiry.patientName.ifEmpty { "Patient: (Optional)" },
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = enquiry.patientName.ifEmpty { "Patient: (Optional)" },
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+
+                        if (isDueTodayOrPast && enquiry.status != "Visit Confirmed" && enquiry.status != "Rejected") {
+                            Surface(
+                                color = WarningAmber.copy(alpha = 0.15f),
+                                contentColor = WarningAmber,
+                                shape = RoundedCornerShape(16.dp)
+                            ) {
+                                Text(
+                                    text = "TODAY DUE",
+                                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                )
+                            }
+                        }
+                    }
+                    
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "Disease: ${enquiry.disease} • Branch: ${enquiry.branch}",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                    )
-                }
-
-                // Dynamic call badge counter
-                Surface(
-                    color = if (enquiry.callCount >= 5) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.secondaryContainer,
-                    shape = RoundedCornerShape(16.dp)
-                ) {
-                    Text(
-                        text = "Calls: ${enquiry.callCount}/5",
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = if (enquiry.callCount >= 5) MaterialTheme.colorScheme.onErrorContainer else MaterialTheme.colorScheme.onSecondaryContainer
-                        ),
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                     )
                 }
             }
@@ -262,42 +311,17 @@ fun FollowUpEnquiryCard(enquiry: Enquiry, onClick: () -> Unit) {
             Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
             Spacer(modifier = Modifier.height(8.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column {
-                    Text(
-                        text = "Phone: ${enquiry.mobile}",
-                        style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    Text(
-                        text = "Next Follow-up: ${DateUtils.formatDisplayDate(enquiry.nextFollowUpDate)}",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                    )
-                }
-
-                // Status Pill
-                val statusColor = when (enquiry.status) {
-                    "Pending" -> WarningAmber
-                    "Rejected" -> MaterialTheme.colorScheme.error
-                    "Visit Confirmed" -> MaterialTheme.colorScheme.primary
-                    else -> MaterialTheme.colorScheme.secondary
-                }
-                Surface(
-                    color = statusColor.copy(alpha = 0.12f),
-                    contentColor = statusColor,
-                    shape = RoundedCornerShape(16.dp)
-                ) {
-                    Text(
-                        text = enquiry.status,
-                        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                    )
-                }
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text(
+                    text = "Phone: ${enquiry.mobile}",
+                    style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "First Enquiry Date: ${DateUtils.formatDisplayDate(enquiry.date)}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                )
             }
 
             if (enquiry.remarks.isNotEmpty()) {
@@ -308,12 +332,102 @@ fun FollowUpEnquiryCard(enquiry: Enquiry, onClick: () -> Unit) {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Latest Remarks: ${enquiry.remarks}",
+                        text = "Last Remark: ${enquiry.remarks}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
                         modifier = Modifier.padding(8.dp),
                         maxLines = 2
                     )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Action Buttons ordered: Call, WhatsApp, View All, Next Call
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // Call
+                OutlinedButton(
+                    onClick = {
+                        try {
+                            val intent = android.content.Intent(android.content.Intent.ACTION_DIAL).apply {
+                                data = android.net.Uri.parse("tel:${enquiry.mobile}")
+                            }
+                            context.startActivity(intent)
+                        } catch (e: Exception) {
+                            Toast.makeText(context, "Cannot open dialer", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(8.dp),
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp)
+                ) {
+                    Icon(Icons.Default.Phone, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(Modifier.width(4.dp))
+                    Text("Call", fontSize = 11.sp, maxLines = 1)
+                }
+
+                // WhatsApp
+                OutlinedButton(
+                    onClick = {
+                        try {
+                            val cleanNumber = enquiry.mobile.filter { it.isDigit() }
+                            val target = if (cleanNumber.startsWith("91") && cleanNumber.length == 12) cleanNumber else "91$cleanNumber"
+                            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                                data = android.net.Uri.parse("https://api.whatsapp.com/send?phone=$target&text=Hello%20${enquiry.patientName},%20this%20is%20from%20the%20clinic.")
+                            }
+                            context.startActivity(intent)
+                        } catch (e: Exception) {
+                            Toast.makeText(context, "Cannot open WhatsApp", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    modifier = Modifier.weight(1.1f),
+                    shape = RoundedCornerShape(8.dp),
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp)
+                ) {
+                    Icon(Icons.Default.Message, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(Modifier.width(4.dp))
+                    Text("WhatsApp", fontSize = 11.sp, maxLines = 1)
+                }
+
+                // View All
+                OutlinedButton(
+                    onClick = onClick,
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(8.dp),
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp)
+                ) {
+                    Icon(Icons.Default.Visibility, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(Modifier.width(4.dp))
+                    Text("View All", fontSize = 11.sp, maxLines = 1)
+                }
+
+                // Next Call
+                Button(
+                    onClick = onClick,
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(8.dp),
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp)
+                ) {
+                    Icon(Icons.Default.ArrowForward, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(Modifier.width(4.dp))
+                    Text("Next Call", fontSize = 11.sp, maxLines = 1)
+                }
+            }
+
+            if (onContinueRegistration != null && enquiry.status != "Visit Confirmed" && enquiry.status != "Rejected") {
+                Spacer(modifier = Modifier.height(12.dp))
+                Button(
+                    onClick = { onContinueRegistration(enquiry) },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                ) {
+                    Icon(Icons.Default.PersonAdd, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(Modifier.width(8.dp))
+                    Text("Continue Registration", fontSize = 12.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -328,9 +442,10 @@ fun FollowUpUpdateDialog(
     onUpdate: (String, String, String) -> Unit,
     onReject: (String) -> Unit
 ) {
+    val context = LocalContext.current
     var updatedRemarks by remember { mutableStateOf("") }
     var selectedStatus by remember { mutableStateOf("Connected") }
-    var nextFollowUpDate by remember { mutableStateOf(DateUtils.getTodayDateString()) }
+    var nextFollowUpDate by remember { mutableStateOf(DateUtils.getTodayDateStringDDMMYYYY()) }
     var isRejectMode by remember { mutableStateOf(false) }
     var rejectReason by remember { mutableStateOf("") }
     var statusExpanded by remember { mutableStateOf(false) }
@@ -340,8 +455,44 @@ fun FollowUpUpdateDialog(
         "WhatsApp Sent", "Visit Confirmed", "Not Interested"
     )
 
-    val todayStr = DateUtils.getTodayDateString()
+    val todayStr = DateUtils.getTodayDateStringDDMMYYYY()
     val isAlreadyCalledToday = enquiry.lastCallDate == todayStr
+
+    val calendar = Calendar.getInstance()
+    val showDatePicker = { currentDateStr: String, onDateSelected: (String) -> Unit ->
+        val dateParts = currentDateStr.split("-")
+        var year = calendar.get(Calendar.YEAR)
+        var month = calendar.get(Calendar.MONTH)
+        var day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        if (dateParts.size == 3) {
+            try {
+                val d = dateParts[0].toInt()
+                val m = dateParts[1].toInt() - 1
+                val y = dateParts[2].toInt()
+                if (d in 1..31 && m in 0..11 && y > 1900) {
+                    day = d
+                    month = m
+                    year = y
+                }
+            } catch (e: Exception) {
+                // Keep default calendar
+            }
+        }
+
+        val dialog = DatePickerDialog(
+            context,
+            { _, selYear, selMonth, selDay ->
+                val formattedDate = String.format("%02d-%02d-%04d", selDay, selMonth + 1, selYear)
+                onDateSelected(formattedDate)
+            },
+            year,
+            month,
+            day
+        )
+        dialog.datePicker.minDate = System.currentTimeMillis() - 1000
+        dialog.show()
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -376,10 +527,10 @@ fun FollowUpUpdateDialog(
                     }
                 }
 
-                // Rule Warning: Daily call limit
+                // Rule Warning: Daily call limit info
                 if (isAlreadyCalledToday) {
                     Surface(
-                        color = MaterialTheme.colorScheme.errorContainer,
+                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
                         shape = RoundedCornerShape(8.dp),
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -387,12 +538,12 @@ fun FollowUpUpdateDialog(
                             modifier = Modifier.padding(8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(Icons.Default.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.error)
+                            Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "Already made 1 call today. Maximum 1 call per day allowed.",
+                                text = "Already called today. Multiple calls today are allowed, but the main Call Count will only increment once per calendar day.",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onErrorContainer
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         }
                     }
@@ -466,16 +617,34 @@ fun FollowUpUpdateDialog(
                         maxLines = 3
                     )
 
-                    // 3. Next Follow-up Date
-                    OutlinedTextField(
-                        value = nextFollowUpDate,
-                        onValueChange = { nextFollowUpDate = it },
-                        label = { Text("Next Follow-up Date (YYYY-MM-DD) *") },
-                        supportingText = { Text("Mandatory, today or future only") },
-                        leadingIcon = { Icon(Icons.Default.Event, contentDescription = null) },
-                        modifier = Modifier.fillMaxWidth(),
-                        singleLine = true
-                    )
+                    // 3. Next Follow-up Date (Entire box clickable)
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { showDatePicker(nextFollowUpDate) { nextFollowUpDate = it } }
+                    ) {
+                        OutlinedTextField(
+                            value = nextFollowUpDate,
+                            onValueChange = {},
+                            readOnly = true,
+                            enabled = false,
+                            label = { Text("Next Follow-up Date *", fontWeight = FontWeight.SemiBold) },
+                            placeholder = { Text("DD-MM-YYYY") },
+                            supportingText = { Text("Mandatory, today or future only. Tap to select.") },
+                            leadingIcon = { Icon(Icons.Default.Event, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
+                            trailingIcon = { Icon(Icons.Default.CalendarToday, contentDescription = "Select Date", tint = MaterialTheme.colorScheme.secondary) },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(12.dp),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                                disabledBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
+                                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                disabledLeadingIconColor = MaterialTheme.colorScheme.primary,
+                                disabledTrailingIconColor = MaterialTheme.colorScheme.secondary,
+                                disabledSupportingTextColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                            )
+                        )
+                    }
 
                     // Previous History Expandable/Section
                     if (enquiry.historyText.isNotEmpty()) {
@@ -549,7 +718,7 @@ fun FollowUpUpdateDialog(
                         }
                     }
                 },
-                enabled = if (isRejectMode) rejectReason.trim().isNotEmpty() else (!isAlreadyCalledToday && updatedRemarks.trim().isNotEmpty())
+                enabled = if (isRejectMode) rejectReason.trim().isNotEmpty() else (updatedRemarks.trim().isNotEmpty())
             ) {
                 Text(text = if (isRejectMode) "CONFIRM REJECTION" else "SAVE RECORD")
             }

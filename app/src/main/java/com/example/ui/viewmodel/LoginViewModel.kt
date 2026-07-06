@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class LoginViewModel(private val sessionManager: SessionManager) : ViewModel() {
 
-    private val _userPhone = MutableStateFlow("")
+    private val _userPhone = MutableStateFlow(sessionManager.getUserPhone() ?: "")
     val userPhone = _userPhone.asStateFlow()
 
     private val _password = MutableStateFlow("")
@@ -59,8 +59,9 @@ class LoginViewModel(private val sessionManager: SessionManager) : ViewModel() {
         }
 
         // Save session
-        sessionManager.saveSession(determinedRole)
+        sessionManager.saveSession(determinedRole, phoneVal)
         _sessionRole.value = determinedRole
+        _userPhone.value = phoneVal
         _loginError.value = null
         return true
     }

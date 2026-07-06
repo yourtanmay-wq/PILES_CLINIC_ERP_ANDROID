@@ -101,6 +101,7 @@ class ClinicViewModel(private val repository: ClinicRepository) : ViewModel() {
         initialPaymentAmount: String,
         paymentMode: String,
         registeredBy: String,
+        date: String = DateUtils.getTodayDateStringDDMMYYYY(),
         onComplete: (Boolean, String) -> Unit
     ) {
         if (name.isBlank() || mobile.isBlank() || age.isBlank() || branch.isBlank()) {
@@ -110,15 +111,20 @@ class ClinicViewModel(private val repository: ClinicRepository) : ViewModel() {
 
         viewModelScope.launch {
             try {
-                // Auto-generate next Patient Reg No
-                val year = DateUtils.getTodayDateString().substring(0, 4)
                 val allCurrent = repository.allPatients.first()
-                val nextNumber = allCurrent.size + 1
-                val regNo = "PC-$year-${nextNumber.toString().padStart(4, '0')}"
+                val existingPatient = allCurrent.find { it.mobile == mobile.trim() }
+
+                val regNo = if (existingPatient != null) {
+                    existingPatient.regNo
+                } else {
+                    val year = DateUtils.getTodayDateString().substring(0, 4)
+                    val nextNumber = allCurrent.size + 1
+                    "PC-$year-${nextNumber.toString().padStart(4, '0')}"
+                }
 
                 val patient = Patient(
                     regNo = regNo,
-                    date = DateUtils.getTodayDateString(),
+                    date = date,
                     name = name.trim(),
                     mobile = mobile.trim(),
                     age = age.toIntOrNull() ?: 30,
@@ -130,14 +136,18 @@ class ClinicViewModel(private val repository: ClinicRepository) : ViewModel() {
                     registeredBy = registeredBy
                 )
 
-                repository.insertPatient(patient)
+                if (existingPatient != null) {
+                    repository.updatePatient(patient)
+                } else {
+                    repository.insertPatient(patient)
+                }
 
                 // Save Initial payment if provided
                 val paymentVal = initialPaymentAmount.toDoubleOrNull() ?: 0.0
                 if (paymentVal > 0.0) {
                     val payment = Payment(
                         patientRegNo = regNo,
-                        date = DateUtils.getTodayDateString(),
+                        date = date,
                         category = "Registration",
                         amount = paymentVal,
                         paymentMode = paymentMode,
@@ -147,7 +157,12 @@ class ClinicViewModel(private val repository: ClinicRepository) : ViewModel() {
                     repository.insertPayment(payment)
                 }
 
-                onComplete(true, "Patient Registered Successfully with Reg No: $regNo")
+                val msg = if (existingPatient != null) {
+                    "Patient Record Updated Successfully for Reg No: $regNo"
+                } else {
+                    "Patient Registered Successfully with Reg No: $regNo"
+                }
+                onComplete(true, msg)
             } catch (e: Exception) {
                 onComplete(false, "Error: ${e.message}")
             }
@@ -172,6 +187,19 @@ class ClinicViewModel(private val repository: ClinicRepository) : ViewModel() {
                 onComplete(true, "Patient record deleted successfully")
             } catch (e: Exception) {
                 onComplete(false, "Error: ${e.message}")
+            }
+        }
+    }
+
+    fun closeEnquiry(enquiryId: Int) {
+        viewModelScope.launch {
+            try {
+                val all = repository.allEnquiries.first()
+                all.find { it.id == enquiryId }?.let { eq ->
+                    repository.updateEnquiry(eq.copy(status = "Visited"))
+                }
+            } catch (e: Exception) {
+                // Ignore
             }
         }
     }

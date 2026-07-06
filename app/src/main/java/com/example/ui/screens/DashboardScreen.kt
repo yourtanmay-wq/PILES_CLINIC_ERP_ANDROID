@@ -43,6 +43,7 @@ fun DashboardScreen(
 ) {
     var selectedTab by remember { mutableStateOf(0) }
     var activeSubScreen by remember { mutableStateOf<String?>(null) }
+    var prefillEnquiryForReg by remember { mutableStateOf<Enquiry?>(null) }
 
     val enquiries by enquiryViewModel.enquiries.collectAsState()
     val sessionRole by loginViewModel.sessionRole.collectAsState()
@@ -58,7 +59,20 @@ fun DashboardScreen(
     if (activeSubScreen != null) {
         when (activeSubScreen) {
             "branches" -> BranchManagementScreen(viewModel = clinicViewModel, onBack = { activeSubScreen = null })
-            "patient_registration" -> PatientRegistrationScreen(viewModel = clinicViewModel, currentUserRole = sessionRole ?: "STAFF", onBack = { activeSubScreen = null })
+            "patient_registration" -> PatientRegistrationScreen(
+                viewModel = clinicViewModel,
+                currentUserRole = sessionRole ?: "STAFF",
+                prefillEnquiry = prefillEnquiryForReg,
+                onBack = { 
+                    activeSubScreen = null
+                    prefillEnquiryForReg = null
+                }
+            )
+            "visit_section" -> PatientVisitSectionScreen(
+                viewModel = clinicViewModel,
+                currentUserRole = sessionRole ?: "STAFF",
+                onBack = { activeSubScreen = null }
+            )
             "doctor_visits" -> DoctorVisitScreen(viewModel = clinicViewModel, doctorName = sessionRole ?: "Doctor", onBack = { activeSubScreen = null })
             "payments" -> PaymentScreen(viewModel = clinicViewModel, receivedBy = sessionRole ?: "STAFF", onBack = { activeSubScreen = null })
             "prescriptions" -> PrescriptionBuilderScreen(viewModel = clinicViewModel, doctorName = sessionRole ?: "Doctor", onBack = { activeSubScreen = null })
@@ -124,13 +138,19 @@ fun DashboardScreen(
                     )
                     1 -> EnquiryFormScreen(
                         viewModel = enquiryViewModel,
+                        loginViewModel = loginViewModel,
+                        clinicViewModel = clinicViewModel,
                         currentRole = sessionRole ?: "STAFF",
                         onSuccess = {
-                            selectedTab = 0
+                            selectedTab = 2 // Redirect to Enquiry Follow-up list
                         }
                     )
                     2 -> FollowUpScreen(
-                        viewModel = enquiryViewModel
+                        viewModel = enquiryViewModel,
+                        onContinueRegistration = { enquiry ->
+                            prefillEnquiryForReg = enquiry
+                            activeSubScreen = "patient_registration"
+                        }
                     )
                 }
             }
@@ -218,6 +238,7 @@ fun DashboardOverviewTab(
                         add("branches" to ("Branch Directory" to Icons.Default.HomeWork))
                         add("patient_registration" to ("Patient Registration" to Icons.Default.PersonAdd))
                         add("payments" to ("Billing & Payments" to Icons.Default.Payments))
+                        add("visit_section" to ("Visit Section" to Icons.Default.MedicalServices))
                     }
                     if (role == "MASTER ADMIN" || role == "DOCTOR") {
                         add("doctor_visits" to ("Doctor Clinical Log" to Icons.Default.Assignment))

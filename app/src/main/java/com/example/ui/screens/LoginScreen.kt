@@ -17,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -97,6 +98,7 @@ fun LoginScreen(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                shape = RoundedCornerShape(20.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {
                 Column(
@@ -106,7 +108,7 @@ fun LoginScreen(
                     Text(
                         text = "Sign In",
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier
                             .align(Alignment.Start)
                             .padding(bottom = 16.dp)
@@ -119,7 +121,7 @@ fun LoginScreen(
                                 .fillMaxWidth()
                                 .padding(bottom = 16.dp),
                             color = MaterialTheme.colorScheme.errorContainer,
-                            shape = RoundedCornerShape(8.dp)
+                            shape = RoundedCornerShape(12.dp)
                         ) {
                             Text(
                                 text = error ?: "",
@@ -136,12 +138,13 @@ fun LoginScreen(
                     OutlinedTextField(
                         value = phone,
                         onValueChange = { viewModel.updatePhone(it) },
-                        label = { Text("Mobile Number") },
+                        label = { Text("Mobile Number", fontWeight = FontWeight.SemiBold) },
                         leadingIcon = {
-                            Icon(imageVector = Icons.Default.Phone, contentDescription = "Phone Icon")
+                            Icon(imageVector = Icons.Default.Phone, contentDescription = "Phone Icon", tint = MaterialTheme.colorScheme.primary)
                         },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                         singleLine = true,
+                        shape = RoundedCornerShape(16.dp),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 16.dp)
@@ -152,21 +155,22 @@ fun LoginScreen(
                     OutlinedTextField(
                         value = password,
                         onValueChange = { viewModel.updatePassword(it) },
-                        label = { Text("Password") },
+                        label = { Text("Password", fontWeight = FontWeight.SemiBold) },
                         leadingIcon = {
-                            Icon(imageVector = Icons.Default.Lock, contentDescription = "Password Icon")
+                            Icon(imageVector = Icons.Default.Lock, contentDescription = "Password Icon", tint = MaterialTheme.colorScheme.primary)
                         },
                         trailingIcon = {
                             val icon = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
                             val description = if (passwordVisible) "Hide password" else "Show password"
 
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                Icon(imageVector = icon, contentDescription = description)
+                                Icon(imageVector = icon, contentDescription = description, tint = MaterialTheme.colorScheme.secondary)
                             }
                         },
                         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         singleLine = true,
+                        shape = RoundedCornerShape(16.dp),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 24.dp)
@@ -182,16 +186,18 @@ fun LoginScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(50.dp)
+                            .height(54.dp)
                             .testTag("login_submit_button"),
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                        shape = RoundedCornerShape(8.dp)
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiary),
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp)
                     ) {
                         Text(
-                            text = "LOGIN",
+                            text = "LOGIN TO ERP PORTAL",
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onPrimary
+                                color = Color.White,
+                                letterSpacing = 0.5.sp
                             )
                         )
                     }

@@ -46,11 +46,15 @@ class EnquiryViewModel(private val repository: EnquiryRepository) : ViewModel() 
         nextFollowUpDate: String
     ) {
         if (mobile.isBlank()) {
-            _errorMessage.value = "Mobile number is mandatory"
+            _errorMessage.value = "Patient Mobile is mandatory"
             return
         }
         if (branch.isBlank()) {
             _errorMessage.value = "Branch is mandatory"
+            return
+        }
+        if (callReceivedBy.isBlank()) {
+            _errorMessage.value = "Call Received By is mandatory"
             return
         }
         if (remarks.isBlank()) {
@@ -63,13 +67,13 @@ class EnquiryViewModel(private val repository: EnquiryRepository) : ViewModel() 
         }
 
         // Validate Date (today or past only)
-        if (!DateUtils.isTodayOrPast(date)) {
+        if (!DateUtils.isTodayOrPastDDMMYYYY(date)) {
             _errorMessage.value = "Enquiry date must be today or a past date"
             return
         }
 
         // Validate Next Follow-up Date (today or future only)
-        if (!DateUtils.isTodayOrFuture(nextFollowUpDate)) {
+        if (!DateUtils.isTodayOrFutureDDMMYYYY(nextFollowUpDate)) {
             _errorMessage.value = "Next follow-up date must be today or a future date"
             return
         }
@@ -123,6 +127,7 @@ class EnquiryViewModel(private val repository: EnquiryRepository) : ViewModel() 
         newStatus: String,
         newRemarks: String,
         newNextFollowUpDate: String,
+        staffName: String = "Staff",
         onComplete: (Boolean, String) -> Unit
     ) {
         viewModelScope.launch {
@@ -133,19 +138,16 @@ class EnquiryViewModel(private val repository: EnquiryRepository) : ViewModel() 
                     return@launch
                 }
 
-                val todayStr = DateUtils.getTodayDateString()
+                val todayStr = DateUtils.getTodayDateStringDDMMYYYY()
+                val isAlreadyCalledToday = enquiry.lastCallDate == todayStr
 
-                // Rule: Max 1 call per day
-                if (enquiry.lastCallDate == todayStr) {
-                    onComplete(false, "Maximum 1 call per day is allowed for this enquiry.")
-                    return@launch
-                }
+                // Only increment callCount if lastCallDate is not today
+                val newCallCount = if (isAlreadyCalledToday) enquiry.callCount else enquiry.callCount + 1
 
-                // Rule: Max 5 calls warning is shown, let's keep track
-                val newCallCount = enquiry.callCount + 1
+                val timeStr = java.text.SimpleDateFormat("hh:mm a", java.util.Locale.getDefault()).format(java.util.Date())
 
-                // Construct history log entry
-                val logEntry = "Call #$newCallCount on $todayStr - Status: $newStatus\nRemarks: $newRemarks\n"
+                // Construct history log entry as requested: Date, Time, Staff, Remark, Next Follow-up Date
+                val logEntry = "Date: $todayStr | Time: $timeStr | Staff: $staffName\nRemark: $newRemarks\nNext Follow-up: $newNextFollowUpDate\n\n"
                 val updatedHistory = enquiry.historyText + logEntry
 
                 val updatedEnquiry = enquiry.copy(
@@ -160,7 +162,7 @@ class EnquiryViewModel(private val repository: EnquiryRepository) : ViewModel() 
                 repository.update(updatedEnquiry)
 
                 val successMsg = if (newCallCount >= 5) {
-                    "Updated successfully. Warning: This enquiry has reached $newCallCount follow-up calls!"
+                    "Updated successfully. Note: This enquiry has reached 5 follow-up calls."
                 } else {
                     "Follow-up call recorded successfully"
                 }
@@ -182,7 +184,7 @@ class EnquiryViewModel(private val repository: EnquiryRepository) : ViewModel() 
                     return@launch
                 }
 
-                val todayStr = DateUtils.getTodayDateString()
+                val todayStr = DateUtils.getTodayDateStringDDMMYYYY()
                 val updatedHistory = enquiry.historyText + "Rejected on $todayStr. Reason: $reason\n"
 
                 val updatedEnquiry = enquiry.copy(

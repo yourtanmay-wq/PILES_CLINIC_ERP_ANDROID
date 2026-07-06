@@ -1,6 +1,9 @@
 package com.example.ui.screens
 
 import android.widget.Toast
+import android.app.DatePickerDialog
+import java.util.Calendar
+import com.example.util.DateUtils
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -34,6 +37,7 @@ import com.example.data.model.*
 import com.example.ui.viewmodel.ClinicViewModel
 import org.json.JSONArray
 import org.json.JSONObject
+import androidx.compose.ui.graphics.asImageBitmap
 
 // Safe JSON parser helper for composables
 fun parseMedicinesJson(json: String): List<String> {
@@ -48,6 +52,25 @@ fun parseMedicinesJson(json: String): List<String> {
         list.add(json)
     }
     return list
+}
+
+fun formatMobileInput(input: String): String {
+    var cleaned = input.filter { it.isDigit() }
+    
+    // Strip leading 91 or 0 multiple times if present and number is longer than 10 digits
+    while (cleaned.length > 10 && (cleaned.startsWith("91") || cleaned.startsWith("0"))) {
+        if (cleaned.startsWith("91")) {
+            cleaned = cleaned.substring(2)
+        } else if (cleaned.startsWith("0")) {
+            cleaned = cleaned.substring(1)
+        }
+    }
+    
+    return if (cleaned.length >= 10) {
+        "+91" + cleaned.take(10)
+    } else {
+        cleaned
+    }
 }
 
 // ==========================================
@@ -208,38 +231,442 @@ fun BranchManagementScreen(
         }
     }
 }
-
-
 // ==========================================
 // 2. PATIENT REGISTRATION SCREEN
 // ==========================================
+fun getAddressPart(address: String, prefix: String): String {
+    val pattern = "\\[$prefix:\\s*([^\\]]*)\\]"
+    val regex = pattern.toRegex(RegexOption.IGNORE_CASE)
+    val match = regex.find(address)
+    if (match != null) {
+        return match.groupValues[1].trim()
+    }
+    val altPattern = "$prefix:\\s*([^,]*)"
+    val altRegex = altPattern.toRegex(RegexOption.IGNORE_CASE)
+    val altMatch = altRegex.find(address)
+    return altMatch?.groupValues?.get(1)?.trim() ?: ""
+}
+
+fun getRemarksPart(remarks: String, prefix: String): String {
+    val pattern = "\\[$prefix:\\s*([^\\]]*)\\]"
+    val regex = pattern.toRegex(RegexOption.IGNORE_CASE)
+    val match = regex.find(remarks)
+    return match?.groupValues?.get(1)?.trim() ?: ""
+}
+
+fun getActualRemarks(remarks: String): String {
+    val regex = "\\[[^:]+:[^\\]]*\\]".toRegex()
+    return regex.replace(remarks, "").trim()
+}
+
+fun formatAddressForDisplay(address: String): String {
+    if (!address.contains("[")) return address
+    val village = getAddressPart(address, "Village")
+    val po = getAddressPart(address, "PO")
+    val ps = getAddressPart(address, "PS")
+    val district = getAddressPart(address, "Dist")
+    val pin = getAddressPart(address, "PIN")
+    
+    return buildList {
+        if (village.isNotEmpty()) add(village)
+        if (po.isNotEmpty()) add("P.O: $po")
+        if (ps.isNotEmpty()) add("P.S: $ps")
+        if (district.isNotEmpty()) add(district)
+        if (pin.isNotEmpty()) add(pin)
+    }.joinToString(", ")
+}
+
+fun formatRemarksForDisplay(remarks: String): String {
+    val occupation = getRemarksPart(remarks, "Occupation")
+    val refBy = getRemarksPart(remarks, "RefBy")
+    val symptoms = getRemarksPart(remarks, "Symptoms")
+    val actual = getActualRemarks(remarks)
+    
+    val parts = buildList {
+        if (occupation.isNotEmpty()) add("Occ: $occupation")
+        if (refBy.isNotEmpty()) add("Ref: $refBy")
+        if (symptoms.isNotEmpty()) add("Symptoms: $symptoms")
+    }
+    val metadata = if (parts.isNotEmpty()) "[${parts.joinToString(" | ")}]" else ""
+    return if (actual.isNotEmpty()) {
+        if (metadata.isNotEmpty()) "$metadata\n$actual" else actual
+    } else {
+        metadata
+    }
+}
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PatientRegistrationScreen(
     viewModel: ClinicViewModel,
     currentUserRole: String,
+    prefillEnquiry: Enquiry? = null,
     onBack: () -> Unit
 ) {
     val branches by viewModel.branches.collectAsState()
+    val patients by viewModel.patients.collectAsState()
+    val enquiries by viewModel.enquiries.collectAsState()
+    val doctorVisits by viewModel.doctorVisits.collectAsState()
+    val payments by viewModel.payments.collectAsState()
 
-    var name by remember { mutableStateOf("") }
-    var mobile by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf(prefillEnquiry?.patientName ?: "") }
+    var mobile by remember { mutableStateOf(if (prefillEnquiry?.mobile != null) formatMobileInput(prefillEnquiry.mobile) else "") }
     var age by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("Male") }
-    var address by remember { mutableStateOf("") }
+    
+    // Structured Address States
+    var village by remember { mutableStateOf("") }
+    var po by remember { mutableStateOf("") }
+    var ps by remember { mutableStateOf("") }
+    var district by remember { mutableStateOf("") }
+    var pin by remember { mutableStateOf("") }
+
+    // Additional States
+    var occupation by remember { mutableStateOf("") }
+    var refBy by remember { mutableStateOf("Self") }
+
+    // Dropdown options
+    val branchOptions = remember(branches) {
+        val defaults = listOf("Kishanganj", "Jalpaiguri", "Cooch Behar", "Falakata", "Birpara")
+        val dbBranchNames = branches.map { br ->
+            when (br.name) {
+                "KNE" -> "Kishanganj"
+                "JPE" -> "Jalpaiguri"
+                "COB" -> "Cooch Behar"
+                "FLK" -> "Falakata"
+                "BIR" -> "Birpara"
+                else -> br.name
+            }
+        }
+        (defaults + dbBranchNames).distinct()
+    }
+    val refByOptions = listOf("Self", "Online", "Offline", "Doctor Visit", "Old Patient Refer", "Other")
+
     var selectedBranch by remember { mutableStateOf("") }
-    var disease by remember { mutableStateOf("Piles") }
-    var remarks by remember { mutableStateOf("") }
-    var initialPaymentAmount by remember { mutableStateOf("500") }
-    var paymentMode by remember { mutableStateOf("Cash") }
+    
+    // Checkbox selections
+    var selectedDiseases by remember { mutableStateOf(setOf<String>()) }
+    var selectedSymptoms by remember { mutableStateOf(setOf<String>()) }
+
+    var actualRemarks by remember { mutableStateOf("") }
+    var initialPaymentAmount by remember { mutableStateOf("") }
+    var paymentMode by remember { mutableStateOf("CASH") } // Default to uppercase CASH per rules
+    var registrationDate by remember { mutableStateOf(DateUtils.getTodayDateStringDDMMYYYY()) }
+
+    var showDuplicatePopup by remember { mutableStateOf(false) }
+    var showAllDetails by remember { mutableStateOf(false) }
+    var existingMatchData by remember { mutableStateOf<Any?>(null) }
+    var confirmedDuplicateMobile by remember { mutableStateOf("") }
 
     val context = LocalContext.current
 
-    // Set default branch when loaded
-    LaunchedEffect(branches) {
-        if (branches.isNotEmpty() && selectedBranch.isEmpty()) {
-            selectedBranch = branches.first().name
+    var photoBitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
+
+    val galleryLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        contract = androidx.activity.result.contract.ActivityResultContracts.GetContent()
+    ) { uri: android.net.Uri? ->
+        uri?.let {
+            try {
+                val inputStream: java.io.InputStream? = context.contentResolver.openInputStream(it)
+                val bitmap = android.graphics.BitmapFactory.decodeStream(inputStream)
+                photoBitmap = bitmap
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
+    }
+
+    val cameraLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        contract = androidx.activity.result.contract.ActivityResultContracts.TakePicturePreview()
+    ) { bitmap: android.graphics.Bitmap? ->
+        bitmap?.let {
+            photoBitmap = it
+        }
+    }
+
+    // Helper to auto-fill the form from duplicate entity
+    val autoFillFromEntity = { entity: Any ->
+        if (entity is Patient) {
+            name = entity.name
+            mobile = entity.mobile
+            age = entity.age.toString()
+            gender = entity.gender
+            
+            // Extract structured address parts
+            village = getAddressPart(entity.address, "Village")
+            po = getAddressPart(entity.address, "PO")
+            ps = getAddressPart(entity.address, "PS")
+            district = getAddressPart(entity.address, "Dist")
+            pin = getAddressPart(entity.address, "PIN")
+            if (village.isEmpty() && entity.address.isNotEmpty()) {
+                village = entity.address
+            }
+            
+            selectedBranch = when (entity.branch) {
+                "KNE" -> "Kishanganj"
+                "JPE" -> "Jalpaiguri"
+                "COB" -> "Cooch Behar"
+                "FLK" -> "Falakata"
+                "BIR" -> "Birpara"
+                else -> entity.branch
+            }
+
+            // Extract checkboxes
+            selectedDiseases = entity.disease.split(",")
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
+                .toSet()
+
+            occupation = getRemarksPart(entity.remarks, "Occupation")
+            refBy = getRemarksPart(entity.remarks, "RefBy").ifEmpty { "Self" }
+            val symptomsStr = getRemarksPart(entity.remarks, "Symptoms")
+            selectedSymptoms = symptomsStr.split(",")
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
+                .toSet()
+
+            actualRemarks = getActualRemarks(entity.remarks)
+        } else if (entity is Enquiry) {
+            name = entity.patientName
+            mobile = formatMobileInput(entity.mobile)
+            
+            selectedBranch = when (entity.branch) {
+                "KNE" -> "Kishanganj"
+                "JPE" -> "Jalpaiguri"
+                "COB" -> "Cooch Behar"
+                "FLK" -> "Falakata"
+                "BIR" -> "Birpara"
+                else -> entity.branch
+            }
+
+            selectedDiseases = entity.disease.split(",")
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
+                .toSet()
+
+            actualRemarks = entity.remarks
+        }
+    }
+
+    LaunchedEffect(prefillEnquiry) {
+        prefillEnquiry?.let {
+            autoFillFromEntity(it)
+        }
+    }
+
+    // Set default branch when loaded
+    LaunchedEffect(branchOptions) {
+        if (branchOptions.isNotEmpty() && selectedBranch.isEmpty()) {
+            selectedBranch = branchOptions.first()
+        }
+    }
+
+    val calendar = Calendar.getInstance()
+    val showDatePicker = { currentDateStr: String, minDate: Long?, maxDate: Long?, onDateSelected: (String) -> Unit ->
+        val dateParts = currentDateStr.split("-")
+        var year = calendar.get(Calendar.YEAR)
+        var month = calendar.get(Calendar.MONTH)
+        var day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        if (dateParts.size == 3) {
+            try {
+                val d = dateParts[0].toInt()
+                val m = dateParts[1].toInt() - 1
+                val y = dateParts[2].toInt()
+                if (d in 1..31 && m in 0..11 && y > 1900) {
+                    day = d
+                    month = m
+                    year = y
+                }
+            } catch (e: Exception) {
+                // Keep default calendar
+            }
+        }
+
+        val dialog = DatePickerDialog(
+            context,
+            { _, selYear, selMonth, selDay ->
+                val formattedDate = String.format("%02d-%02d-%04d", selDay, selMonth + 1, selYear)
+                onDateSelected(formattedDate)
+            },
+            year,
+            month,
+            day
+        )
+        if (minDate != null) {
+            dialog.datePicker.minDate = minDate
+        }
+        if (maxDate != null) {
+            dialog.datePicker.maxDate = maxDate
+        }
+        dialog.show()
+    }
+
+    if (showDuplicatePopup) {
+        val existingPatient = patients.find { it.mobile == mobile }
+        val existingEnquiries = enquiries.filter { it.mobile == mobile }
+        val patientRegNo = existingPatient?.regNo ?: ""
+        val existingVisits = if (patientRegNo.isNotEmpty()) doctorVisits.filter { it.patientRegNo == patientRegNo } else emptyList()
+        val existingPayments = if (patientRegNo.isNotEmpty()) payments.filter { it.patientRegNo == patientRegNo } else emptyList()
+
+        AlertDialog(
+            onDismissRequest = { showDuplicatePopup = false },
+            title = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.error)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Duplicate Mobile Detected")
+                }
+            },
+            text = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 380.dp)
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Text(
+                        "This mobile number ($mobile) already exists in the system.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    
+                    // Display short summary
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text("Summary Information:", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary)
+                            if (existingPatient != null) {
+                                Text("• Record: Registered Patient", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodySmall)
+                                Text("• Name: ${existingPatient.name}", style = MaterialTheme.typography.bodySmall)
+                                Text("• Reg No: ${existingPatient.regNo}", style = MaterialTheme.typography.bodySmall)
+                                Text("• Branch: ${existingPatient.branch}", style = MaterialTheme.typography.bodySmall)
+                            } else if (existingEnquiries.isNotEmpty()) {
+                                val latestE = existingEnquiries.first()
+                                Text("• Record: Enquiry Form", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodySmall)
+                                Text("• Name: ${latestE.patientName.ifEmpty { "N/A" }}", style = MaterialTheme.typography.bodySmall)
+                                Text("• Branch: ${latestE.branch}", style = MaterialTheme.typography.bodySmall)
+                                Text("• Disease: ${latestE.disease}", style = MaterialTheme.typography.bodySmall)
+                            }
+                        }
+                    }
+
+                    // View All Details Toggle Button
+                    TextButton(
+                        onClick = { showAllDetails = !showAllDetails },
+                        modifier = Modifier.align(Alignment.Start)
+                    ) {
+                        Icon(
+                            imageVector = if (showAllDetails) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                            contentDescription = null
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text(if (showAllDetails) "Hide All Journey Details" else "View All Journey Details", fontWeight = FontWeight.Bold)
+                    }
+
+                    if (showAllDetails) {
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            // 1. Enquiries Journey
+                            if (existingEnquiries.isNotEmpty()) {
+                                Text("Enquiry Records (${existingEnquiries.size})", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.secondary)
+                                existingEnquiries.forEach { eq ->
+                                    Card(
+                                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                                        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)),
+                                        shape = RoundedCornerShape(6.dp),
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Column(modifier = Modifier.padding(8.dp)) {
+                                            Text("Date: ${DateUtils.formatDisplayDate(eq.date)} | Status: ${eq.status}", fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.bodySmall)
+                                            Text("Branch: ${eq.branch} | Disease: ${eq.disease}", style = MaterialTheme.typography.bodySmall)
+                                            if (eq.remarks.isNotEmpty()) {
+                                                Text("Remarks: ${eq.remarks}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f))
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            // 2. Doctor Visits
+                            if (existingVisits.isNotEmpty()) {
+                                Spacer(Modifier.height(4.dp))
+                                Text("Doctor Visits (${existingVisits.size})", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.secondary)
+                                existingVisits.forEach { vs ->
+                                    Card(
+                                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                                        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)),
+                                        shape = RoundedCornerShape(6.dp),
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Column(modifier = Modifier.padding(8.dp)) {
+                                            Text("Date: ${DateUtils.formatDisplayDate(vs.date)} | Doctor: ${vs.doctorName}", fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.bodySmall)
+                                            Text("Symptoms: ${vs.symptoms}", style = MaterialTheme.typography.bodySmall)
+                                            Text("Diagnosis: ${vs.diagnosis}", style = MaterialTheme.typography.bodySmall)
+                                        }
+                                    }
+                                }
+                            }
+
+                            // 3. Payments
+                            if (existingPayments.isNotEmpty()) {
+                                Spacer(Modifier.height(4.dp))
+                                Text("Payments & Billing (${existingPayments.size})", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.secondary)
+                                existingPayments.forEach { py ->
+                                    Card(
+                                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                                        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)),
+                                        shape = RoundedCornerShape(6.dp),
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Column(modifier = Modifier.padding(8.dp)) {
+                                            Text("Date: ${DateUtils.formatDisplayDate(py.date)} | Category: ${py.category}", fontWeight = FontWeight.SemiBold, style = MaterialTheme.typography.bodySmall)
+                                            Text("Amount: INR ${py.amount} | Mode: ${py.paymentMode}", style = MaterialTheme.typography.bodySmall)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
+                ) {
+                    OutlinedButton(
+                        modifier = Modifier.weight(1f),
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.error),
+                        onClick = {
+                            showDuplicatePopup = false
+                            mobile = ""
+                            existingMatchData = null
+                            showAllDetails = false
+                        }
+                    ) {
+                        Text("Cancel", fontSize = 11.sp, maxLines = 1)
+                    }
+
+                    Button(
+                        modifier = Modifier.weight(1.2f),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                        onClick = {
+                            showDuplicatePopup = false
+                            confirmedDuplicateMobile = mobile
+                            existingMatchData?.let { autoFillFromEntity(it) }
+                            showAllDetails = false
+                        }
+                    ) {
+                        Text("Continue", fontSize = 11.sp, maxLines = 1)
+                    }
+                }
+            }
+        )
     }
 
     Column(
@@ -248,7 +675,7 @@ fun PatientRegistrationScreen(
             .background(MaterialTheme.colorScheme.background)
     ) {
         TopAppBar(
-            title = { Text("Patient Registration", fontWeight = FontWeight.Bold) },
+            title = { Text("Patient Registration ERP", fontWeight = FontWeight.Bold) },
             navigationIcon = {
                 IconButton(onClick = onBack) {
                     Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -268,6 +695,8 @@ fun PatientRegistrationScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            
+            // CARD 1: CLINICAL ARRIVAL INFO (DATE & BRANCH)
             Card(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 shape = RoundedCornerShape(12.dp),
@@ -277,28 +706,204 @@ fun PatientRegistrationScreen(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Text(
-                        "Patient Demographics",
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleMedium
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    ) {
+                        Icon(Icons.Default.MedicalServices, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            "Arrival & Branch Assignment",
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+
+                    // Registration Date Clickable Date Box
+                    ClickableDateBox(
+                        label = "Registration Date *",
+                        value = registrationDate,
+                        placeholder = "DD-MM-YYYY",
+                        leadingIcon = Icons.Default.DateRange,
+                        supportingText = "Auto-today. Clicks open date calendar.",
+                        onClick = {
+                            showDatePicker(registrationDate, null, System.currentTimeMillis()) { registrationDate = it }
+                        },
+                        testTag = "reg_date_input"
                     )
+
+                    // Branch Dropdown (Mandatory)
+                    var branchDropdownExpanded by remember { mutableStateOf(false) }
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        OutlinedTextField(
+                            value = selectedBranch,
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text("Assigned Branch *", fontWeight = FontWeight.Bold) },
+                            trailingIcon = {
+                                IconButton(onClick = { branchDropdownExpanded = !branchDropdownExpanded }) {
+                                    Icon(Icons.Default.ArrowDropDown, contentDescription = "Select Branch")
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(12.dp),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                                unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)
+                            )
+                        )
+                        Box(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .clickable { branchDropdownExpanded = true }
+                        )
+                        DropdownMenu(
+                            expanded = branchDropdownExpanded,
+                            onDismissRequest = { branchDropdownExpanded = false },
+                            modifier = Modifier.fillMaxWidth(0.9f)
+                        ) {
+                            branchOptions.forEach { bName ->
+                                DropdownMenuItem(
+                                    text = { Text(bName, fontWeight = FontWeight.Medium) },
+                                    onClick = {
+                                        selectedBranch = bName
+                                        branchDropdownExpanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            // CARD 2: PATIENT PROFILE DEMOGRAPHICS
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                shape = RoundedCornerShape(12.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    ) {
+                        Icon(Icons.Default.Person, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            "Patient Demographics",
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+
+                    // Photo Picker Section
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Surface(
+                            modifier = Modifier.size(90.dp),
+                            shape = RoundedCornerShape(12.dp),
+                            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f))
+                        ) {
+                            if (photoBitmap != null) {
+                                androidx.compose.foundation.Image(
+                                    bitmap = photoBitmap!!.asImageBitmap(),
+                                    contentDescription = "Patient Photo",
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                                )
+                            } else {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.AccountCircle,
+                                        contentDescription = "Default Profile",
+                                        modifier = Modifier.size(56.dp),
+                                        tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
+                                    )
+                                }
+                            }
+                        }
+
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(
+                                "Patient Photo",
+                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Text(
+                                "Allowed from camera or gallery. Photo never blocks saving.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                OutlinedButton(
+                                    onClick = { cameraLauncher.launch(null) },
+                                    shape = RoundedCornerShape(8.dp),
+                                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp)
+                                ) {
+                                    Icon(Icons.Default.Camera, contentDescription = null, modifier = Modifier.size(16.dp))
+                                    Spacer(Modifier.width(4.dp))
+                                    Text("Camera", fontSize = 11.sp)
+                                }
+                                OutlinedButton(
+                                    onClick = { galleryLauncher.launch("image/*") },
+                                    shape = RoundedCornerShape(8.dp),
+                                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp)
+                                ) {
+                                    Icon(Icons.Default.Image, contentDescription = null, modifier = Modifier.size(16.dp))
+                                    Spacer(Modifier.width(4.dp))
+                                    Text("Gallery", fontSize = 11.sp)
+                                }
+                            }
+                        }
+                    }
 
                     OutlinedTextField(
                         value = name,
                         onValueChange = { name = it },
-                        label = { Text("Full Name *") },
+                        label = { Text("Patient Name *") },
                         modifier = Modifier.fillMaxWidth().testTag("patient_name_field"),
-                        leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) }
+                        leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
+                        shape = RoundedCornerShape(12.dp)
                     )
 
                     OutlinedTextField(
                         value = mobile,
-                        onValueChange = { mobile = it },
-                        label = { Text("Mobile Number *") },
+                        onValueChange = { inputVal ->
+                            mobile = formatMobileInput(inputVal)
+
+                            // Trigger real-time duplicate check when formatted mobile reaches full length
+                            if (mobile.length == 13 && mobile != confirmedDuplicateMobile) {
+                                val matchP = patients.find { it.mobile == mobile }
+                                val matchE = enquiries.find { it.mobile == mobile }
+                                if (matchP != null || matchE != null) {
+                                    existingMatchData = matchP ?: matchE
+                                    showDuplicatePopup = true
+                                }
+                            }
+                        },
+                        label = { Text("Patient Mobile *") },
+                        placeholder = { Text("10-digit Indian Mobile") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                         modifier = Modifier.fillMaxWidth().testTag("patient_mobile_field"),
-                        leadingIcon = { Icon(Icons.Default.Phone, contentDescription = null) }
+                        leadingIcon = { Icon(Icons.Default.Phone, contentDescription = null) },
+                        shape = RoundedCornerShape(12.dp)
                     )
 
                     Row(
@@ -310,20 +915,22 @@ fun PatientRegistrationScreen(
                             onValueChange = { age = it },
                             label = { Text("Age *") },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            modifier = Modifier.weight(1f).testTag("patient_age_field")
+                            modifier = Modifier.weight(1f).testTag("patient_age_field"),
+                            shape = RoundedCornerShape(12.dp)
                         )
 
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text("Gender", style = MaterialTheme.typography.bodySmall)
+                        Column(modifier = Modifier.weight(1.2f)) {
+                            Text("Gender", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold)
+                            Spacer(Modifier.height(4.dp))
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
                             ) {
                                 listOf("Male", "Female", "Other").forEach { g ->
                                     FilterChip(
                                         selected = gender == g,
                                         onClick = { gender = g },
-                                        label = { Text(g, fontSize = 11.sp) }
+                                        label = { Text(g, fontSize = 11.sp, fontWeight = FontWeight.Bold) }
                                     )
                                 }
                             }
@@ -331,75 +938,60 @@ fun PatientRegistrationScreen(
                     }
 
                     OutlinedTextField(
-                        value = address,
-                        onValueChange = { address = it },
-                        label = { Text("Home Address") },
+                        value = occupation,
+                        onValueChange = { occupation = it },
+                        label = { Text("Occupation") },
+                        placeholder = { Text("Farmer, Business, Service, etc.") },
                         modifier = Modifier.fillMaxWidth(),
-                        leadingIcon = { Icon(Icons.Default.Home, contentDescription = null) }
-                    )
-                }
-            }
-
-            Card(
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                shape = RoundedCornerShape(12.dp),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Text(
-                        "Clinical Details",
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleMedium
+                        leadingIcon = { Icon(Icons.Default.Work, contentDescription = null) },
+                        shape = RoundedCornerShape(12.dp)
                     )
 
-                    // Branch Selector
-                    Text("Assigned Branch *", style = MaterialTheme.typography.bodySmall)
-                    if (branches.isEmpty()) {
-                        Text("No branches loaded. Add one in Branch Management first.")
-                    } else {
-                        Row(
+                    // Ref By Dropdown
+                    var refDropdownExpanded by remember { mutableStateOf(false) }
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        OutlinedTextField(
+                            value = refBy,
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text("Referred By", fontWeight = FontWeight.Bold) },
+                            trailingIcon = {
+                                IconButton(onClick = { refDropdownExpanded = !refDropdownExpanded }) {
+                                    Icon(Icons.Default.ArrowDropDown, contentDescription = "Select Referral Source")
+                                }
+                            },
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            shape = RoundedCornerShape(12.dp),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                                unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)
+                            )
+                        )
+                        Box(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .clickable { refDropdownExpanded = true }
+                        )
+                        DropdownMenu(
+                            expanded = refDropdownExpanded,
+                            onDismissRequest = { refDropdownExpanded = false },
+                            modifier = Modifier.fillMaxWidth(0.9f)
                         ) {
-                            branches.forEach { br ->
-                                FilterChip(
-                                    selected = selectedBranch == br.name,
-                                    onClick = { selectedBranch = br.name },
-                                    label = { Text(br.name) }
+                            refByOptions.forEach { option ->
+                                DropdownMenuItem(
+                                    text = { Text(option, fontWeight = FontWeight.Medium) },
+                                    onClick = {
+                                        refBy = option
+                                        refDropdownExpanded = false
+                                    }
                                 )
                             }
                         }
                     }
-
-                    // Disease Category Selectors
-                    Text("Select Disease/Condition", style = MaterialTheme.typography.bodySmall)
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        listOf("Piles", "Fistula", "Fissure", "Pilonidal Sinus", "Constipation").forEach { d ->
-                            FilterChip(
-                                selected = disease == d,
-                                onClick = { disease = d },
-                                label = { Text(d) }
-                            )
-                        }
-                    }
-
-                    OutlinedTextField(
-                        value = remarks,
-                        onValueChange = { remarks = it },
-                        label = { Text("Clinical History / General Notes") },
-                        modifier = Modifier.fillMaxWidth(),
-                        minLines = 2
-                    )
                 }
             }
 
+            // CARD 3: FULL ADDRESS
             Card(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 shape = RoundedCornerShape(12.dp),
@@ -409,32 +1001,265 @@ fun PatientRegistrationScreen(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Text(
-                        "Registration & Initial Payment Module",
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleMedium
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    ) {
+                        Icon(Icons.Default.Home, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            "Full Address",
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+
+                    OutlinedTextField(
+                        value = village,
+                        onValueChange = { village = it },
+                        label = { Text("Village / Street") },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        OutlinedTextField(
+                            value = po,
+                            onValueChange = { po = it },
+                            label = { Text("PO") },
+                            modifier = Modifier.weight(1f),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+
+                        OutlinedTextField(
+                            value = ps,
+                            onValueChange = { ps = it },
+                            label = { Text("PS") },
+                            modifier = Modifier.weight(1f),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        OutlinedTextField(
+                            value = district,
+                            onValueChange = { district = it },
+                            label = { Text("District") },
+                            modifier = Modifier.weight(1.2f),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+
+                        OutlinedTextField(
+                            value = pin,
+                            onValueChange = { pin = it },
+                            label = { Text("PIN") },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            modifier = Modifier.weight(0.8f),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                    }
+                }
+            }
+
+            // CARD 4: CLINICAL DIAGNOSIS (DISEASE & SYMPTOMS CHECKBOXES)
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                shape = RoundedCornerShape(12.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    ) {
+                        Icon(Icons.Default.Assignment, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            "Clinical Assessment",
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+
+                    // Diseases checkboxes
+                    Text("Disease Options (Tick multiple) *", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                    val diseaseOptions = listOf("Piles", "Fissure", "Fistula", "Hydrocele", "Gupt Rog", "Other")
+                    
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        for (i in diseaseOptions.indices step 2) {
+                            Row(modifier = Modifier.fillMaxWidth()) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .clickable {
+                                            val current = diseaseOptions[i]
+                                            selectedDiseases = if (selectedDiseases.contains(current)) selectedDiseases - current else selectedDiseases + current
+                                        }
+                                        .padding(vertical = 4.dp)
+                                ) {
+                                    Checkbox(
+                                        checked = selectedDiseases.contains(diseaseOptions[i]),
+                                        onCheckedChange = { checked ->
+                                            val current = diseaseOptions[i]
+                                            selectedDiseases = if (checked) selectedDiseases + current else selectedDiseases - current
+                                        }
+                                    )
+                                    Spacer(Modifier.width(4.dp))
+                                    Text(diseaseOptions[i], style = MaterialTheme.typography.bodyMedium)
+                                }
+                                if (i + 1 < diseaseOptions.size) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .clickable {
+                                                val current = diseaseOptions[i + 1]
+                                                selectedDiseases = if (selectedDiseases.contains(current)) selectedDiseases - current else selectedDiseases + current
+                                            }
+                                            .padding(vertical = 4.dp)
+                                    ) {
+                                        Checkbox(
+                                            checked = selectedDiseases.contains(diseaseOptions[i + 1]),
+                                            onCheckedChange = { checked ->
+                                                val current = diseaseOptions[i + 1]
+                                                selectedDiseases = if (checked) selectedDiseases + current else selectedDiseases - current
+                                            }
+                                        )
+                                        Spacer(Modifier.width(4.dp))
+                                        Text(diseaseOptions[i + 1], style = MaterialTheme.typography.bodyMedium)
+                                    }
+                                } else {
+                                    Spacer(Modifier.weight(1f))
+                                }
+                            }
+                        }
+                    }
+
+                    Spacer(Modifier.height(8.dp))
+
+                    // Symptoms checkboxes
+                    Text("Symptom Options (Tick multiple) *", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                    val symptomOptions = listOf("Pain", "Bleeding", "Burning", "Itching", "Swelling", "Pus Discharge", "Other")
+
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        for (i in symptomOptions.indices step 2) {
+                            Row(modifier = Modifier.fillMaxWidth()) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .clickable {
+                                            val current = symptomOptions[i]
+                                            selectedSymptoms = if (selectedSymptoms.contains(current)) selectedSymptoms - current else selectedSymptoms + current
+                                        }
+                                        .padding(vertical = 4.dp)
+                                ) {
+                                    Checkbox(
+                                        checked = selectedSymptoms.contains(symptomOptions[i]),
+                                        onCheckedChange = { checked ->
+                                            val current = symptomOptions[i]
+                                            selectedSymptoms = if (checked) selectedSymptoms + current else selectedSymptoms - current
+                                        }
+                                    )
+                                    Spacer(Modifier.width(4.dp))
+                                    Text(symptomOptions[i], style = MaterialTheme.typography.bodyMedium)
+                                }
+                                if (i + 1 < symptomOptions.size) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .clickable {
+                                                val current = symptomOptions[i + 1]
+                                                selectedSymptoms = if (selectedSymptoms.contains(current)) selectedSymptoms - current else selectedSymptoms + current
+                                            }
+                                            .padding(vertical = 4.dp)
+                                    ) {
+                                        Checkbox(
+                                            checked = selectedSymptoms.contains(symptomOptions[i + 1]),
+                                            onCheckedChange = { checked ->
+                                                val current = symptomOptions[i + 1]
+                                                selectedSymptoms = if (checked) selectedSymptoms + current else selectedSymptoms - current
+                                            }
+                                        )
+                                        Spacer(Modifier.width(4.dp))
+                                        Text(symptomOptions[i + 1], style = MaterialTheme.typography.bodyMedium)
+                                    }
+                                } else {
+                                    Spacer(Modifier.weight(1f))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // CARD 5: PAYMENT & ADDITIONAL REMARKS
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                shape = RoundedCornerShape(12.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    ) {
+                        Icon(Icons.Default.Payments, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            "Billing & General Remarks",
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+
+                    OutlinedTextField(
+                        value = actualRemarks,
+                        onValueChange = { actualRemarks = it },
+                        label = { Text("Clinical History / General Remarks") },
+                        modifier = Modifier.fillMaxWidth(),
+                        minLines = 2,
+                        shape = RoundedCornerShape(12.dp)
                     )
 
                     OutlinedTextField(
                         value = initialPaymentAmount,
                         onValueChange = { initialPaymentAmount = it },
-                        label = { Text("Initial Payment Amount (INR)") },
+                        label = { Text("Registration Fee *") },
+                        supportingText = { Text("Mandatory fee (numeric only, must be greater than zero)") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.fillMaxWidth(),
-                        leadingIcon = { Icon(Icons.Default.CurrencyRupee, contentDescription = null) }
+                        leadingIcon = { Icon(Icons.Default.CurrencyRupee, contentDescription = null) },
+                        shape = RoundedCornerShape(12.dp)
                     )
 
-                    Text("Payment Mode", style = MaterialTheme.typography.bodySmall)
+                    Text("Payment Mode", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold)
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        listOf("Cash", "UPI", "Card", "NetBanking").forEach { mode ->
+                        listOf("CASH", "UPI").forEach { mode ->
                             FilterChip(
-                                selected = paymentMode == mode,
+                                selected = paymentMode.uppercase() == mode,
                                 onClick = { paymentMode = mode },
-                                label = { Text(mode) }
+                                label = { Text(mode, fontWeight = FontWeight.Bold) }
                             )
                         }
                     }
@@ -443,28 +1268,99 @@ fun PatientRegistrationScreen(
 
             Button(
                 onClick = {
-                    if (name.isBlank() || mobile.isBlank() || age.isBlank() || selectedBranch.isBlank()) {
-                        Toast.makeText(context, "Please complete all fields marked with *", Toast.LENGTH_SHORT).show()
+                    val feeInt = initialPaymentAmount.trim().toIntOrNull() ?: 0
+                    if (name.isBlank() || mobile.isBlank() || age.isBlank() || selectedBranch.isBlank() || selectedDiseases.isEmpty() || selectedSymptoms.isEmpty()) {
+                        Toast.makeText(context, "Please complete all fields marked with * (Name, Mobile, Age, Branch, and at least one disease/symptom)", Toast.LENGTH_LONG).show()
+                    } else if (feeInt <= 0) {
+                        Toast.makeText(context, "Registration Fee is mandatory. It cannot be blank or zero.", Toast.LENGTH_LONG).show()
                     } else {
-                        viewModel.registerPatient(
-                            name = name,
-                            mobile = mobile,
-                            age = age,
-                            gender = gender,
-                            address = address,
-                            branch = selectedBranch,
-                            disease = disease,
-                            remarks = remarks,
-                            initialPaymentAmount = initialPaymentAmount,
-                            paymentMode = paymentMode,
-                            registeredBy = currentUserRole,
-                            onComplete = { success, msg ->
-                                Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
-                                if (success) {
-                                    onBack()
+                        val matchP = patients.find { it.mobile == mobile }
+                        val matchE = enquiries.find { it.mobile == mobile }
+                        if ((matchP != null || matchE != null) && mobile != confirmedDuplicateMobile) {
+                            existingMatchData = matchP ?: matchE
+                            showDuplicatePopup = true
+                        } else {
+                            // Concatenate full address
+                            val finalAddress = buildAddressString(
+                                village = village,
+                                po = po,
+                                ps = ps,
+                                district = district,
+                                pin = pin
+                             )
+
+                            // Prepare diseases
+                            val finalDiseases = selectedDiseases.joinToString(", ")
+
+                            // Compile remarks metadata
+                            val finalRemarks = buildRemarksString(
+                                occupation = occupation,
+                                refBy = refBy,
+                                symptoms = selectedSymptoms.joinToString(", "),
+                                actualRemarks = actualRemarks
+                            )
+
+                            viewModel.registerPatient(
+                                name = name,
+                                mobile = mobile,
+                                age = age,
+                                gender = gender,
+                                address = finalAddress,
+                                branch = selectedBranch,
+                                disease = finalDiseases,
+                                remarks = finalRemarks,
+                                initialPaymentAmount = initialPaymentAmount,
+                                paymentMode = paymentMode,
+                                registeredBy = currentUserRole,
+                                date = registrationDate,
+                                onComplete = { success, msg ->
+                                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+                                    if (success) {
+                                        // Auto-compress and save patient photo
+                                        photoBitmap?.let { bitmap ->
+                                            try {
+                                                val prefix = "Reg No: "
+                                                val index = msg.indexOf(prefix)
+                                                val regNo = if (index != -1) {
+                                                    msg.substring(index + prefix.length).trim()
+                                                } else {
+                                                    val uPrefix = "No: "
+                                                    val uIndex = msg.indexOf(uPrefix)
+                                                    if (uIndex != -1) msg.substring(uIndex + uPrefix.length).trim() else ""
+                                                }
+                                                if (regNo.isNotEmpty()) {
+                                                    val maxDim = 800
+                                                    val w = bitmap.width
+                                                    val h = bitmap.height
+                                                    val scaled = if (w > maxDim || h > maxDim) {
+                                                        val ratio = w.toFloat() / h.toFloat()
+                                                        val newW = if (ratio > 1) maxDim else (maxDim * ratio).toInt()
+                                                        val newH = if (ratio > 1) (maxDim / ratio).toInt() else maxDim
+                                                        android.graphics.Bitmap.createScaledBitmap(bitmap, newW, newH, true)
+                                                    } else {
+                                                        bitmap
+                                                    }
+                                                    val file = java.io.File(context.filesDir, "${regNo}_photo.jpg")
+                                                    val out = java.io.FileOutputStream(file)
+                                                    scaled.compress(android.graphics.Bitmap.CompressFormat.JPEG, 80, out)
+                                                    out.flush()
+                                                    out.close()
+                                                }
+                                            } catch (e: Exception) {
+                                                e.printStackTrace()
+                                            }
+                                        }
+
+                                        // Auto-close/Visited prefilled enquiry
+                                        prefillEnquiry?.let {
+                                            viewModel.closeEnquiry(it.id)
+                                        }
+
+                                        onBack()
+                                    }
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 },
                 modifier = Modifier
@@ -479,6 +1375,22 @@ fun PatientRegistrationScreen(
             }
         }
     }
+}
+
+// Structured address and remarks helpers
+private fun buildAddressString(village: String, po: String, ps: String, district: String, pin: String): String {
+    return "[Village: $village][PO: $po][PS: $ps][Dist: $district][PIN: $pin]"
+}
+
+private fun buildRemarksString(
+    occupation: String,
+    refBy: String,
+    symptoms: String,
+    actualRemarks: String
+): String {
+    val base = "[Occupation: $occupation][RefBy: $refBy][Symptoms: $symptoms]"
+    val clean = getActualRemarks(actualRemarks)
+    return if (clean.isEmpty()) base else "$base\n$clean"
 }
 
 
@@ -797,7 +1709,7 @@ fun PaymentScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
-                            listOf("Treatment", "Medicine", "Blood Test", "Diet Chart", "Kshar Sutra").forEach { cat ->
+                            listOf("Registration", "Treatment", "Medicine", "Blood Test", "Diet Chart", "Kshar Sutra").forEach { cat ->
                                 FilterChip(
                                     selected = category == cat,
                                     onClick = { category = cat },
@@ -1380,7 +2292,7 @@ fun PatientSearchScreen(
                             }
                             Spacer(Modifier.height(8.dp))
                             Text("Mobile: ${patient.mobile} | Age: ${patient.age} | Gender: ${patient.gender}")
-                            Text("Address: ${patient.address}")
+                            Text("Address: ${formatAddressForDisplay(patient.address)}")
                             Text("Condition: ${patient.disease} | Registered: ${patient.date}", fontWeight = FontWeight.SemiBold)
                             
                             Spacer(Modifier.height(12.dp))
@@ -1616,7 +2528,7 @@ fun PatientSearchScreen(
                         Text("Reg No: ${p.regNo}     Date: ${p.date}", fontSize = 12.sp, color = Color.Black)
                         Text("Name: ${p.name}     Age: ${p.age}     Gender: ${p.gender}", fontSize = 12.sp, color = Color.Black)
                         Text("Mobile: ${p.mobile}     Condition: ${p.disease}", fontSize = 12.sp, color = Color.Black)
-                        Text("Address: ${p.address}", fontSize = 12.sp, color = Color.Black)
+                        Text("Address: ${formatAddressForDisplay(p.address)}", fontSize = 12.sp, color = Color.Black)
                         Divider(color = Color.Black, modifier = Modifier.padding(vertical = 8.dp))
 
                         // Clinical Section
@@ -2059,5 +2971,675 @@ fun CloudSyncScreen(
                 }
             }
         }
+    }
+}
+
+fun getPatientStage(remarks: String): String {
+    val prefix = "[Stage: "
+    val suffix = "]"
+    if (remarks.contains(prefix)) {
+        val startIndex = remarks.indexOf(prefix) + prefix.length
+        val endIndex = remarks.indexOf(suffix, startIndex)
+        if (endIndex > startIndex) {
+            return remarks.substring(startIndex, endIndex)
+        }
+    }
+    return "Registration Fee Paid"
+}
+
+fun setPatientStage(currentRemarks: String, newStage: String): String {
+    val prefix = "[Stage: "
+    val suffix = "]"
+    val cleanRemarks = if (currentRemarks.contains(prefix)) {
+        val startIndex = currentRemarks.indexOf(prefix)
+        val endIndex = currentRemarks.indexOf(suffix, startIndex)
+        if (endIndex >= startIndex) {
+            currentRemarks.removeRange(startIndex, endIndex + suffix.length).trim()
+        } else {
+            currentRemarks
+        }
+    } else {
+        currentRemarks.trim()
+    }
+    return if (cleanRemarks.isEmpty()) {
+        "$prefix$newStage$suffix"
+    } else {
+        "$cleanRemarks\n$prefix$newStage$suffix"
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PatientVisitSectionScreen(
+    viewModel: ClinicViewModel,
+    currentUserRole: String,
+    onBack: () -> Unit
+) {
+    val patients by viewModel.patients.collectAsState()
+    val payments by viewModel.payments.collectAsState()
+
+    val paidPatientRegNos = remember(payments) {
+        payments.filter { it.category.equals("Registration", ignoreCase = true) && it.amount > 0.0 }
+            .map { it.patientRegNo }
+            .toSet()
+    }
+
+    val visitSectionPatients = remember(patients, paidPatientRegNos) {
+        patients.filter { paidPatientRegNos.contains(it.regNo) }
+    }
+
+    var selectedPatientForView by remember { mutableStateOf<Patient?>(null) }
+    var selectedPatientForPrint by remember { mutableStateOf<Patient?>(null) }
+    var selectedPatientForAdvance by remember { mutableStateOf<Patient?>(null) }
+
+    var searchByMobileOrName by remember { mutableStateOf("") }
+
+    val filteredList = remember(visitSectionPatients, searchByMobileOrName) {
+        if (searchByMobileOrName.isBlank()) {
+            visitSectionPatients
+        } else {
+            visitSectionPatients.filter {
+                it.name.contains(searchByMobileOrName, ignoreCase = true) ||
+                it.mobile.contains(searchByMobileOrName) ||
+                it.regNo.contains(searchByMobileOrName, ignoreCase = true)
+            }
+        }
+    }
+
+    val context = LocalContext.current
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        TopAppBar(
+            title = { Text("Visit Section (Paid Patients)", fontWeight = FontWeight.Bold) },
+            navigationIcon = {
+                IconButton(onClick = onBack) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = Color.White,
+                navigationIconContentColor = Color.White
+            )
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Search field
+            OutlinedTextField(
+                value = searchByMobileOrName,
+                onValueChange = { searchByMobileOrName = it },
+                label = { Text("Search by Name / Mobile / ID") },
+                placeholder = { Text("e.g. Rahul Kumar") },
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            )
+
+            if (filteredList.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Icon(
+                            Icons.Default.HourglassEmpty,
+                            contentDescription = null,
+                            modifier = Modifier.size(64.dp),
+                            tint = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f)
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            "No paid patients in Visit Section yet.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                        )
+                        Text(
+                            "Registration Fee Payment is required to enter Visit Section.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                        )
+                    }
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(filteredList) { patient ->
+                        val regPayment = payments.find {
+                            it.patientRegNo == patient.regNo &&
+                            it.category.equals("Registration", ignoreCase = true)
+                        }
+                        val visitDate = regPayment?.date ?: patient.date
+
+                        Card(
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                            shape = RoundedCornerShape(16.dp),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.15f)),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(16.dp),
+                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Column {
+                                        Text(
+                                            text = patient.name,
+                                            fontWeight = FontWeight.Bold,
+                                            style = MaterialTheme.typography.titleMedium,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+                                        Text(
+                                            text = "ID: ${patient.regNo}",
+                                            style = MaterialTheme.typography.bodySmall,
+                                            fontWeight = FontWeight.Medium,
+                                            color = MaterialTheme.colorScheme.secondary
+                                        )
+                                    }
+                                    
+                                    // Soft light gold branch badge
+                                    Surface(
+                                        color = Color(0xFFFEF3C7),
+                                        shape = RoundedCornerShape(8.dp),
+                                        border = BorderStroke(1.dp, Color(0xFFF59E0B))
+                                    ) {
+                                        Text(
+                                            text = "Branch: ${patient.branch}",
+                                            style = MaterialTheme.typography.bodySmall.copy(
+                                                fontWeight = FontWeight.SemiBold,
+                                                color = Color(0xFF78350F)
+                                            ),
+                                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                        )
+                                    }
+                                }
+
+                                Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
+
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text("Mobile", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                                    Text(patient.mobile, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
+                                }
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text("Visit Date", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                                    Text(visitDate, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
+                                }
+
+                                Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
+
+                                val currentStage = getPatientStage(patient.remarks)
+                                var stageExpanded by remember { mutableStateOf(false) }
+                                val stages = listOf(
+                                    "Registration Fee Paid",
+                                    "Advance Payment Done",
+                                    "Treatment Running",
+                                    "Treatment Follow-up",
+                                    "Completed"
+                                )
+
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = "Treatment Stage:",
+                                        style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
+                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                                    )
+                                    Box {
+                                        Surface(
+                                            color = when (currentStage) {
+                                                "Completed" -> MaterialTheme.colorScheme.primaryContainer
+                                                "Treatment Running" -> MaterialTheme.colorScheme.tertiaryContainer
+                                                "Treatment Follow-up" -> MaterialTheme.colorScheme.secondaryContainer
+                                                "Advance Payment Done" -> Color(0xFFE0F2FE)
+                                                else -> Color(0xFFF3F4F6)
+                                            },
+                                            shape = RoundedCornerShape(8.dp),
+                                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)),
+                                            modifier = Modifier.clickable { stageExpanded = true }
+                                        ) {
+                                            Row(
+                                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                            ) {
+                                                val stageIcon = when (currentStage) {
+                                                    "Completed" -> Icons.Default.CheckCircle
+                                                    "Treatment Running" -> Icons.Default.PlayArrow
+                                                    "Treatment Follow-up" -> Icons.Default.SettingsBackupRestore
+                                                    "Advance Payment Done" -> Icons.Default.Payments
+                                                    else -> Icons.Default.HourglassEmpty
+                                                }
+                                                Icon(
+                                                    imageVector = stageIcon,
+                                                    contentDescription = null,
+                                                    modifier = Modifier.size(14.dp),
+                                                    tint = when (currentStage) {
+                                                        "Completed" -> MaterialTheme.colorScheme.primary
+                                                        "Treatment Running" -> MaterialTheme.colorScheme.tertiary
+                                                        "Treatment Follow-up" -> MaterialTheme.colorScheme.secondary
+                                                        "Advance Payment Done" -> Color(0xFF0369A1)
+                                                        else -> Color.Gray
+                                                    }
+                                                )
+                                                Text(
+                                                    text = currentStage,
+                                                    style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                                                    color = when (currentStage) {
+                                                        "Completed" -> MaterialTheme.colorScheme.onPrimaryContainer
+                                                        "Treatment Running" -> MaterialTheme.colorScheme.onTertiaryContainer
+                                                        "Treatment Follow-up" -> MaterialTheme.colorScheme.onSecondaryContainer
+                                                        "Advance Payment Done" -> Color(0xFF0369A1)
+                                                        else -> Color.DarkGray
+                                                    }
+                                                )
+                                                Icon(
+                                                    imageVector = Icons.Default.ArrowDropDown,
+                                                    contentDescription = null,
+                                                    modifier = Modifier.size(16.dp),
+                                                    tint = Color.Gray
+                                                )
+                                            }
+                                        }
+
+                                        DropdownMenu(
+                                            expanded = stageExpanded,
+                                            onDismissRequest = { stageExpanded = false }
+                                        ) {
+                                            stages.forEach { st ->
+                                                DropdownMenuItem(
+                                                    text = {
+                                                        Text(
+                                                            text = st,
+                                                            fontWeight = if (st == currentStage) FontWeight.Bold else FontWeight.Normal
+                                                        )
+                                                    },
+                                                    onClick = {
+                                                        stageExpanded = false
+                                                        if (st != currentStage) {
+                                                            val updatedRemarks = setPatientStage(patient.remarks, st)
+                                                            val updatedPatient = patient.copy(remarks = updatedRemarks)
+                                                            viewModel.updatePatient(updatedPatient) { _, _ -> }
+                                                        }
+                                                    }
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f))
+
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    // View Button
+                                    OutlinedButton(
+                                        onClick = { selectedPatientForView = patient },
+                                        modifier = Modifier.weight(1f),
+                                        shape = RoundedCornerShape(10.dp)
+                                    ) {
+                                        Icon(Icons.Default.Visibility, contentDescription = null, modifier = Modifier.size(16.dp))
+                                        Spacer(Modifier.width(4.dp))
+                                        Text("View", fontSize = 12.sp)
+                                    }
+
+                                    // Print Button
+                                    OutlinedButton(
+                                        onClick = { selectedPatientForPrint = patient },
+                                        modifier = Modifier.weight(1f),
+                                        shape = RoundedCornerShape(10.dp)
+                                    ) {
+                                        Icon(Icons.Default.Print, contentDescription = null, modifier = Modifier.size(16.dp))
+                                        Spacer(Modifier.width(4.dp))
+                                        Text("Print", fontSize = 12.sp)
+                                    }
+
+                                    // Advance Button (Filled healing green style)
+                                    Button(
+                                        onClick = { selectedPatientForAdvance = patient },
+                                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiary),
+                                        modifier = Modifier.weight(1.2f),
+                                        shape = RoundedCornerShape(10.dp)
+                                    ) {
+                                        Icon(Icons.Default.Payments, contentDescription = null, modifier = Modifier.size(16.dp))
+                                        Spacer(Modifier.width(4.dp))
+                                        Text("Advance", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // View Patient Detail Dialog
+    selectedPatientForView?.let { patient ->
+        val patientPayments = payments.filter { it.patientRegNo == patient.regNo }
+        AlertDialog(
+            onDismissRequest = { selectedPatientForView = null },
+            title = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.Person, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Patient EMR Clinical Overview")
+                }
+            },
+            text = {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    modifier = Modifier.verticalScroll(rememberScrollState())
+                ) {
+                    ListItem(
+                        headlineContent = { Text("Name: ${patient.name}", fontWeight = FontWeight.Bold) },
+                        supportingContent = { Text("Age: ${patient.age} | Gender: ${patient.gender}") }
+                    )
+                    ListItem(
+                        headlineContent = { Text("Mobile: ${patient.mobile}") },
+                        supportingContent = { Text("Reg Date: ${patient.date} | Reg By: ${patient.registeredBy}") }
+                    )
+                    ListItem(
+                        headlineContent = { Text("Condition/Disease: ${patient.disease}", fontWeight = FontWeight.Bold) },
+                        supportingContent = { Text("Branch: ${patient.branch}") }
+                    )
+                    if (patient.address.isNotEmpty()) {
+                        ListItem(
+                            headlineContent = { Text("Address") },
+                            supportingContent = { Text(formatAddressForDisplay(patient.address)) }
+                        )
+                    }
+                    if (patient.remarks.isNotEmpty()) {
+                        ListItem(
+                            headlineContent = { Text("Clinical History Remarks") },
+                            supportingContent = { Text(formatRemarksForDisplay(patient.remarks)) }
+                        )
+                    }
+
+                    Divider()
+                    Text("Payment Records List:", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                    if (patientPayments.isEmpty()) {
+                        Text("No payment records found.")
+                    } else {
+                        patientPayments.forEach { pay ->
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(8.dp).fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Column {
+                                        Text(pay.category, fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
+                                        Text("Date: ${pay.date} | Mode: ${pay.paymentMode}", fontSize = 10.sp)
+                                    }
+                                    Text("INR ${pay.amount}", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 12.sp)
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                Button(onClick = { selectedPatientForView = null }) {
+                    Text("Close")
+                }
+            }
+        )
+    }
+
+    // Print Receipt / Visit Pass Dialog
+    selectedPatientForPrint?.let { patient ->
+        val regPayment = payments.find {
+            it.patientRegNo == patient.regNo &&
+            it.category.equals("Registration", ignoreCase = true)
+        }
+        val visitDate = regPayment?.date ?: patient.date
+
+        Dialog(onDismissRequest = { selectedPatientForPrint = null }) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                shape = RoundedCornerShape(16.dp),
+                color = MaterialTheme.colorScheme.surface,
+                border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+            ) {
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // Header
+                    Text(
+                        text = "VISIT PASS & RECEIPT",
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Text(
+                        text = "HERBAL CLINIC SYSTEMS ERP",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    )
+
+                    Divider(color = MaterialTheme.colorScheme.primary, thickness = 1.dp)
+
+                    // Details block
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text("Patient ID:", fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                            Text(patient.regNo, fontSize = 11.sp)
+                        }
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text("Patient Name:", fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                            Text(patient.name, fontSize = 11.sp)
+                        }
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text("Mobile Number:", fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                            Text(patient.mobile, fontSize = 11.sp)
+                        }
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text("Assigned Branch:", fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                            Text(patient.branch, fontSize = 11.sp)
+                        }
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text("Clinical Date:", fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                            Text(visitDate, fontSize = 11.sp)
+                        }
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text("Condition:", fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                            Text(patient.disease, fontSize = 11.sp)
+                        }
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text("Registration Fee Paid:", fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                            Text("INR ${regPayment?.amount ?: 0.0}", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                        }
+                        if (regPayment?.paymentMode != null) {
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text("Payment Mode:", fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                                Text(regPayment.paymentMode, fontSize = 11.sp)
+                            }
+                        }
+                    }
+
+                    Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+
+                    Text(
+                        text = "This is a computer generated slip for clinical registration. Please proceed to the treatment check-up section.",
+                        fontSize = 9.sp,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        OutlinedButton(
+                            onClick = { selectedPatientForPrint = null },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text("Close")
+                        }
+                        Button(
+                            onClick = {
+                                Toast.makeText(context, "Printing visit receipt for ${patient.name}...", Toast.LENGTH_SHORT).show()
+                                selectedPatientForPrint = null
+                            },
+                            modifier = Modifier.weight(1.2f)
+                        ) {
+                            Icon(Icons.Default.Print, contentDescription = null, modifier = Modifier.size(16.dp))
+                            Spacer(Modifier.width(4.dp))
+                            Text("Print Pass")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Advance Payment Dialog
+    selectedPatientForAdvance?.let { patient ->
+        var advAmount by remember { mutableStateOf("1000") }
+        var advPaymentMode by remember { mutableStateOf("Cash") }
+        var advTxnId by remember { mutableStateOf("") }
+        var advRemarks by remember { mutableStateOf("") }
+
+        AlertDialog(
+            onDismissRequest = { selectedPatientForAdvance = null },
+            title = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.Payments, contentDescription = null, tint = MaterialTheme.colorScheme.tertiary)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Collect Advance Payment")
+                }
+            },
+            text = {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Text(
+                        text = "Patient: ${patient.name} (${patient.regNo})",
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+
+                    OutlinedTextField(
+                        value = advAmount,
+                        onValueChange = { advAmount = it },
+                        label = { Text("Advance Amount (INR) *") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Text("Payment Mode", style = MaterialTheme.typography.bodySmall)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        listOf("Cash", "UPI", "Card", "NetBanking").forEach { mode ->
+                            FilterChip(
+                                selected = advPaymentMode == mode,
+                                onClick = { advPaymentMode = mode },
+                                label = { Text(mode) }
+                            )
+                        }
+                    }
+
+                    if (advPaymentMode != "Cash") {
+                        OutlinedTextField(
+                            value = advTxnId,
+                            onValueChange = { advTxnId = it },
+                            label = { Text("Transaction ID / Reference") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+
+                    OutlinedTextField(
+                        value = advRemarks,
+                        onValueChange = { advRemarks = it },
+                        label = { Text("Remarks (Treatment advance / booking)") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            },
+            confirmButton = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiary),
+                    onClick = {
+                        val amountVal = advAmount.toDoubleOrNull()
+                        if (amountVal == null || amountVal <= 0.0) {
+                            Toast.makeText(context, "Please enter a valid positive amount", Toast.LENGTH_SHORT).show()
+                        } else {
+                            viewModel.addPayment(
+                                patientRegNo = patient.regNo,
+                                category = "Treatment",
+                                amountStr = advAmount,
+                                paymentMode = advPaymentMode,
+                                transactionId = advTxnId,
+                                remarks = "Treatment Advance: ${advRemarks.trim()}".trim(),
+                                receivedBy = currentUserRole,
+                                onComplete = { success, msg ->
+                                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+                                    if (success) {
+                                        val currentStage = getPatientStage(patient.remarks)
+                                        if (currentStage == "Registration Fee Paid") {
+                                            val updatedRemarks = setPatientStage(patient.remarks, "Advance Payment Done")
+                                            val updatedPatient = patient.copy(remarks = updatedRemarks)
+                                            viewModel.updatePatient(updatedPatient) { _, _ -> }
+                                        }
+                                        selectedPatientForAdvance = null
+                                    }
+                                }
+                            )
+                        }
+                    }
+                ) {
+                    Text("Record Advance Payment")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { selectedPatientForAdvance = null }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 }

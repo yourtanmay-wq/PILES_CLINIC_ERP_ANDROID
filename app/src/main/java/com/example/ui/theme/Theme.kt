@@ -9,12 +9,13 @@ import androidx.compose.runtime.Composable
 
 private val DarkColorScheme = darkColorScheme(
     primary = MedicalTealPrimary,
-    secondary = AccentClinicalCyan,
-    background = TextDark,
-    surface = Color(0xFF1E293B), // Slate 800
-    onPrimary = SurfaceWhite,
-    onBackground = SurfaceWhite,
-    onSurface = SurfaceWhite
+    secondary = MedicalBlueSecondary,
+    background = ScreenBackgroundDark,
+    surface = SurfaceClinicDark,
+    onPrimary = Color(0xFFFFFFFF),
+    onBackground = Color(0xFFF1F5F9),
+    onSurface = Color(0xFFFFFFFF),
+    tertiary = MedicalEmeraldAccent
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -29,7 +30,8 @@ private val LightColorScheme = lightColorScheme(
     onBackground = LightOnSurface,
     onSurface = LightOnSurface,
     error = LightError,
-    onError = LightOnError
+    onError = LightOnError,
+    tertiary = MedicalEmeraldAccent
 )
 
 @Composable
