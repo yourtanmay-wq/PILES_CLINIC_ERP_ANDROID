@@ -1,0 +1,22 @@
+# V215 (§4.9 / §4.10, 31.07.2026) — Netlify security headers.
+# এই ফাইলটা Netlify নিজে থেকেই পড়ে (site root-এ থাকতে হয়, deploy folder-এর ভিতরে)।
+# ⛔ কোনো কিছু ভাঙে না: নিচের প্রথম দলটা নিরাপদ header, আর CSP ইচ্ছে করে
+#    "Report-Only" মোডে রাখা হলো — এটা কিছুই block করে না, শুধু browser console-এ
+#    রিপোর্ট করে কোনটা policy-র বাইরে যাচ্ছে। Live site-এ কিছুদিন চালিয়ে,
+#    console-এ কোনো ভুল না এলে, তখন `Content-Security-Policy-Report-Only`-কে
+#    `Content-Security-Policy` করে দিলে সেটা enforce হবে (ধাপ V215_MANUAL_SETUP-এ লেখা)।
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://bcyeogjqtupbdyciqfmz.supabase.co wss://bcyeogjqtupbdyciqfmz.supabase.co; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'
+
+# 🔴 V436 (১৮.০৮.২০২৬) — ফোনের "আপনার অ্যাপ পুরনো" পরীক্ষার ফাইলটা যেন কখনো
+# পুরনো কপি থেকে পড়া না হয়। ⛔ শুধু এই একটা ছোট ফাইলের জন্য; উপরের নিয়মগুলো
+# এক অক্ষরও বদলায়নি।
+/version.json
+  Cache-Control: no-cache, max-age=0, must-revalidate

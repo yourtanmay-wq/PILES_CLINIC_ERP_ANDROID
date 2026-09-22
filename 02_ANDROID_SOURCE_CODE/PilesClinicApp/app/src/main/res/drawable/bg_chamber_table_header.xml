@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-LOCKED (2026-07-25, photo proof): table header row colour changed from
+     green (#0F8A6E) to CHOCOLATE (#6B3A16). Column titles stay WHITE bold, as
+     set in activity_chamber_attendance.xml. Nothing else about this row
+     changed. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#6B3A16" />
+</shape>

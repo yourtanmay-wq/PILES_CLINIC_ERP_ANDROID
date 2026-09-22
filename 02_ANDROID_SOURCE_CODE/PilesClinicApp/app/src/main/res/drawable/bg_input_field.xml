@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 🔒 B548 (08.08.2026, TK-অনুমোদিত প্রুফ "উপায় ৩") — লেখার বাক্স হালকা
+         নীলচে-ধূসর (সাদা নয়), যাতে "এখানে লিখতে হবে" স্পষ্ট বোঝা যায়। -->
+    <solid android:color="#F6F9FC" />
+    <corners android:radius="14dp" />
+    <stroke android:width="1dp" android:color="@color/input_border" />
+</shape>

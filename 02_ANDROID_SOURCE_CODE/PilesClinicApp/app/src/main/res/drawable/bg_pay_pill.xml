@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔒 B576 (TK-অনুমোদিত প্রুফ, 08.08.2026): Payment হেডারের ব্রাঞ্চ ও তারিখ পিল।
+     আগের bg_branch_pill (স্বচ্ছ সাদা) মোবাইলে পড়া যেত না — TK-র নির্দেশে এখন
+     নিরেট সাদা, গাঢ় সবুজ লেখা, স্পষ্ট পড়া যায়। শুধু Payment পর্দায় ব্যবহার। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#FFFFFF" />
+    <corners android:radius="9dp" />
+</shape>

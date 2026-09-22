@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>রোগীর ছবি ছোট করার যন্ত্র — PILES CLINIC</title>
+<style>
+ *{box-sizing:border-box}
+ body{margin:0;font-family:system-ui,"Noto Sans Bengali",sans-serif;background:#0f1720;color:#e7edf3;padding:16px;line-height:1.6}
+ .wrap{max-width:760px;margin:0 auto}
+ h1{font-size:20px;margin:0 0 4px}
+ .sub{color:#93a4b5;font-size:13px;margin-bottom:16px}
+ .card{background:#17222e;border:1px solid #24354a;border-radius:12px;padding:14px;margin-bottom:14px}
+ .warn{background:#3a2408;border-color:#7a5210;color:#ffd79a}
+ .ok{background:#0f2a1c;border-color:#1d5c3c;color:#9ff0c4}
+ .bad{background:#33161a;border-color:#7a2530;color:#ffb3bd}
+ label{display:block;font-size:12px;color:#93a4b5;margin:8px 0 4px}
+ input{width:100%;padding:10px;border-radius:8px;border:1px solid #2c4258;background:#0f1720;color:#e7edf3;font-size:14px}
+ button{width:100%;padding:14px;border:0;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px}
+ .b1{background:#2563eb;color:#fff}
+ .b2{background:#16a34a;color:#fff}
+ button:disabled{background:#2b3947;color:#6b7b8c;cursor:not-allowed}
+ table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+ td,th{padding:6px 4px;border-bottom:1px solid #24354a;text-align:left}
+ th{color:#93a4b5;font-weight:600}
+ .num{text-align:right;font-variant-numeric:tabular-nums}
+ .log{max-height:260px;overflow:auto;font-size:12px;font-family:ui-monospace,monospace;background:#0b1219;border-radius:8px;padding:10px;margin-top:10px;white-space:pre-wrap}
+ .big{font-size:26px;font-weight:800}
+ .prev{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+ .prev figure{margin:0;text-align:center;font-size:11px;color:#93a4b5}
+ .prev img{width:110px;height:140px;object-fit:cover;border-radius:8px;border:1px solid #2c4258;display:block}
+ .hide{display:none}
+ .row{display:flex;gap:10px}.row>*{flex:1}
+ code{background:#0b1219;padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>রোগীর ছবি ছোট করার যন্ত্র</h1>
+<div class="sub">MAA AYURVED PILES CLINIC · Supabase Free plan-এ থাকার জন্য</div>
+
+<div class="card warn">
+  <b>⛔ চালানোর আগে অবশ্যই:</b><br>
+  অ্যাপের <b>Backup Center → Download Full Backup</b> চেপে ফাইলটা নিজের কাছে রাখুন।<br>
+  এই যন্ত্র রোগীর ছবিকে ছোট (একটু কম ঝকঝকে) করে দেয় — <b>ফেরানো যায় না</b>।<br><br>
+  ⛔ এটা <b>শুধু ছবির ঘরটাই</b> ছোঁয়। নাম · মোবাইল · টাকা · রোগ · নোট — কিচ্ছু বদলায় না।
+</div>
+
+<div class="card">
+  <label>Supabase URL</label>
+  <input id="url" value="https://bcyeogjqtupbdyciqfmz.supabase.co">
+  <label>Supabase Key (publishable)</label>
+  <input id="key" value="sb_publishable_k_170-JGrdxmZ7rBrjCyTA_-ElK2XdZ">
+  <div class="row">
+    <div><label>সর্বোচ্চ মাপ (pixel)</label><input id="maxdim" value="640" inputmode="numeric"></div>
+    <div><label>মান (০.৫–০.৯)</label><input id="quality" value="0.7" inputmode="decimal"></div>
+  </div>
+  <button class="b1" id="btnScan">১ ·  পরীক্ষা করুন  (কিছুই বদলাবে না)</button>
+</div>
+
+<div class="card hide" id="scanCard"></div>
+<div class="card hide" id="prevCard"></div>
+
+<div class="card hide" id="doCard">
+  <b>২ · এবার সত্যিই ছোট করা</b>
+  <div class="sub" style="margin:6px 0 0">নিশ্চিত হলে নিচের ঘরে <code>HOYE JAK</code> লিখুন।</div>
+  <input id="confirm" placeholder="HOYE JAK">
+  <button class="b2" id="btnRun" disabled>২ ·  ছবি ছোট করুন</button>
+</div>
+
+<div class="card hide" id="logCard"><b>কাজের হিসাব</b><div class="log" id="log"></div></div>
+
+</div>
+<script>
+(function(){
+ var $=function(s){return document.querySelector(s)};
+ var rows=[];        // ক্লাউড থেকে নামানো সারি (id, patientId, name, photo)
+ var plan=[];        // যেগুলো সত্যিই ছোট হবে
+ var scanned=false;
+
+ function kb(n){ return (n/1024).toFixed(1)+' KB' }
+ function mb(n){ return (n/1048576).toFixed(2)+' MB' }
+ function log(s){ var l=$('#log'); l.textContent+=s+'\n'; l.scrollTop=l.scrollHeight }
+ function base(){ return String($('#url').value||'').replace(/\/+$/,'') }
+ function hdr(){ var k=String($('#key').value||'').trim();
+   return {apikey:k,Authorization:'Bearer '+k} }
+
+ // ছবিটা data-URL কিনা দেখে নেওয়া; না হলে jpeg ধরে prefix বসানো
+ function toDataUrl(p){
+   var s=String(p||'');
+   if(!s) return '';
+   if(s.indexOf('data:')===0) return s;
+   return 'data:image/jpeg;base64,'+s;
+ }
+
+ // একটা ছবিকে ছোট করা — ব্রাউজারের নিজের canvas দিয়ে
+ function shrink(dataUrl,maxDim,q){
+  return new Promise(function(res){
+   var img=new Image();
+   img.onload=function(){
+    var w=img.naturalWidth,h=img.naturalHeight;
+    if(!w||!h){res('');return}
+    var sc=Math.min(1,maxDim/Math.max(w,h));
+    var nw=Math.max(1,Math.round(w*sc)),nh=Math.max(1,Math.round(h*sc));
+    var c=document.createElement('canvas');c.width=nw;c.height=nh;
+    var ctx=c.getContext('2d');
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,nw,nh);   // স্বচ্ছ PNG সাদা হয়ে যাবে, কালো নয়
+    ctx.drawImage(img,0,0,nw,nh);
+    var out='';
+    try{ out=c.toDataURL('image/jpeg',q) }catch(e){ out='' }
+    res(out);
+   };
+   img.onerror=function(){res('')};
+   img.src=dataUrl;
+  });
+ }
+
+ async function scan(){
+  $('#btnScan').disabled=true; $('#btnScan').textContent='নামানো হচ্ছে…';
+  $('#logCard').classList.remove('hide'); $('#log').textContent='';
+  try{
+   var u=base()+'/rest/v1/patients?select=id,patientId,name,photo&limit=5000';
+   log('ক্লাউড থেকে রোগীর তালিকা নামানো হচ্ছে…');
+   var r=await fetch(u,{headers:hdr()});
+   if(!r.ok){ throw new Error('HTTP '+r.status+' — '+(await r.text()).slice(0,200)) }
+   var data=await r.json();
+   rows=(Array.isArray(data)?data:[]).filter(function(x){return x&&x.photo&&String(x.photo).length>0});
+   var totalAll=(Array.isArray(data)?data:[]).length;
+   var bytes=rows.reduce(function(a,x){return a+String(x.photo).length},0);
+   log('মোট রোগী: '+totalAll+' · ছবি আছে: '+rows.length+' জনের · ছবির মোট আকার: '+mb(bytes));
+
+   var maxDim=Math.max(120,parseInt($('#maxdim').value,10)||640);
+   var q=Math.min(0.95,Math.max(0.3,parseFloat($('#quality').value)||0.7));
+
+   log('প্রতিটা ছবি ছোট করলে কত হবে তা মেপে দেখা হচ্ছে (এখনো কিছুই পাঠানো হয়নি)…');
+   plan=[];
+   var newBytes=0, skipped=0, failed=0;
+   for(var i=0;i<rows.length;i++){
+    var oldStr=String(rows[i].photo), oldLen=oldStr.length;
+    var out=await shrink(toDataUrl(oldStr),maxDim,q);
+    if(!out){ failed++; newBytes+=oldLen; continue }
+    if(out.length>=oldLen){ skipped++; newBytes+=oldLen; continue }  // আগেরটাই ছোট — হাত দেব না
+    plan.push({id:rows[i].id,pid:rows[i].patientId,name:rows[i].name,oldLen:oldLen,neu:out});
+    newBytes+=out.length;
+    if(i%25===0) log('  … '+(i+1)+'/'+rows.length);
+   }
+   log('মাপা শেষ।');
+
+   var saved=bytes-newBytes;
+   $('#scanCard').className='card ok';
+   $('#scanCard').innerHTML=
+     '<b>পরীক্ষার ফল</b>'+
+     '<table>'+
+     '<tr><th>ছবি আছে এমন রোগী</th><td class="num">'+rows.length+' জন</td></tr>'+
+     '<tr><th>এখন ছবির আকার</th><td class="num">'+mb(bytes)+'</td></tr>'+
+     '<tr><th>ছোট করলে হবে</th><td class="num">'+mb(newBytes)+'</td></tr>'+
+     '<tr><th>যতটা বাঁচবে</th><td class="num"><b>'+mb(saved)+' ('+Math.round(saved/(bytes||1)*100)+'%)</b></td></tr>'+
+     '<tr><th>যেগুলো বদলাবে</th><td class="num">'+plan.length+' টা</td></tr>'+
+     '<tr><th>আগে থেকেই ছোট (হাত দেওয়া হবে না)</th><td class="num">'+skipped+' টা</td></tr>'+
+     '<tr><th>পড়া যায়নি (বাদ)</th><td class="num">'+failed+' টা</td></tr>'+
+     '</table>';
+   $('#scanCard').classList.remove('hide');
+
+   // চোখে দেখে মিলিয়ে নেওয়া — আগে ও পরে
+   if(plan.length){
+    var h='<b>নিজের চোখে মিলিয়ে নিন — আগে ও পরে</b><div class="prev">';
+    for(var j=0;j<Math.min(3,plan.length);j++){
+     var src=rows.find(function(x){return x.id===plan[j].id});
+     h+='<figure><img src="'+toDataUrl(src.photo)+'"><figcaption>আগে · '+kb(plan[j].oldLen)+'</figcaption></figure>';
+     h+='<figure><img src="'+plan[j].neu+'"><figcaption>পরে · '+kb(plan[j].neu.length)+'</figcaption></figure>';
+    }
+    h+='</div><div class="sub" style="margin-top:8px">ছবি দেখতে খারাপ লাগলে উপরের "মান" ০.৮ করে আবার ১ নম্বর চাপুন।</div>';
+    $('#prevCard').innerHTML=h; $('#prevCard').classList.remove('hide');
+    $('#doCard').classList.remove('hide');
+   }else{
+    log('ছোট করার মতো কিছু নেই।');
+   }
+   scanned=true;
+  }catch(e){
+   $('#scanCard').className='card bad';
+   $('#scanCard').innerHTML='<b>পারা গেল না</b><br>'+String(e.message||e);
+   $('#scanCard').classList.remove('hide');
+   log('ভুল: '+String(e.message||e));
+  }
+  $('#btnScan').disabled=false; $('#btnScan').textContent='১ ·  পরীক্ষা করুন  (কিছুই বদলাবে না)';
+ }
+
+ async function run(){
+  if(!scanned||!plan.length) return;
+  $('#btnRun').disabled=true; $('#btnRun').textContent='চলছে…';
+  var done=0,fail=0,savedBytes=0;
+  log('');
+  log('=== ছবি ছোট করা শুরু ('+plan.length+' টা) ===');
+  for(var i=0;i<plan.length;i++){
+   var p=plan[i];
+   try{
+    var u=base()+'/rest/v1/patients?id=eq.'+encodeURIComponent(p.id);
+    // ⛔ শুধু photo — updatedAt ইচ্ছে করে ছোঁয়া হয়নি, নইলে সব ফোন
+    //    ২৪৪টা সারি আবার নামাত (অকারণ egress)।
+    var r=await fetch(u,{method:'PATCH',headers:Object.assign({'Content-Type':'application/json','Prefer':'return=minimal'},hdr()),
+                         body:JSON.stringify({photo:p.neu})});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    done++; savedBytes+=(p.oldLen-p.neu.length);
+    log('✅ '+(i+1)+'/'+plan.length+'  '+(p.pid||p.id)+'  '+kb(p.oldLen)+' → '+kb(p.neu.length));
+   }catch(e){
+    fail++; log('🔴 '+(i+1)+'/'+plan.length+'  '+(p.pid||p.id)+'  ব্যর্থ: '+String(e.message||e));
+   }
+  }
+  log('=== শেষ ===');
+  log('সফল: '+done+' · ব্যর্থ: '+fail+' · বাঁচল: '+mb(savedBytes));
+  $('#btnRun').textContent='শেষ — সফল '+done+' টা';
+  var c=document.createElement('div');
+  c.className='card ok';
+  c.innerHTML='<b>কাজ শেষ</b><br>'+done+' টা ছবি ছোট হয়েছে · '+mb(savedBytes)+' বেঁচেছে।<br><br>'+
+    'এবার Supabase-এর SQL Editor-এ এই এক লাইন চালান, তবেই জায়গাটা সত্যিই ফেরত আসবে:<br>'+
+    '<code>vacuum full patients;</code>';
+  $('.wrap').appendChild(c);
+ }
+
+ $('#btnScan').addEventListener('click',scan);
+ $('#confirm').addEventListener('input',function(){
+   $('#btnRun').disabled = (String(this.value).trim().toUpperCase()!=='HOYE JAK');
+ });
+ $('#btnRun').addEventListener('click',run);
+})();
+</script>
+</body>
+</html>

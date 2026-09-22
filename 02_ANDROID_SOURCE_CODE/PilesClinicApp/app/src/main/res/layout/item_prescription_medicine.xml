@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="1dp"
+    app:cardBackgroundColor="@color/clinic_card">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/etMedName"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="Medicine name"
+                android:autofillHints=""
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/tvRemove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="✕"
+                android:textColor="@color/clinic_accent_red"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:weightSum="3">
+
+            <EditText
+                android:id="@+id/etDosage"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="Dosage"
+                android:autofillHints=""
+                android:layout_marginEnd="4dp"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/etFrequency"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="Frequency"
+                android:autofillHints=""
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/etDuration"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="Duration"
+                android:autofillHints=""
+                android:layout_marginStart="4dp"
+                android:inputType="text" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Instructions (e.g. after food)"
+            android:autofillHints=""
+            android:layout_marginTop="4dp"
+            android:inputType="text" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,466 @@
+
+
+PILES CLINIC APPLICATION SETTINGS SYSTEM
+সম্পূর্ণ বাস্তবায়ন ব্লুপ্রিন্ট
+Owner Instruction Document
+প্রস্তুতকারীর বক্তব্য  Tanmay Biswas
+এই নথি যেকোনো Developer বা AI Agent কে দেওয়া যাবে
+
+১ মালিকের মূল নির্দেশ
+আমি আমার ক্লিনিক অ্যাপ্লিকেশনের মধ্যে একটি পূর্ণাঙ্গ App Settings System তৈরি করাতে চাই। এই নথিটি আমার অনুমোদিত পরিকল্পনা হিসেবে পড়তে হবে। কাজ শুরুর আগে সর্বশেষ দেওয়া সম্পূর্ণ Project Source পুনরায় অডিট করতে হবে, কারণ Developer বা AI Agent-এর কাছে থাকা source এই পরিকল্পনা তৈরির সময় দেখা source-এর চেয়ে নতুন হতে পারে। কোনো পুরোনো পর্যবেক্ষণকে অন্ধভাবে সত্য ধরে কাজ করা যাবে না।
+আমার লিখিত অনুমতি ছাড়া কোনো Code, Database, Design, Role, Permission, Workflow, Build Configuration বা Live Data পরিবর্তন করা যাবে না। প্রথমে Audit Report ও Demo Design দিতে হবে। আমি Demo ও Change List অনুমোদন করার পরেই বাস্তব কাজ শুরু হবে।
+২ পরিকল্পনার চূড়ান্ত সিদ্ধান্ত
+এই Settings System কার্যকরভাবে তৈরি করা সম্ভব। তবে এটি শুধু কয়েকটি সুইচ বসানোর কাজ নয়। Android ও Web-এর বর্তমান theme, dashboard, role visibility, local cache এবং Supabase access একসঙ্গে সামঞ্জস্য রেখে একটি ছোট Settings Engine তৈরি করতে হবে। নিরাপদ পদ্ধতি হলো Hybrid Architecture ব্যবহার করা: Display settings সঙ্গে সঙ্গে local cache থেকে চলবে, আর প্রয়োজনীয় user preference ছোট একটি cloud record হিসেবে সংরক্ষিত থাকবে।
+Settings কখনোই রোগীর তথ্য, Payment calculation, Registration workflow, Follow-up rule, Doctor Visit, RMP commission, Attendance, Salary, Print বা Backup logic পরিবর্তন করবে না। Settings থেকে শুধু Display এবং Shortcut নিয়ন্ত্রণ করা যাবে; Permission বা Data access নয়।
+৩ সর্বশেষ Source অডিটের বাধ্যতামূলক নিয়ম
+Developer বা AI Agent কাজ শুরুর আগে নিচের বিষয়গুলো সর্বশেষ source-এ নতুন করে যাচাই করবে এবং প্রমাণসহ জানাবে। কোনো নাম, path বা পুরোনো version ধরে নেওয়া যাবে না।
+Android-এ বর্তমানে কোনো Settings screen, local preference, session timeout, sync control, crash logging বা backup control আছে কি না
+Web-এ Settings page, theme variable, fixed colour, local storage preference এবং session timeout কীভাবে কাজ করছে
+Dashboard ও Menu item কোন জায়গায় hard coded এবং কোন জায়গায় role অনুযায়ী দেখা বা লুকানো হয়
+একই setting Android ও Web-এ আলাদা মান ব্যবহার করছে কি না
+কোনো পুরোনো setting control শুধু মান save করছে কিন্তু বাস্তবে তার consumer বা কার্যকর logic নেই কি না
+বর্তমান authentication identity, role source এবং branch source কোনটি সত্য ও সক্রিয়
+Supabase schema, RLS, exposed schema এবং current usage pattern Settings-এর সঙ্গে সংঘর্ষ করবে কি না
+বর্তমান ভালো চলা feature ও locked design কোনগুলো Protected Area হিসেবে রাখতে হবে
+Audit Report-এ প্রতিটি বিষয়ের পাশে Found, Not Found, Partially Working বা Needs Runtime Test লিখতে হবে। Static code inspection দিয়ে runtime behaviour নিশ্চিত না হলে সেটি স্পষ্টভাবে “Runtime Test Required” বলতে হবে।
+৪ কাজ শুরুর তিনটি Stop Gate
+Gate
+কী জমা দিতে হবে
+অনুমোদন ছাড়া কী নিষিদ্ধ
+Gate 1
+সর্বশেষ source audit এবং conflict report
+কোনো code বা database change
+Gate 2
+Android ও Web demo image এবং exact change list
+Implementation বা migration
+Gate 3
+Build proof, test proof, performance proof এবং rollback proof
+Final release বা live deployment
+
+৫ এই কাজের সীমা
+বিভাগ
+এই পর্যায়ে থাকবে
+এই পর্যায়ে থাকবে না
+Display
+Theme, text size, display density
+Form field বা clinical content পরিবর্তন
+Dashboard
+Shortcut show hide ও order
+Module delete বা permission change
+Navigation
+Settings-এর পরিষ্কার entry point
+Role bypass করে menu দেখানো
+Security
+বর্তমান session setting এক জায়গায় পরিষ্কার করা
+Authentication redesign
+Sync
+Preference sync ও offline fallback
+Clinical data sync rewrite
+Backup
+Settings থেকে আলাদা Backup Center entry
+Backup বা Restore algorithm পরিবর্তন
+Print
+Settings theme থেকে সম্পূর্ণ বিচ্ছিন্ন
+A4, PDF, prescription বা report redesign
+
+৬ প্রস্তাবিত Settings Center
+Settings একটি স্পষ্ট “App Settings” নামে Master Menu-তে থাকবে। “Backup” নামে Settings লুকানো যাবে না। Backup Center আলাদা এবং পরিষ্কার ঝুঁকি-চিহ্নসহ থাকবে। Settings page-এর উপরে current user, role, branch এবং sync status দেখা যাবে, কিন্তু রোগীর কোনো তথ্য থাকবে না।
+৬ ১ Display And Theme
+Classic Light  বর্তমান নিরাপদ look-এর সবচেয়ে কাছের default theme
+Soft Green  clinic brand অনুযায়ী হালকা সবুজ professional theme
+Professional Navy  পরিষ্কার navy accent সহ light background
+Text Size  Standard অথবা Large
+Display Density  Compact অথবা Comfortable
+Preview  Save করার আগে একই screen-এ preview
+Reset Display  শুধু display preference default-এ ফেরাবে
+প্রথম release-এ Full Dark Theme দেওয়া হবে না। বর্তমান screen-গুলোর fixed background, popup, form text, badge এবং hard coded colour সম্পূর্ণ token-based না হওয়া পর্যন্ত Dark Theme নিরাপদ নয়। পরে আলাদা visual audit ও approval নিয়ে Dark Theme করা যাবে।
+৬ ২ Dashboard Customization
+Master নিজের Dashboard-এর shortcut বেছে নিতে এবং সাজাতে পারবেন। কোনো shortcut লুকালে module বা data delete হবে না। যে module ব্যবহারকারীর role অনুযায়ী নিষিদ্ধ, Settings সেটি দৃশ্যমান করতে পারবে না।
+প্রতিটি অনুমোদিত Dashboard shortcut-এর পাশে Show বা Hide switch
+Drag and drop অথবা Move Up এবং Move Down দিয়ে order পরিবর্তন
+Required shortcut lock  যেগুলো নিরাপত্তা বা মূল navigation-এর জন্য জরুরি
+Hidden item list  ভুলে লুকানো item সহজে ফিরিয়ে আনা
+Reset Dashboard  role অনুযায়ী safe default-এ ফেরা
+Preview Dashboard  Save-এর আগে ফল দেখা
+৬ ৩ Notification Preferences
+এই পর্যায়ে notification delivery logic পরিবর্তন করা হবে না। শুধু বর্তমানে কার্যকর এবং যাচাইকৃত notification category থাকলে তার display preference দেখানো যাবে। জরুরি clinical, payment, security বা approval notification বন্ধ করার option দেওয়া যাবে না। কোনো মৃত বা অসম্পূর্ণ feature-এর জন্য ভুয়া switch রাখা যাবে না।
+৬ ৪ Security And Session
+Android ও Web-এ session timeout-এর নিয়ম এক জায়গায় সংজ্ঞায়িত হতে হবে। কোন মান Master পরিবর্তন করতে পারবেন এবং কোন মান system minimum বা maximum হবে তা আগে অনুমোদন নিতে হবে। Free Plan-এর advanced Auth session-timeout feature ধরে নেওয়া যাবে না; app-level inactivity timeout প্রয়োজন হলে Android ও Web উভয়ে একই policy অনুসরণ করবে।
+Allowed range-এর বাইরে value save হবে না
+Active data entry চলার সময় হঠাৎ logout হলে draft loss prevention থাকবে
+Security setting পরিবর্তন audit trail-এ নথিভুক্ত হবে যদি cloud policy হিসেবে ব্যবহৃত হয়
+Staff কোনো hidden screen বা direct route দিয়ে Master setting পরিবর্তন করতে পারবে না
+৬ ৫ Sync And Offline
+Settings screen-এ Sync Status, Last Synced Time এবং Sync Now থাকতে পারে। Clinical data sync-এর বর্তমান algorithm এই কাজে পরিবর্তন করা যাবে না। কোনো Auto Sync switch থাকলে সেটি সত্যিই কোন service পড়ছে এবং কী কাজ করছে তা test দিয়ে প্রমাণ করতে হবে; শুধু value save করে রাখা গ্রহণযোগ্য নয়।
+৬ ৬ Backup Center
+Backup এবং Restore Settings-এর সাধারণ display অংশ থেকে আলাদা থাকবে। Restore-এর আগে বর্তমান backup date, source, affected scope এবং data overwrite warning দেখাতে হবে। এই Settings প্রকল্পে বিদ্যমান Backup বা Restore logic পুনর্লিখন করা যাবে না। শুধু navigation এবং label পরিষ্কার করা যাবে, তাও আলাদা অনুমোদনে।
+৬ ৭ App Information
+Current app version name এবং internal build number
+Android বা Web platform indicator
+Current branch এবং role
+Last successful settings sync time
+Reset options-এর পরিষ্কার ব্যাখ্যা
+
+৭ Settings এবং Permission আলাদা রাখার নিয়ম
+Display visibility কখনো Security permission নয়। Settings থেকে কোনো button লুকানো গেলেও Supabase RLS, server validation এবং screen-level role check আগের মতো সক্রিয় থাকবে। আবার Settings দিয়ে লুকানো button দেখালেও role অনুমতি না থাকলে module খুলবে না।
+উদাহরণ
+Settings কী করবে
+Permission কী করবে
+Payment shortcut
+Dashboard থেকে লুকাতে পারে
+কে Payment দেখতে বা save করতে পারবে তা নিয়ন্ত্রণ করবে
+Reports
+Master-এর Dashboard order বদলাতে পারে
+Non Master-কে report data থেকে আটকাবে
+Doctor Visit
+অনুমোদিত role-এর shortcut সাজাবে
+অন্য role-এর access বন্ধ রাখবে
+Backup
+Entry point দেখাবে
+শুধু অনুমোদিত Master-কে destructive action দেবে
+
+৮ Settings সংরক্ষণের Hybrid Architecture
+৮ ১ Local Cache
+Android-এর private local preferences এবং Web-এর protected local browser storage থেকে app প্রথমে theme ও layout পড়বে। তাই startup cloud response-এর জন্য অপেক্ষা করবে না। Local cache corrupt বা missing হলে safe default theme ও default dashboard ব্যবহার হবে।
+৮ ২ Cloud Preference
+প্রতিটি authenticated user-এর জন্য একটি ছোট preference record থাকবে। এটি patient table, payment table বা clinical table-এর সঙ্গে মেশানো যাবে না। User name বা mobile numberকে একমাত্র security key করা যাবে না; app-এর বর্তমান verified stable authenticated identifier ব্যবহার করতে হবে।
+Field
+উদ্দেশ্য
+নিরাপত্তা নিয়ম
+user_id
+Preference owner
+Stable authenticated identity এবং primary key
+theme_key
+Approved theme
+Whitelist ছাড়া value নয়
+text_scale
+Standard বা Large
+Allowed range validation
+density
+Compact বা Comfortable
+Known enum only
+dashboard_order
+অনুমোদিত shortcut order
+Unknown module বাদ
+hidden_modules
+লুকানো shortcut
+Role permission বাড়াতে পারবে না
+schema_version
+Future migration
+Backward compatible default
+updated_at
+Conflict resolution
+Server generated time
+
+৮ ৩ Cloud Call Policy
+Login বা authenticated session restore-এর পরে সর্বোচ্চ একবার preference read
+Settings screen-এ Manual Refresh দিলে একবার read
+Save চাপলে সর্বোচ্চ একটি validated upsert
+প্রতিটি screen open, scroll, tap বা theme redraw-এ কোনো cloud call নয়
+Realtime subscription, polling এবং background repeated fetch ব্যবহার নয়
+Cloud timeout হলে startup block নয়; local cache দিয়ে app চলবে
+Cloud response local preference-এর চেয়ে নতুন হলে তবেই merge
+৮ ৪ Conflict Policy
+Android ও Web দুই জায়গা থেকে পরিবর্তন হলে server updated time অনুযায়ী newest valid preference জিতবে। Save-এর আগে বর্তমান cloud revision যাচাই করা ভালো। একই সময়ে দুই device edit করলে user-কে “Settings changed on another device” দেখিয়ে Reload অথবা Keep Mine বেছে নিতে দেওয়া যাবে। Clinical data conflict logic এখানে ব্যবহার করা যাবে না।
+৯ Supabase Security Design
+নতুন preference table exposed schema-তে থাকলে RLS বাধ্যতামূলক
+User শুধু নিজের preference select insert update করতে পারবেন
+Master policy table থাকলে write শুধুমাত্র verified Master authorization দিয়ে হবে
+user metadata claim দিয়ে authorization নয়; verified app metadata বা বর্তমান নিরাপদ role source ব্যবহার করতে হবে
+UPDATE policy-তে USING এবং WITH CHECK উভয়টি থাকবে
+Frontend বা Android client-এ service role বা secret key রাখা যাবে না
+SECURITY DEFINER function শুধু permission error ঢাকতে ব্যবহার করা যাবে না
+Migration-এর আগে current Data API exposure এবং grant policy যাচাই করতে হবে
+Live migration-এর আগে Security Advisor এবং RLS test চালাতে হবে
+RLS policy কপি করে অনুমানভিত্তিক বসানো যাবে না। সর্বশেষ project-এর active authentication model যাচাই করে policy লিখতে হবে। Staff A যেন Staff B-এর preference পড়তে বা বদলাতে না পারে এবং কোনো Staff যেন Master policy লিখতে না পারে—এটি test evidence দিয়ে প্রমাণ করতে হবে।
+১০ Supabase Free Plan ব্যবহার সীমা এবং ঝুঁকি
+বর্তমান official plan তথ্য অনুযায়ী Free Plan-এ প্রতি project 500 MB database, 5 GB uncached egress, 5 GB cached egress, 1 GB file storage, 50,000 monthly active users, 2 million Realtime messages এবং 200 peak Realtime connections রয়েছে। Settings system-এ Realtime ও Storage প্রয়োজন নেই।
+১০ থেকে ১২ জন user এবং প্রতি preference record কয়েক KB হলে database ব্যবহার অতি সামান্য থাকবে। Login-এ একবার read এবং Save-এ একবার write করলে মাসিক egress কয়েক MB-এর মধ্যে থাকার কথা। এটি পরিকল্পনাভিত্তিক অনুমান, live usage measurement নয়। প্রকৃত usage Supabase Usage page থেকে release-এর আগে ও পরে তুলনা করতে হবে।
+ঝুঁকি
+ভুল পদ্ধতি
+বাধ্যতামূলক সমাধান
+Egress
+প্রতিটি screen-এ preference fetch
+Local cache এবং login-এ একবার read
+Database
+প্রতিটি toggle change-এর history row
+এক user এক compact current record
+Realtime
+Theme sync-এর জন্য permanent channel
+Realtime ব্যবহার না করা
+Storage
+Theme asset cloud থেকে বারবার download
+App package-এর local asset ব্যবহার
+Availability
+Cloud না এলে app open না হওয়া
+Safe local fallback এবং nonblocking sync
+Security
+UI hide-কে permission ধরা
+RLS এবং role validation অক্ষত রাখা
+
+Official references
+https://supabase.com/pricing
+https://supabase.com/docs/guides/platform/billing-on-supabase
+https://supabase.com/docs/guides/platform/manage-your-usage/egress
+https://supabase.com/docs/guides/api/securing-your-api
+
+১১ Android বাস্তবায়ন পরিকল্পনা
+বর্তমান active Settings entry point ও duplicate setting logic শনাক্ত করা
+একটি single settings repository তৈরি করা যাতে UI সরাসরি scattered preference key না পড়ে
+Theme token layer তৈরি করা  background, surface, primary, secondary, text, border, success, warning এবং danger
+Current theme-কে default হিসেবে রেখে নতুন theme additive করা
+Activity create হওয়ার আগে local theme apply করা যাতে screen flash না করে
+Theme Save-এর পরে controlled recreate করা; infinite recreate loop আটকানো
+Dashboard item registry তৈরি করা যাতে module id, title, role এবং default order এক জায়গায় থাকে
+Role filter প্রথমে এবং user hide filter পরে apply করা
+Unknown বা removed module id safely ignore করা
+Cloud sync background coroutine-এ করা; main thread block করা যাবে না
+Network call timeout ও exception catch করে safe local fallback ব্যবহার করা
+Print, PDF, prescription এবং WebView print theme থেকে সম্পূর্ণ আলাদা রাখা
+১২ Web বাস্তবায়ন পরিকল্পনা
+Root design token এবং theme selector ব্যবহার করা
+যেসব screen-এ hard coded colour আছে সেগুলো ধাপে ধাপে safe token-এ map করা
+Print media style ও print container-কে theme override থেকে বাদ রাখা
+Body বা app root-এ validated theme attribute প্রয়োগ করা
+Dashboard registry থেকে role allowed item বের করে user order apply করা
+Browser storage থেকে instant render এবং পরে nonblocking cloud merge করা
+Settings Save ছাড়া network write না করা
+Invalid JSON, old schema বা missing field হলে default ব্যবহার করা
+Mobile Web ও Desktop Web উভয় layout test করা
+Logout-এর সময় sensitive cache policy current security design অনুযায়ী পরিষ্কার করা
+১৩ Performance Budget
+বিষয়
+গ্রহণযোগ্য সীমা
+Fail হওয়ার শর্ত
+Startup
+Local settings দিয়ে সঙ্গে সঙ্গে UI draw
+Cloud response না আসা পর্যন্ত blank বা blocked screen
+Cloud read
+Login-এ সর্বোচ্চ ১ preference request
+প্রতিটি page বা navigation-এ repeated read
+Cloud write
+প্রতি Save-এ সর্বোচ্চ ১ upsert
+প্রতি toggle tap-এ write
+Payload
+Compact validated preference  target 8 KB-এর নিচে
+Unbounded logs বা full dashboard HTML save
+Main thread
+Database ও network background-এ
+UI freeze বা ANR
+Rendering
+Theme switch-এ controlled single refresh
+Loop, flicker বা repeated reload
+Fallback
+Cloud error-এ safe default বা last cache
+Crash, logout বা data loss
+
+Developer baseline এবং modified build-এর cold start, warm start, Dashboard render ও Settings save time একই device এবং একই network condition-এ মাপবে। নতুন build যদি ব্যবহারযোগ্যভাবে ধীর হয়, release বন্ধ থাকবে যতক্ষণ না কারণ ঠিক হয়।
+১৪ Crash Prevention Rules
+সব preference key-এর hard default থাকবে
+Null, unknown value, malformed JSON এবং old schema version handle করতে হবে
+Theme asset missing হলে current default theme ব্যবহার হবে
+Dashboard order-এ duplicate বা invalid module id sanitise হবে
+Network timeout, unauthorized response ও RLS denial app crash করাবে না
+Settings apply চলাকালে Activity lifecycle change safe হতে হবে
+Process restart ও device rotation test করতে হবে যেখানে প্রযোজ্য
+Web local storage unavailable বা corrupt হলেও page render হবে
+Cloud migration apply না হলেও old app চলতে পারবে
+নতুন code path-এর exception silently false success দেখাবে না; user-friendly error এবং diagnostic log থাকবে
+১৫ Protected Areas
+নিচের কোনো এলাকায় পরিবর্তন এই Settings কাজের অনুমতির মধ্যে পড়ে না। প্রয়োজন দেখা দিলে কাজ বন্ধ করে আমাকে আলাদা Audit ও অনুমোদনের জন্য জানাতে হবে।
+Patient data structure এবং patient history
+Enquiry, Registration, Follow-up এবং Doctor Check-up workflow
+Payment, refund, due, collection এবং commission calculation
+RMP, Doctor Visit, Attendance, Leave, Salary এবং Income Expense logic
+Duplicate mobile বা patient identity rule
+Role permission এবং branch data isolation
+A4 print, PDF, prescription, report card, logo, QR এবং barcode layout
+Clinical data sync, offline queue এবং retry mechanism
+Backup content, Restore overwrite behaviour এবং cloud backup algorithm
+Existing notification delivery, reminder logic এবং chamber close workflow
+১৬ বাস্তবায়নের ধাপ
+ধাপ
+কাজ
+Deliverable এবং অনুমোদন
+০
+সর্বশেষ source read only audit
+Current state report এবং conflict list
+১
+Requirement freeze
+Final settings list ও protected area confirmation
+২
+Design only
+Android mobile এবং Web desktop mobile demo image
+৩
+Owner approval
+Approved theme, layout এবং behaviour list
+৪
+Local engine
+Default safe theme, cache এবং reset
+৫
+Dashboard customize
+Role safe show hide order
+৬
+Cloud preference
+RLS protected compact sync এবং fallback
+৭
+Android Web parity
+একই setting key ও same behaviour proof
+৮
+Regression testing
+Protected modules pass report
+৯
+Pilot release
+শুধু Master device-এ controlled test
+১০
+Final handoff
+Full project, build, proof, rollback এবং change log
+
+১৭ বাধ্যতামূলক Test Matrix
+Test
+Android
+Web
+Expected result
+Theme apply
+হ্যাঁ
+হ্যাঁ
+Same approved colour intent এবং readable text
+Text size
+হ্যাঁ
+হ্যাঁ
+No clipping বা button overlap
+Density
+হ্যাঁ
+হ্যাঁ
+Form usable এবং cards stable
+Dashboard hide
+হ্যাঁ
+হ্যাঁ
+শুধু shortcut hidden
+Dashboard order
+হ্যাঁ
+হ্যাঁ
+Role allowed order retained
+Reset
+হ্যাঁ
+হ্যাঁ
+Safe default restored
+Offline start
+হ্যাঁ
+হ্যাঁ
+Last cache বা default দিয়ে open
+Cloud merge
+হ্যাঁ
+হ্যাঁ
+Newest valid setting applied
+Role isolation
+Master Staff Doctor Field
+সব role
+কোনো permission বৃদ্ধি নয়
+Print regression
+সব A4 print
+সব print
+Colour size layout অপরিবর্তিত
+Payment regression
+হ্যাঁ
+হ্যাঁ
+Calculation ও save unchanged
+Patient regression
+হ্যাঁ
+হ্যাঁ
+Search history data unchanged
+Crash test
+restart rotation network loss
+refresh corrupt cache
+No crash বা blank screen
+
+১৮ Supabase Test Matrix
+☐ Master নিজের preference read update করতে পারেন
+☐ Staff নিজের অনুমোদিত preference ছাড়া অন্য user-এর record পড়তে পারেন না
+☐ Staff Master policy লিখতে পারেন না
+☐ Unauthenticated request denied
+☐ Invalid theme key ও oversized payload rejected
+☐ UPDATE ownership বদলানো denied
+☐ Cloud unavailable হলে app চলতে থাকে
+☐ এক মাসের projected egress এবং actual pilot usage তুলনা করা হয়েছে
+☐ Database Advisor ও Security Advisor-এ নতুন critical warning নেই
+১৯ Regression Proof যা আমাকে দেখাতে হবে
+☐ Settings screen-এর Android photo proof
+☐ Settings screen-এর Web desktop এবং mobile proof
+☐ তিনটি theme-এর একই sample screen proof
+☐ Dashboard show hide এবং reset-এর আগে পরে proof
+☐ Android-এ Save করে Web-এ sync proof এবং Web থেকে Android proof
+☐ Offline mode proof
+☐ Master Staff Doctor Field role visibility proof
+☐ A4 print preview unchanged proof
+☐ Baseline বনাম modified performance measurement
+☐ Build success, automated test summary এবং manual test checklist
+☐ Supabase RLS denial এবং allowed action proof
+☐ Rollback test proof
+২০ Release Acceptance Criteria
+☐ কোনো পুরোনো file বা version ধরে কাজ করা হয়নি
+☐ Owner approved design ছাড়া কোনো নতুন design বসানো হয়নি
+☐ Settings default অবস্থায় app-এর বর্তমান look ও behaviour অপরিবর্তিত
+☐ Android ও Web-এ একই setting-এর অর্থ একই
+☐ App startup cloud-এর জন্য block হয় না
+☐ কোনো repeated preference fetch বা realtime channel নেই
+☐ Settings দিয়ে role permission বাড়ানো যায় না
+☐ Print এবং clinical workflow অপরিবর্তিত
+☐ No known crash, ANR, blank screen বা theme loop
+☐ Cloud error এবং corrupt local setting safe fallback দিয়ে handle হয়
+☐ Supabase Free Plan usage-এর উপর measurable negligible impact
+☐ Version name এবং internal build number নতুন release-এ একসঙ্গে বৃদ্ধি করা হয়েছে
+☐ Full project package, change log, test report এবং rollback package দেওয়া হয়েছে
+২১ Rollback Plan
+Settings feature একটি safe feature flag বা equivalent controlled switch-এর পেছনে রাখা উচিত। সমস্যা হলে নতুন preference ignore করে current default design চালু করা যাবে। Database migration additive হবে; পুরোনো app preference table না জানলেও স্বাভাবিকভাবে চলবে। Preference data কখনো clinical data-এর সঙ্গে foreign key cascade delete বা mandatory startup dependency তৈরি করবে না।
+Release-এর আগে full source backup এবং database schema snapshot
+পুরোনো default dashboard registry সংরক্ষণ
+Theme reset emergency path
+Cloud preference read disable করলেও local default চালু থাকবে
+Rollback করলে preference table সঙ্গে সঙ্গে delete নয়; আগে app stable যাচাই
+কোনো destructive rollback command owner approval ছাড়া নয়
+২২ Developer বা AI Agent-এর জন্য নিষেধাজ্ঞা
+আন্দাজ করে source structure, table, role বা active login system নির্বাচন করা যাবে না
+একটি ছোট Settings কাজের অজুহাতে unrelated refactor করা যাবে না
+বর্তমান ভালো চলা design বা workflow সুন্দর করার নামে বদলানো যাবে না
+UI hide দেখিয়ে security complete দাবি করা যাবে না
+Test ছাড়া “zero risk”, “fully fixed” বা “no crash” বলা যাবে না
+লাইভ database-এ সরাসরি experimental query বা migration চালানো যাবে না
+Service secret client code-এ রাখা যাবে না
+প্রতি screen-এ cloud fetch বা automatic polling বসানো যাবে না
+Print CSS বা Android print layout-এ theme variable ঢোকানো যাবে না
+আমার photo proof approval ছাড়া final package তৈরি বা deploy করা যাবে না
+২৩ Developer বা AI Agent-কে পাঠানোর মূল নির্দেশ
+নিচের বক্তব্যটি এই Blueprint-এর কার্যকর handoff instruction হিসেবে গণ্য হবে।
+আমি আমার PILES CLINIC অ্যাপ্লিকেশনে একটি পূর্ণাঙ্গ App Settings System তৈরি করাতে চাই। প্রথমে আপনার কাছে থাকা সর্বশেষ সম্পূর্ণ source read only mode-এ গভীরভাবে audit করুন। কোনো পুরোনো version, file name, table name বা অনুমান ধরে কাজ করবেন না। বর্তমান Settings, theme, dashboard, Android, Web, authentication, role, Supabase RLS, local cache, sync, backup এবং print structure কীভাবে কাজ করছে তা প্রমাণসহ লিখুন। এরপর শুধু Android ও Web-এর demo design এবং exact change list দিন। আমার লিখিত অনুমোদনের আগে code, database বা design change করবেন না। অনুমোদন পেলে Hybrid Settings Architecture ব্যবহার করুন যাতে app local cache থেকে সঙ্গে সঙ্গে চলে এবং প্রয়োজনীয় preference login-এ একবার cloud থেকে sync হয়। প্রতিটি screen-এ cloud call, realtime polling বা প্রতি toggle-এ write করা যাবে না। Settings শুধু theme, text size, display density এবং dashboard shortcut show hide order নিয়ন্ত্রণ করবে; module delete, role permission বা data access নয়। UI visibility কখনো security হিসেবে ব্যবহার করবেন না; existing RLS এবং role check অক্ষত রাখবেন। Patient, payment, refund, due, RMP, attendance, salary, report, clinical workflow, offline queue, backup restore এবং A4 print-এর কোনো ভালো কাজ পরিবর্তন করবেন না। Cloud unavailable, invalid setting বা corrupt cache হলেও app safe default দিয়ে খুলতে হবে; startup block, crash, ANR, blank screen বা reload loop গ্রহণযোগ্য নয়। Android ও Web-এ একই setting-এর একই অর্থ থাকবে এবং print theme থেকে আলাদা থাকবে। প্রথমে Master-only pilot দিন। Final release-এর আগে role test, offline test, RLS test, Android Web sync proof, performance comparison, crash regression, A4 print proof এবং rollback proof দিন। নতুন কাজের কারণে app slow হলে, existing feature ভাঙলে বা Supabase usage অযথা বাড়লে release বন্ধ রেখে কারণ ঠিক করুন। সব পরীক্ষা পাস করার পরে full project package, new version identifiers, change log, test report এবং rollback package দিন।
+
+২৪ চূড়ান্ত সিদ্ধান্ত
+এই Blueprint অনুযায়ী কাজ করলে Settings System কার্যকর হবে এবং Supabase Free Plan-এর উপর অতিরিক্ত চাপ অত্যন্ত কম রাখা সম্ভব। সবচেয়ে গুরুত্বপূর্ণ শর্ত হলো feature-টিকে presentation layer হিসেবে রাখা, local-first cache ব্যবহার করা, cloud call সীমিত রাখা এবং permission ও clinical logic থেকে সম্পূর্ণ আলাদা রাখা।
+কোনো Developer বা AI Agent যদি এই পরিকল্পনার বাইরে database, role, workflow, print বা clinical logic পরিবর্তনের প্রয়োজন বলে মনে করে, সে কাজ থামিয়ে কারণ, ঝুঁকি এবং আলাদা change plan আমাকে জানাবে। আমার নতুন লিখিত অনুমতি ছাড়া সেই অতিরিক্ত পরিবর্তন করা যাবে না।
+২৫ মালিকের অনুমোদন রেকর্ড
+এই অংশে অনুমোদন না পাওয়া পর্যন্ত সংশ্লিষ্ট পরবর্তী Gate শুরু করা যাবে না। মৌখিক অনুমান বা পুরোনো কথোপকথনকে অনুমোদন হিসেবে ধরা যাবে না।
+অনুমোদনের ধাপ
+Status
+তারিখ এবং মন্তব্য
+সর্বশেষ Source Audit অনুমোদিত
+☐ অনুমোদিত  ☐ অনুমোদিত নয়
+
+Android এবং Web Demo অনুমোদিত
+☐ অনুমোদিত  ☐ অনুমোদিত নয়
+
+Exact Change List অনুমোদিত
+☐ অনুমোদিত  ☐ অনুমোদিত নয়
+
+Supabase Migration অনুমোদিত
+☐ অনুমোদিত  ☐ অনুমোদিত নয়
+
+Master Pilot অনুমোদিত
+☐ অনুমোদিত  ☐ অনুমোদিত নয়
+
+Final Release অনুমোদিত
+☐ অনুমোদিত  ☐ অনুমোদিত নয়
+
+
+Owner Name  Tanmay Biswas
+Owner Approval Signature  ______________________________________
+Approval Date  ____________________

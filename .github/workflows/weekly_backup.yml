@@ -1,0 +1,64 @@
+# 🔵 V1294 — PILES CLINIC: সাপ্তাহিক স্বয়ংক্রিয় ডেটাবেস-কপি (তালিকা ৪১১-⑬ ক)
+# প্রতি সোমবার ভোর ২:০০ (ভারতীয় সময়) — ছবি ছাড়া; মাসের প্রথম সোমবার ছবিসহ। হাতে চালানো: Actions → Run workflow।
+# ⛔ ঘরটা Public থাকলে **কিছুই লেখা হয় না** (রোগীর তথ্য প্রকাশ্যে যাবে না) — নিচের পাহারা।
+name: weekly-database-backup
+on:
+  schedule:
+    - cron: '30 20 * * 0'
+  workflow_dispatch:
+    inputs:
+      with_photos:
+        description: 'ছবিসহ (1) / ছবি ছাড়া (0)'
+        default: '0'
+permissions:
+  contents: write
+concurrency: backup
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ঘরটা Private কি না — পাহারা
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          vis=$(gh api repos/${{ github.repository }} --jq .private)
+          echo "private=$vis"
+          if [ "$vis" != "true" ]; then echo "::error::Repository is PUBLIC — patient-data backup refused"; exit 1; fi
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: backups শাখা আনা (না থাকলে খালি)
+        run: |
+          git fetch origin backups:backups 2>/dev/null || git checkout --orphan backups
+          git checkout backups 2>/dev/null || true
+          git rm -rfq --cached . 2>/dev/null || true
+          git clean -fdxq -e backups || true
+          mkdir -p backups
+      - name: config.js থেকে ঠিকানা/চাবি (ওয়েব-অ্যাপ এমনিতেই যেটা ব্যবহার করে)
+        run: |
+          git show ${{ github.sha }}:03_NETLIFY_READY/config.js > /tmp/config.js
+          echo "SUPABASE_URL=$(grep -o "supabaseUrl: *'[^']*'" /tmp/config.js | sed "s/.*'\(.*\)'/\1/")" >> $GITHUB_ENV
+          echo "SUPABASE_KEY=$(grep -o "supabaseKey: *'[^']*'" /tmp/config.js | sed "s/.*'\(.*\)'/\1/")" >> $GITHUB_ENV
+          git show ${{ github.sha }}:00_GUARD/cloud_backup/export.js > /tmp/export.js
+      - name: কপি নামানো
+        run: |
+          first_monday=$([ "$(date -u -d '+5 hours 30 minutes' +%d)" -le 7 ] && echo 1 || echo 0)
+          WP="${{ github.event.inputs.with_photos }}"; [ -z "$WP" ] && WP=$first_monday
+          WITH_PHOTOS=$WP OUT_DIR=backups node /tmp/export.js
+      - name: পুরনো সাপ্তাহিক কপি ছাঁটা (১৮০ দিনের বেশি; মাসিক ছবিসহ কপি থাকে)
+        run: |
+          cutoff=$(date -u -d '180 days ago' +%Y-%m-%d)
+          for f in $(find backups -name 'PILES_CLINIC_backup_*.json.gz' ! -name '*_with_photos*'); do
+            d=$(basename "$f" | sed -E 's/PILES_CLINIC_backup_([0-9-]{10}).*/\1/')
+            if [ "$d" \< "$cutoff" ]; then echo "পুরনো: $f"; rm -f "$f"; fi
+          done
+      - name: জমা
+        run: |
+          git config user.name "piles-clinic-backup-bot"; git config user.email "backup@piles-clinic.local"
+          git add -A backups
+          git commit -m "backup $(date -u -d '+5 hours 30 minutes' +%Y-%m-%d)" || { echo "কিছু বদলায়নি"; exit 0; }
+          git push origin backups

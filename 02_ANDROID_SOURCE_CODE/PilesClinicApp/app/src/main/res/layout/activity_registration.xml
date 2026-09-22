@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Patient Registration — premium redesign (approved proof V3):
+  silver screen, card sections, two-column compact rows, Material chips for
+  Disease / Symptoms / Previous Treatment History, conditional Referring-Doctor
+  panel (shown only when Ref By = Dr. Visit / RMP), and a sticky Save bar.
+  Vertical scroll only. All binding ids preserved so the Activity keeps working.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_silver_screen">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+        <TextView android:id="@+id/btnBack" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="←" android:textColor="@color/white" android:textSize="18sp" android:padding="4dp" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:layout_marginStart="10dp" android:text="Patient Registration"
+            android:textColor="@color/white" android:textSize="15sp" android:textStyle="bold" />
+        <!-- Branch remains the same mandatory/auto-locked Spinner; only its
+             approved screen position moved from the form to the header. -->
+        <!--
+          🔵🔒 V594 (২৩.০৮.২০২৬, TK-নির্দেশ, ডেমো-ফটো দেখে অনুমোদিত):
+          *"উপরে ডান দিকে যে সিলেক্ট ব্রাঞ্চ, এত বড় রাখা যাবে না · শুধুমাত্র
+          মাস্টারের ফোনে বলে কথা না, এ টু জেড সবার কাছে যেন ওটা সাইজে ছোট
+          থাকে"*।
+          আগে: 142 × 40 dp, লেখা ১৬sp — লেখাটা **কেটে** যেত ("SELECT BRANC▾")।
+          এখন: 120 × 28 dp, লেখা ১০sp — সবচেয়ে বড় লেখাটাও পুরো ধরে।
+          মাপটা আন্দাজে নয়, মেপে নেওয়া (Roboto):
+              "SELECT BRANCH" ১৬sp = 135dp · ১০sp = **84dp**
+              "COOCH BEHAR"   ১৬sp = 120dp · ১০sp = **75dp**
+          ভিতরের জায়গা = 120 − 8 − 20 = **92dp** ⇒ কিছুই কাটে না।
+          ⛔ শুধু মাপ ও লেখার আকার। ব্রাঞ্চের তালিকা · বাধ্যতামূলক নিয়ম ·
+             স্টাফের ৩-চাপের লক — কিচ্ছু বদলায়নি।
+        -->
+        <Spinner
+            android:id="@+id/spBranch"
+            android:layout_width="120dp"
+            android:layout_height="28dp"
+            android:background="@drawable/bg_input_field_picker_small"
+            android:paddingStart="8dp"
+            android:paddingEnd="20dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollForm"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="6dp"
+            android:paddingBottom="10dp">
+
+            <!-- ===== PRESENT DETAILS ===== -->
+            <androidx.cardview.widget.CardView style="@style/RegCard" android:layout_marginTop="8dp">
+                <LinearLayout style="@style/RegCardInner" android:padding="12dp">
+                    <LinearLayout style="@style/Row2">
+                        <LinearLayout style="@style/Col">
+                            <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="Mobile *" />
+                            <EditText android:id="@+id/etMobile" style="@style/RegFieldInput" android:inputType="phone" android:maxLines="1" android:importantForAutofill="no" android:autofillHints="@null" />
+                        </LinearLayout>
+                        <LinearLayout style="@style/ColEnd">
+                            <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="First Visit Date" />
+                            <TextView android:id="@+id/tvDate" style="@style/RegFieldInput" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <!-- 🔒 V235 (TK verified 01.08.2026): Alternate/Enquiry Mobile.
+                         Enquiry থেকে খুললে পুরনো Enquiry নম্বর আপনা থেকে বসে; Primary-র
+                         সমান হলে save-এ বাদ (duplicate নয়)। design/style অপরিবর্তিত। -->
+                    <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="Alternate / Enquiry Mobile" />
+                    <EditText android:id="@+id/etAltMobile" style="@style/RegFieldInput" android:inputType="phone" android:maxLines="1" android:importantForAutofill="no" android:autofillHints="@null" />
+                    <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="Patient Name *" />
+                    <EditText android:id="@+id/etName" style="@style/RegFieldInput" android:inputType="textPersonName|textCapWords" android:maxLines="1" />
+                    <LinearLayout style="@style/Row2">
+                        <LinearLayout style="@style/Col">
+                            <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="Occupation" />
+                            <Spinner android:id="@+id/spOccupation" style="@style/RegFieldInput" android:background="@drawable/bg_input_field_picker" android:paddingEnd="40dp" />
+                        </LinearLayout>
+                        <LinearLayout style="@style/ColEnd">
+                            <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="Age" />
+                            <EditText android:id="@+id/etAge" style="@style/RegFieldInput" android:inputType="number" android:maxLength="3" android:maxLines="1" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="12dp">
+                        <Button android:id="@+id/btnSexMale" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="4dp" android:textAllCaps="true" android:text="Male" />
+                        <Button android:id="@+id/btnSexFemale" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="4dp" android:textAllCaps="true" android:text="Female" />
+                        <Button android:id="@+id/btnSexOther" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAllCaps="true" android:text="Other" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ===== ADDRESS ===== -->
+            <androidx.cardview.widget.CardView style="@style/RegCard" android:layout_marginTop="8dp">
+                <LinearLayout style="@style/RegCardInner" android:padding="12dp">
+                    <TextView style="@style/SectionHead" android:layout_marginTop="12dp" android:text="Address" />
+                    <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="Village" />
+                    <EditText android:id="@+id/etVillage" style="@style/RegFieldInput" android:maxLines="1" />
+                    <LinearLayout style="@style/Row2">
+                        <LinearLayout style="@style/Col">
+                            <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="PO" />
+                            <EditText android:id="@+id/etPo" style="@style/RegFieldInput" android:maxLines="1" />
+                        </LinearLayout>
+                        <LinearLayout style="@style/ColEnd">
+                            <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="PS" />
+                            <EditText android:id="@+id/etPs" style="@style/RegFieldInput" android:maxLines="1" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout style="@style/Row2">
+                        <LinearLayout style="@style/Col">
+                            <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="District" />
+                            <EditText android:id="@+id/etDistrict" style="@style/RegFieldInput" android:maxLines="1" />
+                        </LinearLayout>
+                        <LinearLayout style="@style/ColEnd">
+                            <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="PIN Code" />
+                            <EditText android:id="@+id/etPin" style="@style/RegFieldInput" android:inputType="number" android:maxLength="6" android:maxLines="1" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ===== DISEASE ===== -->
+            <androidx.cardview.widget.CardView style="@style/RegCard" android:layout_marginTop="8dp">
+                <LinearLayout style="@style/RegCardInner" android:padding="12dp">
+                    <TextView style="@style/SectionHead" android:layout_marginTop="12dp" android:text="Disease" />
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/diseaseGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        app:chipSpacingVertical="2dp"
+                        app:singleLine="false" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ===== SYMPTOMS ===== -->
+            <androidx.cardview.widget.CardView style="@style/RegCard" android:layout_marginTop="8dp">
+                <LinearLayout style="@style/RegCardInner" android:padding="12dp">
+                    <TextView style="@style/SectionHead" android:layout_marginTop="12dp" android:text="Symptoms" />
+                    <!-- TK-REQUESTED (2026-07-27): "FLUID DISCHARGE and MASSA BARA HUA
+                         এই দুটো এক লাইনে হবে". A free-flowing group packs greedily and
+                         always pushed the last one alone onto its own line, so the
+                         symptoms now sit in three fixed rows (3 / 2 / 2). Same chips,
+                         same order, same saved values. -->
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/symptomGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        app:singleLine="true" />
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/symptomGroup2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:singleLine="true" />
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/symptomGroup3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:singleLine="true" />
+                    <!-- TK-REQUESTED (2026-07-27): the line now sits INSIDE the box as
+                         a hint and disappears by itself the moment the staff types. -->
+                    <EditText android:id="@+id/etComplaintNote" style="@style/FieldInputMultiline"
+                        android:layout_marginTop="12dp"
+                        android:inputType="textMultiLine" android:minLines="2"
+                        android:hint="পেশেন্ট এসে আরো কি কি সমস্যার কথা বললেন"
+                        android:textColorHint="@color/field_hint" />
+                    <!-- 🔴🆕🔒 খাতার সারি B452 (TK-নির্দেশ, 05.08.2026 —
+                         "বিস্তারিত লিখুক", ধাপে ধাপে জিজ্ঞাসা করে নিশ্চিত
+                         হয়ে — Duration + Previous Treatment)। এই দুটো ঘরের
+                         মান সরাসরি `sinceWhen`/`previousTreatment` কলামে
+                         সেভ হয় — Doctor Checkup-এর নিজস্ব "History &
+                         Previous" ধাপ **আগে থেকেই** এই একই কলাম দুটো থেকে
+                         প্রথমে খুঁজে প্রি-ফিল করে (`first("sinceWhen",
+                         "duration")` / `first("previousTreatment", ...)`
+                         — DoctorCheckupActivity.kt), তাই এখানে কোড না
+                         বদলেই ডাক্তার এখন Registration-এর সময় স্টাফের
+                         লেখা এই তথ্য সরাসরি প্রি-ফিল অবস্থায় দেখবেন। -->
+                    <TextView style="@style/FieldLabel" android:layout_marginTop="8dp"
+                        android:text="Duration of Problem" />
+                    <LinearLayout style="@style/Row2">
+                        <LinearLayout style="@style/Col">
+                            <EditText android:id="@+id/etDurationNote" style="@style/RegFieldInput"
+                                android:inputType="number" android:maxLines="1" />
+                        </LinearLayout>
+                        <LinearLayout style="@style/ColEnd">
+                            <Spinner android:id="@+id/spDurationUnit" style="@style/RegFieldInput"
+                                android:background="@drawable/bg_input_field_picker" android:paddingEnd="40dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ===== PREVIOUS TREATMENT HISTORY ===== -->
+            <androidx.cardview.widget.CardView style="@style/RegCard" android:layout_marginTop="8dp">
+                <LinearLayout style="@style/RegCardInner" android:padding="12dp">
+                    <TextView style="@style/SectionHead" android:layout_marginTop="12dp" android:text="Previous Treatment History" />
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/medHistGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        app:singleLine="false" />
+                    <TextView style="@style/FieldLabel" android:layout_marginTop="8dp"
+                        android:text="Other Treatment History (Optional)" />
+                    <EditText android:id="@+id/etPrevTreatmentNote" style="@style/FieldInputMultiline"
+                        android:inputType="textMultiLine" android:minLines="2"
+                        android:hint="Write any other previous treatment" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ===== RMP / REFERRING DOCTOR (conditional) ===== -->
+            <androidx.cardview.widget.CardView style="@style/RegCard" android:layout_marginTop="8dp">
+                <LinearLayout style="@style/RegCardInner" android:padding="12dp">
+                    <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="Referred By" />
+                    <Spinner android:id="@+id/spRefBy" style="@style/RegFieldInput" android:background="@drawable/bg_input_field_picker" android:paddingEnd="40dp" />
+                    <LinearLayout
+                        android:id="@+id/llRefDoctor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:layout_marginTop="10dp"
+                        android:padding="12dp"
+                        android:background="@drawable/bg_reveal_panel">
+                        <!-- 🟢🔒 V895 (৩১.০৮.২০২৬, TK ডেমো ফটো দেখে "হ্যাঁ পাশ, বসিয়ে দিন") —
+                             TK: *"নামের ঘরে ডাক্তারের নাম, ঠিকানা বা নম্বর লিখলেই যেন
+                             নিচে অটোমেটিক সাজেস্ট করে … সবুজ 'Select Saved RMP / Doctor'
+                             বোতামটা থাকবে না"*।
+                             পুরোনো বোতামটা এখানেই ছিল, এখন সরানো হলো; তার বদলে নিচের
+                             `llRmpSuggest` ঘরে টাইপ করতে করতেই তালিকা নামে।
+                             ⛔ তালিকা আগের মতোই **ফোনে জমা থাকা** ঘর থেকে আসে —
+                                ইন্টারনেট-খরচ এক বাইটও বাড়ে না। -->
+                        <TextView style="@style/FieldLabel" android:layout_marginTop="0dp" android:text="Doctor / RMP Name" />
+                        <EditText android:id="@+id/etRefDoctorName" style="@style/RegFieldInput" android:hint="Doctor / RMP name" android:inputType="textPersonName" android:maxLines="1" />
+                        <LinearLayout
+                            android:id="@+id/llRmpSuggest"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:layout_marginTop="6dp"
+                            android:background="@drawable/bg_rmp_suggest" />
+                        <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="Doctor Mobile" />
+                        <EditText android:id="@+id/etRefDoctorMobile" style="@style/RegFieldInput" android:hint="Doctor mobile" android:inputType="phone" android:maxLines="1" />
+                    </LinearLayout>
+                    <!-- TK-REQUESTED ADDITION (2026-07-24): same Official/
+                         Unexpected Time toggle the Enquiry form already has
+                         (V113). Registration had no equivalent, so a
+                         walk-in patient registered directly (no prior
+                         Enquiry) had no way to record this. Same exact
+                         2-button pattern/styling as activity_enquiry.xml's
+                         btnTimingOfficial/btnTimingUnexpected. Nothing
+                         else in this card or the rest of the form changed. -->
+                    <!-- 🕘🔒 V962 (০১.০৯.২০২৬, TK-নির্দেশ) — TK: *"রেজিস্ট্রেশন
+                         ফরমে আনএক্সপেক্টেড থাকবে না, এক্সপেক্টেড ও থাকবে না"*।
+                         সময়টা এখন **শুধু অল-ব্রাঞ্চ এনকোয়ারি ফর্মে** ঘড়ি ধরে ঠিক
+                         হয়, তাই এখানে বাছার কিছু নেই — পুরো সারিটাই লুকানো।
+                         ⛔ বোতাম দুটো XML-এ রাখা হলো (মুছলে কোড ভাঙত); শুধু
+                            দেখা যায় না ও চাপা যায় না। -->
+                    <LinearLayout
+                        android:id="@+id/rowRegTiming"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:layout_marginTop="12dp">
+                        <Button
+                            android:id="@+id/btnRegTimingOfficial"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:textAllCaps="true"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textSize="12.5sp"
+                            android:minWidth="0dp"
+                            android:paddingHorizontal="4dp"
+                            android:includeFontPadding="false"
+                            android:text="Official Time" />
+                        <Button
+                            android:id="@+id/btnRegTimingUnexpected"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textAllCaps="true"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textSize="12.5sp"
+                            android:minWidth="0dp"
+                            android:paddingHorizontal="4dp"
+                            android:includeFontPadding="false"
+                            android:text="Unexpected Time" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ===== FEES + PHOTO ===== -->
+            <androidx.cardview.widget.CardView style="@style/RegCard" android:layout_marginTop="8dp">
+                <LinearLayout style="@style/RegCardInner" android:padding="12dp">
+                    <LinearLayout style="@style/Row2">
+                        <LinearLayout style="@style/Col">
+                            <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="Fee Amount *" />
+                            <EditText android:id="@+id/etFee" style="@style/RegFieldInput" android:inputType="number" android:maxLines="1" />
+                        </LinearLayout>
+                        <LinearLayout style="@style/ColEnd">
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="34dp">
+                                <Button android:id="@+id/btnPayCash" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="4dp" android:textAllCaps="false" android:maxLines="1" android:singleLine="true" android:ellipsize="none" android:textSize="13sp" android:minWidth="0dp" android:paddingHorizontal="4dp" android:includeFontPadding="false" android:text="CASH" />
+                                <Button android:id="@+id/btnPayUpi" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textAllCaps="false" android:maxLines="1" android:singleLine="true" android:ellipsize="none" android:textSize="13sp" android:minWidth="0dp" android:paddingHorizontal="4dp" android:includeFontPadding="false" android:text="ONLINE" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <ImageView android:id="@+id/imgPatientPhoto" android:layout_width="96dp" android:layout_height="96dp"
+                        android:layout_marginTop="8dp" android:scaleType="centerCrop" android:background="@drawable/bg_input_field"
+                        android:visibility="gone" android:contentDescription="Patient photo preview" />
+                    <!-- 🔄🔒 V532 (২২.০৮.২০২৬, TK-নির্দেশ): *"ভুল করে ফটো অন্যভাবে
+                         তোলা হলে পরবর্তীতে যেন রোটেট করা যায়।"* — এতদিন এটা শুধু
+                         Patient Photo পর্দায় ছিল, রেজিস্ট্রেশনের সময় ছিল না।
+                         ছবি তোলা হলে তবেই দেখা যায় (কোডে VISIBLE/GONE), তাই ছবি না
+                         থাকলে পর্দা **অবিকল আগের মতোই**। Patient Photo পর্দার হুবহু
+                         একই পিল-ডিজাইন ও একই রং। -->
+                    <Button android:id="@+id/btnRotatePatientPhoto"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal" android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_btn_photo_pill" app:backgroundTint="@null"
+                        android:paddingStart="26dp" android:paddingEnd="26dp" android:paddingVertical="8dp"
+                        android:maxLines="1" android:singleLine="true" android:textAllCaps="false"
+                        android:text="🔄 Rotate" android:textColor="#1D4ED8" android:textStyle="bold"
+                        android:textSize="13.5sp" android:visibility="gone" />
+
+                    <!-- TK-LOCKED (2026-07-24): 50% width, centered, green chip. Was full-width blue. -->
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:weightSum="2" android:layout_marginTop="12dp">
+                        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="0.15" />
+                        <Button android:id="@+id/btnPatientPhoto" android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1.7" android:background="@drawable/bg_btn_photo_pill"
+                            app:backgroundTint="@null" android:paddingVertical="10dp"
+                            android:maxLines="1" android:singleLine="true" android:textAllCaps="false"
+                            android:text="📷 Add Patient Photo" android:textColor="#0A7A28" android:textStyle="bold" android:textSize="15sp" />
+                        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="0.15" />
+                    </LinearLayout>
+
+                    <TextView android:id="@+id/tvError" android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp" android:text="" android:textColor="@color/clinic_accent_red"
+                        android:textSize="13sp" android:visibility="gone" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Sticky Save bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_save_bar"
+        android:paddingHorizontal="14dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="@drawable/bg_btn_save_green"
+            app:backgroundTint="@null"
+            android:text="✓  Save Patient"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textAllCaps="false" />
+        <ProgressBar android:id="@+id/progressSave" android:layout_width="24dp" android:layout_height="24dp"
+            android:layout_marginTop="8dp" android:layout_gravity="center" android:visibility="gone" />
+    </LinearLayout>
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

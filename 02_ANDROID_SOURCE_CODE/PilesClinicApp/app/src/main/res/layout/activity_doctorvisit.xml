@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_doctorvisit_header">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Dr. Visit / RMP"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- 🔒 খাতার সারি B84 (29.07.2026): পুরনো Spinner **মোছা হয়নি, শুধু
+             লুকানো** — মাস্টারের ব্রাঞ্চ বাছার সব নিয়ম এখনো এটাই চালায়;
+             নিচের পিল শুধু এটাকে বেছে দেয়। -->
+        <Spinner
+            android:id="@+id/spinnerBranchFilter"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:background="@drawable/bg_input_field"
+            android:visibility="gone" />
+
+        <!-- 🔒 TK-APPROVED (29.07.2026, খাতার সারি B84): ব্রাঞ্চ বাছার ঘর
+             হেডারের ডানে, সব পর্দার হুবহু একই পিল। শুধু মাস্টারের জন্য —
+             স্টাফ/ডাক্তার/ফিল্ড আগের মতোই কিছু দেখবেন না। -->
+        <TextView
+            android:id="@+id/branchPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/bg_branch_pill"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="🏥 Select Branch ▾"
+            android:textColor="@color/white"
+            android:textSize="10.5sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="➕"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:padding="4dp" />
+        <!-- ⋮🔒 V1307 (তালিকা ৪২০, TK-র প্রুফ পাশ): +-এর পাশে ⋮ — ভিতরে RMP Performance ·
+             RMP Due List · RMP Commission Sheet (Kotlin-এ role ধরে ভরা হয়; কারো একটাও না
+             থাকলে বোতামটাই gone)। -->
+        <TextView
+            android:id="@+id/btnRmpMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:text="⋮"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- 🔒🔒 খাতার সারি B193 (TK, 30.07.2026 রাত — আলোচনায় পাশ): TK-এর
+         নির্দেশ: "আগেরগুলো বাদ রাখুন" — Today Call ও Overdue Call বক্স
+         দুটো সরিয়ে নতুন ৪টা: ALL RMP · PENDING · CALLED · EXPECTED।
+         ⛔ একই ৪টা ভিউ-আইডি (statToday/statPending/statCalled/statAll ও
+         তাদের count-আইডি) **পুনর্ব্যবহার** করা হয়েছে — DoctorVisitActivity.kt-এ
+         ক্লিক-লিসেনার/বাইন্ডিং একই থাকে, শুধু লেবেল/আইকন/অর্থ বদলেছে,
+         ভাঙার কোনো ঝুঁকি নেই। statToday এখন EXPECTED দেখায়। -->
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/bg_input_field"
+        android:paddingHorizontal="14dp"
+        android:hint="Search doctor by name / mobile / area"
+        android:textColor="#10223A"
+        android:textColorHint="@color/field_hint"
+        android:inputType="text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingBottom="12dp">
+
+        <!-- আগে ছিল "Today Call" — এখন "EXPECTED" (ডাক্তার-বলা প্রত্যাশিত
+             পেশেন্টের তারিখ, খাতার সারি B193)। -->
+        <LinearLayout
+            android:id="@+id/statToday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="6dp"
+            android:background="@drawable/bg_dv_stat_expected"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+            <!-- 🎨🔒 V1074 (০৪.০৯.২০২৬, TK: *"Sep4 এর কোন কাজ নেই, সরিয়ে দিন"*) —
+                 V233-এর ২-লাইনের তারিখ-ব্যাজ এখান থেকে **বাদ**। TK-এর আগের
+                 নির্দেশে (V1073) বাকি তিনটে বাক্সের ছবি সরানো হয়েছিল, এটাও
+                 তার সঙ্গেই গেল — চারটে বাক্স এখন সমান উচ্চতার।
+                 ⛔ EXPECTED-এর সংখ্যা · ফিল্টার · চাপলে কী হয় — কিছুই বদলায়নি,
+                    আর `bg_cal_badge_top/bottom` অন্য পর্দায় আগের মতোই চলছে। -->
+            <TextView android:id="@+id/tvTodayCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textStyle="bold" android:textSize="15sp" android:textColor="#BE185D" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="EXPECTED" android:textSize="9.5sp" android:textStyle="bold" android:textColor="#BE185D" />
+        </LinearLayout>
+
+        <!-- আগে ছিল "Overdue Call" — এখন "PENDING" (এই মাসে একবারও কল
+             হয়নি এমন ডাক্তার, খাতার সারি B193)। -->
+        <LinearLayout
+            android:id="@+id/statPending"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="6dp"
+            android:background="@drawable/bg_dv_stat_overdue"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView android:id="@+id/tvPendingCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textStyle="bold" android:textSize="15sp" android:textColor="#C2410C" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PENDING" android:textSize="9.5sp" android:textStyle="bold" android:textColor="#C2410C" />
+        </LinearLayout>
+
+        <!-- "This Month" থেকে লেবেল বদলে "CALLED" — অর্থ অপরিবর্তিত (এই
+             মাসে অন্তত একবার কল হয়েছে)। -->
+        <LinearLayout
+            android:id="@+id/statCalled"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="6dp"
+            android:background="@drawable/bg_dv_stat_month"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView android:id="@+id/tvCalledCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textStyle="bold" android:textSize="15sp" android:textColor="#15803D" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CALLED" android:textSize="9.5sp" android:textStyle="bold" android:textColor="#15803D" />
+        </LinearLayout>
+
+        <!-- "All Doctor" থেকে লেবেল বদলে "ALL RMP" — অর্থ অপরিবর্তিত। -->
+        <LinearLayout
+            android:id="@+id/statAll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="6dp"
+            android:background="@drawable/bg_dv_stat_all"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView android:id="@+id/tvAllCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textStyle="bold" android:textSize="15sp" android:textColor="#6D28D9" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ALL RMP" android:textSize="9.5sp" android:textStyle="bold" android:textColor="#6D28D9" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 🎨🔒 V1073 (০৪.০৯.২০২৬, TK-নির্দেশ: *"Rmp Performance, RMP due list
+         পাশাপাশি"*) — দুটো বোতাম এখন এক সারিতে, সমান চওড়ায়।
+         ⛔ দুটোর `id` · রং · কাজ · দেখা-না-দেখার নিয়ম (Performance = Master-only,
+            B211) এক অক্ষরও বদলায়নি — শুধু জায়গা।
+         ⛔ একটা লুকনো থাকলে অন্যটা `weight` দিয়ে পুরো সারিটাই নেয়। -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="10dp">
+
+    <!-- TK-ORDER (31.07.2026, khata row B211 - TK: "মাস্টার এডমিন বুঝবে কি করে
+         কোন আরএমপি ডাক্তার কত পেশেন্ট পাঠিয়েছে... এটা শুধু মাস্টারই দেখতে
+         পারবে"): Master-only button, gone by default, shown in Kotlin only
+         for role == master. Staff/Doctor/Field Officer never see this. -->
+    <TextView
+        android:id="@+id/btnRmpPerformance"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/bg_rmp_performance_btn"
+        android:text="🏆 RMP Performance"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone" />
+
+    <!-- 🟢🔒 B685 (15.08.2026, TK-অনুমোদিত): TK-এর কথা — "কোন আরএমপির কত টাকা
+         ডিউ আছে এটাতো স্টাফ অথবা ব্রাঞ্চ দেখে আমাকে বলবে"। এতদিন Due দেখতে
+         হলে প্রতিটা কার্ডের 👁 এক-একটা করে খুলতে হত। এখন এক জায়গায় তালিকা।
+         ⛔ জায়গাটা TK নিজে ছবি দেখে বেছেছেন ("খ") — Master-এর 🏆 বোতামের
+            ঠিক নিচে, একই চওড়া-বোতামের ধাঁচে, যাতে উপরের কোনো ডিজাইন নড়ে না।
+         ⛔ B211 (RMP Performance = Master-only) অক্ষত — ওই বোতাম আলাদাই
+            থাকল, এটা সম্পূর্ণ নতুন একটা বোতাম।
+         ⛔ ডিফল্ট gone; Kotlin-এ শুধু master/staff হলে VISIBLE (এই অ্যাপে
+            ডাক্তারের role ভিতরে "staff", তাই ডাক্তারও দেখবেন)। -->
+    <TextView
+        android:id="@+id/btnRmpDueList"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/bg_rmp_due_btn"
+        android:text="RMP Due List"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone" />
+
+    </LinearLayout>
+
+    <!-- 📒🔒 V1252 (০৯.০৯.২০২৬, TK-নির্দেশ ও ফটো-প্রুফ পাশ, khata row 373):
+         TK - "কত তারিখে কোন RMP কে কত কমিশন দেওয়া হল সেটা আমি Google Sheet এর
+         মত দেখতে চাই"। Read-only sheet: date, RMP, patient, amount, mode,
+         branch, reference, recorded by, with the total at the end of the
+         column and Cash & Online / Share / Print inside the top-right menu.
+         Master-only (same money-privacy tone as B211); default gone, made
+         visible from Kotlin only for the master. -->
+    <TextView
+        android:id="@+id/btnRmpCommissionSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_rmp_due_btn"
+        android:text="RMP Commission Sheet"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone" />
+
+
+    <!-- TK-REQUESTED ADDITION (2026-07-23): visible count of how many
+         doctors match the currently active filter. Hidden when filter is
+         "all" (the full list itself makes the count obvious there). -->
+    <TextView
+        android:id="@+id/tvFilterCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="6dp"
+        android:textColor="@color/brand_blue"
+        android:textStyle="bold"
+        android:textSize="12.5sp"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressLoad"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="No doctor/RMP contact yet"
+        android:textColor="@color/clinic_text_secondary"
+        android:visibility="gone" />
+
+    <!-- TK-REQUESTED (2026-07-27): pull the list down to refresh, the same
+         way as Follow-up. Only this wrapper is new; the list inside it,
+         its id and every rule stay exactly as they were. -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🟢🔒 V1128 (০৫.০৯.২০২৬, TK-অনুমোদিত ফটো-প্রুফ) — স্টাফ কার্ডের "Field Visit"
+     বোতামের আইকন। রং হুবহু পাশের `ic_sp_hand_rupee`-এর মতো (#0A5C33), যাতে
+     তিনটে বোতাম দেখতে এক রকম লাগে।
+     ⛔ চালু `ic_pd_pin` ছোঁয়া হয়নি — ওটার রং আলাদা (#0D5C63) ও অন্য পর্দায়
+        ব্যবহার হয়, তাই নতুন একটা বানানো হলো। -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="24" android:viewportHeight="24">
+  <path android:fillColor="#0A5C33"
+        android:pathData="M12,2a7,7 0 0 0 -7,7c0,5 7,13 7,13s7,-8 7,-13a7,7 0 0 0 -7,-7zM12,11.5A2.5,2.5 0 1 1 12,6a2.5,2.5 0 0 1 0,5.5z"/>
+</vector>

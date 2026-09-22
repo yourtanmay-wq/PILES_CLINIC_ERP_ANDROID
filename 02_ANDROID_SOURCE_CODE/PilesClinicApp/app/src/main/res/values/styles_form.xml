@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Reusable form field styles for native rebuild screens (Enquiry, and
+         every module after it); keeps every form visually consistent
+         without repeating the same attributes on every field. -->
+    <style name="FieldLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">14dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/clinic_text_secondary</item>
+    </style>
+
+    <style name="FieldInput">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:background">@drawable/bg_input_field</item>
+        <item name="android:paddingHorizontal">14dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">14.5sp</item>
+        <item name="android:textColor">@color/clinic_text_primary</item>
+    </style>
+
+    <!-- 🎨🔒 V892 (৩১.০৮.২০২৬, TK ডেমো ফটো দেখে **"হ্যাঁ পাশ, বসিয়ে দিন"**) —
+         TK: *"সম্পূর্ণ ফর্মে যত বক্স আছে প্রয়োজনের থেকে উচ্চতায় অনেক বেশি …
+         একটু ছোট করবেন … অফিসিয়াল ও প্রফেশনাল দেখাতে হবে"*।
+         উচ্চতা 50dp → **42dp**, উপরের ফাঁক 6dp → 5dp। লেখার আকার (14.5sp) ও
+         ভিতরের বাঁ-ডান ফাঁক (14dp) এক অক্ষরও বদলায়নি, তাই কোনো লেখা কাটে না।
+         ⛔ শেয়ার্ড `FieldInput` অক্ষত, তাই Appointment · Medicine · Check-up ·
+            Search পর্দা আগের মতোই।
+         🎨 V893 (৩১.০৮.২০২৬, TK-নির্দেশ *"এবার ইনকয়ারি ফর্ম … রেজিস্ট্রেশনের
+            ফরমের মতন"*) — Enquiry পর্দাও এখন এই একই ছোট মাপ ব্যবহার করে। -->
+    <style name="RegFieldInput" parent="FieldInput">
+        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
+
+    <style name="FieldInputMultiline">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:background">@drawable/bg_input_field</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:gravity">top|start</item>
+        <item name="android:textSize">14.5sp</item>
+        <item name="android:textColor">@color/clinic_text_primary</item>
+    </style>
+
+    <style name="SectionHead">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">22dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/brand_navy</item>
+    </style>
+
+    <style name="RegCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="cardCornerRadius">20dp</item>
+        <item name="cardElevation">3dp</item>
+        <item name="cardBackgroundColor">@color/clinic_card</item>
+    </style>
+
+    <style name="RegCardInner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="Row2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="Col">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_marginRight">6dp</item>
+    </style>
+
+    <style name="ColEnd">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!-- 🆕🔒 TK-LOCKED (06.08.2026) — Doctor Note "1 History & Previous"
+         ধাপের নতুন ফিল্ড-বক্স ডিজাইন (icon + লেবেল + বিভাজিকা + বর্ডারহীন
+         ইনপুট, বাঁ পাশে সবুজ দাগ)। TK ধাপে ধাপে HTML মকআপে "ঠিক আছে,
+         লক করে রাখুন" বলেছেন। ⛔ শুধু এই ৭টা নতুন style — শেয়ার্ড
+         FieldLabel/FieldInput/FieldInputMultiline-এ হাত দেওয়া হয়নি,
+         তাই বাকি সব স্ক্রিন (Enquiry/Registration ইত্যাদি) অপ্রভাবিত। -->
+    <!-- 🎨 (07.08.2026, প্রুফ-চেহারা, TK-অনুমোদিত) — ফ্ল্যাট/পরিষ্কার চেহারা:
+         box-এর ছায়া (elevation) সরানো হলো (আগে 1.5dp)। ⛔ এই style শুধু
+         চেকআপ স্ক্রিনেই ব্যবহৃত (activity_doctor_checkup.xml), তাই অন্য কোনো
+         স্ক্রিনে প্রভাব নেই। background/clipToOutline অপরিবর্তিত। -->
+    <!-- 🎨 (07.08.2026, প্রুফ-হুবহু) — বাইরের সাদা বাক্স সরানো (bg→@null): প্রুফের
+         মতো লেবেল বাইরে-উপরে, ইনপুট নিজেই বর্ডার-বক্স। আগে bg=bg_field_box_doctor_note,
+         clipToOutline=true, elevation=1.5dp। -->
+    <style name="DocNoteFieldBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+    <!-- 🎨 (07.08.2026, প্রুফ-চেহারা) — বাঁ পাশের সবুজ দাগ লুকানো (width 3.5dp→0dp);
+         সবুজ পরিচয় এখন সেকশন-শিরোনামের নম্বর-বৃত্তে। আগের মান কমেন্টে রইল। -->
+    <style name="DocNoteAccentBar">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/brand_green</item>
+    </style>
+
+    <!-- 🆕🔒 TK-LOCKED (06.08.2026) — Doctor Note "3 Counsel" ধাপের জন্য
+         বেগুনি অ্যাকসেন্ট (Step 1-এর সবুজ থেকে আলাদা, ধাপ চেনা সহজ)। -->
+    <!-- 🎨 (07.08.2026, প্রুফ-চেহারা) — বেগুনি দাগও লুকানো (3.5dp→0dp)। -->
+    <style name="DocNoteAccentBarPurple">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#7C3AED</item>
+    </style>
+
+    <!-- 🆕🔒 TK-LOCKED (06.08.2026) — চেকবক্স+টাকার সারির জন্য অনুভূমিক
+         ভিতরের কন্টেইনার (DocNoteFieldBoxInner-এর উল্লম্ব সংস্করণের বদলে)। -->
+    <!-- 🎨 (07.08.2026, প্রুফ-হুবহু) — চিকিৎসা-প্ল্যানের সারি (checkbox+₹) এখন
+         নিজেই বর্ডার-বক্স (আগে বাইরের DocNoteFieldBox বক্স দিত)। -->
+    <style name="DocNoteFieldBoxInnerHorizontal">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/bg_input_box</item>
+        <item name="android:padding">11dp</item>
+    </style>
+
+    <!-- 🎨 (07.08.2026, প্রুফ-হুবহু) — লেবেল+ইনপুট ধারক; বাইরের বাক্স নেই বলে
+         বাঁ-ডান padding 0 (লেবেল কার্ডের কিনারায়), ইনপুট নিজেই বর্ডার-বক্স। -->
+    <style name="DocNoteFieldBoxInner">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">0dp</item>
+    </style>
+
+    <style name="DocNoteFieldBoxTopRow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <!-- 🎨 (07.08.2026, প্রুফ-চেহারা) — ফিল্ডের পাশের ইমোজি লুকানো (visibility gone);
+         প্রুফে কোনো আইকন ছিল না, পরিষ্কার দেখায়। ⛔ শুধু এই স্ক্রিনের style। -->
+    <style name="DocNoteIcon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <!-- 🔵 B622 (11.08.2026, TK-অনুমোদিত প্রুফ): সব Check-up field-লেবেল এক সমান সাইজে
+         (আগে প্রতিটায় inline 7–10.5sp আলাদা ছিল, তাই ছোট ও অসমান দেখাত)। এখন এক জায়গায়
+         12.5sp, আর লম্বা লেবেল এক লাইনে না ধরলে দু-লাইনে নামে (maxLines 2 — কাটে না)। -->
+    <!-- 🟢 V600 (২৩.০৮.২০২৬, TK-নির্দেশ "আরো প্রফেশনাল দেখাতে হবে, সামান্য
+         একটু বড়") — 12.5sp → 13.5sp। রং/হাইলাইট/গঠন কিছুই বদলায়নি, শুধু মাপ। -->
+    <style name="DocNoteLabel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#374151</item>
+        <item name="android:textSize">13.5sp</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <!-- 🎨 (07.08.2026, প্রুফ-হুবহু) — লেবেল ও ইনপুটের মাঝের বিভাজিকা-রেখা
+         লুকানো (প্রুফে লেবেল আর বর্ডার-ইনপুটের মাঝে শুধু ফাঁক), শুধু ছোট ফাঁক
+         রাখা হলো। আগে: height 1dp, bg #E5E9ED, marginTop 7 / Bottom 6। -->
+    <style name="DocNoteDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+    </style>
+
+    <!-- 🎨 (07.08.2026, প্রুফ-হুবহু) — ইনপুট নিজেই সাদা বর্ডার-বক্স (আগে
+         background=@null, padding=0 — বাইরের বাক্সের ভিতরে বসত)। -->
+    <!-- 🔴🔒 V454 (TK-নির্দেশ ১৮.০৮.২০২৬: "প্রতিটা বক্সের সাইজ এত বড় রাখা
+         যাবে না") — প্যাডিং 11dp→8dp, শুধু বক্সের ভেতরের ফাঁকা জায়গা কমলো;
+         লেখা কখনো কাটে না (maxLines/ellipsize কিছুই বদলায়নি)। -->
+    <style name="DocNoteInputSingle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_input_box</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textSize">14.5sp</item>
+        <item name="android:textColor">@color/clinic_text_primary</item>
+    </style>
+
+    <style name="DocNoteInputMultiline">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_input_box</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:gravity">top|start</item>
+        <item name="android:textSize">14.5sp</item>
+        <item name="android:textColor">@color/clinic_text_primary</item>
+    </style>
+
+    <!-- 🟢 V600 (২৩.০৮.২০২৬, TK-অনুমোদিত, ছবি-প্রুফ পাশ) — শুধু
+         Investigation Advice-এর হেডার টাইটেলের জন্য, ডিফল্টের চেয়ে ছোট। -->
+    <style name="InvestigationToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+    <!-- 🩺🔒 V951 (০১.০৯.২০২৬, TK-নির্দেশ, ফটো-প্রুফ পাশ) — ডাক্তারের লাইনের কার্ডে
+         বিল · আজ জমা · বাকি — তিনটে সমান ঘর। ⛔ শুধু এই নতুন সারির জন্য;
+         অন্য কোনো স্টাইল ছোঁয়া হয়নি। -->
+    <!-- 📏 V976 (TK-নির্দেশ: *"উচ্চতা কম হবে … ফন্টের সাইজ আরো একটু ছোট"*) —
+         টাকার ঘর তিনটে একটু ছোট, বাকি সব আগের মতোই। -->
+    <style name="QueueMoneyCell">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:background">@drawable/bg_nvp_tag</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:textSize">10.5sp</item>
+        <item name="android:lineSpacingExtra">1dp</item>
+        <item name="android:textColor">#1B2B3A</item>
+    </style>
+</resources>

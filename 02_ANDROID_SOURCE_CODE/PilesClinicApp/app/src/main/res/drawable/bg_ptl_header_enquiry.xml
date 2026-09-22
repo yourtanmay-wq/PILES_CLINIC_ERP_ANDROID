@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-APPROVED (2026-07-27, via photo proof): Patient Details header for an
+     ENQUIRY stage patient. The two stage colours blended left to right,
+     pale yellow into pale green, with a thin line along the bottom edge.
+     Header text is dark on this, never white. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#CFDDBF" />
+        </shape>
+    </item>
+    <item android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="0"
+                android:startColor="#FDF6E3"
+                android:centerColor="#F5F6E6"
+                android:endColor="#ECF7EE"
+                android:type="linear" />
+        </shape>
+    </item>
+</layer-list>

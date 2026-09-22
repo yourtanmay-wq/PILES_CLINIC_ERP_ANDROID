@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <!-- TK-REPORTED BUG FIX (2026-07-25): this header was locked to a
+         fixed 48dp when the headers were made smaller, so any title that
+         needs two lines (or a title plus the patient name/ID line under it)
+         had its lower line cut off. Height is now "only as much as the text
+         needs", with 48dp as the MINIMUM . short titled screens stay exactly
+         as small as they are now, and only a long title grows, by about
+         8dp. -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:background="@drawable/bg_login_hero"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:titleTextColor="@color/white"
+        app:title="Appointments" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="14dp">
+
+            <TextView style="@style/FieldLabel" android:text="Add Appointment" android:textStyle="bold" android:textSize="15sp" />
+            <TextView style="@style/FieldLabel" android:text="Name" />
+            <EditText android:id="@+id/etName" style="@style/FieldInput" android:hint="Patient name" />
+            <TextView style="@style/FieldLabel" android:text="Mobile" />
+            <EditText android:id="@+id/etMobile" style="@style/FieldInput" android:inputType="phone" android:hint="Mobile number" />
+            <TextView style="@style/FieldLabel" android:text="Branch" />
+            <Spinner android:id="@+id/spBranch" style="@style/FieldInput" />
+            <TextView style="@style/FieldLabel" android:text="Appointment Date" />
+            <TextView
+                android:id="@+id/tvDate"
+                style="@style/FieldInput"
+                android:hint="Tap to pick date"
+                android:focusable="false"
+                android:clickable="true" />
+            <TextView style="@style/FieldLabel" android:text="Remarks" />
+            <EditText android:id="@+id/etRemarks" style="@style/FieldInput" android:hint="Remarks" android:minLines="2" android:gravity="top" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_btn_green"
+            app:backgroundTint="@null"
+                android:textColor="@color/white"
+                android:text="Save Appointment" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Upcoming Appointments"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@color/clinic_text_primary" />
+
+            <ProgressBar
+                android:id="@+id/progressLoad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="No upcoming appointments."
+                android:textColor="@color/clinic_text_secondary"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/listContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

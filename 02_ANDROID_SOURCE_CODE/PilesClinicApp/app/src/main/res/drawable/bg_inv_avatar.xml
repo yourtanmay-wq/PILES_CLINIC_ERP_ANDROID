@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- V1473 (14.09.2026, TK-approved photo-proof, Option 1) — Investigation
+     Advice screen's patient-initials avatar tile. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient
+        android:type="linear"
+        android:angle="135"
+        android:startColor="#2B7A78"
+        android:endColor="#17312A" />
+    <corners android:radius="12dp" />
+</shape>

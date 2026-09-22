@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='utf-8'?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@drawable/bg_app_gradient">
+    <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_header_green" android:paddingHorizontal="18dp" android:paddingTop="16dp" android:paddingBottom="22dp">
+                <TextView android:id="@+id/btnBack" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="←" android:textColor="@color/white" android:textSize="20sp" android:padding="4dp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp" android:text="More" android:fontFamily="serif" android:textColor="@color/white" android:textSize="21sp" android:textStyle="bold" />
+                <LinearLayout android:id="@+id/btnLogout" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:clickable="true" android:focusable="true" android:background="@drawable/bg_logout_pill_red" android:paddingStart="13dp" android:paddingEnd="15dp" android:paddingTop="8dp" android:paddingBottom="8dp" android:elevation="2dp">
+                    <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginEnd="6dp" android:src="@drawable/ic_power_logout" android:contentDescription="Log Out" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Log Out" android:textColor="@color/white" android:textStyle="bold" android:textSize="13.5sp" />
+                </LinearLayout>
+                <TextView android:id="@+id/btnMoreMenu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="20dp" android:text="⋮" android:textColor="@color/white" android:textSize="20sp" android:textStyle="bold" android:padding="4dp" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:visibility="gone" android:paddingStart="18dp" android:paddingEnd="18dp" android:paddingTop="16dp" android:paddingBottom="8dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="💼" android:textSize="14sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="7dp" android:text="Management" android:fontFamily="serif" android:textStyle="bold" android:textSize="15.5sp" android:textColor="@color/brand_navy" />
+                <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" android:layout_marginHorizontal="8dp" android:background="#DDD3BE" />
+                <View android:layout_width="6dp" android:layout_height="6dp" android:background="@drawable/bg_more_dot" android:backgroundTint="#C9A24B" />
+            </LinearLayout>
+            <LinearLayout android:id="@+id/rowManagement1" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="12dp">
+                <LinearLayout android:id="@+id/btnReports" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                    <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#EAF0FB">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_more_reports" />
+                    </FrameLayout>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Reports" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Analytics &amp; summary" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" />
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/btnPasswordCenter" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                    <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#E7F2EA">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_more_password" />
+                    </FrameLayout>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Password" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Security centre" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" />
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/rowManagement2" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="12dp">
+                <LinearLayout android:id="@+id/btnChamberClose" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                    <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#FBEAEA">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_more_lock_red" />
+                    </FrameLayout>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Chamber Close" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" android:maxLines="1" android:ellipsize="end" />
+                        <TextView android:id="@+id/tvChamberCloseSub" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="All closed" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" />
+                    </LinearLayout>
+                    <TextView android:id="@+id/badgeChamberClose" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_more_dot" android:backgroundTint="#D94B4B" android:paddingHorizontal="7dp" android:paddingVertical="2dp" android:text="0" android:textColor="@color/white" android:textSize="9.5sp" android:textStyle="bold" android:visibility="gone" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/btnTrash" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                    <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#FBEAEA">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_more_trash" />
+                    </FrameLayout>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Trash Bin" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Deleted records" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" />
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/securityHeader" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingStart="18dp" android:paddingEnd="18dp" android:paddingTop="16dp" android:paddingBottom="8dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🛡️" android:textSize="14sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="7dp" android:text="Security &amp; Data" android:fontFamily="serif" android:textStyle="bold" android:textSize="15.5sp" android:textColor="@color/brand_navy" />
+                <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" android:layout_marginHorizontal="8dp" android:background="#DDD3BE" />
+                <View android:layout_width="6dp" android:layout_height="6dp" android:background="@drawable/bg_more_dot" android:backgroundTint="#3E7A6E" />
+            </LinearLayout>
+            <LinearLayout android:id="@+id/rowSecurity1" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="12dp">
+                <LinearLayout android:id="@+id/btnBackup" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                    <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#E7F2EA">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_more_backup" />
+                    </FrameLayout>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Backup" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Cloud sync" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" />
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/btnExportData" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                    <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#E7F2EA">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_more_export" />
+                    </FrameLayout>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Export" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Download data" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" />
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/docModulesSection" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:visibility="gone" android:paddingStart="18dp" android:paddingEnd="18dp" android:paddingTop="16dp" android:paddingBottom="8dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🩺" android:textSize="14sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="7dp" android:text="Modules" android:fontFamily="serif" android:textStyle="bold" android:textSize="15.5sp" android:textColor="@color/brand_navy" />
+                    <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" android:layout_marginHorizontal="8dp" android:background="#DDD3BE" />
+                    <View android:layout_width="6dp" android:layout_height="6dp" android:background="@drawable/bg_more_dot" android:backgroundTint="#0F7A43" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/rowDocModules1" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="12dp">
+                    <LinearLayout android:id="@+id/btnDocEnquiry" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                        <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#FFF3E0">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="📝" android:textSize="17sp" />
+                        </FrameLayout>
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Enquiry" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" android:maxLines="1" android:ellipsize="end" />
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="New enquiry" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" android:maxLines="1" android:ellipsize="end" />
+                        </LinearLayout>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/btnDocFollowUp" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                        <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#E8F5EE">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="🔁" android:textSize="17sp" />
+                        </FrameLayout>
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Follow-up" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" android:maxLines="1" android:ellipsize="end" />
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Call list" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" android:maxLines="1" android:ellipsize="end" />
+                        </LinearLayout>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:id="@+id/rowDocModules2" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="12dp">
+                    <LinearLayout android:id="@+id/btnDocRegistration" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                        <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#E7EEFB">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="🧾" android:textSize="17sp" />
+                        </FrameLayout>
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Registration" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" android:maxLines="1" android:ellipsize="end" />
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="New patient" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" android:maxLines="1" android:ellipsize="end" />
+                        </LinearLayout>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/btnDocDialer" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                        <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#E8F5EE">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="📞" android:textSize="17sp" />
+                        </FrameLayout>
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Dialer" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" android:maxLines="1" android:ellipsize="end" />
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Call centre" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" android:maxLines="1" android:ellipsize="end" />
+                        </LinearLayout>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:id="@+id/rowDocModules3" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="12dp">
+                    <LinearLayout android:id="@+id/btnDocDraft" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                        <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#FBF3E7">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="📂" android:textSize="17sp" />
+                        </FrameLayout>
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Draft" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" android:maxLines="1" android:ellipsize="end" />
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Reject / Incomplete" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" android:maxLines="1" android:ellipsize="end" />
+                        </LinearLayout>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/btnDocBriefing" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                        <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#F0F8FC">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="💬" android:textSize="17sp" />
+                        </FrameLayout>
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Briefing" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" android:maxLines="1" android:ellipsize="end" />
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Notice board" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" android:maxLines="1" android:ellipsize="end" />
+                        </LinearLayout>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout android:id="@+id/rowDocModules4" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="12dp">
+                    <LinearLayout android:id="@+id/btnDocSearch" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                        <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#F3F5F7">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="🔍" android:textSize="17sp" />
+                        </FrameLayout>
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Search" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" android:maxLines="1" android:ellipsize="end" />
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Find anything" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" android:maxLines="1" android:ellipsize="end" />
+                        </LinearLayout>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/btnDocDoctorVisit" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                        <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#E7F3FB">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="👨‍⚕️" android:textSize="17sp" />
+                        </FrameLayout>
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Dr. Visit" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" android:maxLines="1" android:ellipsize="end" />
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="RMP / referral" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" android:maxLines="1" android:ellipsize="end" />
+                        </LinearLayout>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/rowDocModules5" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="12dp">
+                <LinearLayout android:id="@+id/btnDocDoctorReminder" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                    <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#E8F4F1">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="📌" android:textSize="17sp" />
+                    </FrameLayout>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Doctor Reminder" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" android:maxLines="1" android:ellipsize="end" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Note &amp; reminder" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" android:maxLines="1" android:ellipsize="end" />
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/btnStaffProfiles" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="5dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="13dp" android:clickable="true" android:focusable="true">
+                    <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#EAF0FB">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_more_staff_profiles" />
+                    </FrameLayout>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="10dp" android:orientation="vertical">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Staff Profiles" android:fontFamily="serif" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/brand_navy" android:maxLines="1" android:ellipsize="end" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="All staff across branches" android:textSize="9.5sp" android:textColor="@color/clinic_text_secondary" android:maxLines="1" android:ellipsize="end" />
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:id="@+id/btnMyProfile" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="5dp" android:layout_marginHorizontal="12dp" android:layout_marginTop="6dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="14dp" android:clickable="true" android:focusable="true" android:visibility="gone">
+                <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#EAF0FB">
+                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_more_myprofile" />
+                </FrameLayout>
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp" android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="My Profile" android:fontFamily="serif" android:textStyle="bold" android:textSize="14sp" android:textColor="@color/brand_navy" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="View my account" android:textSize="10sp" android:textColor="@color/clinic_text_secondary" />
+                </LinearLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+            </LinearLayout>
+            <LinearLayout android:id="@+id/btnIncomeExpense" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="5dp" android:layout_marginHorizontal="12dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_more_card" android:elevation="2dp" android:padding="14dp" android:clickable="true" android:focusable="true" android:visibility="gone">
+                <FrameLayout android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/bg_more_icon_badge" android:backgroundTint="#E7F2EA">
+                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_more_income_expense" />
+                </FrameLayout>
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp" android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Income &amp; Expense" android:fontFamily="serif" android:textStyle="bold" android:textSize="14sp" android:textColor="@color/brand_navy" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Daily ledger" android:textSize="10sp" android:textColor="@color/clinic_text_secondary" />
+                </LinearLayout>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="›" android:textSize="18sp" android:textColor="#B7C0CC" />
+            </LinearLayout>
+            <TextView android:id="@+id/tvAppVersion" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:gravity="center" android:text="App Version: —" android:textSize="11sp" android:textColor="@color/clinic_text_secondary" />
+        </LinearLayout>
+    </ScrollView>
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

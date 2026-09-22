@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔒 TK-APPROVED (28.07.2026, ফটো-প্রুফে পাশ · খাতার সারি B46).
+
+     TK-এর কথা: "পুরো স্ক্রিন জুড়ে এইভাবে যেন ওপেন হয়ে না থাকে · এটা দরকার,
+     মডিউলের মধ্যে রাখেন · চেম্বার ক্লোজ একটা মেনু বারের মধ্যে রাখুন · সেখানে
+     পুরনো দিনের চেম্বার বন্ধ না করলে সেটা যেন বন্ধ করা যায়।"
+
+     তাই ড্যাশবোর্ডের লম্বা লাল তালিকাটা তুলে দিয়ে সেটা এখানে আনা হলো।
+     পর্দার গড়ন হুবহু Chamber Date-এর মতোই (একই হেডার · একই ব্রাঞ্চ বাক্স),
+     যাতে নতুন কিছু শিখতে না হয়। ⛔ এখানে কোনো টাকার হিসাব করা হয় না —
+     "বন্ধ করুন" চাপলে আগের সেই Chamber Date পর্দাই খোলে ও আগের নিয়মেই
+     রিভিউ · Confirm & Print · বন্ধের চিহ্ন বসে। -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CHAMBER CLOSE"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="চেম্বার বন্ধ করুন"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- 🔒 খাতার সারি B84 (29.07.2026): পুরনো Spinner **মোছা হয়নি, শুধু
+             লুকানো** — সব নিয়ম এখনো এটাই চালায়, নিচের পিল একে বেছে দেয়। -->
+        <Spinner
+            android:id="@+id/spBranch"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:background="@drawable/bg_branch_chip"
+            android:visibility="gone" />
+
+        <!-- 🔒 TK-APPROVED (29.07.2026, খাতার সারি B84): ব্রাঞ্চ বাছার ঘর
+             হেডারের ডানে, সব পর্দার হুবহু একই পিল। শুধু মাস্টারের জন্য। -->
+        <TextView
+            android:id="@+id/branchPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_branch_pill"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="🏥 All Branch ▾"
+            android:textColor="@color/white"
+            android:textSize="10.5sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="6dp"
+        android:padding="11dp"
+        android:gravity="center"
+        android:lineSpacingExtra="3dp"
+        android:textSize="12.5sp"
+        android:textStyle="bold"
+        android:textColor="#8E2A1E"
+        android:background="@drawable/bg_unclosed_note"
+        android:text="Loading..." />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/listBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="12dp" />
+    </ScrollView>
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔵🔒 V578 (TK-নির্দেশ ২৩.০৮.২০২৬): *"দুইটা বক্সের সাইজ একই রকম থাকবে;
+     Days এটা বক্সের মধ্যে থাকবে — বর্তমানে দেখে মনে হচ্ছে বক্সের থেকে বেরিয়ে
+     গেছে"*। `bg_input_field_picker`-এর হুবহু একই বাক্স, শুধু তিরটা ছোট (১১dp)
+     ও ধারের আরও কাছে (৫dp) — তাই ছোট ঘরেও "Months" লেখাটা তিরের নিচে চলে
+     যায় না। ⛔ পুরোনো drawable-টা এক অক্ষরও বদলানো হয়নি; সেটা বাকি সব
+     জায়গায় আগের মতোই চলছে। -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <corners android:radius="12dp" />
+            <stroke android:width="1dp" android:color="@color/input_border" />
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/ic_picker_chevron"
+        android:gravity="center_vertical|right"
+        android:right="5dp"
+        android:width="11dp"
+        android:height="11dp" />
+</layer-list>

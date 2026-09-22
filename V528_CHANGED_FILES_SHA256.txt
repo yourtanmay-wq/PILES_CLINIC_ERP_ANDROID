@@ -1,0 +1,8 @@
+# V528 — পরিবর্তিত ফাইল ও SHA256 (২২.০৮.২০২৬)
+
+89c0d828139bbd778dbe2cf8ee7adcbf51085f6d41ae1d04da020b618e9c25e7  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/build.gradle.kts
+51e56e8ce235f9a183a6de00c6da396b533bff31c6df0feb1d6c0d6149fc7d45  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt
+0512d3de35fda75e38d56243b86da9085ecdbb18aa0a55a6bd16ce6ea335bfbb  03_NETLIFY_READY/index.html
+6dc18534d65868e423985337c8a14c0ab76cb2afa9e9c05dc318a89bbe6f970e  03_NETLIFY_READY/version.json
+3407a5618efc9484bc2115bf76ec9b62585b3d6004d3d9c98e4ba1e2d6a449eb  V528_CHANGED_FILES_SHA256.txt
+a16bdc3564983c7222d53077883df8ae887528a05e74019a2e289feb5f066fd1  V528_WORK_LOG_FINGERPRINT_FINAL_2026-08-22.md

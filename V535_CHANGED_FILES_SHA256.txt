@@ -1,0 +1,6 @@
+# V535 — বদলানো ফাইলের SHA256 (২২.০৮.২০২৬)
+
+288988672273cc875c5cefb8a822cc5dd5abbf25aa885aa5d7e94d09bb0bfb68  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/build.gradle.kts
+e23a4fd874b5e221de72d1a162e725dda8668db8cf8acec1a64f4c8b4fbf7ec0  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/native/ChamberAttendanceRepository.kt
+7fd44a2717fa20277872cf125fe694ea340ad282d5c287c132bd75c4a265b32d  03_NETLIFY_READY/index.html
+52532b8321275e483c507532598f0f218acb0b015959ed08a5301798c7e12221  03_NETLIFY_READY/version.json

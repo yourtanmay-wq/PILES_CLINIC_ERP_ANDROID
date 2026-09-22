@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-APPROVED REDESIGN (2026-07-20): bigger photo, name+mobile stacked and
+     prominent, disease/branch/ID line, and three side-by-side buttons
+     (Full Journey / Check-up / Action). Summary & Print removed per TK. -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="3dp"
+    app:cardBackgroundColor="@color/clinic_card">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/ivQueuePhoto"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginEnd="12dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/bg_circle_gradient"
+                android:contentDescription="Patient photo" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Patient Name"
+                    android:textSize="13.5sp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/clinic_text_primary" />
+
+                <TextView
+                    android:id="@+id/tvMeta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="9999999999"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/brand_blue" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="3dp"
+                android:background="@drawable/bg_badge"
+                android:text="WAITING"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvDiseaseBranch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Disease · Branch · ID"
+            android:textSize="11sp"
+            android:textColor="@color/brand_blue" />
+
+        <!-- 🩺🔒 V839 — NEXT VISIT PLAN-এর ট্যাগ (TK-নির্দেশ, ফটো-প্রুফ পাশ)।
+             ⛔ শুরুতে **লুকানো** — প্ল্যান না থাকলে কার্ড হুবহু আগের মতোই
+                দেখাবে (TK: "LAST PLAN না থাকলে যেন card থেকে হাইড হয়ে যায়")।
+             ⛔ কার্ডের আর কিছু (নাম · মোবাইল · রোগ · বোতাম) ছোঁয়া হয়নি। -->
+        <TextView
+            android:id="@+id/tvNvpTag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingStart="9dp"
+            android:paddingEnd="9dp"
+            android:background="@drawable/bg_nvp_tag"
+            android:textSize="11sp"
+            android:lineSpacingExtra="2dp"
+            android:textColor="#0B3D91"
+            android:visibility="gone" />
+
+        <!-- 📏🔒 V976 (০২.০৯.২০২৬, TK-নির্দেশ ও পাশ-করা ফটো-প্রুফ) —
+     *"উচ্চতা কম হবে প্রতিটা বক্সের"* ও *"ফন্টের সাইজ আরো একটু ছোট করুন"*।
+     ⇒ ছবি ৫৬→৪৬dp · কার্ডের প্যাডিং ১৪→১০dp · নাম ১৫→১৩.৫sp ·
+       নম্বর ১৫→১৩sp · রোগ-লাইন ১২→১১sp · বোতাম ৩৪→৩০dp ও ১০.৫→৯.৫sp ·
+       বাক্সগুলোর মাঝের ফাঁক ৮/১০→৬dp। এক পর্দায় প্রায় দ্বিগুণ রোগী দেখা যায়।
+     ⛔ কোনো ঘর · বোতাম · রং · কাজ বাদ যায়নি — শুধু মাপ ছোট। -->
+    <!-- 🩺🔒 V951 (০১.০৯.২০২৬, TK-নির্দেশ, ফটো-প্রুফ পাশ) — আজ ট্রিটমেন্টের টাকা
+             জমা দেওয়া পুরনো রোগীর কার্ডে: বিল · আজ জমা · বাকি, আর তার নিচে
+             গত ট্রিটমেন্ট ও প্ল্যান (ফলো-আপ কার্ডের সেই একই সবুজ ডটেড বাক্স)।
+             ⛔ দুটোই ডিফল্ট gone — নতুন রোগীর কার্ড হুবহু আগের মতোই থাকে। -->
+        <LinearLayout
+            android:id="@+id/boxMoney"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+            <TextView android:id="@+id/tvMoneyBill" style="@style/QueueMoneyCell" />
+            <TextView android:id="@+id/tvMoneyPaid" style="@style/QueueMoneyCell" />
+            <TextView android:id="@+id/tvMoneyDue"  style="@style/QueueMoneyCell" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvLastTreat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingStart="9dp"
+            android:paddingEnd="9dp"
+            android:background="@drawable/bg_nvp_tag"
+            android:textSize="11sp"
+            android:lineSpacingExtra="2dp"
+            android:textColor="#1B2B3A"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:gravity="center_vertical"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <!-- TK APPROVED (2026-07-28, full-screen photo proof): four buttons
+                 side by side, a little smaller, with an even gap between them.
+                 Journey + Report Card share one colour, Check-up + Action the
+                 other. Only these buttons change; the card, the patient details
+                 and every existing action stay exactly as they were. -->
+            <Button
+                android:id="@+id/btnFullJourney"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/bg_btn_purple"
+                android:text="History"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:textSize="9.5sp"
+                android:maxLines="1"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:padding="0dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:elevation="0dp"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/btnReportCard"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/bg_btn_purple"
+                android:text="Report Card"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:textSize="9.5sp"
+                android:maxLines="1"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:padding="0dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:elevation="0dp"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/btnCheckup"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_action_view"
+                android:text="Check-up"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:textSize="9.5sp"
+                android:maxLines="1"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:padding="0dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:elevation="0dp"
+                android:stateListAnimator="@null" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

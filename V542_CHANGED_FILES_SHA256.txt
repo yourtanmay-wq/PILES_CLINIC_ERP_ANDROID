@@ -1,0 +1,8 @@
+# V542 — বদলানো ফাইলের SHA256 (২২.০৮.২০২৬)
+
+9a94e13789bcbda5bef1bde0e78ba7ca37efc3644db8dce1b9b1ac616b6b6e47  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/build.gradle.kts
+2e98786eae95a449f84f4a03b5d0dfcb156d567965fc5520830cbdbb1bf0e506  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt
+55e423f542f5a01ff5bb7fae12dc04c53442802f1129969814a4c5d3a752e5fa  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/res/layout/activity_doctor_checkup.xml
+39ebd8b5213649634b237416f292583b736a9fc4f9580187a05c8e92eb8d7a61  03_NETLIFY_READY/app.js
+329b9ddaea011717c1568fc8d9b5216c92e5d88733c33454030ee9c12ed54f62  03_NETLIFY_READY/index.html
+aba01a595b3b6499ff8b7d8f84e7c58cdbfc50e5235c50da41eaac8e2aecac52  03_NETLIFY_READY/version.json

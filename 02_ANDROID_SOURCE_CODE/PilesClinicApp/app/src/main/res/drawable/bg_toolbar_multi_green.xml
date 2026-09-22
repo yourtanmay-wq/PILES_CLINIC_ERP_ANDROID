@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    🔴🎨🔒 খাতার সারি B435 (TK-নির্দেশ, 05.08.2026 — "কোন নেভি ব্লু কালার
+    চলবে না, মাল্টি গ্রিন কালার রাখুন")।
+
+    TK-এর স্পষ্ট নির্দেশ: এই বড় কাজ (পুরো অ্যাপ) TK নিজে ধাপে ধাপে, স্ক্রিন
+    ধরে ধরে করাবেন — এখন শুধু Doctor Note স্ক্রিন। তাই এই নতুন, আলাদা
+    drawable বানানো হলো — শেয়ার্ড `bg_login_hero.xml` (Login-সহ আরও অনেক
+    স্ক্রিনের টুলবার এখনো এটাই ব্যবহার করে) এক বিন্দুও ছোঁয়া হয়নি, নইলে
+    ওই সব স্ক্রিনও এখনই বদলে যেত।
+
+    তিনটে সবুজ শেড (প্রজেক্টে আগে থেকেই ব্যবহৃত রং থেকে) — গাঢ় থেকে হালকা।
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:type="linear"
+        android:angle="315"
+        android:startColor="#0B3D24"
+        android:centerColor="#0C9E33"
+        android:endColor="#34D399" />
+</shape>

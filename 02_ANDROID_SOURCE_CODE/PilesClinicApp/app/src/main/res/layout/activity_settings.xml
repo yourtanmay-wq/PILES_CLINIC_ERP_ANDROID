@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <!-- TK-REPORTED BUG FIX (2026-07-25): this header was locked to a
+         fixed 48dp when the headers were made smaller, so any title that
+         needs two lines (or a title plus the patient name/ID line under it)
+         had its lower line cut off. Height is now "only as much as the text
+         needs", with 48dp as the MINIMUM . short titled screens stay exactly
+         as small as they are now, and only a long title grows, by about
+         8dp. -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:background="@drawable/bg_login_hero"
+        app:titleTextColor="@color/white"
+        app:title="App Settings" />
+
+    <TextView
+        android:id="@+id/tvReadOnlyNotice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/clinic_accent_amber"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:visibility="gone"
+        android:text="View only — Staff cannot change app-wide settings." />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Session -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp" app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/clinic_card"
+                android:layout_marginBottom="14dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="Session" android:textStyle="bold" android:textSize="16sp"
+                        android:textColor="@color/clinic_text_primary" />
+                    <TextView
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp" android:textSize="12sp"
+                        android:textColor="@color/clinic_text_secondary"
+                        android:text="Auto sign-out after this many minutes of inactivity" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp" android:hint="Session timeout (minutes)">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etSessionTimeout"
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSaveSessionTimeout"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_btn_green"
+                        app:backgroundTint="@null"
+                        android:textColor="@color/white"
+                        android:text="Save" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Auto Sync -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp" app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/clinic_card"
+                android:layout_marginBottom="14dp">
+                <LinearLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:padding="16dp"
+                    android:gravity="center_vertical">
+                    <LinearLayout
+                        android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:text="Auto Sync" android:textStyle="bold" android:textSize="16sp"
+                            android:textColor="@color/clinic_text_primary" />
+                        <TextView
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:textSize="12sp" android:textColor="@color/clinic_text_secondary"
+                            android:text="Sync automatically in the background" />
+                    </LinearLayout>
+                    <Switch
+                        android:id="@+id/switchAutoSync"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Crash Logging -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp" app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/clinic_card"
+                android:layout_marginBottom="14dp">
+                <LinearLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="16dp">
+                    <LinearLayout
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:gravity="center_vertical">
+                        <LinearLayout
+                            android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent" android:layout_height="wrap_content"
+                                android:text="Crash Logging" android:textStyle="bold" android:textSize="16sp"
+                                android:textColor="@color/clinic_text_primary" />
+                            <TextView
+                                android:layout_width="match_parent" android:layout_height="wrap_content"
+                                android:textSize="12sp" android:textColor="@color/clinic_text_secondary"
+                                android:text="Save a local log file if the app crashes" />
+                        </LinearLayout>
+                        <Switch
+                            android:id="@+id/switchCrashLogging"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvLastCrash"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp" android:textSize="12sp"
+                        android:textColor="@color/clinic_text_secondary"
+                        android:text="No crash recorded." />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnViewCrashLog"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_btn_silver"
+                        app:backgroundTint="@null"
+                        android:textColor="#1B2432"
+                        android:elevation="3dp"
+                        android:text="View Last Crash Log" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Backup & Restore -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp" app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/clinic_card"
+                android:layout_marginBottom="14dp">
+                <LinearLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="16dp">
+                    <TextView
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="Backup &amp; Restore" android:textStyle="bold" android:textSize="16sp"
+                        android:textColor="@color/clinic_text_primary" />
+                    <TextView
+                        android:id="@+id/tvBackupStatus"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp" android:textSize="12sp"
+                        android:textColor="@color/clinic_text_secondary"
+                        android:text="No backups yet." />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnBackupNow"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_btn_green"
+                        app:backgroundTint="@null"
+                        android:textColor="@color/white"
+                        android:text="Backup Now" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRestoreLatest"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_btn_silver"
+                        app:backgroundTint="@null"
+                        android:textColor="#1B2432"
+                        android:elevation="3dp"
+                        android:text="Restore Latest Backup" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

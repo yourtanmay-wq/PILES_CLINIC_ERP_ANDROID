@@ -1,0 +1,6 @@
+# V545 — বদলানো ফাইলের SHA256 (২২.০৮.২০২৬)
+
+41db9dabbc2c354e714c6027adf270441c6d8e431fca41165774f39fad3650dc  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/build.gradle.kts
+9d55c87b8717f882bbeb8ced65f3b043cf78a7a288d1c48cf855e5aea67bdaa8  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/clinical/MedicinePickerDialog.kt
+511190fc7db07ad2295ade9ebe17581e79bc3058a3db2d0f5151094a292c5ed5  03_NETLIFY_READY/index.html
+772d7bc6f61d24e05845b065265ad4282fdd2f0e2a297de965251db8899dfd3b  03_NETLIFY_READY/version.json

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🎨 V1084 (০৫.০৯.২০২৬, TK-এর পাঠানো নকশা) — হোমের সাদা কার্ড। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF" />
+    <corners android:radius="14dp" />
+</shape>

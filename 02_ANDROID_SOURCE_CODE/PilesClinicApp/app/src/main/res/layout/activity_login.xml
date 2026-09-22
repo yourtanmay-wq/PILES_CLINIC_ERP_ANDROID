@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header / brand banner, matches styles.css .hero gradient -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="56dp"
+            android:paddingBottom="40dp"
+            android:background="@drawable/bg_login_hero">
+
+            <ImageView
+                android:id="@+id/ivClinicLogo"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginEnd="14dp"
+                android:src="@drawable/ic_maa_ayurved_logo"
+                android:contentDescription="Maa Ayurved Piles Clinic Logo" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="start">
+
+                <TextView
+                    android:id="@+id/tvClinicName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TK BISWAS"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.02" />
+
+                <TextView
+                    android:id="@+id/tvClinicName2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="MAA AYURVED PILES CLINIC"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.02" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Login card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_marginTop="-24dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/clinic_card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="22dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mobile Number"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/clinic_text_secondary" />
+
+                <EditText
+                    android:id="@+id/etMobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_input_field"
+                    android:paddingHorizontal="14dp"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:textColor="#10223A"
+                    android:textColorHint="@color/field_hint"
+                    android:autofillHints="username"
+                    android:hint="Enter mobile number" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Password"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/clinic_text_secondary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/bg_input_field"
+                    android:gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:paddingHorizontal="14dp"
+                        android:inputType="textPassword"
+                        android:textColor="#10223A"
+                        android:textColorHint="@color/field_hint"
+                        android:autofillHints="password"
+                        android:hint="Enter password" />
+
+                    <ImageButton
+                        android:id="@+id/btnTogglePassword"
+                        android:layout_width="44dp"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="Show/Hide password"
+                        android:src="@android:drawable/ic_menu_view" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text=""
+                    android:textColor="@color/clinic_accent_red"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/btnLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/bg_login_button_green"
+                    android:backgroundTint="#07883F"
+                    app:backgroundTint="#07883F"
+                    android:text="Login"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+            android:textAllCaps="false" />
+
+                <!-- 🔒🔒 V527 (২২.০৮.২০২৬, TK-নির্দেশ): *"পাসওয়ার্ড অথবা
+                     Fingerprint, তবে Fingerprint-এর আগে থাকবে।"*
+                     এই ফোনে আগে কেউ লগইন করে থাকলে **তবেই** দেখা যায় (কোডে
+                     VISIBLE/GONE) — নইলে পর্দা অবিকল আগের মতোই। -->
+                <Button
+                    android:id="@+id/btnFingerprint"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_login_button_green"
+                    android:backgroundTint="#0B4F8A"
+                    app:backgroundTint="#0B4F8A"
+                    android:text="🔒 Use Fingerprint"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/progressLogin"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvForgot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="14dp"
+                    android:padding="6dp"
+                    android:text="Forgot Password?"
+                    android:textColor="@color/brand_blue"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

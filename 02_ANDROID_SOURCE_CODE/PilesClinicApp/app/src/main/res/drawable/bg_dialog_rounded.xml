@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-DECISION (2026-07-22): professional popup look, applied to EVERY
+     AlertDialog via alertDialogTheme (no per-dialog code). Rounded white card
+     with a navy accent strip across the top so no popup looks plain/bland. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- navy accent behind the top edge -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#0B2B59" />
+            <corners android:radius="22dp" />
+        </shape>
+    </item>
+    <!-- white card body, leaving a thin navy strip showing at the very top -->
+    <item android:top="8dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+            <corners
+                android:topLeftRadius="2dp"
+                android:topRightRadius="2dp"
+                android:bottomLeftRadius="22dp"
+                android:bottomRightRadius="22dp" />
+            <padding android:left="4dp" android:top="10dp" android:right="4dp" android:bottom="4dp" />
+        </shape>
+    </item>
+</layer-list>

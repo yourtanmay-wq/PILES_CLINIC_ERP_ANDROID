@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🎨 V1084 — হোমের সবুজ হিরো (TK-এর নকশার রং)। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient android:type="linear" android:angle="200"
+        android:startColor="#0B4A2A" android:centerColor="#0A5C33" android:endColor="#0E6B3C" />
+    <corners android:radius="16dp" />
+</shape>

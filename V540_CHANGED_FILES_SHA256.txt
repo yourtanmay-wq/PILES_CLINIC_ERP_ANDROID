@@ -1,0 +1,8 @@
+# V540 — বদলানো ফাইলের SHA256 (২২.০৮.২০২৬)
+
+0a33afcdf3a27eefa8362990f3fe186005129a9c5c01b126d40dc9574e29545d  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/build.gradle.kts
+8c7dbd6e83732e7d99dcd36dce66c1fe4ae96c4743390abf802215afd9c63890  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt
+77144f4af59f0d0b751a5c009cc5f882118705d68ac6efa45fe7471b073b4cac  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/native/SpinnerPicker.kt
+77070f041a590badd3e54dce0366d9150a59d2216a285445033b790c9140e045  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/res/layout/activity_doctor_checkup.xml
+89a1272e5ab82eca2ffdbc94a5da0397b2feb2ecd888f4ac623d4161b9e523ca  03_NETLIFY_READY/index.html
+cf7855183fbf9b37506978bbc53ee811d6e435a9ca4f0e752708a34bc93cc575  03_NETLIFY_READY/version.json

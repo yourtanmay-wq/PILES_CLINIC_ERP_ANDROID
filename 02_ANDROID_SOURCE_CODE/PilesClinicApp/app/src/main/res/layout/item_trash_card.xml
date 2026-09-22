@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  🔴🔴🔒 V511 (২১.০৮.২০২৬, TK-অনুমোদিত প্রুফ) — **Trash Bin-এর ছোট কার্ড।**
+
+  TK-এর কথা (হুবহু): *"এই জিনিসটা দেখে আমি বুঝতেই পারছি না কোন পেশেন্টকে
+  রিস্টোর করব বা কোন পেশেন্টকে ডিলিট ফরএভার করব... এখানে ভিউ একটা অপশন থাকার
+  দরকার ছিল... এই কার্ডেই পেশেন্টের সম্পূর্ণ ডিটেলস ছোট আকারে দেখানো থাকবে...
+  restore and delete forever এগুলি পাশাপাশি থাকবে... কার্ডগুলি যত ছোট রাখা যায়...
+  অনেকগুলো একসাথে সিলেক্ট করা যাবে তারও ব্যবস্থা রাখতে হবে।"*
+  আরও: *"আপনি এখানে নেভি ব্লু কালার দিয়েছেন, যদিও আপনাকে নেভি ব্লু কালার দিতে
+  বারণ করেছি"* — তাই এখানে নেভি ব্লু **কোথাও নেই**:
+  View = উজ্জ্বল নীল · Restore = সবুজ · Delete = লাল।
+
+  আগে: নামের নিচে দুটো **পুরো চওড়া** বোতাম (৪২dp করে) — এক পর্দায় ২টার বেশি
+  কার্ড ধরত না, আর কার্ডে নাম ছাড়া কিছুই থাকত না।
+  এখন: এক কার্ডেই নাম · মোবাইল · আইডি · ব্রাঞ্চ · রোগ/টাকা · কে কবে মুছেছে,
+  আর তিনটে বোতাম **পাশাপাশি** (৩৪dp) — এক পর্দায় ৪–৫টা ধরে।
+-->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="0dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/clinic_card">
+
+    <LinearLayout
+        android:id="@+id/cardBody"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="9dp">
+
+        <!-- সারি ১ · টিক-ঘর (শুধু Select মোডে) + নাম -->
+        <!-- 🟢🔒🔒 V660 (২৫.০৮.২০২৬, TK-নির্দেশ, ছবি-প্রুফ পাশ) — tvWhen
+             (কবে মোছা হয়েছে) আগে এই সারিতে নামের পাশে (ডানে) ছিল, ছোট
+             ২-লাইনের লেখা। এখন সেটা tvBy-র সাথে জুড়ে (whenAndBy()) অনেক
+             লম্বা একটা লাইন হয়ে গেছে ("🗑 তারিখ, সময় · Deleted by নাম") —
+             তাই এখান থেকে সরিয়ে নিচে নিজের সারিতে বসানো হলো (আগে tvBy
+             যেখানে ছিল)। ⛔ tvWhen view/id মোছা হয়নি, শুধু XML-এ জায়গা বদল। -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <CheckBox
+                android:id="@+id/cbPick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="0dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Record"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/clinic_text_primary" />
+        </LinearLayout>
+
+        <!-- সারি ২ · ছোট চিপ — কোথা থেকে · ব্রাঞ্চ · রোগ/টাকা -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/tvChipSrc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chip_blue"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:text="FOLLOW-UP"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#1167D8" />
+
+            <TextView
+                android:id="@+id/tvChipBranch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_chip_green"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:text=""
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#12813F" />
+
+            <TextView
+                android:id="@+id/tvChipExtra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_chip_red"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:text=""
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#B42222"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- সারি ৩ · মোবাইল · আইডি -->
+        <TextView
+            android:id="@+id/tvLine1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text=""
+            android:textSize="12sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#33465C" />
+
+        <!-- সারি ৪ · টেবিল অনুযায়ী বাকি ডিটেলস -->
+        <TextView
+            android:id="@+id/tvLine2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="12sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="#33465C" />
+
+        <!-- সারি ৫ · কবে মোছা + কে মুছেছেন, একই লাইনে (V660, TK-নির্দেশ) -->
+        <TextView
+            android:id="@+id/tvWhen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_chip_amber"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:text=""
+            android:textSize="10.5sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#8A5A00" />
+
+        <!-- 🟢🔒 V660 — পুরনো tvBy view/id মোছা হয়নি (TK-নিয়ম), শুধু সবসময়
+             লুকানো (উপরের tvWhen-এই এখন এই তথ্য আছে)। -->
+        <TextView
+            android:id="@+id/tvBy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text=""
+            android:textSize="10.5sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/clinic_text_secondary"
+            android:visibility="gone" />
+
+        <!-- সারি ৬ · তিনটে বোতাম পাশাপাশি (TK-নির্দেশ, ২৫.০৮.২০২৬-এ আরও ছোট) -->
+        <LinearLayout
+            android:id="@+id/rowButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="7dp">
+
+            <Button
+                android:id="@+id/btnView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="26dp"
+                android:background="@drawable/bg_trash_btn_view"
+                android:textColor="#2F6E80"
+                android:text="👁 View"
+                android:textSize="11sp"
+                android:padding="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+            <Button
+                android:id="@+id/btnRestore"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="26dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/bg_trash_btn_restore"
+                android:textColor="#2F7A4B"
+                android:text="♻ Restore"
+                android:textSize="11sp"
+                android:padding="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+            <!-- TK APPROVED (2026-07-20): permanent "Delete Forever".
+                 Only Master ever sees it (hidden from TrashBinActivity). -->
+            <Button
+                android:id="@+id/btnDeleteForever"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="26dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/bg_trash_btn_delete"
+                android:textColor="#A4453A"
+                android:text="🗑 Delete"
+                android:textSize="11sp"
+                android:padding="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

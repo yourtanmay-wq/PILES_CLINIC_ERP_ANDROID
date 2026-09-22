@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <!-- TK-REPORTED BUG FIX (2026-07-25): this header was locked to a
+         fixed 48dp when the headers were made smaller, so any title that
+         needs two lines (or a title plus the patient name/ID line under it)
+         had its lower line cut off. Height is now "only as much as the text
+         needs", with 48dp as the MINIMUM . short titled screens stay exactly
+         as small as they are now, and only a long title grows, by about
+         8dp. -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:background="@drawable/bg_login_hero"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:titleTextColor="@color/white"
+        app:title="Medicine Slip — Preview" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@color/clinic_accent_amber"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingTop="10dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddSlipList"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:text="Medicine List" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddSlipCustom"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:text="Add Outside List" />
+    </LinearLayout>
+
+    <!-- TK-DECISION (2026-07-22): the old "⭐ Apply Common Medicine Slip"
+         button was removed; "Apply Common" now lives inside the Add-from-list
+         picker (beside the search box) as a "⭐ Common" chip — same as
+         Prescription, one less step. -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="14dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/clinic_card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:id="@+id/tvSlipClinicName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TK Biswas Piles Clinic"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:textColor="@color/clinic_primary" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@color/clinic_divider" />
+
+                <TextView
+                    android:id="@+id/tvPatientLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/clinic_text_primary"
+                    android:text="" />
+
+                <TextView
+                    android:id="@+id/tvDateLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textSize="13sp"
+                    android:textColor="@color/clinic_text_secondary"
+                    android:text="Date: --" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="Rx"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@color/clinic_primary" />
+
+                <TextView
+                    android:id="@+id/tvMedicineList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textSize="14sp"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/clinic_text_primary"
+                    android:text="No medicines in prescription yet." />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="14dp"
+                    android:background="@color/clinic_divider" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="_______________________\nDoctor's Signature"
+                    android:textSize="12sp"
+                    android:textColor="@color/clinic_text_secondary" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="@color/clinic_card">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShareText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_btn_navy" app:backgroundTint="@null"
+            android:textColor="@color/white"
+            android:text="📤 Share PDF" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPrint"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_btn_green" app:backgroundTint="@null"
+            android:textColor="@color/white"
+            android:text="Print / PDF" />
+    </LinearLayout>
+</LinearLayout>

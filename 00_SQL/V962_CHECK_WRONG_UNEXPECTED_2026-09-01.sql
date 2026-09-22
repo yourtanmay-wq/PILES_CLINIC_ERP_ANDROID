@@ -1,0 +1,46 @@
+-- 🔎 শুধু পড়া — কিচ্ছু বদলায় না। কারা ভুলভাবে "Unexpected Time" হয়ে আছে।
+-- এনকোয়ারিটা আসলে কখন নেওয়া হয়েছিল (ভারতীয় সময়) সেটা দেখে বিচার:
+--   সকাল ৯.০০ – সন্ধ্যা ৬.০০  ⇒ OFFICIAL হওয়ার কথা ছিল
+--   তার বাইরে                ⇒ সত্যিই UNEXPECTED
+with p as (
+  select
+    x.id, x."patientId" as patient_code, x.name, x.mobile,
+    left(coalesce(nullif(x."registrationDate",''), x."date", ''),10) as reg_date,
+    right(regexp_replace(coalesce(x.mobile,''),'\D','','g'),10) as mob10
+  from public.patients x
+  where coalesce(x."timeType",'') = 'Unexpected Time'
+    and left(coalesce(nullif(x."registrationDate",''), x."date", ''),10) >= '2026-08-18'
+), e as (
+  select distinct on (p.id)
+    p.id,
+    q."timeType" as enquiry_timing,
+    q."receivedBy" as enquiry_by,
+    case when q."createdAt" ~ '^\d{4}-\d{2}-\d{2}T'
+         then (q."createdAt")::timestamptz at time zone 'Asia/Kolkata' end as enq_ist
+  from p
+  left join public.enquiries q
+    on right(regexp_replace(coalesce(q.mobile,''),'\D','','g'),10) = p.mob10
+  order by p.id, coalesce(q."createdAt", q."date", '') desc
+), m as (
+  select
+    p.id,
+    coalesce(sum(case when coalesce(s.status,'PAID') <> 'DUE' then s.amount else 0 end),0) as extra_paid,
+    coalesce(sum(case when coalesce(s.status,'PAID')  = 'DUE' then s.amount else 0 end),0) as extra_due
+  from p
+  left join hr.salary_payments s on s.src_key like 'INC:%:' || p.id || ':%'
+  group by p.id
+)
+select
+  p.patient_code, p.name, p.mobile, p.reg_date,
+  e.enquiry_timing,
+  to_char(e.enq_ist, 'DD.MM.YYYY  HH12:MI AM') as enquiry_taken_at,
+  case
+    when e.enq_ist is null then 'সময় জানা নেই'
+    when e.enq_ist::time between time '09:00' and time '18:00' then 'OFFICIAL হওয়ার কথা'
+    else 'সত্যিই UNEXPECTED'
+  end as verdict,
+  m.extra_paid, m.extra_due
+from p
+left join e on e.id = p.id
+left join m on m.id = p.id
+order by verdict, p.reg_date desc, p.patient_code;

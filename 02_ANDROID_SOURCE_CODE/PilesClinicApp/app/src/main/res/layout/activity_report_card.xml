@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-APPROVED (2026-07-20): Report Card — paper-register style Patient
+     Progress Report. Branch header (name/address/phone/logo watermark),
+     three totals (Bill/Paid/Due), and a Visit/Date/Progress/Paid/Due table
+     built programmatically into `tableContainer`. Print/PDF button at the
+     bottom. Rows are 3-tap editable (rules enforced in the Activity). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#EAF0F4">
+
+    <!-- top app bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_login_hero"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="6dp">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:paddingEnd="12dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="📋 Report Card"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnPrint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🖨 Print"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_btn_green"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="7dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/reportContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp" />
+    </ScrollView>
+</LinearLayout>

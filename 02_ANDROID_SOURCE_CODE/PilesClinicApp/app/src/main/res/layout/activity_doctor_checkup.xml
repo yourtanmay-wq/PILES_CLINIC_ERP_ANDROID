@@ -1,0 +1,1715 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 📏🔒 V1231 (০৮.০৯.২০২৬, TK-নির্দেশ ছবিসহ: *"প্রতিটা বক্সের উচ্চতা একটু কম
+     করুন"* — CHECK-UP পর্দা)। প্রতিটা সাদা বক্সের **ভিতরের ফাঁক ১৬dp → ১০dp** ও
+     **উপরের ফাঁক ১০dp → ৬dp**। ⇒ প্রতিটা বক্স প্রায় ১৬dp করে ছোট, তাই এক পর্দায়
+     বেশি দেখা যায়।
+     ⛔ বদলটা **শুধু এই ফাইলেই** — `RegCard`/`RegCardInner` স্টাইল দুটো ছোঁয়া
+        হয়নি, তাই Registration সহ বাকি সব পর্দা এক চুলও বদলায়নি।
+     ⛔ কোনো ঘর · লেখা · সেভ · ভাঁজ-খোলার নিয়ম বদলায়নি — শুধু ফাঁক। -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_silver_screen">
+
+    <!-- TK-REPORTED BUG FIX (2026-07-25): this header was locked to a
+         fixed 48dp when the headers were made smaller, so any title that
+         needs two lines (or a title plus the patient name/ID line under it)
+         had its lower line cut off. Height is now "only as much as the text
+         needs", with 48dp as the MINIMUM . short titled screens stay exactly
+         as small as they are now, and only a long title grows, by about
+         8dp. -->
+    <!-- 🔴🎨🔒 TK-নির্দেশ (06.08.2026, স্পষ্ট করে দ্বিতীয়বার বলার পরে) —
+         টুলবার/হেডার বার সম্পূর্ণ বাদ (সবুজ রং, তীর-চিহ্ন — কিছুই থাকবে
+         না)। রোগীর কার্ডই এখন পাতার একদম উপরে প্রথম জিনিস। ⛔ পিছনে
+         ফেরার জন্য ফোনের নিজের Back (গেসচার/বোতাম) কাজ করবে — এই স্ক্রিনে
+         আলাদা কোনো `onBackPressed` override নেই, তাই Android-এর স্বাভাবিক
+         নিয়মেই আগের পর্দায় ফিরবে। DoctorCheckupActivity.kt-এর টুলবার-
+         সংক্রান্ত তিন লাইনও (findViewById/setSupportActionBar/
+         setNavigationOnClickListener) সরানো হয়েছে। -->
+
+    <TextView
+        android:id="@+id/tvReadOnlyNotice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@color/clinic_accent_amber"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="View only — Staff cannot edit. Showing last saved record." />
+
+    <!-- Patient's Details header -->
+    <!-- 🔒 TK-LOCKED DESIGN (04.08.2026, ফটো-প্রুফে "লক করুন") — পুরনো ছোট
+         কার্ড-হেডার সরিয়ে Patient Timeline/Follow-up 👁 View-এর হুবহু একই
+         হেডার-স্টাইল বসানো হলো (ক্রিম ব্যাকগ্রাউন্ড, ৬২dp চৌকো ছবি লেখার
+         ব্লকের মাঝ বরাবর, মোবাইল+কল-বোতাম একই লাইনে, তার নিচে নাম/
+         ব্রাঞ্চ-রোগ/লিঙ্গ-বয়স/ঠিকানা/ID) — উপরে একটা আলাদা গাঢ় "PATIENT'S
+         DETAILS" হেডলাইন-বার, যাতে টুলবার আর রোগীর তথ্য স্পষ্ট আলাদা বোঝা
+         যায়। ⛔ এই বদল শুধু এই স্ক্রিনেই — Patient Timeline-এর নিজের
+         হেডার/কোড এতটুকু ছোঁয়া হয়নি (রং-এর জন্য শুধু তার একই ড্রয়েবল
+         পুনর্ব্যবহার করা হয়েছে)। -->
+    <!-- 🔴🎨🔒 খাতার সারি B431 (TK-নির্দেশ, 05.08.2026, মকআপ দেখিয়ে "ঠিক
+         আছে" বলার পরে) — এই পূর্ণ কার্ডটা এখন **শুধু "1 History & Previous"
+         ধাপে** দেখা যায়; বাকি ৪টা ধাপে (Clinical/Counsel/Estimate/Photo)
+         একদম সংকুচিত এক-লাইনের বার (নিচে `patientDetailsCollapsed`)
+         দেখায়, যাতে ক্লিনিক্যাল ঘরগুলোর জন্য বেশি জায়গা থাকে। id বসানো
+         হলো `patientDetailsFull` — টগল করার জন্য (`DoctorCheckupActivity.
+         showStep()`)। ⛔ এই কার্ডের ভেতরের কিছুই বদলায়নি, শুধু id যোগ। -->
+
+    <!-- 🔴🎨🔒 B431 (TK-নির্দেশ, 05.08.2026, মকআপে "ঠিক আছে") — সংকুচিত
+         এক-লাইনের রোগীর-তথ্য বার। শুধু "2 Clinical"/"3 Counsel"/"4 Estimate
+         & Decision"/"5 Photo & Video" ধাপে দেখা যায় (`showStep()`-এ টগল)।
+         "কোন নাম/লেখা যেন দু লাইনে বা ব্রেক না হয়" (TK) — তাই প্রতিটা
+         TextView `singleLine`, নাম Patient ID-র প্রমাণিত কৌশলে ছোট হয়ে
+         ধরে (কখনো wrap না), বাকিগুলো দরকারে "…" দিয়ে কাটে কিন্তু কখনো
+         নিচের লাইনে নামে না। ⛔ পূর্ণ কার্ডের কোনো ডেটা/লজিক ছোঁয়া হয়নি —
+         এটা শুধু একই তথ্যের আলাদা, ছোট প্রদর্শন। -->
+    <LinearLayout
+        android:id="@+id/patientDetailsCollapsed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_rounded_white_16"
+        android:clipToOutline="true"
+        android:elevation="4dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="9dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvPatientNameMini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Patient"
+            android:textColor="#10223A"
+            android:textStyle="bold"
+            android:textSize="13.5sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:text="·"
+            android:textColor="#98A2B3"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tvPatientMobileMini"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="—"
+            android:textColor="#4A5A6B"
+            android:textSize="12.5sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/tvPatientRegMini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_id_badge_purple"
+            android:paddingHorizontal="7dp"
+            android:paddingVertical="3dp"
+            android:text="—"
+            android:textColor="@color/white"
+            android:textSize="9.5sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <!-- 🎨 (07.08.2026, প্রুফ-চেহারা, TK-অনুমোদিত) — ৫টা ধাপ-চিপ এখন সমান ভাগে
+         এক লাইনে বসে (আগে HorizontalScrollView-এ পিল বড় হয়ে ৩টার পর ডান দিকে
+         বেরিয়ে যেত)। layout_weight কাজ করতে match_parent দরকার, তাই scroll-view
+         সরিয়ে সরাসরি LinearLayout (id/stepBar অপরিবর্তিত)। চিপ তৈরি হয়
+         DoctorCheckupActivity.wireSteps()-এ। আগের কোড:
+         <HorizontalScrollView ... paddingHorizontal=12dp>
+             <LinearLayout id=stepBar width=wrap_content orientation=horizontal/>
+         </HorizontalScrollView> -->
+    <!-- 🎨🔒 V776 (২৮.০৮.২০২৬, TK-অনুমোদিত **ডিজাইন B**, ডেমো ফটো দেখে বাছা)
+         TK: *"হেডার উপরে রাখতে হবে, 1-5 তার নিচে"* — আর স্ক্রল করলে দুটোই
+         উপরে উঠে যাবে (TK নিজে B বেছেছেন, A নয়)।
+         ⇒ তাই 5টা ধাপ-চিপের সারিটা এখান থেকে (পাতার উপরে, স্থির) তুলে
+           **`flipper`-এর ভিতরে, রোগীর কার্ডের ঠিক পরে** বসানো হলো — নিচে দেখুন।
+         ⛔ চিপ তৈরির কোড (`wireSteps()`), চাপলে কী হয় (`showStep()`), id —
+            কিচ্ছু বদলায়নি; শুধু XML-এ জায়গা বদলেছে।
+         ⛔ ধাপ 2-5-এ উপরের এক-লাইনের রোগীর-বার (`patientDetailsCollapsed`)
+            আগের মতোই স্থির থাকে, তাই রোগীর পরিচয় সবসময় চোখে থাকে। -->
+
+    <!-- 🎨🔒 V897 (৩১.০৮.২০২৬, TK ডেমো প্রুফ দেখে **"হ্যাঁ পাশ, বসিয়ে দিন"**) —
+         TK: *"স্ক্রোল করার সময় 1-5 স্টিল থাকতে হবে … হলুদ কার্ডটা স্ক্রোল হবে"*।
+         ⇒ 5টা ধাপের সারিটা স্ক্রলের **বাইরে** (উপরে স্থির) ফিরে এলো; রোগীর
+           হলুদ কার্ড আগের মতোই স্ক্রলের ভিতরেই থাকল, তাই সেটা উপরে উঠে যায়।
+         ⛔ id `stepBar` এক অক্ষরও বদলায়নি — `wireSteps()`/`showStep()` আগের
+            মতোই কাজ করে; শুধু XML-এ জায়গা বদলেছে (V776-এর উল্টো)। -->
+    <LinearLayout
+        android:id="@+id/stepBarWrap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_step_bar"
+        android:elevation="3dp"
+        android:paddingTop="9dp"
+        android:paddingBottom="7dp">
+        <LinearLayout android:id="@+id/stepBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="8dp" />
+    </LinearLayout>
+
+    <!-- Section content (one step at a time) -->
+    <ScrollView android:id="@+id/stepScroll" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:layout_marginTop="6dp">
+        <!-- 🔴🎨🔒 TK-নির্দেশ (07.08.2026, scroll_A/B/C মকআপ অনুযায়ী): আগে
+             ViewFlipper ছিল (একবারে একটা সেকশন)। এখন এক-পেজ স্ক্রল — সব সেকশন
+             নিচে নিচে সাজানো, চিপ চাপলে সেই সেকশনে স্ক্রল হয়। ⛔ ভিতরের সব
+             ফিল্ড-id/ডেটা-সেভ অপরিবর্তিত — শুধু কন্টেইনার ViewFlipper→LinearLayout। -->
+        <LinearLayout android:id="@+id/flipper" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <!-- V454 (TK-নির্দেশ ১৮.০৮.২০২৬: "প্রেসেন্ট ডিটেলস হেডার স্টিল না থাকে") —
+                 এই কার্ডটা আগে stepScroll-এর বাইরে (পাতার উপরে, স্থির) ছিল। এখন
+                 flipper-এর প্রথম আইটেম হিসেবে ভেতরে আনা হলো — Step 1 স্ক্রল করলে
+                 এটাও তালিকার সাথে সরে যাবে। ⛔ ভেতরের কোনো ঘর/লেখা/id বদলায়নি,
+                 শুধু জায়গা বদলেছে (patientDetailsCollapsed/stepBar আগের মতোই স্থির)। -->
+    <LinearLayout
+        android:id="@+id/patientDetailsFull"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bg_rounded_white_16"
+        android:clipToOutline="true"
+        android:elevation="4dp">
+
+        <!-- 🔴🎨🔒 TK-নির্দেশ (05.08.2026, মকআপে "ওকে") — "PATIENT'S
+             DETAILS · রোগীর বিবরণ" গাঢ়-সবুজ লেখা-বারটা সম্পূর্ণ বাদ
+             (উচ্চতা আরও কমানোর জন্য)। ⛔ নিচের রোগীর তথ্যের অংশ (ছবি/নাম/
+             মোবাইল/ID ইত্যাদি) একটুও বদলায়নি, শুধু উপরের এই বারটাই সরানো
+             হলো। বাইরের কার্ড (`patientDetailsFull`, bg_rounded_white_16 +
+             clipToOutline) আগে থেকেই গোল কোণা দেয়, তাই বার সরে যাওয়ার পরও
+             উপরের কোণা গোলই থাকবে। -->
+        <!-- 🔴🎨🔒 TK-নির্দেশ (06.08.2026) — মোবাইল নম্বর থেকে Patient ID
+             পর্যন্ত পুরো ব্লকের উচ্চতা আরও কমানো হলো — প্যাডিং ও প্রতিটা
+             লাইনের মাঝের ফাঁক ছোট, ছবি ৬২dp→৫২dp। ⛔ কোনো তথ্য/লাইন বাদ
+             যায়নি, শুধু জায়গা কমেছে। -->
+        <!-- 🔵🎨 TK-নির্দেশ (07.08.2026, ফটো-প্রুফে "সামান্য কমপ্যাক্ট করুন")
+             — আরও একটু কমপ্যাক্ট: ছবি ৫২dp→৪৮dp · প্যাডিং টপ/বটম ৮dp→৬dp ·
+             নাম-লাইনের marginTop ২dp→১dp · টেক্সট-ব্লক marginStart ১৬dp→১২dp।
+             ⛔ কোনো তথ্য/লাইন/লজিক বাদ যায়নি — শুধু উচ্চতা কমেছে।
+             (নামের ফন্ট কোডে autosize ১১–১৭sp, তাই XML textSize=16sp আগের মতোই।)
+             🔁 পুরনো মান (ফেরানোর জন্য): photo=52dp · paddingTop/Bottom=8dp
+                · নাম marginTop=2dp · টেক্সট-ব্লক marginStart=16dp।
+             লাইভ টেস্টে পছন্দ না হলে উপরের মানগুলো ফিরিয়ে দিলেই আগের অবস্থা। -->
+        <!-- 🔵🎨 TK-নির্দেশ (07.08.2026 বিকেল, "আরও একটু কমপ্যাক্ট · উচ্চতা বেশি")
+             — প্যাডিং টপ/বটম ৬→৪ · ছবি ৪৮→৪৪ · meta লাইনের marginTop ২→১ ও
+             ফন্ট ১২→১১.৫ · মোবাইল ১৩.৫→১৩ · Reg ১২.৫→১২ · ID-রো marginTop ৪→২।
+             ⛔ কোনো তথ্য/লাইন/লজিক বাদ যায়নি — শুধু উচ্চতা কমেছে।
+             🔁 পুরনো মান (ফেরানোর জন্য): padding=6 · photo=48 · metaMargin=2 ·
+                metaFont=12 · mobile=13.5 · reg=12.5 · idMargin=4। -->
+        <!-- 🔵 V584 (২৩.০৮.২০২৬, TK-নির্দেশ): *"Id & Ref by কেটে গেল কেন
+             হেডার থেকে বেরিয়ে গেল কেন"* ⇒ আগে ক্রিম ব্যাকগ্রাউন্ড
+             (bg_ptl_header_visit) শুধু নিচের আড়াআড়ি সারিটার উপরে ছিল, তাই
+             ID/Ref By-এর সারিটা সাদা জায়গায় পড়ে হেডারের বাইরে দেখাত। এখন
+             একটা উল্লম্ব মোড়ক তৈরি হলো — ক্রিম ব্যাকগ্রাউন্ড ও প্যাডিং এই
+             মোড়কে, আর দুটো সারিই এর ভিতরে। ⛔ কোনো তথ্য/id/লজিক বদলায়নি,
+             শুধু ব্যাকগ্রাউন্ড এক ধাপ উপরে উঠেছে।
+             🔁 পুরনো অবস্থা (ফেরানোর জন্য): এই মোড়ক তুলে দিয়ে
+                background/padding আবার নিচের আড়াআড়ি সারিতে বসালেই হবে। -->
+        <LinearLayout
+            android:id="@+id/ptlHeaderCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_ptl_header_visit"
+            android:paddingStart="10dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/ivPatientPhotoBlank"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_square_gradient"
+                android:gravity="center"
+                android:text="👤"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/ivPatientPhoto"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerCrop"
+                android:background="@drawable/bg_square_gradient"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
+
+                <!-- 🔵 V584 (২৩.০৮.২০২৬, TK-নির্দেশ): *"মোবাইল নাম্বার এবং
+                     নামের মধ্যে এতটা গ্যাপ থাকা দরকার নেই"* — আগে এই সারিতে
+                     ৩০dp উঁচু গোল আইকন থাকায় সারিটাই ৩০dp হয়ে যেত, মোবাইলের
+                     লেখা মাঝখানে বসত আর নিচে ~৭dp ফাঁকা পড়ত। এখন আইকনটা সারির
+                     বাইরে (টেক্সট-ব্লকের ডান পাশে, উপরে) সরানো হয়েছে, তাই
+                     সারিটা শুধু লেখার উচ্চতা নেয়। ⛔ লেখা/id/ডেটা অপরিবর্তিত। -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                    <TextView android:id="@+id/tvPatientMobile" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="—" android:textColor="#10223A" android:textStyle="bold" android:textSize="13sp" android:maxLines="1" android:ellipsize="end" />
+                    <!-- 🔵 V584 (২৩.০৮.২০২৬, TK-নির্দেশ): *"হেডারে কল এবং
+                         হিস্টোরির যে আইকন এটা যেন না থাকে"* — কল বোতামটা
+                         (btnPatientCall) সম্পূর্ণ সরানো হলো। হিস্ট্রি বোতামটা
+                         TK-এর পরের নির্দেশ অনুযায়ী *"আগে যেখানে ছিল হেডারে
+                         উপরে সেখানেই"* রইল, শুধু কাজ বদলে Check-up History
+                         হলো (নিচে DoctorCheckupActivity-তে)। -->
+                </LinearLayout>
+
+                <!-- 🔴🎨🔒 B431 (TK-নির্দেশ, 05.08.2026): "কোন নাম যেন দু লাইনে
+                     না হয়" — আগে maxLines="2" ছিল, এখন সবসময় ১ লাইন;
+                     লম্বা নাম কাটে না, বরং Patient ID-র (FollowUpActivity)
+                     প্রমাণিত একই কৌশলে (কোডে, `DoctorCheckupActivity.
+                     bindPatientHeader()`) ফন্ট নিজে থেকে ছোট হয়ে ধরে। -->
+                <TextView android:id="@+id/tvPatientName" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="Patient" android:textColor="#10223A" android:textStyle="bold" android:textSize="16sp" android:maxLines="1" android:ellipsize="end" />
+
+                <TextView android:id="@+id/tvPatientBranchDisease" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="—" android:textColor="#4A5A6B" android:textStyle="bold" android:textSize="11.5sp" android:maxLines="1" android:ellipsize="end" />
+
+                <TextView android:id="@+id/tvPatientSexAge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="—" android:textColor="#4A5A6B" android:textStyle="bold" android:textSize="11.5sp" android:maxLines="1" android:ellipsize="end" android:visibility="gone" />
+
+                <TextView android:id="@+id/tvPatientAddress" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="1dp" android:text="—" android:textColor="#4A5A6B" android:textStyle="bold" android:textSize="11.5sp" android:maxLines="2" android:ellipsize="end" android:visibility="gone" />
+
+            </LinearLayout>
+
+                <!-- 🔴🆕🔒 খাতার সারি B437 (TK-নির্দেশ, 05.08.2026 —
+                     "একটা বাটন থাকতে হবে যাতে পুরনো লক হয়ে থাকা
+                     হিস্ট্রি দেখা যায়, কে/কবে চেকআপ করেছিল")। কল
+                     বোতামের ঠিক পাশে — এই রোগীর পুরো, তারিখ-ক্রমের,
+                     "কে করেছিল" সহ Full Journey খোলে (Doctor Queue-র
+                     "📜 History" বোতাম যেভাবে খোলে, ঠিক সেই একই
+                     প্রমাণিত পথ পুনর্ব্যবহার — নতুন কোনো ডেটা/টেবিল
+                     লাগেনি)। -->
+                <!-- 🔵 V584 (২৩.০৮.২০২৬, TK-নির্দেশ): *"এখানে যে হিস্টরি
+                     থাকবে এটা হবে চেকআপ হিস্টরি ... যতক্ষণ চেকআপ হিস্টরি তৈরি
+                     না হবে ততক্ষণ ক্লিক করলে শুধু ওয়ার্নিং ... কমপ্লিট হলে
+                     A4 প্রিন্ট / ভিউ / হোয়াটসঅ্যাপ শেয়ার"* ⇒ এই বোতামের কাজ
+                     এখন Check-up History (কোডে `openCheckupHistory()`)। জায়গা
+                     TK-এর নির্দেশে আগের মতোই হেডারের উপরে-ডানে।
+                     🔁 পুরনো Full Journey পথটা মোছা হয়নি — Doctor Queue-র
+                        "📜 History" বোতাম আগের মতোই সেটা খোলে। -->
+                <!-- 🧮🔒 V995 (০৩.০৯.২০২৬, TK-অনুমোদিত, লাল-দাগ দেওয়া ছবি) —
+                     Estimated Cost ঘরের পাশের "🧮 Build" বোতামটা এখান থেকে
+                     সরিয়ে হেডারের এই গোল আইকনে আনা হলো। ⛔ id একই
+                     (`btnBuildEstimate`), তাই চাপলে যা খুলত এখনো ঠিক তাই খোলে —
+                     কোনো কোড/সেভ/হিসাব বদলায়নি, শুধু জায়গা ও চেহারা।
+                     ⛔ 📜 ও 🩺 আইকনের হুবহু একই মাপ ও ছাঁচ। -->
+                <TextView
+                    android:id="@+id/btnBuildEstimate"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="top"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@drawable/bg_circle_gradient_violet"
+                    android:gravity="center"
+                    android:text="🧮"
+                    android:textSize="13sp"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <TextView
+                    android:id="@+id/btnPatientHistory"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="top"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@drawable/bg_circle_gradient"
+                    android:gravity="center"
+                    android:text="📜"
+                    android:textSize="13sp" />
+
+            <!-- 🟢🔒🔒 V671 (২৫.০৮.২০২৬, TK-নির্দেশ, ছবি-প্রুফ পাশ — "ফর্ম আকারে
+                 থাকবে না, একটা আইকন থাকবে, তাতে চাপ দিলে ফর্মটা খুলবে") — আগে
+                 (V656) পুরো ফর্মটা সবসময় দেখা যেত, এখন শুধু এই ছোট 🩺 আইকন —
+                 চাপলে নোট+তারিখ+সময়ের পপ-আপ খোলে। লাল বিন্দু = নোট লেখা আছে।
+                 ⛔ 📜-এর হুবহু একই মাপ/ছাঁচ, পাশাপাশি বসানো। -->
+            <FrameLayout
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="top"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="1dp">
+                <TextView
+                    android:id="@+id/btnDoctorReminder"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_circle_gradient_amber"
+                    android:gravity="center"
+                    android:text="🩺"
+                    android:textSize="13sp" />
+                <View
+                    android:id="@+id/dotDoctorReminder"
+                    android:layout_width="9dp"
+                    android:layout_height="9dp"
+                    android:layout_gravity="top|end"
+                    android:background="@drawable/bg_dot_red"
+                    android:visibility="gone" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <!-- 🔵 V574 (২২.০৮.২০২৬, TK-নির্দেশ): *"patient id মোবাইল স্ক্রিনের প্রথম
+             থেকে থাকবে তারপরে Ref by"* ⇒ সারিটা ছবির পাশের ঘর থেকে বেরিয়ে এসে
+             গোটা কার্ডের চওড়ায়, একদম বাঁ দিক থেকে — **আগে ID, তারপর Ref By**।
+             ⛔ কোনো তথ্য বদলায়নি, দুটোই আগের সেই একই ঘর থেকে আসে। -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:orientation="horizontal" android:gravity="center_vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_id_badge_purple" android:paddingHorizontal="6dp" android:paddingVertical="3dp" android:text="ID" android:textColor="@color/white" android:textSize="9.5sp" android:textStyle="bold" />
+            <TextView android:id="@+id/tvPatientReg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:text="Reg ID · Branch" android:textColor="#0E8A6C" android:textSize="12.5sp" android:textStyle="bold" android:maxLines="1" android:ellipsize="end" />
+            <TextView android:id="@+id/tvPatientRefBy" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:layout_marginStart="9dp" android:text="—" android:textColor="#0B4F2A" android:textStyle="bold" android:textSize="11.5sp" android:maxLines="1" android:ellipsize="end" android:visibility="gone" />
+        </LinearLayout>
+
+        </LinearLayout><!-- 🔵 V584: ptlHeaderCard শেষ — ID/Ref By এখন ক্রিম হেডারের ভিতরে -->
+    </LinearLayout>
+
+    <!-- 🟢🔒🔒 V656 (২৫.০৮.২০২৬, TK-নির্দেশ — "Doctor Note & Reminder থাকুক
+         ... রোগীর আসার আগের দিন যেন ডাক্তারবাবুকে মনে করিয়ে দেওয়া হয়") —
+         নতুন বাক্স, পেশেন্ট তথ্যের কার্ডের ঠিক নিচে (TK-এর বাছাই)। ডাক্তার
+         এখানে একটা নোট লিখবেন (পরের বার কী ওষুধ/কাজ করা হবে) আর একটা
+         তারিখ বাছবেন — সেই তারিখের **আগের দিন** শুধু ডাক্তারকে একবার মনে
+         করিয়ে দেওয়া হবে (TK-এর বাছাই — শুধু ডাক্তার, স্টাফ নয়)।
+         ⛔ id/hint/সেভ-লজিক — নতুন, আলাদা `patients.doctorReminderNote` ও
+         `patients.doctorReminderDate` ঘরে বসে (নিচে সেভ-কোডে); বাকি কোনো
+         তথ্য/হিসাব ছোঁয়া হয়নি। -->
+    <!-- 🟢🔒🔒 V671 (২৫.০৮.২০২৬, TK-নির্দেশ) — পুরো ফর্মটা আর এখানে সবসময়
+         দেখা যায় না — উপরের 🩺 আইকন চাপলে পপ-আপে খোলে (DoctorCheckupActivity.kt-এর
+         showDoctorReminderDialog())। ⛔ view id/hint/সেভ-লজিক অক্ষত (নিচে,
+         কার্ডটা GONE — TK-নিয়ম: কিছু মোছা হয় না, শুধু লুকানো)। -->
+    <!-- 🟢🔒 V699 (২৬.০৮.২০২৬, TK-নির্দেশ — "এই pop up কে প্রফেশনাল বানিয়ে দিন";
+         ডেমো ছবি দেখিয়ে TK "1 করুন" বলেছেন) — পপ-আপের ভিতরের কার্ড।
+         · হলদে ব্যাকগ্রাউন্ড ও ভিতরের দ্বিতীয় বাক্স বাদ (পপ-আপের ভিতরে
+           আরেকটা বাক্স দেখাত), এখন সাদা — সবুজ হেডারটা কোড থেকে বসে।
+         · নিজের 🩺 শিরোনামের সারিটা বাদ — সবুজ হেডারেই ওটা লেখা থাকে।
+         · তারিখ/সময়ের ঘরে অ্যাপের নিজের আইকন। TK: *"17 July emoji থাকবে
+           না"* — তাই 📅/🕐 ইমোজি নয়, `ic_pd_calendar_green`/`ic_pd_clock`
+           (কোনো তারিখ/সময় আঁকা নেই)।
+         ⛔ **কোনো ঘর মোছা/যোগ করা হয়নি** — `etDoctorReminderNote`,
+            `tvDoctorReminderDate`, `tvDoctorReminderTime` তিনটে id, তাদের
+            hint ও লেখা হুবহু আগের। সেভের কোড এক অক্ষরও বদলায়নি। -->
+    <androidx.cardview.widget.CardView android:id="@+id/secDoctorReminder" style="@style/RegCard" android:layout_marginTop="6dp" app:cardBackgroundColor="#FFFFFF" android:visibility="gone">
+        <LinearLayout style="@style/RegCardInner" android:padding="10dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="4dp">
+                <TextView android:id="@+id/tvDoctorReminderHeading" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🩺" android:textSize="16sp" />
+                <TextView android:id="@+id/tvDoctorReminderHeadingText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="7dp" android:text="Doctor Note &amp; Reminder" android:textStyle="bold" android:textSize="14sp" android:textColor="#101828" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        android:text="নোট" android:textStyle="bold" android:textSize="11.5sp" android:textColor="#0A5C33" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="ইচ্ছেমতো" android:textStyle="bold" android:textSize="10.5sp" android:textColor="#8A93A0" />
+                </LinearLayout>
+                <EditText android:id="@+id/etDoctorReminderNote" style="@style/DocNoteInputMultiline" android:minLines="2"
+                    android:layout_marginTop="4dp"
+                    android:hint="পরের বার রোগীকে কী ওষুধ/কী কাজ করা হবে — এখানে লিখুন" />
+                <!-- 🩺🔒 V1109 (০৫.০৯.২০২৬, TK-নির্দেশ: *"কোন ডাক্তারকে মনে করিয়ে
+                     দিতে হবে সেই ডাক্তারের নাম যেন চুস করা যায়, এবং এটা যেন
+                     কার্যকরী হয়"*)।
+                     🔴 আগে কী হত (মেপে দেখা): নোটিফিকেশনটা **যে কোনো ডাক্তারের
+                        ফোনেই** বাজত — ওই দিনের প্রতিটা রিমাইন্ডার সব ডাক্তারের
+                        কাছে যেত, যদিও নিচের লেখায় বলা ছিল *"শুধু আপনাকেই"*।
+                     ⇒ এখন এখানেই ডাক্তার বাছা যায়; ওই একজনের ফোনেই বাজবে।
+                     ⛔ পুরনো সেভ করা রিমাইন্ডারে এই ঘর ফাঁকা — তখন আচরণ হুবহু
+                        আগের মতোই (সব ডাক্তারের কাছে), তাই কিছুই হারায় না। -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="12dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        android:text="কোন ডাক্তারকে মনে করাবে?" android:textStyle="bold" android:textSize="11.5sp" android:textColor="#0A5C33" />
+                </LinearLayout>
+                <LinearLayout android:id="@+id/boxDoctorReminderWho"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:background="@drawable/bg_input_field_picker"
+                    android:paddingStart="11dp" android:paddingEnd="34dp" android:paddingTop="9dp" android:paddingBottom="9dp"
+                    android:clickable="true" android:focusable="true">
+                    <TextView android:id="@+id/tvDoctorReminderWho"
+                        android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        android:maxLines="1" android:ellipsize="end"
+                        android:textSize="14.5sp" android:text="ডাক্তার বাছুন" android:textColor="#8A93A0" />
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="12dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        android:text="কোন দিনের আগের দিন মনে করাবে?" android:textStyle="bold" android:textSize="11.5sp" android:textColor="#0A5C33" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="ইচ্ছেমতো" android:textStyle="bold" android:textSize="10.5sp" android:textColor="#8A93A0" />
+                </LinearLayout>
+<!-- 🔴🔒 V700 (২৬.০৮.২০২৬, TK-এর ছবিতে ধরা — আইকন লেখার **উপরে** বসে
+                     গিয়েছিল)। আসল কারণ: আইকনটা ঘরের ব্যাকগ্রাউন্ডে (layer-list) আঁকা
+                     ছিল, আর লেখাটা সরানোর জন্য দেওয়া `paddingStart` স্টাইলের
+                     `android:padding`-এর সাথে লড়ে হেরে যাচ্ছিল — ফলে লেখা একদম বাঁ
+                     প্রান্ত থেকেই শুরু হত, আইকনের গায়ে।
+                     ⇒ এখন আইকন আর ব্যাকগ্রাউন্ডে নয়, **নিজের ImageView**-তে, লেখার
+                       পাশে বসানো। দুটো আলাদা ঘর বলে গায়ে লাগার সুযোগই নেই। -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                    <LinearLayout android:id="@+id/boxDoctorReminderDate"
+                        android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="@drawable/bg_input_field_picker"
+                        android:paddingStart="11dp" android:paddingEnd="34dp" android:paddingTop="9dp" android:paddingBottom="9dp"
+                        android:clickable="true" android:focusable="true">
+                        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_pd_calendar_green" android:contentDescription="@null" />
+                        <TextView android:id="@+id/tvDoctorReminderDate"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:maxLines="1" android:ellipsize="end"
+                            android:textSize="14.5sp" android:text="তারিখ বাছুন" android:textColor="#8A93A0" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/boxDoctorReminderTime"
+                        android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="@drawable/bg_input_field_picker"
+                        android:paddingStart="11dp" android:paddingEnd="34dp" android:paddingTop="9dp" android:paddingBottom="9dp"
+                        android:clickable="true" android:focusable="true">
+                        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_pd_clock" android:contentDescription="@null" />
+                        <TextView android:id="@+id/tvDoctorReminderTime"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:maxLines="1" android:ellipsize="end"
+                            android:textSize="14.5sp" android:text="সময় বাছুন" android:textColor="#8A93A0" />
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- 🟢🔒 V952 (০১.০৯.২০২৬, TK-নির্দেশ, ফটো-প্রুফ পাশ) — TK: *"একবার
+                     সেভ হওয়ার পরে বোঝার ক্ষমতা নেই কোন কিছু সেভ হয়ে আছে কিনা"*।
+                     আগে সেভ করা রিমাইন্ডার থাকলে এই সবুজ পট্টিতে দেখাবে।
+                     ⛔ ডিফল্ট gone — কিছু সেভ না থাকলে কার্ড হুবহু আগের মতোই। -->
+                <TextView android:id="@+id/tvDoctorReminderSaved" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_brief_infobox"
+                    android:paddingStart="11dp" android:paddingEnd="11dp" android:paddingTop="9dp" android:paddingBottom="9dp"
+                    android:textSize="12sp" android:textColor="#0C7A3E" android:lineSpacingExtra="2dp"
+                    android:visibility="gone" />
+                <TextView android:id="@+id/tvDoctorReminderHelp" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp" android:background="@drawable/bg_brief_infobox"
+                    android:paddingStart="11dp" android:paddingEnd="11dp" android:paddingTop="9dp" android:paddingBottom="9dp"
+                    android:textSize="11.5sp" android:textColor="#0A5C33" android:lineSpacingExtra="2dp"
+                    android:text="তারিখ বাছলে তার আগের দিন মনে করানো হবে — শুধু বাছা ডাক্তারকেই। সময় না বাছলে সন্ধ্যা 6টা।" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+            <!-- STEP 1: History &amp; Previous Treatment (merged, TK-নির্দেশ 04.08.2026) -->
+            <!-- 🔴🎨🔒 TK-নির্দেশ (05.08.2026, স্ক্রিনশটে নম্বর দিয়ে ধাপে ধাপে
+                 "থাকবে/থাকবে না" চূড়ান্ত করার পরে) —
+                 (১) সেকশন-শিরোনাম "1. 📋 History & Previous Treatment ·
+                 বর্তমান রোগের..." সম্পূর্ণ বাদ।
+                 (২)-(৭) ছয়টা লেবেল (Chief Complaint · Duration · Acute/
+                 Chronic Onset · Occupation · Previous Treatment Taken ·
+                 Result of Previous Treatment) — ইংরেজি-বাংলা এখন এক লাইনে
+                 " · " দিয়ে জোড়া, দুটোই সমান ছোট ফন্ট (13sp→11sp, শুধু এই
+                 ৬টাতেই ইনলাইনে বসানো — শেয়ার্ড `FieldLabel` style-এ হাত
+                 দেওয়া হয়নি, তাই Enquiry/Registration/Appointment/Global
+                 Search/Medicine Payment — এই style ব্যবহার করা বাকি সব
+                 স্ক্রিন অপরিবর্তিত)।
+                 (৮)-(৯) Cost Spent for Previous Treatment ও Treatment
+                 Duration — 🔴🔴 (06.08.2026, TK ধরিয়ে দিয়েছেন): আগের
+                 সেশনের নোটে লেখা ছিল "TK-এর নির্দেশে উপর-নিচে রাখা হলো",
+                 কিন্তু আসল কোডে ভুলবশত পাশাপাশি (Row2/Col/ColEnd)-ই থেকে
+                 গিয়েছিল — নোট আর কোড মেলেনি। এখন সত্যিই উপর-নিচে।
+                 🔒🔒 TK-LOCKED (06.08.2026) — এরপর TK ধাপে ধাপে HTML
+                 মকআপ দেখে (icon + লেবেল + ড্যাশ-বিভাজিকা + ইনপুট, বাঁ
+                 পাশে সবুজ দাগ, সাদা কার্ড) পুরো ধাপ-১-এর ৮টা ফিল্ডই এই
+                 এক-ই "বক্স" ডিজাইনে সাজাতে বলেছেন ("সবগুলোই তো ডিজাইন
+                 একই হবে")। প্রতিটা ফিল্ড এখন: বাইরের rounded সাদা বক্স
+                 (`bg_field_box_doctor_note`) + বাঁ পাশে ৩.৫dp সবুজ দাগ
+                 (`clipToOutline` দিয়ে বক্সের গোল কোণায় ক্লিপ হয়) + ভিতরে
+                 আইকন+লেবেল সারি + পাতলা বিভাজিকা + বর্ডারহীন ইনপুট।
+                 লম্বা লেবেল (Acute Onset কম্বো, Previous Treatment Taken,
+                 Result, Spent for...) এক লাইনে রাখতে ফন্ট আলাদা করে ছোট
+                 (TK-নির্দেশ, "কোন লেখা দু লাইনে আসা চলবে না")। ইমোজি
+                 ⏳/🧾 — TK-এর ধরিয়ে দেওয়া ⏰(তারিখ-১৭)/💰 বদলে নেওয়া
+                 হয়েছে। ⛔ **কোনো id/hint/সেভ-লজিক বদলায়নি** — শুধু
+                 প্রতিটা লেবেল+ইনপুটের চারপাশের বাক্স/আইকন/লেআউট। -->
+            <!-- 🎨 (07.08.2026, প্রুফ-চেহারা, TK-অনুমোদিত) কার্ড সাদা — আগে #EAF3FF -->
+            <androidx.cardview.widget.CardView android:id="@+id/secHistory" style="@style/RegCard" android:layout_marginTop="6dp" app:cardBackgroundColor="#FFFFFF">
+                <LinearLayout style="@style/RegCardInner" android:padding="10dp">
+
+                    <!-- 🎨 (07.08.2026, প্রুফ-চেহারা) সেকশন-শিরোনাম (RegCardInner-এর
+                         ভিতরে প্রথম সন্তান, তাই lockSection-এর getChildAt(0) অক্ষত)। -->
+                    <!-- 🟢🔒🔒 V886 (৩০.০৮.২০২৬, TK-নির্দেশ, ডেমো-প্রুফে অনুমোদিত):
+                         TK: *"মেইন পয়েন্টগুলো ফর্ম খোলা থাকবে না"* ⇒ এই ধাপটাও
+                         এখন **বন্ধ অবস্থায়** শুরু হয়, নামে চাপ দিলে খোলে।
+                         ⛔ ধাপ ২ (V703) · NEXT VISIT PLAN (V866) · ধাপ ৫ (V600)-এর
+                            হুবহু একই ভাঁজ — চালু `attachFold`, নতুন কিছু নয়।
+                         ⛔ ভিতরের একটাও ঘর · লেখা · সেভ বদলায়নি — শুধু একটা
+                            মোড়ক (`histFoldBody`) ও মাথায় চ্যাভরন যোগ হয়েছে। -->
+                    <LinearLayout android:id="@+id/histFoldHead" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:layout_marginBottom="6dp">
+                        <TextView android:layout_width="23dp" android:layout_height="23dp" android:gravity="center" android:text="1" android:textStyle="bold" android:textSize="12sp" android:textColor="#12805C" android:background="@drawable/bg_checkup_step_num" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="9dp" android:text="History &amp; Previous" android:textStyle="bold" android:textSize="14sp" android:textColor="#101828" />
+                        <TextView android:id="@+id/histFoldNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:background="@drawable/bg_fold_count_chip" android:paddingLeft="9dp" android:paddingTop="2dp" android:paddingRight="9dp" android:paddingBottom="2dp" android:textColor="#0B4F2A" android:textSize="11.5sp" android:textStyle="bold" android:visibility="gone" />
+                        <TextView android:id="@+id/histFoldChev" android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="8dp" android:gravity="center" android:background="@drawable/bg_fold_chevron" android:text="⌄" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="15sp" />
+                        <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/histFoldBody" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+
+                    <!-- Chief Complaint -->
+                    <LinearLayout style="@style/DocNoteFieldBox" android:layout_marginTop="0dp">
+                        <View style="@style/DocNoteAccentBar" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInner">
+                            <LinearLayout style="@style/DocNoteFieldBoxTopRow">
+                                <TextView style="@style/DocNoteIcon" android:text="📝" />
+                                <TextView style="@style/DocNoteLabel" android:text="Chief Complaint · প্রধান সমস্যা" />
+                            </LinearLayout>
+                            <View style="@style/DocNoteDivider" />
+                            <EditText android:id="@+id/etComplaint" style="@style/DocNoteInputMultiline" android:minLines="1" android:hint="Chief Complaint" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Duration -->
+                    <LinearLayout style="@style/DocNoteFieldBox">
+                        <View style="@style/DocNoteAccentBar" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInner">
+                            <LinearLayout style="@style/DocNoteFieldBoxTopRow">
+                                <TextView style="@style/DocNoteIcon" android:text="⏳" />
+                                <TextView style="@style/DocNoteLabel" android:text="Duration · কতদিন থেকে" />
+                            </LinearLayout>
+                            <View style="@style/DocNoteDivider" />
+                            <EditText android:id="@+id/etDuration" style="@style/DocNoteInputSingle" android:hint="e.g. 2 months" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- 🔵🔒 V554 (২২.০৮.২০২৬, TK-অনুমোদিত ডেমো "সাজ গ" + শুরুতে টিক):
+                         কাগজের **"রোগী এসে প্রথমে কি কি সমস্যার কথা বললেন?"** অংশ।
+                         ছ'টা সারি কোড থেকেই বসে (`SymptomHistoryModel.LINES`) — তাই লেখা
+                         এক জায়গাতেই থাকে, দু'জায়গায় আলাদা হয়ে যাওয়ার ভয় নেই।
+                         ⛔ উপরের Chief Complaint ও Duration ঘর দুটো **সরানো হয়নি** (TK-এর নিয়ম)। -->
+                    <LinearLayout style="@style/DocNoteFieldBox">
+                        <View style="@style/DocNoteAccentBar" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInner">
+                            <!-- 🔵 V574 (TK-নির্দেশ): *"রোগী এসে কি কি বললেন সেখানে চাপ
+                                 দিলে ওই 6 টা অপশন ওপেন হতে হবে"* — তাই এই সারিটা এখন
+                                 চাপা যায়, আর ডান দিকে কতগুলো ভরা আছে তার সংখ্যা বসে।
+                                 ⛔ ভিতরের ৬টা লাইন এক অক্ষরও বদলায়নি, শুধু লুকিয়ে থাকে। -->
+                            <!-- 🟢🔒🔒 V653 (২৫.০৮.২০২৬, TK-নির্দেশ, ছবিসহ — "লেখার ডান
+                                 পাশে থাকবে, আরো উজ্জ্বল") — আসল কারণ: লেবেলের
+                                 layout_weight=1 ছিল, তাই ⌄ সবসময় সারির একদম ডান
+                                 কিনারায় গিয়ে বসত, লেখা থেকে অনেক দূরে। এখন লেবেল
+                                 wrap_content, আর চিহ্নের পরে একটা নমনীয় ফাঁকা জায়গা —
+                                 তাই ⌄ এখন লেখার ঠিক পরেই, আর পুরো সারিও চাপার-যোগ্যই
+                                 থাকে। রংও গাঢ় সবুজ বৃত্ত-ব্যাকগ্রাউন্ড করা হলো। -->
+                            <LinearLayout
+                                android:id="@+id/symptomFoldHead"
+                                style="@style/DocNoteFieldBoxTopRow"
+                                android:clickable="true"
+                                android:focusable="true">
+                                <!-- 🟢🔒 V653 (যোগ) — TK-নির্দেশ "এত আইকন থাকবে না" — সামনের
+                                     ❓ ইমোজি-আইকন সরানো হলো, শুধু লেখা + চিহ্ন থাকল। -->
+                                <TextView style="@style/DocNoteLabel"
+                                    android:layout_width="wrap_content"
+                                    android:text="রোগী এসে প্রথমে কি কি বললেন?" />
+                                <TextView
+                                    android:id="@+id/symptomFoldNum"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:background="@drawable/bg_fold_count_chip"
+                                    android:paddingLeft="9dp"
+                                    android:paddingTop="2dp"
+                                    android:paddingRight="9dp"
+                                    android:paddingBottom="2dp"
+                                    android:textColor="#0B4F2A"
+                                    android:textSize="11.5sp"
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
+                                <TextView
+                                    android:id="@+id/symptomFoldChev"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginStart="8dp"
+                                    android:gravity="center"
+                                    android:background="@drawable/bg_fold_chevron"
+                                    android:text="⌄"
+                                    android:textColor="#FFFFFF"
+                                    android:textStyle="bold"
+                                    android:textSize="15sp" />
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/symptomFoldBody"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+                                <View style="@style/DocNoteDivider" />
+                                <LinearLayout
+                                    android:id="@+id/symptomGroup"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical" />
+                                <EditText android:id="@+id/etSymptomOther" style="@style/DocNoteInputMultiline"
+                                    android:minLines="2"
+                                    android:hint="এছাড়া অন্য কিছু থাকলে এখানে লিখুন" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- 🔵🔒 V555 (২২.০৮.২০২৬, TK-অনুমোদিত ডেমো): কাগজের **ভাগ ৩** —
+                         ডান দিকের চারটে "ইতিহাস"। টিকের জিনিস পাশাপাশি চিপ, লেখার
+                         জিনিস বক্স — সবটাই কোড থেকে বসে (`HistoryDetailModel.GROUPS`),
+                         তাই কাগজের শব্দগুলো **এক জায়গাতেই** থাকে। -->
+                    <LinearLayout style="@style/DocNoteFieldBox">
+                        <View style="@style/DocNoteAccentBar" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInner">
+                            <!-- 🔵 V574 (TK-নির্দেশ): *"রোগী এসে প্রথমে কি কি বললেন /
+                                 রোগীর বলা ইতিহাস — এই লেখাগুলো দুইবার তিনবার … সেরকম
+                                 যেন না হয়"* ⇒ উপরের "রোগীর বলা ইতিহাস" শিরোনামটা তুলে
+                                 দেওয়া হলো; ভিতরের চারটে দলের নিজের নামই যথেষ্ট। -->
+                            <LinearLayout
+                                android:id="@+id/historyDetailGroup"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical" />
+                            <!-- 🔵🔒 V600 (২৩.০৮.২০২৬, TK-নির্দেশ): "এই অপশনটা থাকবেই না" —
+                                 etHistoryNote বাক্সটা সম্পূর্ণ সরানো হলো। ⛔ পুরনো রেকর্ডে
+                                 জমা থাকা নোট মুছে যায়নি — HistoryDetailModel.format()/parse()
+                                 এখনো note ধরে রাখে, শুধু নতুন করে টাইপ করার বাক্স নেই।
+                                 collectHistoryDetail()/applyHistoryDetail() দুটোই
+                                 findViewById-এ safe-call (?.) ব্যবহার করে, তাই বাক্স না
+                                 থাকলেও ক্র্যাশ করবে না। -->
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- 🔵🔒 V556 (২২.০৮.২০২৬, TK-অনুমোদিত ডেমো): কাগজের **ভাগ ৪**-এর সেই
+                         অংশটুকু যা অ্যাপে ছিলই না — দীর্ঘমেয়াদী রোগ · ফাইবার · জল ·
+                         টয়লেটের অভ্যাস · কোঁথ। সবটাই কোড থেকে বসে (`LifestyleModel`)। -->
+                    <LinearLayout style="@style/DocNoteFieldBox">
+                        <View style="@style/DocNoteAccentBar" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInner">
+                            <!-- 🔵🔒 V578 (TK-নির্দেশ, ২৩.০৮.২০২৬): *"রোগ ও অভ্যাস এর
+                                 মধ্যে সমস্ত লেখাগুলো লুকিয়ে থাকবে; রোগ ও অভ্যাসে ক্লিক
+                                 করলে তবেই ... যেটা কিনা ব্যথার ইতিহাস / রক্তপাতের
+                                 ইতিহাস সেখানে যেমন রেখেছেন"* ⇒ হুবহু ওই একই ভাঁজ। -->
+                            <!-- 🟢🔒🔒 V653 (২৫.০৮.২০২৬, TK-নির্দেশ, ছবিসহ) — একই
+                                 ফিক্স (symptomFoldHead-এর মতো) — weight সরানো,
+                                 চিহ্ন উজ্জ্বল সবুজ বৃত্ত করা হলো। -->
+                            <LinearLayout
+                                android:id="@+id/lifeFoldHead"
+                                style="@style/DocNoteFieldBoxTopRow"
+                                android:clickable="true"
+                                android:focusable="true">
+                                <!-- 🟢🔒 V653 (যোগ) — TK-নির্দেশ "এত আইকন থাকবে না" — সামনের
+                                     🥗 ইমোজি-আইকন সরানো হলো, শুধু লেখা + চিহ্ন থাকল। -->
+                                <TextView style="@style/DocNoteLabel"
+                                    android:layout_width="wrap_content"
+                                    android:text="রোগ ও অভ্যাস" />
+                                <TextView
+                                    android:id="@+id/lifeFoldNum"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:background="@drawable/bg_fold_count_chip"
+                                    android:paddingLeft="9dp"
+                                    android:paddingTop="2dp"
+                                    android:paddingRight="9dp"
+                                    android:paddingBottom="2dp"
+                                    android:textColor="#0B4F2A"
+                                    android:textSize="11.5sp"
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
+                                <TextView
+                                    android:id="@+id/lifeFoldChev"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginStart="8dp"
+                                    android:gravity="center"
+                                    android:background="@drawable/bg_fold_chevron"
+                                    android:text="⌄"
+                                    android:textColor="#FFFFFF"
+                                    android:textStyle="bold"
+                                    android:textSize="15sp" />
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/lifeFoldBody"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+                            <View style="@style/DocNoteDivider" />
+                            <LinearLayout
+                                android:id="@+id/lifestyleGroup"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical" />
+                            <!-- দৈনিক জল পানের পরিমাণ — কাগজে "———— লিটার"।
+                                 ⛔ ঘরটা এখানেই (XML) রাখা হলো, তাই আলাদা কোনো id-ফাইল লাগে না। -->
+                            <TextView style="@style/DocNoteLabel"
+                                android:layout_width="match_parent" android:layout_marginTop="8dp"
+                                android:text="দৈনিক জল পানের পরিমাণ" />
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                                android:orientation="horizontal" android:gravity="center_vertical">
+                                <EditText android:id="@+id/etWaterLitre" style="@style/DocNoteInputSingle"
+                                    android:layout_width="72dp" android:inputType="numberDecimal"
+                                    android:gravity="center" android:maxLines="1" />
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp" android:text="লিটার"
+                                    android:textColor="#10223A" android:textSize="13sp" />
+                            </LinearLayout>
+                            <EditText android:id="@+id/etLifestyleOther" style="@style/DocNoteInputMultiline"
+                                android:minLines="1"
+                                android:hint="অন্যান্য থাকলে এখানে লিখুন" />
+                            </LinearLayout><!-- lifeFoldBody -->
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- V455 (TK-নির্দেশ ১৮.০৮.২০২৬) — Acute Onset/Chronic Onset ঘর বাদ।
+                         ⛔ ClinicalModels-এর acuteChronic ঘর অটুট (ডিফল্ট ""), শুধু UI সরানো। -->
+
+                    <!-- Occupation -->
+                    <!-- 🔵🔒 V540 (২২.০৮.২০২৬, TK-রিপোর্ট: *"occupation এখন তো কিছু
+                         সিলেক্ট করার জায়গায় নেই, তাহলে ওটা রেখেছেন কেন?"*)
+                         V539-এ আমি শুধু ভিতরের Spinner-টা লুকিয়েছিলাম, **লেবেলের
+                         লাইনটা নয়** — তাই পর্দায় খালি "Occupation · পেশা" লেখাটা
+                         ঝুলে ছিল। এখন **পুরো বাক্সটাই** লুকানো।
+                         ⛔ মোছা হয়নি — ভিতরের `spOccupation` এখনো সেভ/পড়ার আসল
+                            ঘর (লুকানো থাকলেও `setSelection`/পড়া কাজ করে), তাই
+                            পুরোনো কিছুই ভাঙে না। উপরের হেডারে চাপ দিলেই বদলায়। -->
+                    <LinearLayout android:id="@+id/boxOccupation" style="@style/DocNoteFieldBox"
+                        android:visibility="gone">
+                        <View style="@style/DocNoteAccentBar" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInner">
+                            <LinearLayout style="@style/DocNoteFieldBoxTopRow">
+                                <TextView style="@style/DocNoteIcon" android:text="💼" />
+                                <TextView style="@style/DocNoteLabel" android:text="Occupation · পেশা" />
+                            </LinearLayout>
+                            <View style="@style/DocNoteDivider" />
+                            <!-- 🔵🔒 V539 (২২.০৮.২০২৬, TK-নির্দেশ): *"occupation এটা ফর্ম থেকে
+                                 সরিয়ে উপরে যেখানে পেশেন্টের বয়স Male-55 তার পাশে রাখুন।"*
+                                 ⛔ ঘরটা **মোছা হয়নি**, শুধু লুকানো (`GONE`) — কোডে এটাই
+                                    এখনো সেভ/পড়ার আসল ঘর, তাই পুরোনো কিছুই ভাঙে না।
+                                    উপরের হেডারে চাপ দিলে এটাই খোলে ও এখানেই বসে। -->
+                            <Spinner android:id="@+id/spOccupation" style="@style/DocNoteInputSingle"
+                                android:visibility="gone" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Previous Treatment Taken -->
+                    <!-- 🔵 B622 (11.08.2026, TK-নির্দেশ): এই ধাপ থেকে "Result of Previous Treatment",
+                         "Spent for Previous Treatment" ও "Treatment Duration" — তিনটে ঘর বাদ। -->
+                    <LinearLayout style="@style/DocNoteFieldBox" android:layout_marginBottom="4dp">
+                        <View style="@style/DocNoteAccentBar" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInner">
+                            <LinearLayout style="@style/DocNoteFieldBoxTopRow">
+                                <TextView style="@style/DocNoteIcon" android:text="💊" />
+                                <TextView style="@style/DocNoteLabel" android:text="Previous Treatment Taken\nআগের চিকিৎসার বিবরণ" />
+                            </LinearLayout>
+                            <View style="@style/DocNoteDivider" />
+                            <EditText android:id="@+id/etPrevTreatment" style="@style/DocNoteInputMultiline" android:minLines="1" android:hint="Previous treatment" />
+
+                            <!-- 🔵🔒 V539 (২২.০৮.২০২৬, TK-নির্দেশ): *"Previous Treatment-এর নিচে
+                                 আরেকটা বক্স থাকবে, সেখানে টাইপ করতে পারব — রোগী এসে তার
+                                 সমস্যার কথা আর কী কী বললেন।"* ⛔ উপরের ঘরটা ছোঁয়া হয়নি। -->
+                            <View style="@style/DocNoteDivider" />
+                            <LinearLayout style="@style/DocNoteFieldBoxTopRow">
+                                <TextView style="@style/DocNoteIcon" android:text="🗣️" />
+                                <TextView style="@style/DocNoteLabel" android:text="Patient Said · রোগী যা বললেন" />
+                            </LinearLayout>
+                            <EditText android:id="@+id/etPatientSaid" style="@style/DocNoteInputMultiline"
+                                android:minLines="1" android:maxLines="8"
+                                android:inputType="textCapSentences|textMultiLine"
+                                android:hint="রোগী নিজে যা যা বললেন — এখানে টাইপ করুন" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    </LinearLayout><!-- histFoldBody -->
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- STEP 2: Clinical Findings -->
+            <!-- 🔴🎨🔒 TK-নির্দেশ (05.08.2026, নম্বর দিয়ে ধাপে ধাপে চূড়ান্ত) —
+                 "2. 🩺 Clinical Findings" ও "A. Visual Examination" — দুটো
+                 হেডারই সম্পূর্ণ বাদ।
+                 🔒🔒 TK-LOCKED (06.08.2026, before/after মকআপে "হ্যা, উপর
+                 নিচে হবে") — Other (Visual)/Other (DRE)/On Probing —
+                 তিনটেই এখন Step 1/4-এর মতো সবুজ বক্স-ডিজাইনে। "C.
+                 Proctoscopy Grade" ও "Other Findings" — আগে পাশাপাশি
+                 ছিল (নোট বলত "উপর-নিচে", কোড পাশাপাশি — B478-এর মতোই
+                 নোট-কোড অমিল), এখন সত্যিই উপর-নিচে, পূর্ণ-চওড়া বক্সে।
+                 ⛔ চেকবক্স-গ্রুপ (visualGroup/dreGroup/investigationGroup)
+                 ও সেকশন-হেডার (B./E.) ইচ্ছাকৃতভাবে অপরিবর্তিত (TK-নির্দেশ:
+                 চেকবক্সে হাত দেওয়া হবে না)। id/hint/সেভ-লজিক কিছুই
+                 বদলায়নি। -->
+            <androidx.cardview.widget.CardView android:id="@+id/secClinical" style="@style/RegCard">
+                <LinearLayout style="@style/RegCardInner" android:padding="10dp">
+                    <!-- 🎨 (07.08.2026, প্রুফ-চেহারা) সেকশন-শিরোনাম -->
+                    <LinearLayout android:id="@+id/clinicalFoldHead" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="6dp" android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="23dp" android:layout_height="23dp" android:gravity="center" android:text="2" android:textStyle="bold" android:textSize="12sp" android:textColor="#12805C" android:background="@drawable/bg_checkup_step_num" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="9dp" android:text="Clinical পরীক্ষা" android:textStyle="bold" android:textSize="14sp" android:textColor="#101828" />
+                        <!-- 🟢🔒 V703 (২৬.০৮.২০২৬, TK-নির্দেশ ডেমো-প্রুফে অনুমোদিত): *"এখানেও Form টা
+                             ওপেন থাকবে না"* — ভাগ ১-এ যে ভাঁজ আগে থেকেই চলছে (symptomFoldHead /
+                             lifeFoldHead) **হুবহু সেই ব্যাজ ও চিহ্ন**, নতুন কিছু বানানো হয়নি।
+                             ⛔ ভিতরের একটাও ঘর/id/টিক/সেভ বদলায়নি — শুধু একটা মোড়ক যোগ হলো। -->
+                        <TextView android:id="@+id/clinicalFoldNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:background="@drawable/bg_fold_count_chip" android:paddingLeft="9dp" android:paddingTop="2dp" android:paddingRight="9dp" android:paddingBottom="2dp" android:textColor="#0B4F2A" android:textSize="11.5sp" android:textStyle="bold" android:visibility="gone" />
+                        <TextView android:id="@+id/clinicalFoldChev" android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="8dp" android:gravity="center" android:background="@drawable/bg_fold_chevron" android:text="⌄" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="15sp" />
+                        <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/clinicalFoldBody" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+                    <!-- 🎨 (07.08.2026, প্রুফ-চেহারা) — Visual চেকবক্সের উপরে শিরোনাম
+                         (প্রুফে ছিল; B. DRE / E. Investigations-এর মতোই)। শুধু লেবেল। -->
+                    <TextView style="@style/FieldLabel" android:layout_marginTop="0dp" android:text="A. Visual Examination · চোখে দেখা পরীক্ষা" android:textColor="@color/brand_navy" />
+                    <LinearLayout android:id="@+id/visualGroup" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="0dp" android:orientation="vertical" />
+
+                    <!-- V455 (TK-নির্দেশ ১৮.০৮.২০২৬) — "Other (Visual)" ও পুরো
+                         "B. DRE" সেকশন (Tenderness/Fistula + Other) বাদ। ⛔ ClinicalModels-এর
+                         visualOther/dre*/dreOther ঘর অটুট (ডিফল্ট ""/false), শুধু UI সরানো। -->
+
+                    <!-- 🔵🔒 V556 (২২.০৮.২০২৬, TK-নির্দেশ): *"B রাখুন"* — কাগজে
+                         **"B. আঙুল দিয়ে দেখে"** আছে, তাই V455-এ সরানো DRE সেকশনটা
+                         ফিরে এল। ⛔ নতুন কিছু বানানো হয়নি — পুরোনো সেই একই ঘর
+                         (`dre` · `dreOther`) ও একই দুটো অপশন (Tenderness · Fistula);
+                         ছাপা/সারাংশের কোড আগে থেকেই এগুলো পড়ত, ছোঁয়াও হয়নি।
+                         ⛔ "Other (Visual)" আগের মতোই বাদ (TK বলেননি ফেরাতে)। -->
+                    <TextView style="@style/FieldLabel" android:layout_marginTop="10dp" android:text="B. আঙুল দিয়ে দেখে · DRE" android:textColor="@color/brand_navy" />
+                    <LinearLayout android:id="@+id/dreGroup" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="0dp" android:orientation="vertical" />
+                    <EditText android:id="@+id/etDreOther" style="@style/DocNoteInputSingle"
+                        android:layout_marginTop="6dp"
+                        android:hint="আঙুল দিয়ে দেখে আর যা পাওয়া গেল" />
+
+                    <LinearLayout style="@style/DocNoteFieldBox">
+                        <View style="@style/DocNoteAccentBar" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInner">
+                            <LinearLayout style="@style/DocNoteFieldBoxTopRow">
+                                <TextView style="@style/DocNoteIcon" android:text="🔬" />
+                                <TextView style="@style/DocNoteLabel" android:text="C. Proctoscopy Grade · প্রক্টোস্কোপি গ্রেড" />
+                            </LinearLayout>
+                            <View style="@style/DocNoteDivider" />
+                            <!-- 🔵🔒 V539 (২২.০৮.২০২৬, TK-নির্দেশ): *"এখানে চাপ দিলে গ্রেড ওয়ান…
+                                 সেগুলো থাকবে না, ব্লাঙ্ক বক্স থাকবে, টাইপ করব।"*
+                                 ⛔ পুরোনো `spGrade` **মোছা হয়নি**, শুধু লুকানো — এখন সে
+                                    Internal Piles-এর Grade ধরে রাখে (TK: "একই জিনিস"),
+                                    তাই পুরোনো রেকর্ড আগের মতোই ঠিক থাকে। -->
+                            <Spinner android:id="@+id/spGrade" style="@style/DocNoteInputSingle"
+                                android:visibility="gone" />
+                            <EditText android:id="@+id/etProctoscopy" style="@style/DocNoteInputSingle"
+                                android:hint="এখানে টাইপ করুন"
+                                android:inputType="textCapSentences|textMultiLine"
+                                android:minLines="1" android:maxLines="4" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- V455 (TK-নির্দেশ ১৮.০৮.২০২৬) — "Other Findings" বাদ।
+                         ⛔ ClinicalModels-এর otherFindings ঘর অটুট (ডিফল্ট ""), শুধু UI সরানো। -->
+
+                    <!-- 🆕 TK-নির্দেশ (04.08.2026): নতুন সেকশন D — C আর পুরনো D
+                         (Investigations, এখন E) এর মাঝে। প্রোব ঢোকানোর পরে
+                         নালি কোন দিকে গেল, কতটা গেল — ডাক্তার টাইপ করে লেখেন। -->
+                    <LinearLayout style="@style/DocNoteFieldBox">
+                        <View style="@style/DocNoteAccentBar" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInner">
+                            <LinearLayout style="@style/DocNoteFieldBoxTopRow">
+                                <TextView style="@style/DocNoteIcon" android:text="🩺" />
+                                <TextView style="@style/DocNoteLabel" android:text="D. On Probing · প্রোব পরীক্ষা" />
+                            </LinearLayout>
+                            <View style="@style/DocNoteDivider" />
+                            <EditText android:id="@+id/etOnProbing" style="@style/DocNoteInputMultiline" android:hint="Direction and depth of tract after probing" android:minLines="2" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- 🔴🔒 V501 (TK-নির্দেশ ২১.০৮.২০২৬, ফটো-প্রুফ অনুমোদিত):
+                         *"investigation উপরে থাকবে না, ওটার নিচে কুইক action-এর
+                         মধ্যে থাকতে হবে।"*
+                         ⇒ "E. Investigations" এখান থেকে সরিয়ে ধাপ ৫-এর
+                           Quick Actions-এর নিচে বসানো হলো (নিচে খুঁজুন:
+                           `investigationLabel` / `investigationGroup`)।
+                         ⛔ ঘরের নাম · টিকের মান · সেভ — কিছুই বদলায়নি,
+                            পুরোনো রেকর্ডও অক্ষত। শুধু পর্দায় জায়গা বদল। -->
+                    </LinearLayout><!-- clinicalFoldBody -->
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- STEP 3: Counselling & Advice -->
+            <!-- 🆕 TK-নির্দেশ (04.08.2026, ধাপে ধাপে ফটো-প্রুফে "লক করুন"):
+                 রোগীকে কীভাবে চিকিৎসা করা হবে — Tick-বক্স (Choose/dropdown
+                 নয়, DRE/Investigation-এর মতো একাধিক বাছা যায়), তিনটেতে
+                 এডিটেবল টাকা। ⛔ পুরনো "Disease Explanation Given" বক্সটাই
+                 (etCounselling, ঘর/কোড অপরিবর্তিত) এখন প্লেইন বক্স —
+                 TK-এর নিজের সিদ্ধান্তে দুটো বক্স একই কাজ করত বলে একটাই
+                 রাখা হয়েছে, ঝুঁকি কমাতে পুরনোটাই টিকিয়ে রাখা হলো।
+                 🔒🔒 TK-LOCKED (06.08.2026, HTML মকআপে ধাপে ধাপে চূড়ান্ত
+                 করে "লক করে রাখুন" বলার পরে) —
+                 (১) ৬টা চেকবক্স-সারিই এখন Step 1/2-র মতো "বক্স" ডিজাইনে
+                 (গোল-কোণা সাদা কার্ড + বাঁ পাশে বেগুনি দাগ), ভিতরে আগের
+                 মতোই চেকবক্স + (থাকলে) ₹-সহ টাকার ঘর — অনুভূমিক সারি।
+                 (২) **ক্রম বদল** — যে ৩টাতে টাকা আছে (Per Piles, Fistula
+                 Per Inch, Kshar Sutra) সেগুলো এখন **সবার উপরে, পরপর**;
+                 তারপর যেগুলোতে টাকা নেই (Machine Treatment, LIS,
+                 Injection)। ⛔ শুধু দেখানোর ক্রম বদলেছে, id/checkbox-tag/
+                 সেভ-লজিক এক অক্ষরও বদলায়নি।
+                 (৩) **লেবেল বদল (TK-এর নিজের দেওয়া লেখা অনুযায়ী)** —
+                 "Per Piles" → "Per Piles/ প্রতি অর্শ", "Fistula Per
+                 ইঞ্চি" → "Fistula Per Inch/ ফিস্টুলা প্রতি ইঞ্চি",
+                 "মেশিন দিয়ে কাজ হবে · Machine Treatment" → "Machine
+                 Treatment/ মেশিনের মাধ্যমে চিকিৎসা", "Per ক্ষারসূত্র
+                 হিসাবে চিকিৎসা\nKshar Sutra" → "Kshar Sutra/ প্রতি
+                 ক্ষারসূত্র" — ইংরেজি ও বাংলা একই লাইনে "/ " দিয়ে (আগের
+                 " · " ফুটকি-জনিত ঝামেলার পরে এই আলাদা চিহ্ন বাছা হয়েছে,
+                 বক্স উচ্চতাও কম থাকে)। LIS/Injection টেক্সট অপরিবর্তিত।
+                 ⛔ **শুধু `android:text` বদলেছে — checkbox `id` ও সেভ-
+                 লজিক (`cb.isChecked`/`cb.tag`-ভিত্তিক নয়, buildChecks-এর
+                 প্যাটার্নে নয়) একদম অক্ষত, তাই পুরনো সেভ করা রেকর্ড
+                 ভাঙবে না।**
+                 (৪) "Other Treatment Note" শিরোনাম ও আইকন সম্পূর্ণ বাদ —
+                 এখন শুধু একটা প্লেইন বক্স (বেগুনি দাগ-সহ), হিন্ট-লেখা
+                 নতুন: "উপরে টিক মারার বাইরেও যদি রোগীকে অন্য কিছু বলে
+                 থাকেন তাহলে সেই কথা এখানে লিখুন, অন্যথায় Next চাপুন"।
+                 ⛔ `etCounselling` id/সেভ-লজিক অপরিবর্তিত। -->
+            <!-- 🎨 (07.08.2026, প্রুফ-চেহারা) কার্ড সাদা — আগে #F5EFFF -->
+            <androidx.cardview.widget.CardView android:id="@+id/secCounsel" style="@style/RegCard" android:layout_marginTop="6dp" app:cardBackgroundColor="#FFFFFF">
+                <LinearLayout style="@style/RegCardInner" android:padding="10dp">
+                    <!-- 🎨 (07.08.2026, প্রুফ-চেহারা) সেকশন-শিরোনাম -->
+                    <!-- 🟢🔒🔒 V886 (৩০.০৮.২০২৬, TK-নির্দেশ, ডেমো-প্রুফে অনুমোদিত):
+                         TK: *"মেইন পয়েন্টগুলো ফর্ম খোলা থাকবে না"* ⇒ এই ধাপটাও
+                         এখন **বন্ধ অবস্থায়** শুরু হয়, নামে চাপ দিলে খোলে।
+                         ⛔ ধাপ ২ (V703) · NEXT VISIT PLAN (V866) · ধাপ ৫ (V600)-এর
+                            হুবহু একই ভাঁজ — চালু `attachFold`, নতুন কিছু নয়।
+                         ⛔ ভিতরের একটাও ঘর · লেখা · সেভ বদলায়নি — শুধু একটা
+                            মোড়ক (`counsFoldBody`) ও মাথায় চ্যাভরন যোগ হয়েছে। -->
+                    <LinearLayout android:id="@+id/counsFoldHead" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:layout_marginBottom="6dp">
+                        <TextView android:layout_width="23dp" android:layout_height="23dp" android:gravity="center" android:text="3" android:textStyle="bold" android:textSize="12sp" android:textColor="#12805C" android:background="@drawable/bg_checkup_step_num" />
+                        <!-- 🎨🔒 V1493 (১৫.০৯.২০২৬, TK-নির্দেশ ও ডেমো-প্রুফ পাশ) — চিকিৎসা
+                             পরিকল্পনা আসলে Estimated Cost-এর অনুবাদ ছিল না, TK বললেন পাশে
+                             ঠিক অনুবাদ আনুমানিক খরচ লিখতে। -->
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="9dp" android:text="Estimated Cost · আনুমানিক খরচ" android:textStyle="bold" android:textSize="14sp" android:textColor="#101828" />
+                        <TextView android:id="@+id/counsFoldNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:background="@drawable/bg_fold_count_chip" android:paddingLeft="9dp" android:paddingTop="2dp" android:paddingRight="9dp" android:paddingBottom="2dp" android:textColor="#0B4F2A" android:textSize="11.5sp" android:textStyle="bold" android:visibility="gone" />
+                        <TextView android:id="@+id/counsFoldChev" android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="8dp" android:gravity="center" android:background="@drawable/bg_fold_chevron" android:text="⌄" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="15sp" />
+                        <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/counsFoldBody" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+                    <!-- 🔴🔒 V501 (TK-নির্দেশ ২১.০৮.২০২৬, ফটো-প্রুফ অনুমোদিত):
+                         *"ট্রিটমেন্ট প্ল্যান বক্স সেগুলো সব একই সাইজের হবে।"*
+                         • প্রতিটা সারির ভিতরে স্থির উচ্চতা ৪২dp
+                         • প্রতিটা লেখা এক লাইনে (আগে দু-লাইনে নেমে বাক্স লম্বা হত)
+                         • তিনটে লম্বা নাম ছোট করা হলো (TK-এর অনুমতি নিয়ে)
+                         ⛔ **সেভ হওয়া মান একটুও বদলায়নি** — প্রতিটা CheckBox-এর
+                            `.tag`-এ স্থির ইংরেজি মান বসানো আছে (DoctorCheckupActivity
+                            ১৮৮-১৯৩ লাইন), আর `checkedText()` সেই `.tag`-ই পড়ে,
+                            পর্দার লেখা নয়। তাই পুরোনো রেকর্ড ও রিপোর্ট অটুট।
+                         ⛔ টাকার ঘর (etAmt*) · দাম · হিসাব — কিছুই ছোঁয়া হয়নি। -->
+                    <!-- 🧮🔒 V1280 (০৯.০৯.২০২৬, TK-র ফাইনাল অনুমতি ও ফটো-প্রুফ পাশ — তালিকা
+                         সারি ৪০৩): TK: *"পার পাইলস / ফিস্টুলা … অ্যামাউন্ট বসানোর জন্য সিস্টেম
+                         আলাদা করাই আছে … তাতে গিয়ে তো দুই বার হয়ে যাচ্ছে … এটা তুলে দিন"*।
+                         ⇒ টিক-তালিকা ও তার ₹ ঘরগুলো **পর্দা থেকে সরল** (এই মোড়কটা gone)।
+                         ⛔ ঘরগুলো লেআউটে **রয়ে গেছে** — COST ESTIMATE থেকে ফিরে এলে অ্যাপ
+                            নিজেই টিক বসিয়ে দেয় (`applyEstimateToCheckup`), তাই সেভ · কাগজের
+                            TREATMENT PLAN লাইন · পুরনো রেকর্ড — সবই আগের ঘর দিয়েই চলে। -->
+                    <LinearLayout android:id="@+id/txPlanLegacyWrap" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+                    <TextView style="@style/FieldLabel" android:layout_marginTop="0dp" android:text="Treatment Plan · কীভাবে চিকিৎসা করা হবে" android:textColor="@color/brand_navy" />
+
+                    <!-- টাকা-সহ তিনটে (পরপর, সবার উপরে) -->
+                    <LinearLayout style="@style/DocNoteFieldBox" android:layout_marginTop="8dp">
+                        <View style="@style/DocNoteAccentBarPurple" />
+                        <!-- 🔒 B547 (08.08.2026, TK-অনুমোদিত প্রুফ "বিকল্প ১") — CheckBox এখন
+                             weight=1 (লেখা বড় হলে নিজে থেকে পরের লাইনে নামে), spacer বাদ, ₹+দাম
+                             হালকা সবুজ চিপে ডানদিকে সারিবদ্ধ — কখনো লেগে যায় না/কাটে না।
+                             ⛔ id (cbTxPerPiles/etAmtPerPiles) ও দাম টাইপ-করা আচরণ অপরিবর্তিত। -->
+                        <LinearLayout style="@style/DocNoteFieldBoxInnerHorizontal" android:minHeight="42dp" android:gravity="center_vertical">
+                            <CheckBox android:id="@+id/cbTxPerPiles" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:minHeight="0dp" android:singleLine="true" android:ellipsize="end" android:text="Per Piles/ প্রতি অর্শ" android:textSize="13sp" />
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_price_chip" android:paddingStart="9dp" android:paddingEnd="9dp" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_marginStart="8dp">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="₹" android:textColor="@color/brand_green" android:textStyle="bold" android:layout_marginEnd="3dp" />
+                                <EditText android:id="@+id/etAmtPerPiles" android:layout_width="64dp" android:layout_height="wrap_content" android:inputType="number" android:gravity="end" android:textSize="13sp" android:textStyle="bold" android:textColor="@color/brand_green" android:background="@null" android:text="8000" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/DocNoteFieldBox">
+                        <View style="@style/DocNoteAccentBarPurple" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInnerHorizontal" android:minHeight="42dp" android:gravity="center_vertical">
+                            <CheckBox android:id="@+id/cbTxFistulaInch" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:minHeight="0dp" android:singleLine="true" android:ellipsize="end" android:text="Fistula Per CM/ ফিস্টুলা প্রতি সেমি" android:textSize="13sp" />
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_price_chip" android:paddingStart="9dp" android:paddingEnd="9dp" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_marginStart="8dp">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="₹" android:textColor="@color/brand_green" android:textStyle="bold" android:layout_marginEnd="3dp" />
+                                <EditText android:id="@+id/etAmtFistulaInch" android:layout_width="64dp" android:layout_height="wrap_content" android:inputType="number" android:gravity="end" android:textSize="13sp" android:textStyle="bold" android:textColor="@color/brand_green" android:background="@null" android:text="11000" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/DocNoteFieldBox">
+                        <View style="@style/DocNoteAccentBarPurple" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInnerHorizontal" android:minHeight="42dp" android:gravity="center_vertical">
+                            <CheckBox android:id="@+id/cbTxKsharSutra" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:minHeight="0dp" android:singleLine="true" android:ellipsize="end" android:text="Kshar Sutra/ প্রতি ক্ষারসূত্র" android:textSize="13sp" />
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_price_chip" android:paddingStart="9dp" android:paddingEnd="9dp" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_marginStart="8dp">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="₹" android:textColor="@color/brand_green" android:textStyle="bold" android:layout_marginEnd="3dp" />
+                                <EditText android:id="@+id/etAmtKsharSutra" android:layout_width="64dp" android:layout_height="wrap_content" android:inputType="number" android:gravity="end" android:textSize="13sp" android:textStyle="bold" android:textColor="@color/brand_green" android:background="@null" android:text="6000" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- টাকা নেই — এই তিনটে পরে -->
+                    <LinearLayout style="@style/DocNoteFieldBox">
+                        <View style="@style/DocNoteAccentBarPurple" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInnerHorizontal" android:minHeight="42dp" android:gravity="center_vertical">
+                            <CheckBox android:id="@+id/cbTxMachine" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:minHeight="0dp" android:singleLine="true" android:ellipsize="end" android:text="Machine Treatment/ মেশিনে চিকিৎসা" android:textSize="13sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/DocNoteFieldBox">
+                        <View style="@style/DocNoteAccentBarPurple" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInnerHorizontal" android:minHeight="42dp" android:gravity="center_vertical">
+                            <CheckBox android:id="@+id/cbTxLis" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:minHeight="0dp" android:singleLine="true" android:ellipsize="end" android:text="LIS/ এলআইএস চিকিৎসা" android:textSize="13sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- 🔴🔒 V542 (২২.০৮.২০২৬, TK-নির্দেশ: *"ইনজেকশন চিকিৎসা — এটা থাকবে না"*)
+                         পুরো সারিটা পর্দা থেকে সরানো।
+                         ⛔ **মোছা হয়নি, লুকানো** — প্রজেক্টের সেই একই প্রমাণিত পথ
+                            (V455-এ "B. DRE", এই ভার্সনে "E. Investigations")। কারণ
+                            `cbTxInjection` কোডে এখনো ব্যবহার হয় (`treatmentChecks()`),
+                            আর **পুরোনো চেকআপে এটা টিক দেওয়া থাকলে সেই তথ্য
+                            হারায় না** — ছাপা রিপোর্টে আগের মতোই দেখা যায়।
+                         ⛔ নতুন চেকআপে টিক দেওয়ার উপায় নেই, তাই আর কখনো
+                            সেভ হবে না — TK যা চেয়েছেন ঠিক তাই। -->
+                    <LinearLayout android:visibility="gone" style="@style/DocNoteFieldBox">
+                        <View style="@style/DocNoteAccentBarPurple" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInnerHorizontal" android:minHeight="42dp" android:gravity="center_vertical">
+                            <CheckBox android:id="@+id/cbTxInjection" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:minHeight="0dp" android:singleLine="true" android:ellipsize="end" android:text="Injection/ ইনজেকশন চিকিৎসা" android:textSize="13sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- 🔵🔒 V557 (২২.০৮.২০২৬) "সম্ভাব্য কি রোগ?" ও "কতদিন সময় চাওয়া হল?" —
+                         🟢 V600 (২৩.০৮.২০২৬, TK-নির্দেশ, ছবিসহ): "যেখানে আছে সেখান থেকে
+                         সরিয়ে দেবেন ... estimate and decision ওই জায়গাতে রাখবেন"
+                         ⇒ এই ব্লকটা এখান থেকে সরিয়ে Step 4 (secEstimate)-এর মাথায়
+                         বসানো হলো। ⛔ id/spinner/সেভ-লজিক কিছুই বদলায়নি, শুধু
+                         XML-এ জায়গা বদল। -->
+
+                    <!-- প্লেইন বক্স, কোনো শিরোনাম/আইকন নেই -->
+
+                    <!-- 🟢🔒 V651 (২৫.০৮.২০২৬, TK-নির্দেশ, ছবিসহ — "এখানে নিচের
+                         দিকে থাকবে আনুমানিক খরচ কত বলা হল") — Estimated Cost
+                         এখন Step 3-এর একদম নিচে (Treatment Plan-এর পরে, নোটের
+                         আগে) — TK-এর দেখানো ঠিক জায়গায়। ⛔ id/সেভ-লজিক/
+                         নোটিফিকেশন/A4-রিপোর্ট কিছুই বদলায়নি — একই
+                         `etEstimatedCost` view, শুধু জায়গা বদল (Step 4 থেকে
+                         Step 3-এ)। -->
+                    </LinearLayout><!-- txPlanLegacyWrap (V1280) -->
+                    <!-- 🎨🔒 V1493 (১৫.০৯.২০২৬, TK-নির্দেশ ও ডেমো-প্রুফ পাশ) — এই বাক্সের
+                         লেখাটা ("Estimated Cost · আনুমানিক খরচ কত বলা হল") হেডারের সাথে
+                         মিলে বারবার একই কথা বলছিল, TK ধরলেন। তাই পুরো বাক্সটা এখন
+                         visibility="gone" — শুধু দেখা বন্ধ, ভিতরের `etEstimatedCost`
+                         (Net Payable সেভ হয় এখানেই) ও `btnBuildEstimateInline` আগের
+                         মতোই findViewById-এ পাওয়া যায়, সেভ-লজিক এক অক্ষরও বদলায়নি। -->
+                    <LinearLayout style="@style/DocNoteFieldBox" android:visibility="gone">
+                        <View style="@style/DocNoteAccentBarPurple" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInner">
+                            <LinearLayout style="@style/DocNoteFieldBoxTopRow">
+                                <TextView style="@style/DocNoteIcon" android:text="💰" />
+                                <TextView style="@style/DocNoteLabel" android:text="Estimated Cost · আনুমানিক খরচ কত বলা হল" />
+                            </LinearLayout>
+                            <View style="@style/DocNoteDivider" />
+                            <!-- 💰🔒 V971 (০২.০৯.২০২৬, TK-অনুমোদিত ফটো-প্রুফ) — ঘরের
+                                 পাশে "Build" বোতাম; চাপলে ভাঙা হিসাবের পপ-আপ খোলে,
+                                 আর Net Payable এই ঘরেই বসে যায়।
+                                 ⛔ `etEstimatedCost`-এর id · সেভ-লজিক · A4 রিপোর্ট
+                                    কিছুই বদলায়নি — শুধু পাশে একটা বোতাম বসল। -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:visibility="gone">
+                                <!-- 🧮 V1280 — হাতে টাইপের ঘর ও ছোট আইকন লুকানো (TK: *"হাতে এস্টিমেট
+                                     টাইপ করার দরকার নেই"*); `etEstimatedCost` রয়ে গেছে — COST ESTIMATE
+                                     থেকে ফিরে এলে Net Payable এখানেই বসে ও সেভ হয়, আগের মতোই। -->
+                                <EditText android:id="@+id/etEstimatedCost" style="@style/DocNoteInputSingle" android:inputType="number" android:hint="Estimated cost" android:layout_width="0dp" android:layout_weight="1" />
+                                <!-- 🧮🔒 V1105 (০৫.০৯.২০২৬, TK-রিপোর্ট: *"আনুমানিক খরচ কত বলা
+                                     হলো তার পাশেই তো এস্টিমেটের Sample টা থাকার কথা ছিল, আপনি তো
+                                     শুধুমাত্র হেডারেই রেখে দিয়েছেন, তার জন্য তো বিভ্রান্ত হয়ে গেলাম"*)।
+                                     V995-এ বোতামটা এখান থেকে হেডারে তোলা হয়েছিল; এখন ঘরের পাশেও
+                                     আবার বসল। **হেডারেরটা যেমন ছিল তেমনই থাকছে** — দুটো চাপলেই
+                                     হুবহু একই এস্টিমেটের কাগজ খোলে।
+                                     ⛔ `etEstimatedCost`-এর id · সেভ-লজিক · A4 রিপোর্ট · নোটিফিকেশন
+                                        কিছুই বদলায়নি — শুধু পাশে একটা বোতাম যোগ। -->
+                                <TextView
+                                    android:id="@+id/btnBuildEstimateInline"
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:layout_marginStart="8dp"
+                                    android:background="@drawable/bg_circle_gradient_violet"
+                                    android:gravity="center"
+                                    android:text="🧮"
+                                    android:textSize="15sp"
+                                    android:contentDescription="Build Estimate"
+                                    android:clickable="true"
+                                    android:focusable="true" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- 🧮🔒 V1280 — TK: *"সেই আইকন টা আরেকটু বড় করতে হবে যাতে বুঝতে হবে"*
+                         ⇒ পুরো চওড়ার বড় বেগুনি বোতাম; চাপলে আগের সেই COST ESTIMATE
+                         কাগজই খোলে (`openEstimate`)। নিচে "FROM COST ESTIMATE" সারাংশ —
+                         শুধু দেখার, কিছু টাইপ করার নেই। -->
+                    <TextView
+                        android:id="@+id/btnBuildEstimateBig"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_btn_gradient_violet"
+                        android:gravity="center"
+                        android:paddingVertical="15dp"
+                        android:text="🧮  COST ESTIMATE"
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.03"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="Build Estimate" />
+                    <LinearLayout style="@style/DocNoteFieldBox" android:layout_marginTop="10dp">
+                        <View style="@style/DocNoteAccentBarPurple" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInner">
+                            <!-- 🎨🔒 V1493 (১৫.০৯.২০২৬, TK-নির্দেশ ও ডেমো-প্রুফ পাশ) — "FROM COST
+                                 ESTIMATE" উপরের বোতাম+হেডারের সাথে মিলে তৃতীয়বার একই কথা
+                                 বলছিল, এখন "SUMMARY"। ⛔ নিচের tvEstimateSummary-র id/লজিক
+                                 অপরিবর্তিত। -->
+                            <TextView style="@style/FieldLabel" android:layout_marginTop="0dp" android:text="SUMMARY" android:textColor="#8B98A9" android:letterSpacing="0.06" />
+                            <TextView android:id="@+id/tvEstimateSummary" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="14.5sp" android:textColor="#123A26" android:lineSpacingExtra="4dp" android:paddingTop="4dp" android:text="Nothing added yet — tap COST ESTIMATE above" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- 📝🔒 V1280 — TK: *"রোগীর সাথে কোন চুক্তিতে ট্রিটমেন্ট করব, কতদিন সময় নিব —
+                         বিস্তারিত লিখব … পরে অন্য ডাক্তার বুঝতে পারবে … এস্টিমেট প্রিন্টে যাবে না ·
+                         চেকআপ কাগজেও না, তবে অপশন থাকবে আলাদা"* ⇒ এই ঘরটা **আগের `etCounselling`-ই**
+                         (সেভ · হিস্ট্রি অটুট), শুধু নাম ও ইঙ্গিত বদলাল; কাগজে যাবে কিনা প্রিভিউ
+                         পর্দার সুইচে (ডিফল্ট বন্ধ)। এস্টিমেট কাগজে কোনো অবস্থাতেই নয়। -->
+                    <TextView style="@style/FieldLabel" android:layout_marginTop="12dp" android:text="Treatment Plan &amp; Agreement · চিকিৎসার চুক্তি ও পরিকল্পনা" android:textColor="@color/brand_navy" />
+                    <LinearLayout style="@style/DocNoteFieldBox" android:layout_marginBottom="2dp">
+                        <View style="@style/DocNoteAccentBarPurple" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInner">
+                            <EditText android:id="@+id/etCounselling" style="@style/DocNoteInputMultiline" android:minLines="2" android:hint="রোগীর সাথে কী চুক্তি হল — কীভাবে চিকিৎসা, কতদিন, কিস্তি — বিস্তারিত এখানে লিখুন" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Internal note — saved with the check-up, never printed on the patient&apos;s estimate" android:textSize="10.5sp" android:textColor="#8B98A9" android:paddingStart="2dp" android:paddingBottom="4dp" />
+                    </LinearLayout><!-- counsFoldBody -->
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- STEP 4: Estimate & Decision (merged, TK-নির্দেশ 04.08.2026) -->
+            <!-- 🔒🔒 TK-LOCKED (06.08.2026, HTML মকআপে "ওকে" বলার পরে) —
+                 Step 1/2-এর মতোই নতুন "বক্স" ডিজাইনে (সবুজ অ্যাকসেন্ট,
+                 Step 3-এর বেগুনি থেকে আলাদা — এই ধাপে চেকবক্স নেই বলে
+                 Step 1/2-এর সাথে মিলিয়ে সবুজ)। লম্বা তিনটে লেবেল
+                 (Estimated Recovery Time, Advance Payment to be Done,
+                 Decision of Patient or Patient Party) এক লাইনে রাখতে
+                 আলাদা করে ফন্ট ছোট। ⛔ ড্রপডাউনের ভিতরের অপশন-টেক্সট
+                 (`decisionOptions.map{...}`) ছোঁয়া হয়নি। ⛔ id/hint/
+                 সেভ-লজিক কিছুই বদলায়নি। -->
+            <!-- 🎨 (07.08.2026, প্রুফ-চেহারা) কার্ড সাদা — আগে #EAFBF0 -->
+            <androidx.cardview.widget.CardView android:id="@+id/secEstimate" style="@style/RegCard" android:layout_marginTop="6dp" android:visibility="gone" app:cardBackgroundColor="#FFFFFF">
+                <LinearLayout style="@style/RegCardInner" android:padding="10dp">
+
+                    <!-- 🎨 (07.08.2026, প্রুফ-চেহারা) সেকশন-শিরোনাম -->
+                    <!-- 🟢🔒🔒 V886 (৩০.০৮.২০২৬, TK-নির্দেশ, ডেমো-প্রুফে অনুমোদিত):
+                         TK: *"মেইন পয়েন্টগুলো ফর্ম খোলা থাকবে না"* ⇒ এই ধাপটাও
+                         এখন **বন্ধ অবস্থায়** শুরু হয়, নামে চাপ দিলে খোলে।
+                         ⛔ ধাপ ২ (V703) · NEXT VISIT PLAN (V866) · ধাপ ৫ (V600)-এর
+                            হুবহু একই ভাঁজ — চালু `attachFold`, নতুন কিছু নয়।
+                         ⛔ ভিতরের একটাও ঘর · লেখা · সেভ বদলায়নি — শুধু একটা
+                            মোড়ক (`estmFoldBody`) ও মাথায় চ্যাভরন যোগ হয়েছে। -->
+                    <LinearLayout android:id="@+id/estmFoldHead" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:layout_marginBottom="6dp">
+                        <TextView android:layout_width="23dp" android:layout_height="23dp" android:gravity="center" android:text="4" android:textStyle="bold" android:textSize="12sp" android:textColor="#12805C" android:background="@drawable/bg_checkup_step_num" />
+                        <!-- 🟢🔒 V651 (২৫.০৮.২০২৬, TK-নির্দেশ — "নামকরণটাও থাকবে
+                             না") — Estimated Cost ঘর সরানোর পরে এই শিরোনামও
+                             আর ঠিক না (এখন শুধু রোগ+সময়ের ঘর দেখা যায়) —
+                             তাই বদলানো হলো। -->
+                        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:layout_marginStart="9dp" android:text="Probable Disease and Time Asked\nসম্ভাব্য রোগ ও সময়" android:textStyle="bold" android:textSize="14sp" android:textColor="#101828" />
+                        <TextView android:id="@+id/estmFoldNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:background="@drawable/bg_fold_count_chip" android:paddingLeft="9dp" android:paddingTop="2dp" android:paddingRight="9dp" android:paddingBottom="2dp" android:textColor="#0B4F2A" android:textSize="11.5sp" android:textStyle="bold" android:visibility="gone" />
+                        <TextView android:id="@+id/estmFoldChev" android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="8dp" android:gravity="center" android:background="@drawable/bg_fold_chevron" android:text="⌄" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="15sp" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/estmFoldBody" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+
+                    <!-- 🟢 V600 (২৩.০৮.২০২৬, TK-নির্দেশ) — Step 3 থেকে সরিয়ে আনা।
+                         🔴 রোগ বদলালে রোগীর সারিতেও লেখা হয় (আগের মতোই, CounselModel.diseaseChanged)।
+                         ⛔ id/hint/সেভ-লজিক কিছুই বদলায়নি — শুধু জায়গা বদল। -->
+                    <LinearLayout style="@style/DocNoteFieldBox" android:layout_marginTop="0dp">
+                        <View style="@style/DocNoteAccentBar" />
+                        <LinearLayout style="@style/DocNoteFieldBoxInner">
+                            <LinearLayout style="@style/DocNoteFieldBoxTopRow">
+                                <TextView style="@style/DocNoteIcon" android:text="🩺" />
+                            </LinearLayout>
+                            <View style="@style/DocNoteDivider" />
+                            <!-- 🔵🔒 V946 (০১.০৯.২০২৬, TK-নির্দেশ, ফটো-প্রুফ পাশ):
+                                 এক রোগীর একাধিক রোগ থাকতে পারে (PILES + FISTULA)।
+                                 আগে এক-বাছাইয়ের Spinner ছিল, তাই দুটো নেওয়া যেত না।
+                                 এখন রেজিস্ট্রেশনের হুবহু একই ChipGroup — একাধিক বাছা যায়।
+                                 ⛔ সেভের ঘর আগের মতোই লেখা-ধরনের ("Piles, Fistula")। -->
+                            <com.google.android.material.chip.ChipGroup
+                                android:id="@+id/cgProbableDisease"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                app:chipSpacingVertical="2dp"
+                                app:singleLine="false" />
+                            <TextView style="@style/DocNoteLabel"
+                                android:layout_width="match_parent" android:layout_marginTop="10dp"
+                                android:text="কতদিন সময় চাওয়া হল?" />
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                                android:orientation="horizontal" android:gravity="center_vertical">
+                                <EditText android:id="@+id/etTimeAsked" style="@style/DocNoteInputSingle"
+                                    android:layout_width="72dp" android:inputType="number"
+                                    android:gravity="center" android:maxLines="1" />
+                                <Spinner android:id="@+id/spTimeAskedUnit" style="@style/DocNoteInputSingle"
+                                    android:layout_width="120dp" android:layout_marginStart="8dp"
+                                    android:background="@drawable/bg_input_field_picker" android:paddingEnd="40dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- 🟢🔒 V589 (২৩.০৮.২০২৬, TK-নির্দেশ, ছবিসহ) — *"একই Form-এ দুই
+                         জায়গাতে রয়েছে কতদিন সময় চাওয়া হইলো · দ্বিতীয় ফটোর সময়ের
+                         ওখানটা থাকবে না · সময় চাওয়া তো এক জায়গায় থাকবে · যেটা
+                         অটোমেটিক ফর্মে রয়েছে পাশাপাশি দুটো বক্স, ওটাই থাকবে"*
+                         ⇒ "Estimated Recovery Time · আনুমানিক কতদিন বলা হল" ঘরটা বাদ।
+                         একই কথা এখন **একটাই জায়গায়** — ভাগ ৩-এর "কতদিন সময় চাওয়া হল?"
+                         (সংখ্যা + Days/Months/Years, পাশাপাশি দুটো বক্স)।
+                         ⛔ ClinicalModels-এর `recoveryTime` ঘরটা **অটুট** (V455/B622-এর
+                            হুবহু একই নিয়ম) — পুরনো রোগীর সেভ করা লেখা মুছে যায় না,
+                            আবার Save করলেও হুবহু ফিরে বসে। শুধু নতুন করে লেখার ঘরটা নেই।
+                         ⛔ A4 কাগজের ঘরটা এখন ভাগ ৩-এর সময়টাই ছাপে (TK: *"অ্যাপের মধ্যে
+                            এক জায়গায় আমি বেছে নিচ্ছি, সেটাই ছেপে যাবে"*)। -->
+
+
+
+                    <!-- 🔵 B622 (11.08.2026, TK-নির্দেশ): "Advance Payment to be Done" ঘরটা বাদ। -->
+                    <!-- V455 (TK-নির্দেশ ১৮.০৮.২০২৬) — "Decision of Patient..." ও
+                         "Other / Remarks" দুটোই বাদ। ⛔ ClinicalModels-এর patientDecision/
+                         decisionRemark ঘর অটুট (ডিফল্ট ""), শুধু UI সরানো। -->
+
+                    </LinearLayout><!-- estmFoldBody -->
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ═══════════════════════════════════════════════════════════
+                 🩺🔒 V839 — NEXT VISIT PLAN · পরের বার এই রোগীর কী হবে
+                 TK-নির্দেশ (২৯.০৮.২০২৬, ফটো-প্রুফ দেখিয়ে অনুমোদিত)।
+                 ⛔ ধাপ ৪-এর ঠিক নিচে — ৫ ধাপের লক করা ডিজাইন ভাঙা হয়নি,
+                    নতুন কোনো ধাপ যোগ করা হয়নি, উপরের চিপ-বার অপরিবর্তিত।
+                 ⛔ এই ঘরগুলোর কোনোটাই ছাপার কাগজে যায় না
+                    (TK: "শুধুমাত্র সিস্টেমে থাকবে")।
+                 ⛔ কার্ডের ধাঁচ Step 1/2/4-এর হুবহু একই (সাদা RegCard)। -->
+            <!-- 🔴🔴🔒 V938 (৩১.০৮.২০২৬, TK-নির্দেশ · ডেমো-প্রুফে অনুমোদিত: *"হ্যাঁ পাশ"*)
+                 TK: *"উক্ত পেশেন্টের আজকে কি চিকিৎসা করা হলো — এটা যদি ডাক্তার
+                 চেকআপের সময় করে দেয়, সেক্ষেত্রে সেখান থেকে যেন অটোমেটিক
+                 চেম্বারে চলে আসে"* · *"যেমন NEXT PLAN আছে সেরকমই একটা বানিয়ে
+                 দিন, তবে এই লেখাটা NEXT PLAN-এর আগে হবে"*।
+
+                 ⛔ কার্ড ও ভাঁজের ধাঁচ NEXT VISIT PLAN-এর **হুবহু একই** — নতুন
+                    কোনো ধাপ যোগ হয়নি, উপরের চিপ-বার অপরিবর্তিত।
+                 ⛔ ভিতরের ১০টা লেখা **চেম্বারের সেই একই ১০টা**
+                    (`TreatmentQuickNotes.QUICK_BN`) — নতুন কোনো লেখা বানানো হয়নি,
+                    তাই ছাপার ইংরেজি-অনুবাদ (`PrintTextEnglish`) আগের মতোই মেলে।
+                 ⛔ ডাক্তার কিছু না বাছলে কিছুই লেখা হয় না — চেম্বারের পুরনো
+                    Treatment Progress অক্ষত থাকে। -->
+            <!-- 🔵🔒 V947 (০১.০৯.২০২৬, TK-নির্দেশ, ফটো-প্রুফ পাশ) — ডাক্তারের মন্তব্য।
+                 TK: *"তারা বললেন বাড়িতে আলোচনা করে জানাবে · টেস্ট করিয়ে এসে
+                 চিকিৎসা শুরু করব — এই কথা কোথায় লিখব?"*
+                 ⛔ এটা **শুধু** স্টাফের কল-পর্দার Last Remark-এ যাবে —
+                    চেম্বার বোর্ড বা রিপোর্ট কার্ডে **নয়** (TK-এর স্পষ্ট নির্দেশ)।
+                 ⛔ "TODAY'S TREATMENT DONE"-এর ঠিক আগে, প্রুফে দেখানো জায়গাতেই। -->
+            <androidx.cardview.widget.CardView android:id="@+id/secDocRemark" style="@style/RegCard" android:layout_marginTop="6dp" app:cardBackgroundColor="#FFFFFF">
+                <LinearLayout style="@style/RegCardInner" android:padding="10dp">
+                    <!-- 📝🔒 V996 (০৩.০৯.২০২৬, TK-অনুমোদিত ফটো-প্রুফ) — TK: *"কয়েকটা
+                         ফর্ম ওপেন থাকতেছে"*। এই ঘরটা ভাঁজের বাইরে ছিল বলে সবসময়
+                         খোলা থাকত। এখন TODAY'S TREATMENT DONE-এর হুবহু একই ভাঁজ —
+                         বন্ধ অবস্থায় শুরু হয়, মাথায় চাপ দিলে খোলে।
+                         ⛔ `etDoctorRemark`-এর id · সেভ · হিন্ট কিছুই বদলায়নি। -->
+                    <!-- 🔢🔒 V1494 (১৫.০৯.২০২৬, TK-নির্দেশ ও ডেমো-প্রুফ পাশ) — এই সেকশনের
+                         নম্বর ছিল না, এখন ৪ (উপরের ধাপ-বার ও sectionIds-এর সাথে মিলিয়ে)। -->
+                    <LinearLayout android:id="@+id/dremFoldHead" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:clickable="true" android:focusable="true" android:gravity="center_vertical" android:layout_marginBottom="6dp">
+                        <TextView android:layout_width="23dp" android:layout_height="23dp" android:gravity="center" android:text="4" android:textStyle="bold" android:textSize="12sp" android:textColor="#12805C" android:background="@drawable/bg_checkup_step_num" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="9dp"
+                            android:text="DOCTOR&apos;S REMARK" android:textStyle="bold"
+                            android:textSize="14sp" android:textColor="#0B4F2A" />
+                        <TextView android:id="@+id/dremFoldNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:background="@drawable/bg_fold_count_chip" android:paddingLeft="9dp" android:paddingTop="2dp" android:paddingRight="9dp" android:paddingBottom="2dp" android:textColor="#0B4F2A" android:textSize="11.5sp" android:textStyle="bold" android:visibility="gone" />
+                        <TextView android:id="@+id/dremFoldChev" android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="8dp" android:gravity="center" android:background="@drawable/bg_fold_chevron" android:text="⌄" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="15sp" />
+                        <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/dremFoldBody" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+                        <EditText android:id="@+id/etDoctorRemark" style="@style/DocNoteInputSingle"
+                            android:layout_width="match_parent" android:minLines="2" android:gravity="top"
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:hint="What the patient said today" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView android:id="@+id/secTodayTreat" style="@style/RegCard" android:layout_marginTop="6dp" app:cardBackgroundColor="#FFFFFF">
+                <LinearLayout style="@style/RegCardInner" android:padding="10dp">
+
+                    <!-- 🔢🔒 V1494 (১৫.০৯.২০২৬, TK-নির্দেশ ও ডেমো-প্রুফ পাশ) — নম্বর ৫। -->
+                    <LinearLayout android:id="@+id/ttdFoldHead" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="2dp">
+                        <TextView android:layout_width="23dp" android:layout_height="23dp" android:gravity="center" android:text="5" android:textStyle="bold" android:textSize="12sp" android:textColor="#12805C" android:background="@drawable/bg_checkup_step_num" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="9dp" android:text="TODAY&apos;S TREATMENT DONE" android:textStyle="bold" android:textSize="14sp" android:textColor="#0B4F2A" />
+                        <TextView android:id="@+id/ttdFoldNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:background="@drawable/bg_fold_count_chip" android:paddingLeft="9dp" android:paddingTop="2dp" android:paddingRight="9dp" android:paddingBottom="2dp" android:textColor="#0B4F2A" android:textSize="11.5sp" android:textStyle="bold" android:visibility="gone" />
+                        <TextView android:id="@+id/ttdFoldChev" android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="8dp" android:gravity="center" android:background="@drawable/bg_fold_chevron" android:text="⌄" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="15sp" />
+                        <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <LinearLayout android:id="@+id/ttdFoldBody" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="আজকে কি TREATMENT করা হল\nআজ এই রোগীর কী কাজ হলো" android:textSize="11.5sp" android:textColor="#8A93A0" android:layout_marginBottom="6dp" />
+
+                    <CheckBox android:id="@+id/cbTtd1" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="CHECK-UP করা হলো" />
+                    <CheckBox android:id="@+id/cbTtd2" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="KTA করা হল" />
+                    <CheckBox android:id="@+id/cbTtd3" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="DRESSING করা হল" />
+                    <CheckBox android:id="@+id/cbTtd4" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="KSHAR SUTRA করা হল" />
+                    <CheckBox android:id="@+id/cbTtd5" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="KSHAR SUTRA ক্লিয়ার করা হল" />
+                    <CheckBox android:id="@+id/cbTtd6" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="MEDICINE দেওয়া হল" />
+                    <CheckBox android:id="@+id/cbTtd7" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="TEST করতে পাঠানো হল" />
+                    <CheckBox android:id="@+id/cbTtd8" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="MACHINE এর কাজ করা হল" />
+                    <CheckBox android:id="@+id/cbTtd9" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="LIS করা হল" />
+                    <CheckBox android:id="@+id/cbTtd10" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="Visit Return করা হল" />
+
+                    <TextView style="@style/FieldLabel" android:text="Anything else · অন্য কিছু হলে এখানে লিখুন" />
+                    <EditText android:id="@+id/etTtdOther" style="@style/FieldInput" android:minLines="2" android:maxLines="4" android:gravity="top" android:inputType="textMultiLine|textCapSentences" />
+
+                    </LinearLayout><!-- ttdFoldBody -->
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView android:id="@+id/secNextVisitPlan" style="@style/RegCard" android:layout_marginTop="6dp" app:cardBackgroundColor="#FFFFFF">
+                <LinearLayout style="@style/RegCardInner" android:padding="10dp">
+
+                    <!-- 🟢🔒 V866 (৩০.০৮.২০২৬, TK-নির্দেশ, ডেমো-প্রুফে অনুমোদিত):
+                         *"next visit plan — এই ফর্মটা ওপেন থাকবে না"* ⇒ ধাপ ২ (V703) ও
+                         ধাপ ৫ (V600)-এর হুবহু একই ভাঁজ — শুরুতে বন্ধ, মাথায়
+                         চাপ দিলে খোলে। বন্ধ অবস্থাতেও ভিতরে কতগুলো টিক পড়েছে
+                         সবুজ ব্যাজে দেখাবে।
+                         ⛔ ভিতরের একটাও ঘর/টিক/সেভ বদলায়নি — শুধু একটা মোড়ক
+                            (`nvpFoldBody`) ও মাথায় চ্যাভরন যোগ হয়েছে।
+                         ⛔ নতুন কোনো ভাঁজ-ব্যবস্থা বানানো হয়নি — চালু `attachFold`-ই। -->
+                    <!-- 🔢🔒 V1494 (১৫.০৯.২০২৬, TK-নির্দেশ ও ডেমো-প্রুফ পাশ) — নম্বর ৬। -->
+                    <LinearLayout android:id="@+id/nvpFoldHead" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="2dp">
+                        <TextView android:layout_width="23dp" android:layout_height="23dp" android:gravity="center" android:text="6" android:textStyle="bold" android:textSize="12sp" android:textColor="#12805C" android:background="@drawable/bg_checkup_step_num" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="9dp" android:text="NEXT VISIT PLAN" android:textStyle="bold" android:textSize="14sp" android:textColor="#0B4F2A" />
+                        <TextView android:id="@+id/nvpFoldNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:background="@drawable/bg_fold_count_chip" android:paddingLeft="9dp" android:paddingTop="2dp" android:paddingRight="9dp" android:paddingBottom="2dp" android:textColor="#0B4F2A" android:textSize="11.5sp" android:textStyle="bold" android:visibility="gone" />
+                        <TextView android:id="@+id/nvpFoldChev" android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="8dp" android:gravity="center" android:background="@drawable/bg_fold_chevron" android:text="⌄" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="15sp" />
+                        <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/nvpFoldBody" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="What to do next visit\nপরের দিন বা পরের সপ্তাহে কী হবে" android:textSize="11.5sp" android:textColor="#8A93A0" android:layout_marginBottom="6dp" />
+
+                    <CheckBox android:id="@+id/cbNvpFollowUp" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="Follow up / ফলো আপ" />
+                    <CheckBox android:id="@+id/cbNvpDressing" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="Dressing / ড্রেসিং" />
+                    <CheckBox android:id="@+id/cbNvpCautery" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="Cautery Machine / মেশিনের কাজ" />
+                    <CheckBox android:id="@+id/cbNvpThreadInside" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="Inside Thread Tie / ভেতরে সুতো বাঁধা" />
+                    <CheckBox android:id="@+id/cbNvpThreadOutside" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="Outside Thread Tie / বাইরে সুতো বাঁধা" />
+                    <CheckBox android:id="@+id/cbNvpThreadChange" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="Thread Change / সুতো চেঞ্জ" />
+                    <CheckBox android:id="@+id/cbNvpThreadTighten" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="Thread Tighten / সুতো টানা" />
+                    <CheckBox android:id="@+id/cbNvpThreadNew" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="New Thread / নতুন সুতো পরানো" />
+                    <CheckBox android:id="@+id/cbNvpMedicine" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="13.5sp" android:textColor="#101828" android:paddingTop="3dp" android:paddingBottom="3dp" android:textAllCaps="false" android:text="Medicine / ঔষধ দিতে হবে" />
+
+                    <!-- ঔষধ বাছলে তবেই খোলে (শুরুতে লুকানো) -->
+                    <LinearLayout android:id="@+id/rowNvpMedicine" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone" android:layout_marginStart="26dp" android:layout_marginTop="2dp">
+                        <TextView style="@style/FieldLabel" android:layout_marginTop="0dp" android:text="Which medicine · কোন ঔষধ" />
+                        <EditText android:id="@+id/etNvpMedicine" style="@style/FieldInput" android:maxLines="3" android:inputType="textMultiLine|textCapSentences" android:hint="Tab. ... · Oint. ..." />
+                    </LinearLayout>
+
+                    <TextView style="@style/FieldLabel" android:text="Anything else · অন্য কিছু হলে এখানে লিখুন" />
+                    <EditText android:id="@+id/etNvpNote" style="@style/FieldInput" android:minLines="2" android:maxLines="5" android:gravity="top" android:inputType="textMultiLine|textCapSentences" />
+
+                    <TextView style="@style/FieldLabel" android:text="Date · তারিখ (বাধ্যতামূলক নয়)" />
+                    <TextView android:id="@+id/tvNvpDate" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="12dp" android:paddingBottom="12dp" android:paddingStart="12dp" android:paddingEnd="12dp" android:background="@drawable/bg_input_field" android:text="Tap to choose date" android:textSize="14sp" android:textColor="#98A2B3" />
+
+                    <TextView android:id="@+id/tvNvpBy" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:textSize="11sp" android:textColor="#8A93A0" android:visibility="gone" />
+
+                    </LinearLayout><!-- nvpFoldBody -->
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- STEP 5: Photo & Video -->
+            <!-- 🔴🎨🔒 TK-নির্দেশ (05.08.2026, নম্বর দিয়ে ধাপে ধাপে চূড়ান্ত) —
+                 "5. 📸 Photo & Video" হেডার সম্পূর্ণ বাদ। "Documents /
+                 Reports Note" ও "Quick Actions" — এখন এক লাইনে " · " দিয়ে
+                 পাশাপাশি। বাকি লেবেল/বোতাম (Before/During/After Photo,
+                 Prescription/Medicine Slip/Blood Test/Diet) TK-এর নির্দেশে
+                 অপরিবর্তিত রাখা হয়েছে। -->
+            <!-- 🎨 (07.08.2026, প্রুফ-চেহারা) কার্ড সাদা — আগে #FDEEE3 -->
+            <androidx.cardview.widget.CardView android:id="@+id/secPhoto" style="@style/RegCard" android:layout_marginTop="6dp" app:cardBackgroundColor="#FFFFFF">
+                <LinearLayout style="@style/RegCardInner" android:padding="10dp">
+                    <!-- 🎨 (07.08.2026, প্রুফ-চেহারা) সেকশন-শিরোনাম -->
+                    <!-- 🟢 V600 (২৩.০৮.২০২৬, TK-নির্দেশ, ছবিসহ): "এখানে ফটো তোলার
+                         চিহ্নগুলো হাইড থাকবে, Photo and Video-তে চাপ দিলে তবে এই
+                         অপশনগুলো আসবে — অন্যান্য যেগুলো আছে সেরকমই" ⇒ প্রজেক্টের
+                         আগে থেকে থাকা fold-প্যাটার্ন (symptomFold/lifeFold-এর
+                         হুবহু যমজ, `attachFold()`) হেডার + তিনটে ছবির সারিতে
+                         বসানো হলো — শুরুতে বন্ধ, হেডারে চাপ দিলে খোলে।
+                         ⛔ Quick Actions/Investigations (নিচের অংশ) ছোঁয়া হয়নি। -->
+                    <!-- 🔢🔒 V1494 (১৫.০৯.২০২৬, TK-নির্দেশ ও ডেমো-প্রুফ পাশ) — নম্বর ৪ থেকে ৭
+                         (Remark/Treatment/Next Visit-ও এখন নম্বর পেয়েছে বলে)। -->
+                    <LinearLayout android:id="@+id/photoFoldHead" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginBottom="6dp">
+                        <TextView android:layout_width="23dp" android:layout_height="23dp" android:gravity="center" android:text="7" android:textStyle="bold" android:textSize="12sp" android:textColor="#12805C" android:background="@drawable/bg_checkup_step_num" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="9dp" android:text="Photo &amp; Video" android:textStyle="bold" android:textSize="14sp" android:textColor="#101828" />
+                        <TextView android:id="@+id/photoFoldNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:background="@drawable/bg_fold_count_chip" android:paddingLeft="9dp" android:paddingTop="2dp" android:paddingRight="9dp" android:paddingBottom="2dp" android:textColor="#0B4F2A" android:textSize="11.5sp" android:textStyle="bold" android:visibility="gone" />
+                        <!-- 🟢🔒 V653 (২৫.০৮.২০২৬, TK-নির্দেশ, ছবিসহ — "আরো উজ্জ্বল
+                             এবং বোঝা যায়") — ধূসর টেক্সট থেকে গাঢ় সবুজ বৃত্ত-
+                             ব্যাকগ্রাউন্ড, বড়/সাদা/বোল্ড — স্পষ্ট বোঝা যায় এটা
+                             চাপার জিনিস। অবস্থান আগে থেকেই লেখার পাশে ছিল
+                             (এখানে weight=1-এর ফাঁদ ছিল না), শুধু রং/আকার বদল। -->
+                        <TextView android:id="@+id/photoFoldChev" android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="8dp" android:gravity="center" android:background="@drawable/bg_fold_chevron" android:text="⌄" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="15sp" />
+                        <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/photoFoldBody" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+                    <!-- 📸🔒 V1256 (০৯.০৯.২০২৬, TK-নির্দেশ ও ফটো-প্রুফ পাশ, খাতার সারি ৩৭৮) —
+                         TK: *"এখানে Before, During, After এগুলো নিচে থাকবে · হাতে এঁকে যে
+                         ছবিটা দেখায় সেগুলো উপরে থাকবে"*।
+                         ⇒ এই তিনটে ছবির সারিটা "Patient Picture" ব্লকের **নিচে** নামানো হলো।
+                         ⛔ ব্লকের **একটাও লাইন বদলানো হয়নি** — হুবহু কেটে এনে বসানো;
+                            id (ivBeforePhoto / btnBeforePhoto / … ) · ছবি তোলার কাজ ·
+                            সেভ · A4-রিপোর্ট — সবই অক্ষত, শুধু XML-এ জায়গা বদল। -->
+                    <!-- 🟢🔒🔒 V704 (২৬.০৮.২০২৬, TK-নির্দেশ, ডেমো-প্রুফে অনুমোদিত —
+                         "এই ফটোটা অন্য একটা যায়গায় থাকবে, সম্ভাব্য রোগ এবং সময়ের
+                         মধ্যে থাকবে না") — "Patient Picture" ব্লকটা Step 4
+                         (secEstimate) থেকে সরিয়ে এখানে Step 5-এর ভাঁজের ভিতরে
+                         (photoFoldBody), তিনটে ছবির ঠিক নিচে আনা হলো।
+                         ⛔ ব্লকের **একটাও লাইন বদলানো হয়নি** — হুবহু কেটে এনে বসানো;
+                            id (anatomyStrip / anatomyHolder / anatomyTools) · আঁকার
+                            হাতিয়ার · Restore · সেভ-লজিক · A4-রিপোর্ট সব অক্ষত।
+                         ⛔ V652-তে TK এটাকে Step 3 → Step 4-এ এনেছিলেন; আজ Step 5-এ।
+                            নিচের V652/V558 মন্তব্য দুটো ইতিহাস হিসেবে রাখা হলো। -->
+                    <!-- 🟢🔒🔒 V652 (২৫.০৮.২০২৬, TK-নির্দেশ, ছবিসহ — "সম্ভাব্য রোগের
+                         মধ্যে থাকবে এটা") — "Patient Picture" (রোগের ছবি/অ্যানাটমি
+                         আঁকার হাতিয়ার) Step 3 (Counsel) থেকে সরিয়ে এই Step 4-এর
+                         (Probable Disease and Time Asked) একদম নিচে আনা হলো —
+                         TK-এর নির্দেশ অনুযায়ী রোগ-নির্ধারণের সাথেই এই ছবিটা এখন
+                         যুক্ত। ⛔ id (anatomyStrip/anatomyHolder/anatomyTools)/
+                         সেভ-লজিক/A4-রিপোর্ট কিছুই বদলায়নি — শুধু XML-এ জায়গা বদল
+                         (Step 3 থেকে Step 4-এ)। -->
+                    <!-- 🔵🔒 V558 (২২.০৮.২০২৬, TK-অনুমোদিত) — কাগজের হাতে-আঁকা
+                         ছবির জায়গায় "রোগের ছবি"।
+                         TK: *"ডাক্তার চাইলে যে কোন ফটোর উপর যেন সেই কাজটা করতে
+                         পারে"* আর *"মাংসের উপরে আঙুল দিয়ে টান দিলে যেন মাংস
+                         বেড়ে যায়"*।
+
+                         ⚠️ এই ঘরটা ইচ্ছে করেই **কোনো @style বা @drawable-এর
+                         উপরে নির্ভর করে না** — শুধু অ্যান্ড্রয়েডের নিজের
+                         অ্যাট্রিবিউট ব্যবহার করা হয়েছে। কারণ: এখানে
+                         অ্যান্ড্রয়েড কম্পাইল করা যায় না, তাই ভুল নাম ধরা
+                         পড়ে না অথচ নাম না মিললেই বিল্ড ভাঙে (V559-এ একবার
+                         ভেঙেছিল)। চেহারার বাকি কাজ কোড থেকে বসে। -->
+                    <LinearLayout
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp" android:layout_marginBottom="4dp"
+                        android:padding="10dp"
+                        android:background="#FFFFFF">
+
+                        <TextView
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:text="Patient Picture · to show and explain"
+                            android:textColor="#0B2B59" android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp">
+                            <LinearLayout android:id="@+id/anatomyStrip"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:orientation="horizontal" />
+                        </HorizontalScrollView>
+
+                        <FrameLayout android:id="@+id/anatomyHolder"
+                            android:layout_width="match_parent" android:layout_height="300dp"
+                            android:layout_marginTop="8dp"
+                            android:background="#F7F9FC" />
+
+                        <!-- ⚠️ পাশে-টানা সারি নয়। TK: *"ভুল হলে ব্যাকে যাওয়ার
+                             বা মোছার অপশন নেই কেন?"* — বোতামগুলো ছিল, কিন্তু
+                             পর্দার ডান দিকে লুকিয়ে ছিল। ভুল শোধরানোর বোতাম
+                             লুকিয়ে থাকা চলে না, তাই এখন খাড়া কন্টেইনার — কোড
+                             মেপে মেপে সারিতে ভাগ করে দেয়, সব বোতামই দেখা যায়। -->
+                        <LinearLayout android:id="@+id/anatomyTools"
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:orientation="vertical" android:layout_marginTop="8dp" />
+
+                        <!-- 🔵 V572 (২২.০৮.২০২৬, TK-নির্দেশ): *"ছবি দেখিয়ে রোগীকে যা
+                             বোঝালেন, দরকার হলে এখানে লিখুন — এই ধরনের কোন বক্স বা লেখার
+                             কোন ব্যবস্থা থাকবে না"* → লেখার ঘরটা তুলে দেওয়া হলো।
+                             ⛔ পুরোনো যাঁদের রেকর্ডে এই লেখা জমা আছে সেটা **মুছে যায়নি** —
+                                আগের মতোই জমা থাকে ও ছাপায় আসে, শুধু নতুন করে লেখার ঘর নেই। -->
+                    </LinearLayout>
+                    <LinearLayout style="@style/Row2" android:layout_marginTop="0dp">
+                        <LinearLayout style="@style/Col">
+                            <TextView style="@style/FieldLabel" android:layout_marginTop="0dp" android:text="Before Photo\nআগের ছবি" />
+                            <ImageView android:id="@+id/ivBeforePhoto" android:layout_width="match_parent" android:layout_height="90dp" android:scaleType="centerCrop" android:background="#EDF1F6" android:layout_marginTop="6dp" />
+                            <com.google.android.material.button.MaterialButton android:id="@+id/btnBeforePhoto" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="11sp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_marginTop="2dp" android:text="📷 Before" />
+                        </LinearLayout>
+                        <LinearLayout style="@style/Col">
+                            <TextView style="@style/FieldLabel" android:layout_marginTop="0dp" android:text="During Photo\nচলাকালীন ছবি" />
+                            <ImageView android:id="@+id/ivDuringPhoto" android:layout_width="match_parent" android:layout_height="90dp" android:scaleType="centerCrop" android:background="#EDF1F6" android:layout_marginTop="6dp" />
+                            <com.google.android.material.button.MaterialButton android:id="@+id/btnDuringPhoto" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="11sp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_marginTop="2dp" android:text="📷 During" />
+                        </LinearLayout>
+                        <LinearLayout style="@style/ColEnd">
+                            <TextView style="@style/FieldLabel" android:layout_marginTop="0dp" android:text="After Photo\nপরের ছবি" />
+                            <ImageView android:id="@+id/ivAfterPhoto" android:layout_width="match_parent" android:layout_height="90dp" android:scaleType="centerCrop" android:background="#EDF1F6" android:layout_marginTop="6dp" />
+                            <com.google.android.material.button.MaterialButton android:id="@+id/btnAfterPhoto" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="11sp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_marginTop="2dp" android:text="📷 After" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <!-- V455 (TK-নির্দেশ ১৮.০৮.২০২৬) — "Documents / Reports Note" বাদ।
+                         ⛔ ClinicalModels-এর documents ঘর অটুট (ডিফল্ট ""), শুধু UI সরানো। -->
+
+                    <!-- 🔴🔒 V501 (TK-নির্দেশ ২১.০৮.২০২৬): *"কুইক একশানে যতগুলি বক্স
+                         আছে সাইজে ছোট করুন।"* — উচ্চতা ৩২dp (আগে Material-এর
+                         নিজের ≈৪৮dp), লেখা ১১.৫sp, ফাঁক ৩dp। ⛔ কোনো বোতামের
+                         কাজ · রং · লেখা বদলায়নি — শুধু মাপ। -->
+                    <TextView android:id="@+id/quickActionsLabel" style="@style/FieldLabel" android:text="Quick Actions · দ্রুত কাজ" android:textColor="@color/brand_navy" />
+                    <LinearLayout android:id="@+id/quickActionsRow1" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                        <com.google.android.material.button.MaterialButton android:id="@+id/btnGoToPrescription" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="32dp" android:minHeight="0dp" android:insetTop="0dp" android:insetBottom="0dp" android:paddingHorizontal="2dp" android:textSize="11.5sp" android:layout_marginEnd="3dp" android:text="Prescription" />
+                        <com.google.android.material.button.MaterialButton android:id="@+id/btnMedicineSlip" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="32dp" android:minHeight="0dp" android:insetTop="0dp" android:insetBottom="0dp" android:paddingHorizontal="2dp" android:textSize="11.5sp" android:layout_marginStart="3dp" android:text="Medicine Slip" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/quickActionsRow2" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="4dp">
+                        <com.google.android.material.button.MaterialButton android:id="@+id/btnBloodTest" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="32dp" android:minHeight="0dp" android:insetTop="0dp" android:insetBottom="0dp" android:paddingHorizontal="2dp" android:textSize="11.5sp" android:layout_marginEnd="3dp" android:text="Blood Test" />
+                        <com.google.android.material.button.MaterialButton android:id="@+id/btnDiet" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="32dp" android:minHeight="0dp" android:insetTop="0dp" android:insetBottom="0dp" android:paddingHorizontal="2dp" android:textSize="11.5sp" android:layout_marginStart="3dp" android:text="Diet" />
+                    </LinearLayout>
+                    </LinearLayout><!-- photoFoldBody 🔒 V996 — Quick Actions এখন এর ভিতরে -->
+
+                    <!-- 🔴🔒 V501 — "E. Investigations" এখন এখানে (আগে ধাপ ২,
+                         Clinical-এর ভিতরে ছিল)। বোতামগুলো উপরের Quick Action-এর
+                         হুবহু এক মাপে বসে (`buildChecks`-এ compact = true)।
+                         ⛔ `investigationGroup` id একই — কোড/সেভ কিছু বদলায়নি।
+                         ⚠️ শুধু-দেখার পুরোনো চেকআপে Quick Action-এর বোতাম
+                            লুকিয়ে যায়; কিন্তু এই দুটো **লুকাবে না**, নইলে
+                            কোন পরীক্ষা বলা হয়েছিল সেটাই দেখা যেত না। -->
+                    <!-- 🔴🔒 V542 (২২.০৮.২০২৬, TK-নির্দেশ: *"investigation — এটা তুলে
+                         দেন, অর্থাৎ থাকবে না"*) — পুরো "E. Investigations" সেকশন
+                         পর্দা থেকে সরানো (লেবেল + চারটে বোতাম)।
+                         ⛔ **মোছা হয়নি, লুকানো** — প্রজেক্টের সেই একই প্রমাণিত পথ
+                            (V455-এ "B. DRE" যেভাবে সরানো হয়েছিল)। কারণ:
+                            `ClinicalModels`-এর `investigation` ঘর ও কোড অটুট থাকে,
+                            তাই **পুরোনো চেকআপে কোন পরীক্ষা বলা হয়েছিল সেটা
+                            হারায় না** — ছাপা রিপোর্টে আগের মতোই দেখা যায়।
+                         ⛔ নতুন চেকআপে কিছু টিক দেওয়ার উপায় নেই, তাই ঘরটা
+                            ফাঁকাই থাকবে — TK যা চেয়েছেন ঠিক তাই। -->
+                    <TextView android:id="@+id/investigationLabel" android:visibility="gone" style="@style/FieldLabel" android:text="E. Investigations · পরীক্ষা-নিরীক্ষা" android:textColor="@color/brand_navy" />
+                    <LinearLayout android:id="@+id/investigationGroup" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 🟢🔒 V1119 (০৫.০৯.২০২৬, TK-অনুমোদিত ফটো-প্রুফ — "পাশ, বসিয়ে দিন") —
+                 TK: *"যেগুলো সেভ হয়ে যাবে সেগুলো নিচে থাকবে, কিন্তু সবগুলো একটার
+                 মধ্যে থাকবে — যেখানে চাপ দিলে তখন সেগুলো ওপেন হবে"*
+                 ⇒ ভরা-এবং-বন্ধ ধাপগুলো এই একটাই বাক্সে নেমে আসে; মাথায় কতগুলো
+                 তার সবুজ ব্যাজ; চাপ দিলে ভিতরেরগুলো খোলে (ফিকে, কিন্তু আগের
+                 মতোই সব করা যায়)।
+                 ⛔ এটা শুধু একটা **খালি মোড়ক** — ভিতরে কোনো নতুন ঘর/লেখা/সেভ নেই।
+                    ধাপের কার্ডগুলোই কোড থেকে এর ভিতরে-বাইরে যাওয়া-আসা করে, তাই
+                    `findViewById` · `lockSection` · সেভ — সব আগের মতোই চলে।
+                 ⛔ শুরুতে `gone` — একটাও ধাপ ভরা না থাকলে বাক্সটা দেখাই যায় না। -->
+            <androidx.cardview.widget.CardView android:id="@+id/secSavedGroup" style="@style/RegCard" android:layout_marginTop="6dp" app:cardBackgroundColor="#F4F7FA" android:visibility="gone">
+                <LinearLayout style="@style/RegCardInner" android:padding="10dp">
+                    <LinearLayout android:id="@+id/savedGroupHead" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:clickable="true" android:focusable="true" android:gravity="center_vertical">
+                        <TextView android:layout_width="23dp" android:layout_height="23dp" android:gravity="center" android:text="✓" android:textStyle="bold" android:textSize="12sp" android:textColor="#0F5132" android:background="@drawable/bg_checkup_step_num" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="9dp" android:text="SAVED" android:textStyle="bold" android:textSize="14sp" android:textColor="#101828" />
+                        <TextView android:id="@+id/savedGroupNum" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:background="@drawable/bg_fold_count_chip" android:paddingLeft="9dp" android:paddingTop="2dp" android:paddingRight="9dp" android:paddingBottom="2dp" android:textColor="#0B4F2A" android:textSize="11.5sp" android:textStyle="bold" />
+                        <TextView android:id="@+id/savedGroupChev" android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="8dp" android:gravity="center" android:background="@drawable/bg_fold_chevron" android:text="⌄" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="15sp" />
+                    </LinearLayout>
+                    <LinearLayout android:id="@+id/savedGroupPreview" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" />
+                    <LinearLayout android:id="@+id/savedGroupBody" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 🆕 (07.08.2026, TK-অনুমোদিত) — সেভ হওয়ার পর এই WebView-তে A4 চেকআপ-
+         রিপোর্ট দেখায় (stepScroll লুকিয়ে)। শুরুতে gone। শুধু দেখার জন্য —
+         কোনো ফিল্ড/সেভ-লজিকের অংশ নয়। Edit চাপলে আবার ফর্ম ফেরে। -->
+    <WebView android:id="@+id/savedA4View" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:visibility="gone" android:background="#FFFFFF" />
+
+    <!-- Sticky bottom bar: Back · Save · Next -->
+    <!-- TK APPROVED (2026-07-25, photo proof): this bar was made smaller .
+         row 65dp to 46dp, giving the form 19dp more room. Only sizes changed
+         (button height 36dp, Material's built in 6dp top/bottom insets and
+         48dp minimum height removed, text 12.5sp, row padding 8dp to 5dp).
+         Button colours, corner shape, order and every click action are
+         untouched. -->
+    <!-- 🔴🎨🔒 খাতার সারি B432 (TK-নির্দেশ, 05.08.2026 — কীবোর্ড খোলা
+         অবস্থায় এই বার কীবোর্ডের ঠিক উপরে ভাসতে থাকা "প্রফেশনাল লাগছে
+         না")। `bottomActionBar` id বসানো হলো — কীবোর্ড খোলা থাকলে এই
+         পুরো বারটাই লুকানো হয় (`DoctorCheckupActivity.
+         setupKeyboardVisibilityToggle()`), বন্ধ হলে আবার দেখা যায়। ⛔
+         বোতামের রং/মাপ/ক্লিক-অ্যাকশন কিছুই বদলায়নি। -->
+    <!-- 🔴🎨🔒 B435 (TK-নির্দেশ, 05.08.2026) — এই তিনটে বোতামের রং আগে
+         অ্যাপের গ্লোবাল থিম রং (colorPrimary, যেটা নেভি ব্লু) থেকে আসত —
+         থিম বদলালে পুরো অ্যাপের সব বোতাম বদলে যেত, তাই থিম না ছুঁয়ে
+         শুধু এই তিনটে বোতামেই আলাদা করে সবুজ বসানো হলো (মাল্টি-গ্রিন —
+         প্রতিটার শেড একটু আলাদা)। -->
+    <!-- 📝🔒 V1276 (০৯.০৯.২০২৬, TK-নির্দেশ ও ফটো-প্রুফ পাশ — তালিকা সারি ৩৯৮):
+         TK: *"রোগীকে সেই কাগজ প্রিন্ট আউট দিব তখন … ডাক্তারের রিমার্কটা ওখানে
+         থাকবে না সেই হিসেবে প্রিন্ট আউট হবে … থাকবে সেই ক্ষেত্রে … তার একটা
+         অপশন রাখবেন"*।
+         ⛔ শুধু সেভের পরের A4 পর্দায় দেখা যায় (`showSavedA4`), ফর্মে নয়।
+         ⛔ ডিফল্ট **চালু** — বন্ধ থাকলে TK-র আজকের অভিযোগটাই ("লেখাটা নেই")
+            ফিরে আসত; বন্ধ করা এক ছোঁয়ার কাজ।
+         ⛔ ঘোরালেই কাগজটা নতুন করে আঁকা হয়, তাই পর্দায় যা দেখছেন Print ও
+            Share-এ হুবহু সেটাই যায়। -->
+    <LinearLayout android:id="@+id/drRemarkBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@color/white" android:paddingHorizontal="14dp" android:paddingVertical="6dp" android:visibility="gone">
+        <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Doctor&apos;s Remark on paper" android:textSize="13.5sp" android:textColor="#123A26" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Turn off before giving the print to the patient" android:textSize="10.5sp" android:textColor="#8B98A9" />
+        </LinearLayout>
+        <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/swDrRemark" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="true" />
+    </LinearLayout>
+    <!-- 📝🔒 V1280 (০৯.০৯.২০২৬, TK-নির্দেশ হুবহু: *"শুধু ফোনে থাকবে, চেকআপ কাগজেও
+         ছাপবে না। তবে অপশন থাকবে আলাদা"*) — চুক্তি/পরিকল্পনার নোট কাগজে যাবে
+         কিনা। **ডিফল্ট বন্ধ** — চালু করলে তবেই ক্লিনিকের নিজের কপিতে ছাপে।
+         ⛔ এস্টিমেট কাগজে কোনো অবস্থাতেই যায় না (ওটা আলাদা শিট থেকে বানে)। -->
+    <LinearLayout android:id="@+id/agreeBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@color/white" android:paddingHorizontal="14dp" android:paddingVertical="6dp" android:visibility="gone">
+        <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Treatment Plan &amp; Agreement on paper" android:textSize="13.5sp" android:textColor="#123A26" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Internal note — off by default, turn on only for the clinic&apos;s own copy" android:textSize="10.5sp" android:textColor="#8B98A9" />
+        </LinearLayout>
+        <com.google.android.material.switchmaterial.SwitchMaterial android:id="@+id/swAgreement" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checked="false" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/bottomActionBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@color/white" android:elevation="8dp" android:paddingHorizontal="12dp" android:paddingVertical="5dp">
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnBack" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="wrap_content" android:layout_height="36dp" android:minHeight="0dp" android:insetTop="0dp" android:insetBottom="0dp" android:paddingHorizontal="12dp" android:textSize="12.5sp" android:text="◀ Back" app:strokeColor="#0C9E33" android:textColor="#0C9E33" />
+        <!-- 🔴🔒 V501 (TK-নির্দেশ ২১.০৮.২০২৬, ফটো-প্রুফ অনুমোদিত):
+             *"Back Save মাঝখানে Share রাখতে হবে… WhatsApp / business WhatsApp
+             ওপেন হবে… A4 size pdf চাইলে প্রিন্টও করা যাবে।"*
+             ⛔ Back · Save · Next-এর কাজ/রং/লেখা কিছুই বদলায়নি — শুধু মাঝে
+                একটা নতুন বোতাম যোগ হলো। -->
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnShareNow" android:layout_width="0dp" android:layout_weight="1" android:layout_height="36dp" android:minHeight="0dp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_marginStart="8dp" android:textSize="12.5sp" android:text="📤 Share" app:backgroundTint="#1155A3" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnSaveCheckup" android:layout_width="0dp" android:layout_weight="1" android:layout_height="36dp" android:minHeight="0dp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_marginHorizontal="8dp" android:textSize="12.5sp" android:text="💾 Save" app:backgroundTint="#0C9E33" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnNext" android:layout_width="wrap_content" android:layout_height="36dp" android:minHeight="0dp" android:insetTop="0dp" android:insetBottom="0dp" android:paddingHorizontal="12dp" android:textSize="12.5sp" android:text="Next ▶" app:backgroundTint="#16A36D" />
+        <!-- 🔴 TK-নির্দেশ (07.08.2026): সব সেভ হয়ে A4 রিপোর্ট দেখালে নিচের
+             Back/Save/Next লুকিয়ে এই তিনটে দেখা যায় (Edit · Share · Print)।
+             শুরুতে gone। Edit চাপলে আবার ফর্ম ফেরে, Save করলে আবার A4। -->
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnEditCheckup" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="36dp" android:minHeight="0dp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_marginEnd="6dp" android:textSize="12.5sp" android:text="✎ Edit" android:visibility="gone" app:strokeColor="#0C9E33" android:textColor="#0C9E33" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnShareCheckup" style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="36dp" android:minHeight="0dp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_marginEnd="6dp" android:textSize="12.5sp" android:text="🔗 Share" android:visibility="gone" app:strokeColor="#0B5E8A" android:textColor="#0B5E8A" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/btnPrintCheckup" android:layout_width="0dp" android:layout_weight="1" android:layout_height="36dp" android:minHeight="0dp" android:insetTop="0dp" android:insetBottom="0dp" android:textSize="12.5sp" android:text="🖨 Print" android:visibility="gone" app:backgroundTint="#0C9E33" />
+    </LinearLayout>
+</LinearLayout>

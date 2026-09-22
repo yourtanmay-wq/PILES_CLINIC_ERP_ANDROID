@@ -1,0 +1,6 @@
+# V529 — বদলানো ফাইলের SHA256 (২২.০৮.২০২৬)
+
+b0a869d3fe270d92bb5bc5a8c422184d3ffc416bfd78a28e1389a1afb83783e5  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt
+e1a3ce01ca3ee85f84b8948d24681e4623f4d06f4215157bc7e39b3c4c633fa7  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/build.gradle.kts
+7a1a3f994bf88b97044d5300d113c3254297b52b1effcffb9a2479b022598c67  03_NETLIFY_READY/version.json
+3d32cd789123bc60c60208dc6f7adc87846078db9ae92bc2b63bd7ebb7672d90  03_NETLIFY_READY/index.html

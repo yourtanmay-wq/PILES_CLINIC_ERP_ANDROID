@@ -1,0 +1,9 @@
+# V541 — বদলানো ফাইলের SHA256 (২২.০৮.২০২৬)
+
+0cde6193224d94d03f520c41d8189f5661d6f38bd8b1e3598a9a5bd07194df15  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/build.gradle.kts
+520b44e0b5d56b3ced2a79f445f9ad6fbd2fc198eea6ef91941d2aef5ce277a8  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt
+6bb209679f13294b7174c0454e6a74a0642fa0605de1d53c54afd0d06d889cb5  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/native/NoBengali.kt
+415eea05ae12f9a343c012080480eb1a24e17a60652805a2fbdc98f14302aa6f  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/res/layout/activity_doctor_checkup.xml
+9ca3cd7c68f322e17752d1f14942528088403c515a8d07e7eeea6b91aa7e18f5  03_NETLIFY_READY/app.js
+09c37ff4dc78598eb734277d6bee043804bb586433b789188120f030fe058421  03_NETLIFY_READY/index.html
+84a9f3ef70b30f070cafb2af924292ac93fb1cffc11b395260de1b496dc8ad33  03_NETLIFY_READY/version.json

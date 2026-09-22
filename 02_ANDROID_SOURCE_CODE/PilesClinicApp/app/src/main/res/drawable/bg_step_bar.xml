@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🎨🔒 V897 (৩১.০৮.২০২৬, TK-অনুমোদিত ডেমো প্রুফ) — উপরে স্থির ১-৫ সারির
+     সাদা পটভূমি, নিচে একটা হালকা রেখা (স্ক্রল করলে নিচের লেখা এই রেখার
+     তলা দিয়ে যায়, তাই মিশে যায় না)। -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+    <item android:top="-2dp" android:left="-2dp" android:right="-2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#00000000" />
+            <stroke android:width="1dp" android:color="#E2E9F0" />
+        </shape>
+    </item>
+</layer-list>

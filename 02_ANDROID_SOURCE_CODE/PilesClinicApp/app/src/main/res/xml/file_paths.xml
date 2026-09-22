@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-files-path name="my_images" path="Pictures" />
+    <cache-path name="my_cache_images" path="images" />
+    <!-- Phase 6: generated print PDFs (Registration/Prescription/Slip/etc.) -->
+    <cache-path name="print_pdfs" path="pdfs" />
+    <!-- TK-REQUESTED ADDITION (2026-07-16): Export Data (CSV) feature -->
+    <cache-path name="data_exports" path="exports" />
+    <!-- TK-REQUESTED (2026-07-26): safety net so a Share can never fail again
+         with "Failed to find configured root". These two cover the whole app
+         cache folder and the whole app external-files folder (including the
+         "PDFs" folder used by SAVE PDF). Nothing here is public: the provider
+         stays android:exported="false" and every file still needs an explicit
+         one time read permission handed out by the app itself. -->
+    <cache-path name="cache_root" path="." />
+    <external-files-path name="ext_files_root" path="." />
+</paths>

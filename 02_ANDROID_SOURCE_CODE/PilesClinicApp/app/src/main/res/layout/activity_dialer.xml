@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🆕🔒 খাতার সারি — Dialer পুনর্গঠন (TK-নির্দেশ, 05.08.2026 — "Android
+     ফোনের নিজস্ব Dialer-এর মতন হবে")। পুরনো activity_dialer.xml (শুধু
+     টাইপ-করার বক্স) সম্পূর্ণ বদলানো হলো, TK-এর ধাপে-ধাপে অনুমোদিত ফটো-
+     প্রুফ অনুযায়ী। ⛔ অন্য কোনো স্ক্রিনের ডিজাইন/কোড ছোঁয়া হয়নি। কোনো
+     নতুন drawable/style ফাইল লাগেনি — সবই আগে থেকে থাকা রিসোর্স
+     (bg_login_hero · bg_app_gradient · bg_input_field · bg_circle_gradient ·
+     ic_pd_phone) পুনর্ব্যবহার। -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:id="@+id/dialerRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:background="@drawable/bg_login_hero"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:titleTextColor="@color/white"
+            app:title="Dialer">
+
+            <TextView
+                android:id="@+id/btnSearchToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="8dp"
+                android:padding="8dp"
+                android:text="🔍"
+                android:textSize="18sp" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <!-- Search bar — TK-নির্দেশ: উপরে ডানদিকে 🔍, চাপলে নাম/নম্বর খোঁজা -->
+        <LinearLayout
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:background="@color/white"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="8dp">
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_input_field"
+                android:hint="Search name or number"
+                android:inputType="text"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="8dp"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/btnSearchClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="✕"
+                android:textSize="16sp"
+                android:textColor="@color/clinic_text_secondary"
+                android:padding="4dp" />
+        </LinearLayout>
+
+        <!-- Tabs: All / Missed / Contacts -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="4dp">
+            <LinearLayout
+                android:id="@+id/tabPill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_input_field">
+                <TextView
+                    android:id="@+id/tabAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All"
+                    android:textSize="12.5sp"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="7dp" />
+                <TextView
+                    android:id="@+id/tabMissed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Missed"
+                    android:textSize="12.5sp"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="7dp" />
+                <TextView
+                    android:id="@+id/tabContacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contacts"
+                    android:textSize="12.5sp"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="7dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Contacts-tab-only search box (always visible on this tab) -->
+        <LinearLayout
+            android:id="@+id/contactsSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:paddingHorizontal="14dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="4dp">
+            <EditText
+                android:id="@+id/etContactsSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_input_field"
+                android:hint="🔍 Search name or number"
+                android:inputType="text"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="9dp"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:id="@+id/listContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:gravity="center"
+            android:padding="30dp"
+            android:text="No calls yet today."
+            android:textSize="13sp"
+            android:textColor="@color/clinic_text_secondary" />
+
+    </LinearLayout>
+
+    <!-- FAB — চাপলে নিচে কিবোর্ড খোলে; কিবোর্ড খোলা অবস্থায় এটা লুকানো থাকে।
+         আগে থেকে থাকা bg_circle_gradient পুনর্ব্যবহার, নতুন drawable লাগেনি। -->
+    <FrameLayout
+        android:id="@+id/fabKeypad"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/bg_circle_gradient"
+        android:elevation="6dp"
+        android:clickable="true"
+        android:focusable="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="⌨️"
+            android:textSize="22sp" />
+    </FrameLayout>
+
+    <!-- Keypad bottom sheet — শুরুতে লুকানো -->
+    <LinearLayout
+        android:id="@+id/keypadSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:background="#1C1C1E"
+        android:paddingTop="10dp"
+        android:paddingBottom="18dp"
+        android:visibility="gone">
+
+        <!-- 🔴🔒 B495 (06.08.2026, TK-নির্দেশ — আসল Android কিবোর্ডের মতো
+             উপরের দাগ টেনে নিচে নামালে বন্ধ হওয়া) — এই হ্যান্ডেলটাই এখন
+             সেই কাজ করে (নিচে টানলে/চাপলে সংখ্যা-কিবোর্ড বন্ধ হয়ে যায়)। -->
+        <LinearLayout
+            android:id="@+id/keypadHandleArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingVertical="8dp"
+            android:clickable="true"
+            android:focusable="true">
+            <View
+                android:layout_width="36dp"
+                android:layout_height="4dp"
+                android:background="#555555" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="20dp">
+            <!-- 🔒 TK-ORDER (2026-08-06): visible Paste button. Staff copy a
+                 number (call-log long-press → "Copy Number") but had no way to
+                 paste it here — the display is a plain TextView, so the phone's
+                 own paste menu never appears and the hidden long-press paste was
+                 undiscoverable. This makes paste obvious; long-press still works. -->
+            <TextView
+                android:id="@+id/keypadPaste"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="8dp"
+                android:text="Paste"
+                android:textColor="#4FC3F7"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true" />
+            <!-- 🔒 TK-ORDER (2026-08-06): was a plain TextView (non-editable),
+                 which is why many phones BLOCKED paste here (OS only allows paste
+                 into a real editable field). Now a real EditText so the phone's
+                 OWN paste works everywhere. The system keyboard is kept from
+                 popping up by setShowSoftInputOnFocus(false) in DialerActivity.kt
+                 (set in CODE, not XML — the XML attr broke AAPT linking). The
+                 on-screen keypad still drives the digits. -->
+            <EditText
+                android:id="@+id/keypadInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text=""
+                android:inputType="phone"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:cursorVisible="true"
+                android:background="@android:color/transparent"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:letterSpacing="0.05"
+                android:minHeight="34dp" />
+            <TextView
+                android:id="@+id/keypadBackspace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="⌫"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:columnCount="3"
+            android:paddingHorizontal="20dp">
+            <TextView android:id="@+id/key1" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center" android:padding="12dp" android:text="1" android:textColor="@color/white" android:textSize="20sp" android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/key2" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center" android:padding="12dp" android:text="2" android:textColor="@color/white" android:textSize="20sp" android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/key3" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center" android:padding="12dp" android:text="3" android:textColor="@color/white" android:textSize="20sp" android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/key4" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center" android:padding="12dp" android:text="4" android:textColor="@color/white" android:textSize="20sp" android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/key5" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center" android:padding="12dp" android:text="5" android:textColor="@color/white" android:textSize="20sp" android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/key6" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center" android:padding="12dp" android:text="6" android:textColor="@color/white" android:textSize="20sp" android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/key7" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center" android:padding="12dp" android:text="7" android:textColor="@color/white" android:textSize="20sp" android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/key8" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center" android:padding="12dp" android:text="8" android:textColor="@color/white" android:textSize="20sp" android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/key9" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center" android:padding="12dp" android:text="9" android:textColor="@color/white" android:textSize="20sp" android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/keyStar" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center" android:padding="12dp" android:text="*" android:textColor="@color/white" android:textSize="20sp" android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/key0" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center" android:padding="12dp" android:text="0" android:textColor="@color/white" android:textSize="20sp" android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/keyHash" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:gravity="center" android:padding="12dp" android:text="#" android:textColor="@color/white" android:textSize="20sp" android:clickable="true" android:focusable="true" />
+        </GridLayout>
+
+        <FrameLayout
+            android:id="@+id/btnKeypadCall"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_circle_gradient"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_pd_phone"
+                android:tint="@color/white" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

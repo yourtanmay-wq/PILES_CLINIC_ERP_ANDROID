@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔒 TK-LOCKED DESIGN (04.08.2026) — More মেনুর সেকশন-হেডলাইনের ডানপাশের
+     ছোট বিন্দু, backgroundTint দিয়ে রং বসে (Management=সোনালি,
+     Security & Data=সবুজ)। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="#FFFFFF" />
+</shape>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🧮🔒 V995 (০৩.০৯.২০২৬, TK-অনুমোদিত) — Estimate Build আইকনের বেগুনি গোল
+     ব্যাকগ্রাউন্ড, bg_circle_gradient.xml-এর একই ছাঁচে। রংটা আগের "Build"
+     বোতামের নিজের বেগুনি পরিবার (#6D28D9) থেকেই নেওয়া। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <gradient
+        android:startColor="#6D28D9"
+        android:endColor="#A78BFA"
+        android:angle="135" />
+</shape>

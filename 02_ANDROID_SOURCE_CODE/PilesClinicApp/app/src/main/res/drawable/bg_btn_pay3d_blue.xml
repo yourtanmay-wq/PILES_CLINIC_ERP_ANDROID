@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  🔵 B610 (10.08.2026, TK-অনুমোদিত প্রুফ "Model K")। Payment হোম-এর দুটো বোতামের
+  ৩D নীল চেহারা: নিচে গাঢ় নীল base (extrusion) + উপরে হালকা→গাঢ় নীল face।
+  চাপ দিলে face নিচে নামে (৩D press)। ⛔ সবসময়-চলা অ্যানিমেশন নেই (ব্যাটারি
+  বাঁচাতে) — শুধু স্পর্শে নড়ে। শুধুই ডিজাইন, কোনো লজিক/ডেটা নেই।
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- pressed: face প্রায় সমতল (নিচে নেমে গেছে) -->
+    <item android:state_pressed="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="#17307A" />
+                    <corners android:radius="14dp" />
+                </shape>
+            </item>
+            <item android:bottom="1dp">
+                <shape android:shape="rectangle">
+                    <gradient android:angle="270" android:startColor="#3B82F6" android:endColor="#1E40AF" />
+                    <corners android:radius="14dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <!-- default: face উঁচু (base নিচে দেখা যায় = ৩D) -->
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="#17307A" />
+                    <corners android:radius="14dp" />
+                </shape>
+            </item>
+            <item android:bottom="6dp">
+                <shape android:shape="rectangle">
+                    <gradient android:angle="270" android:startColor="#3B82F6" android:endColor="#1E40AF" />
+                    <corners android:radius="14dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

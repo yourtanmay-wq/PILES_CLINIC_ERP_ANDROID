@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="CHECK-UP Queue"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- 🔒 TK-REQUESTED (28.07.2026, খাতার সারি B42): *"আমি তো মাস্টার এডমিন,
+             আমাকে তো ব্রাঞ্চ সিলেক্ট করতে হবে। হেডারের ডানপাশে ছোট বক্সের মধ্যে
+             সমস্ত ব্রাঞ্চ চুজ করা যাবে এবং যেকোনো ব্রাঞ্চ চুজ করা যাবে।"*
+             ⛔ Follow-up পর্দায় TK-এর আগেই পাশ করা **হুবহু একই বাক্স** — একই
+             ড্রয়েবল, একই মাপ, একই লেখা। নতুন কোনো ডিজাইন তৈরি করা হয়নি।
+             ডিফল্টে লুকানো; শুধু মাস্টারের পর্দায় দেখা যায়। -->
+        <TextView
+            android:id="@+id/branchPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/bg_branch_pill"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="🏥 All Branch ▾"
+            android:textColor="@color/white"
+            android:textSize="10.5sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/btnRefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="↻"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:padding="4dp" />
+
+        <!-- 🟢🔒 V1504 (১৫.০৯.২০২৬, TK-নির্দেশ, ডেমো-প্রুফ পাশ) — TK: "এক দিনে
+             যখন অনেক পেসেন্ট আসে তখন বোঝা মুশকিল হয়ে যায় না কোনটা নতুন আর
+             কোনটা পুরানো" — তালিকা New/Old দিয়ে ছাঁকার মেনু। ⛔ ব্রাঞ্চ-বাক্স ·
+             রিফ্রেশ একটুও বদলায়নি, এই বোতামটা শুধু পাশে নতুন। -->
+        <TextView
+            android:id="@+id/btnQueueFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="⋮"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <!-- 🔍🔒 V972 (০২.০৯.২০২৬, TK-নির্দেশ ও পাশ-করা ফটো-প্রুফ) —
+         *"এখানে patient Search করার মত অপশন থাকতে হবে"*। Dr. Visit পর্দার
+         হুবহু একই খোঁজার ঘর (`activity_doctorvisit.xml`-এর `etSearch`) —
+         নতুন কোনো নকশা বানানো হয়নি।
+         ⛔ শুধু পর্দায় ছাঁকে; ক্লাউডে একটাও নতুন অনুরোধ যায় না।
+         🔍🔒 V1107 (০৫.০৯.২০২৬, TK-রিপোর্ট ছবিসহ: *"এখানে সার্চ করলে পেসেন্ট
+         আসে না তো"*) — `imeOptions` না থাকায় কীবোর্ডে **Search বোতামটাই দেখা
+         যেত না**, অথচ পর্দার লেখায় "press Search" বলা ছিল। -->
+    <EditText
+        android:id="@+id/etQueueSearch"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/bg_input_field"
+        android:paddingHorizontal="14dp"
+        android:hint="Search patient by name / mobile / ID"
+        android:textColor="#10223A"
+        android:textColorHint="@color/field_hint"
+        android:maxLines="1"
+        android:imeOptions="actionSearch"
+        android:inputType="text" />
+
+    <ProgressBar
+        android:id="@+id/progressLoad"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="No Patient In Queue"
+        android:textColor="@color/clinic_text_secondary"
+        android:visibility="gone" />
+
+    <!-- TK-REQUESTED (2026-07-27): pull the list down to refresh, the same
+         way as Follow-up. Only this wrapper is new; the list inside it,
+         its id and every rule stay exactly as they were. -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔴🆕🔒 TK-নির্দেশ (08.08.2026, TK পছন্দ করা লাল-বোতাম, ফটো-প্রুফে) — More হেডারের
+     Log Out বোতামের লাল ভরাট pill ব্যাকগ্রাউন্ড। আগের গোল emblem + না-দেখানো
+     ⏻ গ্লিফের বদলে এখন স্পষ্ট লাল বোতাম + "Log Out" লেখা।
+     ⛔ পুরনো bg_logout_pill.xml / bg_more_emblem.xml ছোঁয়া হয়নি — এটা নতুন ফাইল। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:startColor="#E0392B"
+        android:endColor="#F0645A"
+        android:angle="315" />
+    <corners android:radius="999dp" />
+</shape>

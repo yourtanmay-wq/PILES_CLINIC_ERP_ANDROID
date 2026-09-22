@@ -1,0 +1,38 @@
+{
+  "result": {
+    "checks": [
+      {
+        "page": "Branch-wise Collection (Today)",
+        "searchBarRemoved": true,
+        "hasBranchData": true,
+        "hasAmounts": true
+      },
+      {
+        "page": "Branch Collection Detail (Kishanganj)",
+        "searchBarRemoved": true,
+        "hasCashOnlineTotal": true,
+        "hasPatientRow": true
+      },
+      {
+        "page": "Payment Collection (Today Collection hub)",
+        "searchBarRemoved": true,
+        "hasSummary": true,
+        "hasTotal": true,
+        "hasCashUpi": true
+      },
+      {
+        "page": "Collection List - Cash",
+        "searchBarRemoved": true,
+        "hasCorrectRow": true,
+        "titleCorrect": true
+      },
+      {
+        "page": "Dashboard (control - should be unaffected)",
+        "searchBarStillPresent": true
+      }
+    ]
+  },
+  "jsErrors": [
+    "console.error: Failed to load resource: net::ERR_FILE_NOT_FOUND"
+  ]
+}

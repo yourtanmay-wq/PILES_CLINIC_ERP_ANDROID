@@ -1,0 +1,6 @@
+# V544 — বদলানো ফাইলের SHA256 (২২.০৮.২০২৬)
+
+f6bcb1d1edf038cec2ebaa4d6d3224a67221a2028624d0001d9a49c5dd87cadb  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/build.gradle.kts
+0c0ed208da7072a3424d347dc539cb77841087302bf89e255b1363f0e9f2d920  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/res/layout/activity_patient_photo.xml
+04b99118a8174bcdff9c769d77e7fef1a7af90f58e03406e85c9ad782039f740  03_NETLIFY_READY/index.html
+db1f50e66829ca5eb46a3baf8fbf261c74a427b9086227526dd391215fa2c84b  03_NETLIFY_READY/version.json

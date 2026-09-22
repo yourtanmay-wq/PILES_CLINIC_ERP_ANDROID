@@ -1,0 +1,5 @@
+# V559 — বদলানো ফাইলের SHA256 · ২২.০৮.২০২৬ (ছবির নাম anat01–anat25 করার পরে)
+
+86ad44f1bfb5bfdf3302ed97fbb74d4223ddbb502b749666d413b3089e140b30  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/build.gradle.kts
+36db2e75bb15c8b05d5c9955e589216c15c9dab8bbf9ba13662a6b30dc987584  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/clinical/CheckupNoteJson.kt
+6e13e16a6926edf4e8d72b9a84394d8f3daaf2ceb2ef8f5d93dd854f4333a491  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt

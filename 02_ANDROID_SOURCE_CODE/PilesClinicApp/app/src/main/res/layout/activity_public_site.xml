@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#EEF4F4">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="16dp">
+
+        <!-- BANNER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_pub_banner"
+            android:paddingLeft="18dp" android:paddingRight="18dp"
+            android:paddingTop="14dp" android:paddingBottom="54dp">
+
+            <!-- header row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="42dp" android:layout_height="42dp"
+                    android:background="#FFFFFF"
+                    android:padding="3dp"
+                    android:src="@mipmap/ic_launcher_round" />
+
+                <LinearLayout
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical"
+                    android:layout_marginStart="11dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MAA AYURVED" android:textColor="#FFFFFF" android:textSize="15sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BISWAS PILES CLINIC" android:textColor="#A9D3D1" android:textSize="10sp" android:letterSpacing="0.05" />
+                </LinearLayout>
+
+                <!-- TK BISWAS -> login chip -->
+                <LinearLayout
+                    android:id="@+id/tkLoginChip"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical"
+                    android:background="@drawable/bg_pub_tkchip"
+                    android:paddingLeft="5dp" android:paddingRight="13dp"
+                    android:paddingTop="5dp" android:paddingBottom="5dp"
+                    android:clickable="true" android:focusable="true">
+                    <ImageView android:layout_width="26dp" android:layout_height="26dp" android:background="@drawable/bg_pub_goldcircle" android:padding="5dp" android:src="@drawable/ic_pd_user" />
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginStart="8dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TK BISWAS" android:textColor="#FFFFFF" android:textSize="11sp" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🔒 LOGIN" android:textColor="#FFDF9E" android:textSize="8sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- hero text -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="19dp" android:text="NORTH BENGAL &amp; BIHAR · 5 BRANCHES" android:textColor="#7FE0C4" android:textSize="10sp" android:letterSpacing="0.12" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Painless Ayurvedic\nPiles Treatment" android:textColor="#FFFFFF" android:textSize="23sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="9dp" android:text="Confidential, medicine-based care for Piles, Fissure, Fistula, Hydrocele &amp; Gupt Rog." android:textColor="#D3EBE6" android:textSize="12sp" android:lineSpacingExtra="3dp" />
+        </LinearLayout>
+
+        <!-- APPOINTMENT CARD (overlap) -->
+        <LinearLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_pub_card"
+            android:layout_marginLeft="16dp" android:layout_marginRight="16dp"
+            android:layout_marginTop="-38dp"
+            android:padding="15dp"
+            android:elevation="6dp">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <ImageView android:layout_width="48dp" android:layout_height="48dp" android:background="@drawable/bg_pub_appt_icon" android:padding="12dp" android:src="@drawable/ic_pd_calendar" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Book an Appointment" android:textColor="#0F2431" android:textSize="15sp" android:textStyle="bold" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Choose your branch &amp; time" android:textColor="#5F7078" android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button android:id="@+id/btnBook" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:background="@drawable/bg_pub_book" android:text="Book Now" android:textColor="#FFFFFF" android:textAllCaps="false" android:textStyle="bold" android:textSize="14sp" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="9dp">
+                <Button android:id="@+id/btnCallTop" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="5dp" android:background="@drawable/bg_pub_outline" android:text="📞 Call" android:textColor="#0D5C63" android:textAllCaps="false" android:textStyle="bold" android:textSize="12sp" />
+                <Button android:id="@+id/btnBranchTop" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="5dp" android:background="@drawable/bg_pub_outline" android:text="📍 Branch" android:textColor="#0D5C63" android:textAllCaps="false" android:textStyle="bold" android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- STAT RIBBON -->
+        <LinearLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_pub_ribbon"
+            android:layout_marginLeft="16dp" android:layout_marginRight="16dp" android:layout_marginTop="12dp">
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:paddingTop="13dp" android:paddingBottom="13dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="5" android:textColor="#E0A83E" android:textSize="17sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BRANCHES" android:textColor="#A9D3D1" android:textSize="9sp" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:paddingTop="13dp" android:paddingBottom="13dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="100%" android:textColor="#E0A83E" android:textSize="17sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AYURVEDIC" android:textColor="#A9D3D1" android:textSize="9sp" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:paddingTop="13dp" android:paddingBottom="13dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Private" android:textColor="#E0A83E" android:textSize="17sp" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CONFIDENTIAL" android:textColor="#A9D3D1" android:textSize="9sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Our Treatments" android:textColor="#0F2431" android:textStyle="bold" android:textSize="16sp" android:layout_marginLeft="18dp" android:layout_marginTop="20dp" android:layout_marginBottom="12dp" />
+        <LinearLayout android:id="@+id/diseaseContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingLeft="16dp" android:paddingRight="16dp" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Our Branches" android:textColor="#0F2431" android:textStyle="bold" android:textSize="16sp" android:layout_marginLeft="18dp" android:layout_marginTop="14dp" android:layout_marginBottom="12dp" />
+        <LinearLayout android:id="@+id/branchContainer" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingLeft="16dp" android:paddingRight="16dp" />
+
+        <Button android:id="@+id/btnStaffLogin" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="16dp" android:layout_marginRight="16dp" android:layout_marginTop="14dp" android:background="@drawable/bg_pub_login" android:text="🔐 Staff Login" android:textColor="#FFFFFF" android:textAllCaps="false" android:textStyle="bold" android:textSize="14sp" />
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🟣🔒 V710 (২৬.০৮.২০২৬, TK-নির্দেশ, ডেমো-প্রুফে অনুমোদিত) — Follow-up-এর
+     "আজকের কল" তালিকার মাথার লাইন। বেগুনি, কারণ এটা সতর্কতা নয় — শুধু বলছে
+     এই তালিকাটা তিন সেকশন মেশানো (V707-এর ট্যাগের সেই একই যুক্তি ও রং)।
+     ⛔ নতুন এই ফাইলটা আর কোথাও ব্যবহার হয় না, তাই পুরোনো কিছুতেই প্রভাব নেই। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#5B3A9E" />
+    <corners android:radius="11dp" />
+</shape>

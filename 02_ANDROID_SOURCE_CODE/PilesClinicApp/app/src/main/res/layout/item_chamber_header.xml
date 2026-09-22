@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    🔴🎨🔒 খাতার সারি B448 (TK-নির্দেশ, 05.08.2026 — "উপরের পাঁচটা বক্স
+    (Registration/Mark Expected/Patient বোতাম + Expected/Arrived বাক্স)
+    ফিক্স হয়ে থাকছে, রোগীর তালিকার জন্য জায়গা কমে যাচ্ছে")।
+
+    এই একই ৫টা বক্স আগে `activity_chamber_attendance.xml`-এ (RecyclerView-এর
+    বাইরে, স্থির) ছিল — এখন এই আলাদা ফাইলে সরানো হলো, RecyclerView-এর
+    ConcatAdapter-এর প্রথম আইটেম হিসেবে বসবে, তাই তালিকার সাথেই স্ক্রল করে
+    উপরে সরে যাবে। ⛔ ভেতরের প্রতিটা view-এর id/text/রং/মাপ/মার্জিন —
+    কিছুই বদলায়নি, হুবহু আগের মতোই কপি করা হয়েছে।
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="4dp">
+
+        <Button
+            android:id="@+id/btnAddRegistration"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/bg_btn_teal"
+            app:backgroundTint="@null"
+            android:text="Registration\nNew patient entry"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:lineSpacingExtra="1dp"
+            android:padding="2dp"
+            android:textSize="8sp" />
+
+        <Button
+            android:id="@+id/btnMarkExpected"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/bg_btn_green"
+            app:backgroundTint="@null"
+            android:text="Mark Expected\nExpected today"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:lineSpacingExtra="1dp"
+            android:padding="2dp"
+            android:textSize="8sp" />
+
+        <Button
+            android:id="@+id/btnSearchPatient"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/bg_btn_teal"
+            app:backgroundTint="@null"
+            android:text="Patient\nSearch patient"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:lineSpacingExtra="1dp"
+            android:padding="2dp"
+            android:textSize="8sp" />
+    </LinearLayout>
+
+    <!-- 🔵 TK-নির্দেশ (07.08.2026, আসল-স্ক্রিন প্রুফ): Expected ও Arrived-এর
+         মাঝখানে নতুন "কাল আসার কথা" বোতাম — এখন তিনটে সমান (weight 1) কার্ড,
+         উপরের ৩ বোতামের মতোই। ⛔ cardExpected/cardArrived-এর id/text/রং/count-
+         এর id — সব অপরিবর্তিত; শুধু ২টো কার্ড ছোট করে ৩টে সমান করা হলো +
+         মাঝে নতুন বোতাম, আর লেবেল/সংখ্যা এখন উপর-নিচে (vertical) সাজানো।
+         🔁 পুরনো (ফেরানোর জন্য): ২টো কার্ড · horizontal · label 13sp · count 18sp
+            · height 42dp · paddingHorizontal 8dp · label marginStart 8dp।
+
+         🎨🔒 V1474 (১৪.০৯.২০২৬, TK-অনুমোদিত ফটো-প্রুফ) — আগে এই পর্দার সব
+         ৬টা বক্স একই উচ্চতার ছিল (২১.০৭.২০২৬, ৫৬dp), কিন্তু ০৫.০৮-এ এই
+         কার্ডগুলো আলাদা ফাইলে সরানোর সময় উপরের ৩ বোতাম আর এই ৩ কার্ড —
+         দুরকম উচ্চতা হয়ে গিয়েছিল, TK ধরেছেন। প্রথমে ৩৮dp-এ (কার্ড ৪৮→৩৮),
+         পরে TK-নির্দেশে আরেকটু বাড়িয়ে **৪০dp**-এ (ছয়টাই একসাথে) — এখন
+         সবকটা আবার সমান। লেবেল (9sp) + সংখ্যা (16sp bold) দুটো লাইন
+         ৪০dp-তে আরামসে ফিট করে (মেপে দেখা)। -->
+    <LinearLayout
+        android:id="@+id/branchDateRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginHorizontal="6dp"
+        android:layout_marginBottom="4dp">
+
+        <LinearLayout
+            android:id="@+id/cardExpected"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingHorizontal="4dp"
+            android:background="@drawable/bg_stat_tag_yellow"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="আসার কথা Expected"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/tvExpectedCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- 🆕 NEW (07.08.2026): কাল আসার কথা — চাপলে কাল যাদের আসার কথা
+             তাদের তালিকা (ExpectedTomorrowActivity) খোলে; সংখ্যা = কাল ওই
+             ব্রাঞ্চে কতজন আসবে (ChamberAttendanceActivity.loadKalAsarCount)। -->
+        <LinearLayout
+            android:id="@+id/cardKalAsar"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="4dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingHorizontal="4dp"
+            android:background="@drawable/bg_btn_teal"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📞 কাল আসার কথা"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/tvKalAsarCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cardArrived"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingHorizontal="4dp"
+            android:background="@drawable/bg_stat_tag_green"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="এসেছেন Arrived"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/tvArrivedCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

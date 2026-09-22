@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_payment_header">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <!-- 🔴🔒 V1598 (১৯.০৯.২০২৬, TK-নির্দেশ, ফটো-প্রুফ পাশ) — "COOCH BEHAR"
+             লেখাটা জায়গার অভাবে উপর-নিচে ভেঙে যাচ্ছিল, তাই এই লেখাটার মাপ
+             অর্ধেক (14sp → 7sp) করা হলো। ⛔ id নেই, তাই কোথাও ব্যবহার হয় না —
+             শুধু চেহারা। -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="PAYMENT"
+            android:textColor="@color/white"
+            android:textSize="7sp"
+            android:textStyle="bold" />
+
+        <!-- TK-REQUESTED (2026-07-28, photo proof approved): small branch box on
+             the right of the header, for MASTER ADMIN only. Staff never see it,
+             so nothing changes for them.
+             🔒 TK-APPROVED (29.07.2026, খাতার সারি B84): জায়গা আগের মতোই
+             (হেডারের ডানে), শুধু চেহারা এখন **সব পর্দার এক মডেলে** —
+             `bg_branch_pill`, সাদা লেখা, ১০.৫sp। ⛔ id · মাস্টার-
+             only নিয়ম · চাপ দিলে কী হয় — কিছুই বদলায়নি। -->
+        <!-- 🔒 B576 (TK-অনুমোদিত প্রুফ, 08.08.2026): নিরেট সাদা পিল, গাঢ় সবুজ লেখা
+             (আগের স্বচ্ছ পিল মোবাইলে পড়া যেত না — TK নির্দেশ); ▾ তীর সরানো।
+             ⛔ id · master-only নিয়ম · চাপ দিলে কী হয় — কিছুই বদলায়নি। -->
+        <TextView
+            android:id="@+id/tvBranchPick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_pay_pill"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="All Branch"
+            android:textColor="#0A5428"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvDatePick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_pay_pill"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="08/08/2026"
+            android:textColor="#0A5428"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <!-- 🔴🔒 V1598 (১৯.০৯.২০২৬, TK-নির্দেশ, ফটো-প্রুফ পাশ) — তারিখের ডান
+             পাশে ⋮ মেনু (Salary Statement-এ আগে TK-অনুমোদিত একই প্যাটার্ন)।
+             ভিতরে: Treatment Payment · Medicine Payment · Saline Payment ·
+             Monthly History · Collection — কোনো আইকন ছাড়া, শুধু লেখা।
+             ⛔ তারিখ ও এই বোতামের মাঝে বাড়তি ফাঁক (marginStart="10dp")। */-->
+        <TextView
+            android:id="@+id/btnPaymentMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="⋮"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="14dp">
+
+            <!-- 🔒 B576 (TK-অনুমোদিত প্রুফ): দুই বোতাম পাশাপাশি, ইমোজি ছাড়া,
+                 চকলেট কালার বজায়। id/ক্লিক-কাজ অপরিবর্তিত। -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- 🔵 B610 (10.08.2026, TK-অনুমোদিত "Model K"): ৩D নীল + 💳 আইকন +
+                     ছোট লেখা। চাপ দিলে ৩D press (bg_btn_pay3d_blue)। ⛔ id/click অপরিবর্তিত। -->
+                <Button
+                    android:id="@+id/btnAddPayment"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="10dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="0dp"
+                    android:paddingHorizontal="4dp"
+                    android:background="@drawable/bg_btn_pay3d_blue"
+                    android:elevation="3dp"
+                    android:maxLines="1"
+                    android:textAllCaps="false"
+                    android:textSize="11sp"
+                    android:text="💳 PATIENT PAYMENT"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnMedicinePayment"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="0dp"
+                    android:paddingHorizontal="4dp"
+                    android:background="@drawable/bg_btn_pay3d_blue"
+                    android:elevation="3dp"
+                    android:maxLines="1"
+                    android:textAllCaps="false"
+                    android:textSize="11sp"
+                    android:text="💊 MEDICINE PAYMENT"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- TK-APPROVED (2026-07-25, photo proof): MASTER ADMIN ONLY row.
+                 Monthly Collection and Collection History, each opening a list
+                 with a BRANCH selector on top. Hidden for everyone else (see
+                 PaymentActivity). Nothing above this row changed. -->
+            <LinearLayout
+                android:id="@+id/rowMasterCollection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="7dp"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btnMonthlyCollection"
+                    android:layout_width="0dp"
+                    android:layout_height="34dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/bg_btn_teal"
+                    android:paddingHorizontal="6dp"
+                    android:maxLines="1"
+                    android:lineSpacingMultiplier="1.0"
+                    android:textAllCaps="false"
+                    android:textSize="11.5sp"
+                    android:text="MONTHLY COLLECTION"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnCollectionHistory"
+                    android:layout_width="0dp"
+                    android:layout_height="34dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_btn_teal"
+                    android:paddingHorizontal="6dp"
+                    android:maxLines="1"
+                    android:lineSpacingMultiplier="1.0"
+                    android:textAllCaps="false"
+                    android:textSize="11.5sp"
+                    android:text="↺ COLLECTION HISTORY"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- 🔒 B576 (TK-অনুমোদিত প্রুফ, 08.08.2026): কমপ্যাক্ট সামারি কার্ড —
+                 নেভি→নীল→সবুজ গ্রেডিয়েন্ট (ওয়েবের হুবহু রঙ), সাদা লেখা, ভেতরে
+                 তিনটি রঙিন রাউন্ড বক্স (সবুজ/নীল/বেগুনি)। ⛔ সব id (tvSummaryLabel,
+                 tvTotal, tvTransCount, tvCash, tvUpi, tvPatients) অপরিবর্তিত। -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#0B2B59">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_pay_summary"
+                    android:padding="9dp">
+
+                    <TextView
+                        android:id="@+id/tvSummaryLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TODAY COLLECTION SUMMARY"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="bottom"
+                        android:layout_marginTop="4dp">
+
+                        <TextView
+                            android:id="@+id/tvTotal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="₹0"
+                            android:textSize="23sp"
+                            android:textStyle="bold"
+                            android:textColor="#FFFFFF" />
+
+                        <TextView
+                            android:id="@+id/tvTransCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:text="0 Transactions"
+                            android:textSize="11.5sp"
+                            android:textColor="#EAF2FF" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="7dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:background="@drawable/bg_pay_box_green"
+                            android:paddingVertical="7dp"
+                            android:paddingHorizontal="4dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="💵 Cash"
+                                android:textSize="10.5sp"
+                                android:textStyle="bold"
+                                android:textColor="#0B7A34" />
+
+                            <TextView
+                                android:id="@+id/tvCash"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:text="₹0"
+                                android:textSize="14sp"
+                                android:textStyle="bold" android:textColor="#0B7A34"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="7dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:background="@drawable/bg_pay_box_blue"
+                            android:paddingVertical="7dp"
+                            android:paddingHorizontal="4dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="📱 Online"
+                                android:textSize="10.5sp"
+                                android:textStyle="bold"
+                                android:textColor="#1457B8" />
+
+                            <TextView
+                                android:id="@+id/tvUpi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:text="₹0"
+                                android:textSize="14sp"
+                                android:textStyle="bold" android:textColor="#1457B8"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:background="@drawable/bg_pay_box_purple"
+                            android:paddingVertical="7dp"
+                            android:paddingHorizontal="4dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="👥 Patients"
+                                android:textSize="10.5sp"
+                                android:textStyle="bold"
+                                android:textColor="#6B28C9" />
+
+                            <TextView
+                                android:id="@+id/tvPatients"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:text="0"
+                                android:textSize="14sp"
+                                android:textStyle="bold" android:textColor="#6B28C9"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 🔵 V552 (২২.০৮.২০২৬, TK-নির্দেশ ছবিসহ): *"today's collection এটা একটা
+                 সার্চ বক্সের মধ্যে লিখিত থাকবে, কিন্তু সার্চ বক্সে চাপ দিলে যেন পেশেন্টের
+                 জিনিসটা সার্চ করা যায় — কোন পেশেন্ট আজকে কত জমা করল আমি যেন খুঁজে পাই।"*
+                 লেখাটা এখন ঘরের ভিতরের hint; চাপ দিলেই নাম/মোবাইল/ID দিয়ে খোঁজা যায়।
+                 ⛔ নকশা নতুন বানানো হয়নি — প্রজেক্টের নিজের সার্চ ঘরের হুবহু একই সাজ
+                    (bg_input_field · প্যাডিং ৮ · এক লাইন · ১৪sp), যেমন Follow-up পর্দায়। -->
+            <EditText
+                android:id="@+id/etCollectionSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:background="@drawable/bg_input_field"
+                android:hint="🔍 Today's Collection"
+                android:inputType="text"
+                android:maxLines="1"
+                android:imeOptions="actionSearch"
+                android:textSize="14sp" />
+
+            <ProgressBar
+                android:id="@+id/progressLoad"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="No collection today"
+                android:textColor="@color/clinic_text_secondary"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

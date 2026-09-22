@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Trash Bin"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- V227 (item 46): Master-only branch filter, mirrors DraftActivity.
+             Hidden by default; shown only for Master in TrashBinActivity. -->
+        <TextView
+            android:id="@+id/branchFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:text="🏥 All ▾"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/btnMore"
+            android:layout_width="36dp"
+            android:layout_height="32dp"
+            android:gravity="center"
+            android:text="⋮"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:contentDescription="More options" />
+    </LinearLayout>
+
+    <!-- 🔴🔴🔒 V511 (২১.০৮.২০২৬, TK-অনুমোদিত প্রুফ) — খোঁজা + একসাথে বাছার পটি।
+         TK-এর কথা: *"অনেকগুলো একসাথে সিলেক্ট করা যাবে তারও ব্যবস্থা রাখতে হবে,
+         যাতে অনেকগুলো সিলেক্ট করে আমি Restore অথবা Delete Forever যে কোনো
+         একটা করতে পারি।"* -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_trash_tools"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_search_capsule"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:hint="🔍 Search name or mobile"
+            android:textColorHint="@color/field_hint"
+            android:textSize="13sp"
+            android:singleLine="true"
+            android:inputType="text"
+            android:importantForAutofill="no" />
+
+        <TextView
+            android:id="@+id/btnSelectMode"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:background="@drawable/bg_trash_select_off"
+            android:text="☑ Select"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#1167D8" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressLoad"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="Trash empty"
+        android:textColor="@color/clinic_text_secondary"
+        android:visibility="gone" />
+
+    <!-- TK-REQUESTED (2026-07-27): pull the list down to refresh, the same
+         way as Follow-up. Only this wrapper is new; the list inside it,
+         its id and every rule stay exactly as they were. -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- 🔴 V511 — একসাথে বাছার পটি। কিছু বাছা না থাকলে পুরোটাই লুকানো, তাই
+         রোজকার চেহারা এক চুলও বদলায় না। -->
+    <LinearLayout
+        android:id="@+id/bulkBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_trash_tools"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvBulkCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="0 selected"
+            android:textSize="12.5sp"
+            android:textStyle="bold"
+            android:textColor="#1167D8" />
+
+        <Button
+            android:id="@+id/btnBulkRestore"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="38dp"
+            android:background="@drawable/bg_trash_restore_green"
+            android:textColor="@color/white"
+            android:text="♻ Restore"
+            android:textSize="12.5sp"
+            android:padding="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
+
+        <Button
+            android:id="@+id/btnBulkDelete"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="38dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_btn_delete_red"
+            android:textColor="@color/white"
+            android:text="🗑 Delete"
+            android:textSize="12.5sp"
+            android:padding="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp" />
+    </LinearLayout>
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

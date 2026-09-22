@@ -1,0 +1,15 @@
+# V429 — এই সেশনে বদলানো ফাইল (18.08.2026 IST)
+
+## ওয়েব (03_NETLIFY_READY) — ফোনের সঙ্গে হুবহু মেলানো
+c62ff6c01ec468eb14e0d24014f094fa69b5bc20e5cb03def9082bbc524c5bde  03_NETLIFY_READY/app.js
+23a28b4476ca212ae988a35b8134737dac0e6a93f572a6dd92e56545f07923ff  03_NETLIFY_READY/styles.css
+ab097033e8fc7ae8405dadfc7946759a171799930b34102ec1062f4f3b78c995  03_NETLIFY_READY/index.html
+8f4a6117ec0c95ba9e3a66eea482d0e77369fba3fd68b504d52f1fda541493bd  03_NETLIFY_READY/profile.js
+
+## ফোন (02_ANDROID_SOURCE_CODE) — এই ধাপে বদল নেই; ভার্সন:
+val appVersionCode = 429
+val appVersionName = "4.29"
+
+## খাতা
+88f339d506612b98aa68f07f10df7e7a5394b6fcdead9eca246a6b501b2a26a8  00_TK_KAJER_TARIKH_SOMOY_LOG.md
+7fc25f6d7db85a22f611bc987289e0d0e8b42b1b2f49f004596e892f681dd493  00000_SOBAR_AGE_EITAI_PORUN.md

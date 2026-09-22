@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-APPROVED (2026-07-25, via photo proof): red rounded badge used only
+     for the serial number shown at the left of the doctor name on the
+     RMP / Dr. Visit list card. Used nowhere else, so no other screen can
+     be affected by this file. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#D32F2F" />
+    <corners android:radius="6dp" />
+</shape>

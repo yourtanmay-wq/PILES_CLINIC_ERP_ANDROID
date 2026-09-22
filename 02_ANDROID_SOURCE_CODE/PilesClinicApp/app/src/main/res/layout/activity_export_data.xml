@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Export Data"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="14dp"
+        android:text="Pick which data to export as CSV files (open directly in Excel/Google Sheets). A copy of your data outside the app — useful for backup or accounting."
+        android:textColor="@color/clinic_text_secondary"
+        android:textSize="12.5sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp">
+
+        <CheckBox android:id="@+id/cbPatients" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Patients" android:checked="true" android:textSize="14sp" />
+        <CheckBox android:id="@+id/cbEnquiries" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Enquiries" android:checked="true" android:textSize="14sp" android:layout_marginTop="8dp" />
+        <CheckBox android:id="@+id/cbPayments" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Payments" android:checked="true" android:textSize="14sp" android:layout_marginTop="8dp" />
+        <CheckBox android:id="@+id/cbFollowups" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Follow-ups" android:checked="true" android:textSize="14sp" android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="14dp"
+        android:text=""
+        android:textColor="@color/clinic_text_secondary"
+        android:textSize="12sp" />
+
+    <ProgressBar
+        android:id="@+id/progressExport"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:visibility="gone" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnExport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_btn_green"
+        app:backgroundTint="@null"
+        android:textColor="@color/white"
+        android:text="Export &amp; Share CSV" />
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

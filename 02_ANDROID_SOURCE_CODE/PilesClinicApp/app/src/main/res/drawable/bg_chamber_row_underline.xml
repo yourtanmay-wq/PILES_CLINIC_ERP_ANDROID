@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-REQUESTED (2026-07-22): the register "ruled line" (স্কেলের দাগ) under
+     each chamber row must run the FULL width of the row — including under the
+     PATIENT details column, not only under the money cells. Used as the row's
+     foreground so it sits above the status-colour fill (green/yellow/red) that
+     the adapter sets on the background. Only the BOTTOM stroke shows: the top /
+     left / right edges are pushed just outside the view bounds (same trick as
+     bg_chamber_cell). -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:top="-3dp" android:left="-3dp" android:right="-3dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="1dp" android:color="#D6E0EA" />
+        </shape>
+    </item>
+</layer-list>

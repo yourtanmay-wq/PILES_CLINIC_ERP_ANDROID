@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🟢🔒 B685 (15.08.2026, TK-অনুমোদিত): "💰 RMP Due List" বোতামের পটভূমি।
+     ঠিক bg_rmp_performance_btn.xml-এর হুবহু একই গড়ন (একরঙা pill, 12dp
+     কোণা) — শুধু রংটা লাল (#C0392B), কারণ এটা "টাকা বাকি" বোঝায়, ঠিক
+     যেমন TK-এর পাশ-করা প্রুফ-ছবিতে ছিল। ⛔ অন্য কোনো drawable ছোঁয়া হয়নি। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#C0392B" />
+    <corners android:radius="12dp" />
+</shape>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🎨 (07.08.2026, প্রুফ-চেহারা, TK-অনুমোদিত) — চেকআপ ফর্মের ইনপুট/সারির
+     পরিষ্কার বর্ডার-বক্স (সাদা, হালকা ধূসর বর্ডার, ৯dp গোল কোণা)। প্রুফের
+     মতো: লেবেল বাইরে উপরে, ইনপুট এই বক্সে। শুধু চেকআপ স্ক্রিনে ব্যবহৃত। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 🔒 B548 (08.08.2026, TK-অনুমোদিত "উপায় ৩") — হালকা নীলচে-ধূসর টিন্ট,
+         "এখানে লিখতে হবে" স্পষ্ট বোঝাতে (আগে সাদা #FFFFFF ছিল)। -->
+    <solid android:color="#F6F9FC" />
+    <corners android:radius="9dp" />
+    <stroke android:width="1.5dp" android:color="#D0D5DD" />
+</shape>

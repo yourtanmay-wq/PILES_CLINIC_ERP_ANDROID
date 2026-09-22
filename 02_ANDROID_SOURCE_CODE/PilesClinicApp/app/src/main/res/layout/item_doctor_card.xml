@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-APPROVED REDESIGN (2026-07-23, via photo proof): RMP card rebuilt to
+     match the Follow-up card's look. No green header strip and no left
+     column anymore; the name starts from the top-left. Branch and Address
+     sit side by side as coloured pill tags. The old Call Pending / Called
+     badge is gone; the top-right now shows only the call count. Last/Next
+     Call is one bolder line, Last Remark is a dashed box, and the referral
+     line shows only when non-zero (hidden in the adapter otherwise). All
+     view ids DoctorVisitAdapter.kt binds are kept exactly (tvName, tvStatus,
+     tvMeta, tvBranch, tvCallDates, tvReferralSummary, tvRemark, btnDelete,
+     requestBanner + its children, btnCall/btnWhatsApp/btnViewAll/btnLogCall)
+     so no binding breaks; one new id (tvAreaTag) is added and bound. -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/clinic_card">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="11dp">
+
+        <!-- top row: name / mobile / tags on the left, call count on the right -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- TK-APPROVED (2026-07-25, via photo proof): a fixed red
+                     serial number badge now sits at the left of the doctor
+                     name. The name TextView keeps its id and every one of
+                     its old attributes; only its width changes to weighted
+                     so it shares this row with the badge. -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- TK-REPORTED BUG FIX (2026-07-26, from TK's live
+                         screenshot): the badge was a FIXED 22dp wide box.
+                         One and two digit serials fit, but with 223 doctors
+                         on the list the three digit serials no longer did,
+                         so 202, 203 ... were drawn as "20" (last digit cut
+                         off). Width is now wrap_content with minWidth 22dp
+                         plus a little side padding: 1 and 2 digit badges
+                         stay EXACTLY the same size/shape as the design TK
+                         approved on 2026-07-25, and only a 3 digit badge
+                         grows the few dp it needs. maxLines=1 stops the
+                         text ever wrapping out of the fixed 22dp height. -->
+                    <TextView
+                        android:id="@+id/tvSerial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="22dp"
+                        android:minWidth="22dp"
+                        android:paddingHorizontal="3dp"
+                        android:maxLines="1"
+                        android:layout_marginEnd="7dp"
+                        android:background="@drawable/bg_serial_red"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Dr. NAME"
+                        android:textSize="15.5sp"
+                        android:textStyle="bold"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:textColor="#10223A" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvMeta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="📞 9999999999"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="12sp"
+                    android:textColor="#5B6B81" />
+
+                <!-- Branch (blue) + Address (green) tags, side by side -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tvBranch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_tag_branch"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="3dp"
+                        android:maxWidth="150dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="BRANCH"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/tvAreaTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:background="@drawable/bg_tag_disease"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="3dp"
+                        android:maxWidth="170dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="📍 AREA"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- top-right: call count only (Call Pending / Called badge removed) -->
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="📞 0 calls"
+                android:textColor="#667085"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <!-- hidden: delete now lives only inside View All. Kept + bound
+                 so DoctorVisitAdapter.kt needs no change. -->
+            <TextView
+                android:id="@+id/btnDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🗑️"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- TK-FINAL (29.07.2026, khata row B123): the Follow-up card's own
+             model, copied exactly - LAST CALL (STAFF) .. NEXT CALL on one line,
+             a thin rule under it, then the remark - ALL inside one dashed box.
+             Nothing else on this card changed; the two views keep their ids,
+             so every existing binding.tvCallDates / binding.tvRemark call and
+             the triple-tap edit keep working untouched. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_remark_dashed"
+            android:orientation="vertical"
+            android:padding="7dp">
+
+            <TextView
+                android:id="@+id/tvCallDates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LAST CALL — · NEXT CALL —"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                android:textColor="#344054" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="#D7E0E9" />
+
+            <TextView
+                android:id="@+id/tvRemark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:textSize="11.5sp"
+                android:textColor="#10223A" />
+        </LinearLayout>
+
+        <!-- 🔒🔒 খাতার সারি B193 (TK, 30.07.2026 রাত — "EXPECTED" ঘর):
+             ডাক্তার যদি বলেন একটা পেশেন্ট পাঠাতে পারেন, সেই তারিখ এখানে
+             দেখা যাবে। expectedPatientDate ফাঁকা হলে adapter-এ GONE করা
+             হয় (tvReferralSummary-র হুবহু একই প্যাটার্ন — শূন্য/ফাঁকা হলে
+             লুকানো)। -->
+        <TextView
+            android:id="@+id/tvExpected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="🤞 Expected patient: —"
+            android:textSize="10.5sp"
+            android:textStyle="bold"
+            android:textColor="#BE185D"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvReferralSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="👥 0 PATIENTS REFERRED · 💰 ₹0 INCOME"
+            android:textSize="10.5sp"
+            android:textStyle="bold"
+            android:textColor="#0A7C3F" />
+
+        <!-- delete-request banner (Master approve/reject); unchanged -->
+        <LinearLayout
+            android:id="@+id/requestBanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_remark_box"
+            android:padding="6dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvRequestInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="⚠️ Delete Requested"
+                android:textSize="11sp"
+                android:textColor="#B42318"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/requestActionRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btnApproveDelete"
+                    android:layout_width="0dp"
+                    android:layout_height="34dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/bg_doctorcard_action_green"
+                    app:backgroundTint="@null"
+                    android:text="✅ Approve"
+                    android:textColor="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textSize="11.5sp"
+                    android:padding="0dp" />
+
+                <Button
+                    android:id="@+id/btnRejectDelete"
+                    android:layout_width="0dp"
+                    android:layout_height="34dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_doctorcard_action_silver"
+                    app:backgroundTint="@null"
+                    android:text="❌ Reject"
+                    android:textColor="#1B2432"
+                    android:textAllCaps="false"
+                    android:textSize="11.5sp"
+                    android:padding="0dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 4 action buttons, wider gaps so they never look crowded -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCall"
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_action_call"
+                app:backgroundTint="@null"
+                android:text="📞"
+                android:textSize="14sp"
+                android:padding="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+            <Button
+                android:id="@+id/btnWhatsApp"
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_action_whatsapp"
+                app:backgroundTint="@null"
+                android:text="💬"
+                android:textSize="14sp"
+                android:padding="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+            <Button
+                android:id="@+id/btnViewAll"
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_action_view"
+                app:backgroundTint="@null"
+                android:text="👁"
+                android:textSize="14sp"
+                android:padding="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+            <Button
+                android:id="@+id/btnLogCall"
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_action_next"
+                app:backgroundTint="@null"
+                android:text="➜"
+                android:textSize="14sp"
+                android:padding="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

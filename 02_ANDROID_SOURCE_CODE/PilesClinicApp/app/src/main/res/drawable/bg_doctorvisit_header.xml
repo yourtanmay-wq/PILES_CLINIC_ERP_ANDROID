@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK APPROVED (2026-07-15): dedicated pure dual-green header for the Doctor
+     Visit / RMP screen only: created as its own file (not bg_login_hero,
+     which 32 other screens share) so this change can never repaint any other
+     screen's toolbar. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:type="linear"
+        android:angle="315"
+        android:startColor="#0A5428"
+        android:endColor="#0EA25F" />
+</shape>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔒 B558 (08.08.2026, TK-অনুমোদিত প্রুফ) — "+ ADD MEDICINE" চাপলে এই সারি
+     medicineContainer-এ যোগ হয়। বাঁয়ে ওষুধের নাম (হুবহু FieldInput স্টাইল,
+     তাই দেখতে প্রথম ঘরের মতোই), ডানে ✕ চেপে সারি মোছা যায়। সেভের সময় সব
+     ঘরের নাম কমা দিয়ে জুড়ে একটাই product-এ যায় — ডেটা-মডেল অটুট। -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <EditText
+        android:id="@+id/etMedItem"
+        style="@style/FieldInput"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:hint="Medicine / product name"
+        android:inputType="textCapCharacters"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/btnMedDel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="6dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="10dp"
+        android:text="✕"
+        android:textColor="#B0392B"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

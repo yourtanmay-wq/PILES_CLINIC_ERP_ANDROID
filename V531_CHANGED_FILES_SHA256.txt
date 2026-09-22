@@ -1,0 +1,9 @@
+# V531 — বদলানো ফাইলের SHA256 (২২.০৮.২০২৬)
+
+4b3a857b2d64c9ab1a99ada1d8ede4f30b0356245ee637e973f1c08ec5a2035f  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/build.gradle.kts
+2d6d2e0e0c1ab29a25ab4c0bce95f3b2c16a1660756ea7784bcbaa513e6dd33a  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/native/AddressTagRepository.kt
+7e9cacc328a23d58033eeb8e8f37bf0feb2f1e3586496d23de631cff7ce4ffdd  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt
+3c66b1ff726f67d645bec50238bf172659daf10664f695e9b35c594be593ec2b  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt
+39bc2e2f9e49cd303a8731d73b86e085d7a9ab2f57315659a876bc2dfdc829f4  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt
+33a2a4a11ce8d00657ac82e94194a7e0b892869a3b498cb832278ba9356e775e  03_NETLIFY_READY/index.html
+60e01e384c984e765b4e42833cfa8b9d81e702066dce0966d887b716efaf52a9  03_NETLIFY_READY/version.json

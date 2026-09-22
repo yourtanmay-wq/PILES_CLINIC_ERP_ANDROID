@@ -1,65 +1,59 @@
-# Clinica - Clinic Management & Patient Enquiry System
+# Piles Clinic ERP
 
-A comprehensive, fully functional Android application for managing clinic staff, tracking patient registrations, recording enquiries, and handling follow-ups. Built with modern Android standards using Kotlin, Jetpack Compose, and Material Design 3.
+Clinic management system for TK Biswas Piles Clinic — Android app + web app (PWA)
+on a shared Supabase backend.
 
-## Features
+Current version: **V690 / versionName 6.90** (imported from `PILES_CLINIC_APP_V690_FINAL_2.zip`).
 
-- **Authentication & Role-Based Access**: Log in as MASTER ADMIN, STAFF, etc., with session persistence and branch-specific default staff displays.
-- **Enquiry Form Module**: Create patient enquiries with 10-digit auto-formatting telephone numbers (`+91`), field validations, and automatic duplicate mobile checks across registered patients and existing enquiries.
-- **Enquiry Follow-Up List**: View, update status, record follow-up call outcomes, or reject enquiries with structured reasons.
-- **Clinic Dashboard**: High-level telemetry of pending enquiries, registrations, and status metrics.
-- **Room Database Integration**: Fully local database persistence keeping all patient and enquiry records secure offline.
+## Read these first
 
-## Project Structure
+| Order | File |
+|---|---|
+| 1 | [`00000_SOBAR_AGE_EITAI_PORUN.md`](00000_SOBAR_AGE_EITAI_PORUN.md) — সবার আগে এটাই পড়ুন |
+| 2 | [`00_FIRST_OPEN_OWNER_RED_ALERT.md`](00_FIRST_OPEN_OWNER_RED_ALERT.md) — owner's red-alert rules |
+| 3 | [`00_CLAUDE_STHAYEE_NOTE_PACKAGING_RULES.md`](00_CLAUDE_STHAYEE_NOTE_PACKAGING_RULES.md) — permanent packaging / working rules |
+| 4 | [`01_MASTER_LOCK_BOOK_SOURCE_OF_TRUTH/`](01_MASTER_LOCK_BOOK_SOURCE_OF_TRUTH/) — the source of truth |
+| 5 | [`00_TK_KAJER_KHATA_SOBAR_AGE_PORUN.md`](00_TK_KAJER_KHATA_SOBAR_AGE_PORUN.md) — the work ledger (খাতা) |
 
-```text
-├── app/
-│   ├── build.gradle.kts                      # Module-level build configuration
-│   └── src/
-│       └── main/
-│           ├── AndroidManifest.xml           # App Manifest (permissions, activities)
-│           ├── java/com/example/             # Kotlin package source directory
-│           │   ├── MainActivity.kt           # Main Application entry point
-│           │   ├── data/                     # Room Entities, DAOs, and Repositories
-│           │   ├── ui/                       # Jetpack Compose screens, ViewModels, and Theme
-│           │   └── util/                     # Utilities (Date formatters, etc.)
-│           └── res/                          # Android resources (Strings, drawables, etc.)
-├── gradle/
-│   └── libs.versions.toml                    # Centralized Version Catalog
-├── build.gradle.kts                          # Project-level build configuration
-├── settings.gradle.kts                       # Project settings
-├── gradle.properties                         # Gradle JVM configurations
-└── README.md                                 # Project documentation
+## Layout
+
+```
+00_AUDIT/ 00_GUARD/ 00_READ_ME_FIRST/ 00_SQL/   audits, guard scripts, first-read docs
+01_MASTER_LOCK_BOOK_SOURCE_OF_TRUTH/            locked spec — source of truth
+02_ANDROID_SOURCE_CODE/PilesClinicApp/          Android Studio opens THIS folder
+03_NETLIFY_READY/                               web app / PWA — deploy this folder to Netlify
+03_SUPABASE_SQL/ 04_SUPABASE_DATABASE_SETUP/    database schema + migrations
+05_APK_AAB_BUILD_NOTES/                         build & release notes
+06_TEST_CHECKLISTS/ 11_V223_TESTS/              test checklists
+07_RELEASE_NOTES_VERSION_HISTORY/               release notes
+08_ASSETS_BACKUP/                               logos and icons
+10_FUTURE_PLANS/                                not-yet-built features
+ROLLBACK_V448/                                  kept-back copies for rollback
 ```
 
-## Prerequisites
+The folder structure above is **locked** — see the packaging rules note. Do not move
+`PilesClinicApp` to the top level, and do not rename folders.
 
-To open, build, and run this project, make sure you have:
-- **Android Studio** Ladybug (2024.2.1) or newer.
-- **JDK 17** or higher configured in Android Studio.
-- **Android SDK** with compileSdk/targetSdk 35 installed.
+## Build / deploy
 
-## Build & Run Instructions
+- **Android:** open `02_ANDROID_SOURCE_CODE/PilesClinicApp/` in Android Studio.
+  Copy `local.properties.example` → `local.properties` and fill in your SDK path
+  (and release-signing values, when producing a signed build).
+- **Web:** upload the contents of `03_NETLIFY_READY/` to Netlify.
+- **Database:** run the SQL in `04_SUPABASE_DATABASE_SETUP/` against the Supabase project.
 
-Follow these simple steps to import and run the project locally in Android Studio:
+## Notes on secrets
 
-### 1. Extract the Project ZIP
-Unzip the downloaded `project.zip` file to your local workspace folder.
+- `local.properties` and any release keystore are git-ignored and must never be committed.
+- The Supabase **publishable (anon)** key is present in the client code by design — it is
+  the public client key. No `service_role` key exists anywhere in this repository.
+- `02_ANDROID_SOURCE_CODE/PilesClinicApp/app/permanent-debug-key/` holds a **debug-only**
+  keystore that is intentionally version-controlled so debug builds keep the same signature
+  across machines. It is not used for release builds.
 
-### 2. Import into Android Studio
-1. Open **Android Studio**.
-2. Select **File > Open** or choose **Import Project**.
-3. Navigate to the extracted project directory and select the root directory (containing `settings.gradle.kts`).
-4. Click **OK** and wait for Android Studio to sync Gradle dependencies.
+## Packaging a release zip
 
-### 3. Build & Run
-1. Connect a physical Android device with USB Debugging enabled, or start an Android Virtual Device (Emulator).
-2. Click the **Run** button (green play icon in the top toolbar) or press `Shift + F10` to compile and install the application on your device.
-
-## Technologies Used
-
-- **Language**: Kotlin 100%
-- **UI Framework**: Jetpack Compose (Material 3)
-- **Architecture**: MVVM (Model-View-ViewModel) + Repository Pattern
-- **Persistence**: Room Database (SQLite)
-- **Dependency Management**: Gradle Version Catalog (`libs.versions.toml`)
+The zip handed to the owner keeps the historical shape: copy the repository contents
+(excluding `.git/`, `build/`, `.gradle/`, `.idea/`, `node_modules/`) into a folder named
+`PILES_CLINIC_APP_V{number}_FINAL/` and zip that folder as
+`PILES_CLINIC_APP_V{number}_FINAL.zip`, incrementing the number each time.

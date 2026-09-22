@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Follow-up Calendar"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- 🔒 TK-REQUESTED (28.07.2026, খাতার সারি B43): *"আমি মাস্টার — সমস্ত
+             জায়গায় আমি চাইলে ব্রাঞ্চ চুজ করতে পারি, চাইলে অল ব্রাঞ্চ রাখতে পারি।"*
+             ⛔ Follow-up পর্দায় TK-এর আগেই পাশ করা **হুবহু একই বাক্স** — একই
+             ড্রয়েবল, একই মাপ, একই লেখা। নতুন কোনো ডিজাইন নয়।
+             ⛔ ডান দিকে, শিরোনামের সঙ্গে গা-ঘেঁষা নয় (নিজের ফাঁক আছে)।
+             ডিফল্টে লুকানো — শুধু মাস্টারের পর্দায় দেখা যায়। -->
+        <TextView
+            android:id="@+id/branchPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_branch_pill"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="🏥 All Branch ▾"
+            android:textColor="@color/white"
+            android:textSize="10.5sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/btnPrevMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="◀"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:textColor="@color/clinic_text_primary" />
+
+        <TextView
+            android:id="@+id/tvMonth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Month YYYY"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/clinic_text_primary" />
+
+        <TextView
+            android:id="@+id/btnNextMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="▶"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:textColor="@color/clinic_text_primary" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressLoad"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvTodayPending"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:padding="14dp"
+        android:background="@drawable/bg_gradient_button"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:text="📞 Today Pending Call"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <GridLayout
+            android:id="@+id/calendarGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:columnCount="7" />
+    </ScrollView>
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

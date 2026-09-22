@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔒 TK-LOCKED DESIGN (04.08.2026, "Model D" ফটো-প্রুফে অনুমোদিত) —
+     More মেনুর প্রতিটা কার্ডের বাঁ-পাশের রঙিন আইকন-ব্যাজ। একটাই সাধারণ
+     গোলাকার সাদা shape — প্রতিটা ব্যবহারের জায়গায় android:backgroundTint
+     দিয়ে আলাদা রং বসে (আগে Kotlin-এর tint() ফাংশন যেভাবে পুরো বোতামে রং
+     বসাত, এখন XML-এই সরাসরি, কোড সরল হলো)। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#FFFFFF" />
+    <corners android:radius="12dp" />
+</shape>

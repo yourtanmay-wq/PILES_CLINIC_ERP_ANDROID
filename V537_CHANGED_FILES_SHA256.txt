@@ -1,0 +1,8 @@
+# V537 — বদলানো ফাইলের SHA256 (২২.০৮.২০২৬)
+
+f021333a699d5b6bd491d4afd2613cae0b66e4bde069195e3c026e0132cceb87  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/build.gradle.kts
+091cbb6bfdd6951befb0e80f58239bc9f706ded6525a7ea37cb2a7db2124f157  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/clinical/ClinicalRepository.kt
+b3a03de41c72eaef3ecffb5debf4ad4eea898442b330abcea5b087dbc54074c2  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt
+1c102158e46220d5edc3c9bc4d2f51ef3410da426185d40d6d4b1cc18a616065  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/clinical/RoleSession.kt
+67b7c12a2e3be0aaa02fc3c09274939b8ce2e71e573747d015848aae2444ac74  03_NETLIFY_READY/index.html
+1618284d2552c0bba0e8916c4c4ec8651f164ebbfdf62f9e3a9d805630153602  03_NETLIFY_READY/version.json

@@ -1,18 +1,37 @@
-*.iml
-.gradle
-.kotlin
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+# ---- Android / Gradle ----
+build/
+.gradle/
 local.properties
-.env
-debug.keystore
+*.apk
+*.aab
+captures/
+.cxx/
+
+# ---- IDE ----
+.idea/
+*.iml
+.vscode/
+
+# ---- Node / web tooling ----
+node_modules/
+
+# ---- Signing secrets (NEVER commit) ----
+release-keystore.jks
+keystore.properties
+*.keystore
+
+# ---- OS junk ----
+.DS_Store
+Thumbs.db
+
+# ---- পাঠানোর জন্য বানানো জিপ ----
+# এগুলো সোর্স থেকে যখন খুশি আবার বানানো যায়, আর একেকটা ২৩-৫২ MB।
+# রেপোতে রাখলে চিরকাল ভারী হয়ে থাকত, তাই রাখা হয় না।
+PILES_CLINIC_APP_V*.zip
+
+# পাহারাদারের নিজের Kotlin কম্পাইলার — নামানো জিনিস, প্রজেক্টের অংশ নয়
+00_GUARD/.kotlinc/
+
+# পাইথন পাহারাদারের বাইটকোড — নিজে থেকেই তৈরি হয়, রাখার দরকার নেই
+__pycache__/
+*.pyc

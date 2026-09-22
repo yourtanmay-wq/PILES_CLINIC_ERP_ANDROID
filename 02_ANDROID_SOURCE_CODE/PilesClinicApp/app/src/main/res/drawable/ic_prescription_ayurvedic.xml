@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-APPROVED (2026-07-17): Ayurvedic mortar-and-pestle + herb sprig icon
+     for the Prescription Print card, replacing the emoji. Simplified version
+     of the mortar/plant idea from TK's reference image; full logo detail
+     (gold ring, lotus emblem, hand, text) doesn't read at small icon size,
+     so only the mortar+plant core symbol is kept. White fill, meant to sit
+     on the green gradient badge (bg_badge_ayurvedic.xml). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M12,13L12,5"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.1"
+        android:strokeLineCap="round" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,7.5C10.8,7 9.8,7.6 9.5,8.8C10.8,9.2 11.7,8.6 12,7.5Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,7.5C13.2,7 14.2,7.6 14.5,8.8C13.2,9.2 12.3,8.6 12,7.5Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,10.5C10.8,10 9.8,10.6 9.5,11.8C10.8,12.2 11.7,11.6 12,10.5Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,10.5C13.2,10 14.2,10.6 14.5,11.8C13.2,12.2 12.3,11.6 12,10.5Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,5.5C11.3,4.8 11.3,4 12,3.2C12.7,4 12.7,4.8 12,5.5Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M6.5,13L17.5,13L15.7,19.2A1.4,1.4 0,0,1 14.4,20.2L9.6,20.2A1.4,1.4 0,0,1 8.3,19.2Z" />
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M9.5,20.4L14.5,20.4L14.5,21.4L9.5,21.4Z" />
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M6.7,13L17.3,13L17.3,14L6.7,14Z" />
+</vector>

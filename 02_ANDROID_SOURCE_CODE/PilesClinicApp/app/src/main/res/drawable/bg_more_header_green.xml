@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔒 TK-LOCKED DESIGN (04.08.2026, "Premium" প্রুফে "লক করুন") — More
+     মেনুর হেডার — TK প্রথমে নেভি ব্লু বাদ দিতে বলেছিলেন (প্রজেক্টের স্থায়ী
+     নিয়ম), তারপর সবুজ গ্রেডিয়েন্ট চেয়েছেন। গাঢ় সবুজ থেকে হালকা সবুজ,
+     নিচের দুই কোণ গোলাকার। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:bottomLeftRadius="26dp" android:bottomRightRadius="26dp" />
+    <gradient
+        android:angle="45"
+        android:startColor="#0B5C36"
+        android:centerColor="#0EA355"
+        android:endColor="#3FBE7A"
+        android:type="linear" />
+</shape>

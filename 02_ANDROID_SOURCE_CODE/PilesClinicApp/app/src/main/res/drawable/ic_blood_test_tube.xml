@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-APPROVED (2026-07-17): test tube icon for the Blood Test Print card,
+     replacing the emoji. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M8,3L16,3L16,4.5L15,4.5L15,16A3,3 0,0,1 9,16L9,4.5L8,4.5Z" />
+    <path
+        android:fillColor="#FFD1DF"
+        android:pathData="M9,13L15,13L15,16A3,3 0,0,1 9,16Z" />
+    <path
+        android:fillColor="#EC4899"
+        android:pathData="M10,14.3A0.6,0.6 0,1,0 11.2,14.3A0.6,0.6 0,1,0 10,14.3Z" />
+</vector>

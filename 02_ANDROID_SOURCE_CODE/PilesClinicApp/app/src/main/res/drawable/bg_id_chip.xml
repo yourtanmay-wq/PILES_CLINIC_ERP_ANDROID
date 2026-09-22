@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔵 B611 (10.08.2026, TK-অনুমোদিত প্রুফ): Collection কার্ডে ছোট "ID" চিপ —
+     হালকা বেগুনি রাউন্ড ব্যাকগ্রাউন্ড (🆔 ইমোজির বদলে)। শুধুই ডিজাইন। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#EFE9FB" />
+    <corners android:radius="6dp" />
+</shape>

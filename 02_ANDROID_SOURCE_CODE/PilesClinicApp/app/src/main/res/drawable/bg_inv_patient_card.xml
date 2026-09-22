@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- V1473 (14.09.2026, TK-approved photo-proof, Option 1) — Investigation
+     Advice screen's patient header card background. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient
+        android:type="linear"
+        android:angle="135"
+        android:startColor="#EAF1FB"
+        android:centerColor="#DCE8FA"
+        android:endColor="#CFE0F7" />
+    <corners android:radius="14dp" />
+    <stroke android:width="1dp" android:color="#B9CBE0" />
+</shape>

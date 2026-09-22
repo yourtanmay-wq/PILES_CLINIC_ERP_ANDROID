@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-APPROVED REDESIGN (2026-07-20): ruled register grid for ARRIVED rows.
+     Row background tinted by status (green=arrived, yellow=expected,
+     red=no-show). Money cells (Treatment/Fees/Cash/Online) shown only for a
+     patient who has ARRIVED.
+     TK-REQUESTED REDESIGN (2026-07-21): a patient who is still "আসার কথা"
+     (expected, NOT arrived yet) has no payment/visit/treatment yet, so those
+     columns are hidden for them. Instead a single COMPACT one-line row shows
+     Name · Mobile · Disease side-by-side (so many patients fit one screen),
+     with a "→" arrow on the right that marks them Arrived (moves them to the
+     Arrived section). Mobile stays its own tappable view (tap=call,
+     long-press=copy) in BOTH layouts.
+     🟢🔒🔒 V668 (২৫.০৮.২০২৬, TK-কড়া-রিপোর্ট, দুইবার ছবি পাঠিয়ে — "ব্যাকগ্রাউন্ড
+     পরিষ্কার সাদা থাকবে") — আসল কারণ (এতক্ষণে ধরা পড়ল): V654-এ ভুল করে
+     showCloseReview()-এর (একটা আলাদা পপ-আপ) ব্যাকগ্রাউন্ড সাদা করা হয়েছিল,
+     কিন্তু TK আসলে এই মূল Chamber Date পাতার (এই XML, RecyclerView-এর
+     আসল আইটেম) কথা বলছিলেন — এখানে হার্ডকোড করা হালকা সবুজ (#EAF9F1)
+     কখনো ছোঁয়াই হয়নি। এখন সত্যিকারের জায়গায় ঠিক করা হলো — সাদা
+     (নিচের android:background)।
+     🔴🔒 V1450 (১৪.০৯.২০২৬, TK-রিপোর্ট ছবিসহ — "পেশেন্টের নাম কেটে গেল কেন")
+     — tvName/tvNameW-এর `maxLines="1" ellipsize="end"` তুলে দেওয়া হলো, লম্বা
+     নাম এখন কাটা না গিয়ে দ্বিতীয় লাইনে চলে যায়। ⛔ ২৪-২৫.০৭.২০২৬-এ TK-লক করা
+     ১০৬dp চওড়া (Arrived/Waiting দুই বাক্সের মিল রাখতে) এক অক্ষরও বদলায়নি —
+     শুধু নাম কাটার বদলে এখন র‍্যাপ করে। -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rowContent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="0dp"
+    android:minHeight="62dp"
+    android:background="#FFFFFF"
+    android:foreground="@drawable/bg_chamber_row_underline">
+
+    <!-- ===== ARRIVED layout: vertical Name/Mobile + money grid ===== -->
+    <LinearLayout
+        android:id="@+id/cellPatient"
+        android:layout_width="106dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingEnd="6dp"
+        android:paddingVertical="10dp">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PATIENT NAME"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#B42318" />
+
+        <TextView
+            android:id="@+id/tvMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="📞 0000000000"
+            android:textSize="11sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#1067D8" />
+
+        <!-- TK-REQUESTED (2026-07-21): Patient ID line (shown only if it exists).
+             Name / Mobile / ID each single line so nothing breaks. -->
+        <!-- 🔴🔒 V984 (০২.০৯.২০২৬, TK-রিপোর্ট ছবিসহ: "Ref. by Amit… ডান পাশে
+             রয়েছে যে কারণে কেটে গেছে, দেখা যাচ্ছে না") — এই ঘরে দুটো লাইন বসে
+             (তারিখ-সময়, আর তার নিচে Ref By), অথচ নিয়ম ছিল মাত্র ১ লাইন — তাই
+             দ্বিতীয় লাইনটা কখনো দেখাই যেত না আর প্রথমটাও কেটে যেত। এখন ৩ লাইন।
+             ঘরের চওড়া · রং · মাপ কিছুই বদলায়নি। -->
+        <TextView
+            android:id="@+id/tvPatientId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text=""
+            android:textSize="10sp"
+            android:maxLines="3"
+            android:textColor="#5B6B81"
+            android:visibility="gone" />
+
+        <!-- kept for compatibility; disease is shown in the waiting row below -->
+        <TextView
+            android:id="@+id/tvDisease"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text=""
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#7C3AED"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- ===== WAITING (আসার কথা) layout, TK-LOCKED (2026-07-24): bordered
+         PATIENT box (Name/Mobile/ID) + bordered TREATMENT PROGRESS box
+         (shows the LAST remark written, tap-editable — same row.remark
+         field the Arrived row's tvTreatment already uses, so writing here
+         updates the SAME record and flows to Report Card / the next visit
+         exactly like it already does for an Arrived patient). Payment is
+         intentionally absent — a waiting patient hasn't paid anything yet.
+         Arrow stays on the right, unchanged, to mark Arrived. -->
+    <LinearLayout
+        android:id="@+id/rowWaiting"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingVertical="6dp"
+        android:visibility="gone">
+
+        <!-- TK-LOCKED (2026-07-25, photo proof): PATIENT box narrowed
+             150dp to 106dp so it lines up with the Arrived rows' own
+             106dp patient cell (and with the PATIENT column title), and
+             the freed 44dp goes to TREATMENT PROGRESS beside it. -->
+        <LinearLayout
+            android:layout_width="106dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp"
+            android:background="@drawable/bg_chamber_cell">
+
+            <TextView
+                android:id="@+id/tvNameW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PATIENT NAME"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#B42318" />
+
+            <TextView
+                android:id="@+id/tvMobileW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="📞 0000000000"
+                android:textSize="11sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:clickable="true"
+                android:focusable="true"
+                android:textColor="#1067D8" />
+
+            <!-- 🔴 V984 — উপরের ঘরের হুবহু একই দোষ ছিল এখানেও (নিয়ম ৭)। -->
+            <TextView
+                android:id="@+id/tvPatientIdW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text=""
+                android:textSize="10sp"
+                android:maxLines="3"
+                android:textColor="#5B6B81"
+                android:visibility="gone" />
+
+            <!-- kept for compatibility; not shown in the TK-locked box design -->
+            <TextView
+                android:id="@+id/tvDiseaseW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="12sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- TK-REPORTED BUG FIX (2026-07-25): the Name line showed but the
+             Mobile and Patient ID lines under it were invisible. Cause: this
+             cell was wrap_content while the PATIENT box beside it was
+             match_parent. In that exact mix, Android sizes the row from the
+             wrap_content child only (the match_parent child contributes just
+             its margins), so a one line remark like a dash made the row short
+             and the PATIENT box was then re measured to that short height,
+             cutting off Mobile and ID. With BOTH boxes match_parent the row
+             takes the taller of the two, so nothing is cut off either way. -->
+        <TextView
+            android:id="@+id/tvTreatmentW"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp"
+            android:text="—"
+            android:textSize="10.5sp"
+            android:textColor="#334155"
+            android:background="@drawable/bg_chamber_cell" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvTreatment"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="6dp"
+        android:text="— বাকি —"
+        android:textSize="10.5sp"
+        android:textColor="#334155"
+        android:background="@drawable/bg_chamber_cell" />
+
+    <!-- TK-LOCKED (2026-07-25, photo proof on TK's own screenshot): the one
+         merged "Payment" box is split back into the three separate columns
+         TK's register uses . FEES / CASH / ONLINE. FEES is display only
+         (it fills itself from the registration fee, and shows "OLD" for a
+         patient who did not register today). CASH and ONLINE are tappable:
+         a tap takes a payment in that exact mode. -->
+    <TextView
+        android:id="@+id/tvFees"
+        android:layout_width="38dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingHorizontal="2dp"
+        android:paddingVertical="6dp"
+        android:text="—"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:textColor="#334155"
+        android:background="@drawable/bg_chamber_cell" />
+
+    <TextView
+        android:id="@+id/tvCash"
+        android:layout_width="46dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingHorizontal="2dp"
+        android:paddingVertical="6dp"
+        android:text="—"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:textColor="#0C9E33"
+        android:background="@drawable/bg_chamber_cell" />
+
+    <TextView
+        android:id="@+id/tvOnline"
+        android:layout_width="46dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingHorizontal="2dp"
+        android:paddingVertical="6dp"
+        android:text="—"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:textColor="#0C9E33"
+        android:background="@drawable/bg_chamber_cell" />
+
+    <!-- TK-REQUESTED (2026-07-21): was "✅ এসেছেন" text (staff found it
+         confusing). Now a plain right ARROW; tapping it marks the patient
+         Arrived and moves them to the Arrived section. -->
+    <TextView
+        android:id="@+id/btnArrived"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:gravity="center"
+        android:text="→"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_btn_green"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/btnCall"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="4dp"
+        android:gravity="center"
+        android:text="📞"
+        android:textSize="14sp"
+        android:background="@drawable/bg_btn_green"
+        android:visibility="gone" />
+
+</LinearLayout>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Premium platinum/silver screen background. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient android:startColor="#EEF2F7" android:endColor="#D7DEE8" android:angle="270" />
+</shape>

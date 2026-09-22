@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <!-- TK-REPORTED BUG FIX (2026-07-25): this header was locked to a
+         fixed 48dp when the headers were made smaller, so any title that
+         needs two lines (or a title plus the patient name/ID line under it)
+         had its lower line cut off. Height is now "only as much as the text
+         needs", with 48dp as the MINIMUM . short titled screens stay exactly
+         as small as they are now, and only a long title grows, by about
+         8dp. -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:background="@drawable/bg_login_hero"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:titleTextColor="@color/white"
+        app:title="Diet Chart" />
+
+    <TextView
+        android:id="@+id/tvReadOnlyNotice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/clinic_accent_amber"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:visibility="gone"
+        android:text="View only — Staff can view the diet chart but cannot edit it." />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✅ Allowed"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/clinic_accent_green" />
+
+            <LinearLayout
+                android:id="@+id/llAllowed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="6dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="16dp"
+                android:background="@color/clinic_divider" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🚫 Avoid"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/clinic_accent_red" />
+
+            <LinearLayout
+                android:id="@+id/llAvoid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="6dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 🔴 V430 (TK-সিদ্ধান্ত ১৮.০৮.২০২৬) — কম্পিউটারে এই ঘরটা আগে থেকেই আছে
+         আর Diet Chart-এর A4 কাগজেও ছাপে; ফোনে ঘরটাই ছিল না, তাই ছাপার
+         ব্যবস্থা থাকা সত্ত্বেও কিছুই যেত না। এখন দুই জায়গা এক। -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="10dp"
+        android:text="Extra Advice"
+        android:textSize="12sp"
+        android:textColor="#5B6B81" />
+
+    <EditText
+        android:id="@+id/etDietRemarks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="4dp"
+        android:minLines="2"
+        android:maxLines="3"
+        android:gravity="top|start"
+        android:inputType="textMultiLine|textCapSentences"
+        android:textSize="13sp"
+        android:background="@drawable/bg_input_rounded"
+        android:padding="10dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnShareDiet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_btn_silver"
+            app:backgroundTint="@null"
+        android:textColor="#1B2432"
+        android:elevation="3dp"
+        android:text="📤 Share PDF" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="12dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveDiet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_btn_silver"
+            app:backgroundTint="@null"
+            android:textColor="#1B2432"
+            android:elevation="3dp"
+            android:text="Save" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveAndPrintDiet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_btn_green"
+            app:backgroundTint="@null"
+            android:textColor="@color/white"
+            android:text="Save &amp; Print" />
+    </LinearLayout>
+</LinearLayout>

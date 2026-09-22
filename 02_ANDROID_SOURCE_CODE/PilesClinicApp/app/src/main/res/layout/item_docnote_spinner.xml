@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔴🔒 V501 (TK-নির্দেশ ২১.০৮.২০২৬, ফটো-প্রুফ অনুমোদিত):
+     *"occupation বক্সটা এত বড় রাখছেন কেন? বললাম তো প্রতিটা বক্স একই সাইজের হবে।"*
+
+     কারণ কী ছিল: `spOccupation` Android-এর নিজের
+     `simple_spinner_dropdown_item` ব্যবহার করত, যার ভিতরে
+     `dropdownListPreferredItemHeight` (≈৪৮dp) বসানো থাকে। তাই বাক্সটা
+     পাশের EditText-গুলোর প্রায় দ্বিগুণ লম্বা দেখাত।
+
+     এই ছোট item-টা সেই বাধ্যতামূলক উচ্চতা ছাড়াই লেখা দেখায়, ফলে বাক্সটা
+     `DocNoteInputSingle`-এর (EditText-এর) সমান হয়।
+
+     ⛔ শুধু **বন্ধ অবস্থার** চেহারা — বেছে নেওয়ার তালিকা (`SpinnerPicker`),
+        বাছাইয়ের মান, সেভ — কিছুই বদলায়নি।
+     ⛔ `item_branch_spinner.xml`-এর হুবহু একই প্রমাণিত ধাঁচ (নতুন কিছু নয়)। -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="0dp"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="0dp"
+    android:paddingVertical="1dp"
+    android:singleLine="true"
+    android:ellipsize="end"
+    android:textSize="14.5sp"
+    android:textColor="@color/clinic_text_primary" />

@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <!-- 🟢🔒 B682 (১৫.০৮.২০২৬, TK-অনুমোদিত প্রুফ): TK — *"স্ক্রোল করলে সব গুলি উপরে
+         যেতে হবে।"* আগে শুধু নিচের তালিকাটা স্ক্রোল হত, উপরের হেডার · ৪টে বোতাম ·
+         Estimated/Paid/Due স্থির হয়ে বসে থাকত (পর্দার প্রায় অর্ধেক)।
+         এখন গোটা পাতাটাই একসাথে স্ক্রোল হয়।
+         ⛔ ভিতরের কোনো ডিজাইন · রং · মাপ · কাজ বদলানো হয়নি — শুধু সবাইকে একটা
+            স্ক্রোলের ভিতরে ঢোকানো হলো। -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/pageScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <!-- Premium patient header -->
+    <!-- TK-LOCKED DESIGN (2026-07-24, supersedes the 2026-07-23 order):
+         bigger rounded-square photo, patient details shifted right in
+         fixed order: Mob / Name / (Branch+Disease paired) /
+         (Age+Sex paired) / Address. Approved via photo-proof. -->
+    <!-- TK-APPROVED (2026-07-27, via photo proof): the header colour now
+         tells the staff which stage the patient is at, so it is set from
+         Kotlin per stage (Enquiry blended, Visit yellow, Patient green).
+         All three are pale, so every text inside is DARK, never white.
+         Left padding is 10dp instead of 16dp so the photo sits further from
+         the name and address, which gains width and stops getting cut. -->
+    <LinearLayout
+        android:id="@+id/patientHeaderRoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_ptl_header_visit"
+        android:elevation="4dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="top">
+
+            <!-- TK-নির্দেশ (03.08.2026, ফটো-প্রুফে "ওকে লক") — ← Back তীর এই
+                 স্ক্রিন থেকে সম্পূর্ণ সরানো হলো (ফোনের নিজের Back বোতাম/
+                 জেসচার দিয়েই ফেরা যাবে, কোনো কাস্টম onBackPressed ছিল না,
+                 তাই আচরণ অপরিবর্তিত)। এতে ছবি একদম বাঁ-কিনারে সরে এসেছে,
+                 আর ডানের লেখার কলাম বাড়তি জায়গা পেয়েছে (ঠিকানার লাইন আর
+                 কাটছে না)। ⛔ এই তীর/বোতাম শুধু এই স্ক্রিনেই ছিল — অন্য
+                 কোনো স্ক্রিনের Back বোতাম/ডিজাইন ছোঁয়া হয়নি। -->
+            <!-- TK-REPORTED FIX (2026-07-23): photo shrunk 84dp->62dp and the
+                 gap before the text block reduced 22dp->14dp. Frees ~30dp
+                 for the Mob/Name/Age-Sex/Disease/Address value column, which
+                 was truncating longer names/addresses with "...". Same
+                 fixed row order/labels, nothing else about the locked
+                 header design changed. -->
+            <ImageView
+                android:id="@+id/ivPhoto"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerCrop"
+                android:background="@drawable/bg_square_gradient"
+                android:contentDescription="Patient photo" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical">
+
+                <!-- TK-LOCKED DESIGN (2026-07-24, v2, replaces the earlier
+                     labelled Mob/Name/Branch/Disease/Age/Sex/Address rows):
+                     no field labels at all now, just the raw values,
+                     Branch+Disease combined onto one line ("Falakata -
+                     Piles"), Sex+Age combined onto one line ("Male-40",
+                     sex first then age, no spaces around the dash),
+                     Address shown as plain comma-separated values (no
+                     "Vill:"/"PO:"/"PS:" labels, stripped in Kotlin from
+                     the stored "Vill: X, PO: Y, ..." format). Hide-if-blank
+                     rule is UNCHANGED (still applies exactly as before,
+                     just to these now-combined single-line fields instead
+                     of separate label+value pairs). -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:id="@+id/tvMobVal" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="—" android:textColor="#10223A" android:textStyle="bold" android:textSize="13.5sp" android:maxLines="1" android:ellipsize="end" />
+                    <!-- TK-REQUESTED ADDITION (2026-07-24): dedicated call
+                         icon, separate from tvMobVal itself, so the
+                         existing 3-tap-to-edit on the number text keeps
+                         working untouched (a single click here would have
+                         collided with counting toward that triple-tap). -->
+                    <TextView
+                        android:id="@+id/btnCallMob"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_circle_gradient"
+                        android:gravity="center"
+                        android:text="📞"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <TextView android:id="@+id/tvName" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="Patient" android:textColor="#10223A" android:textStyle="bold" android:textSize="17sp" android:maxLines="2" android:ellipsize="end" />
+
+                <!-- Branch + Disease, one line, hides entirely if both blank. -->
+                <TextView android:id="@+id/tvBranchDiseaseVal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:lineSpacingExtra="1dp" android:text="—" android:textColor="#4A5A6B" android:textStyle="bold" android:textSize="13.5sp" android:maxLines="1" android:ellipsize="end" />
+
+                <!-- Sex + Age, one line, hides entirely if both blank. -->
+                <TextView android:id="@+id/tvSexAgeVal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:lineSpacingExtra="1dp" android:text="—" android:textColor="#4A5A6B" android:textStyle="bold" android:textSize="13.5sp" android:maxLines="1" android:ellipsize="end" />
+
+                <!-- Address, plain comma-separated values (labels stripped in Kotlin), hides if blank. -->
+                <TextView android:id="@+id/tvAddressVal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:lineSpacingExtra="1dp" android:text="—" android:textColor="#4A5A6B" android:textStyle="bold" android:textSize="13.5sp" android:maxLines="2" android:ellipsize="end" />
+
+                <!-- TK-REQUESTED ADDITION (2026-07-24): "By- Dr. NAME
+                     (AREA)", referring RMP, one line, directly below
+                     Address, inside the header block. Hides entirely when
+                     there's no referring doctor (Enquiry stage, or no RMP
+                     referral). Was previously part of the separate tags
+                     line below the header (tvChips, "🧑‍⚕️ Ref By: ...");
+                     moved and reformatted per TK's explicit instruction;
+                     tvChips no longer shows this (Patient ID only now). -->
+                <TextView android:id="@+id/tvRefDoctorVal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:lineSpacingExtra="1dp" android:text="—" android:textColor="#4A5A6B" android:textStyle="bold" android:textSize="13.5sp" android:maxLines="1" android:ellipsize="end" android:visibility="gone" />
+
+                <!-- TK-DECISION (2026-07-24): Enquiry stage shows no tags
+                     line at all (By/ID/Ref removed from the header,
+                     photo-proof approved). Visit/Patient stages keep this
+                     line exactly as before (ID + By + Ref) for now, TK will
+                     finalize those stages separately, one at a time; only
+                     Branch is removed from it everywhere since it now has
+                     its own row above. Visibility/content set in Kotlin
+                     (isInquiryStage). -->
+                <TextView
+                    android:id="@+id/tvChips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text=""
+                    android:textColor="#0E7C7B"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.03"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Action buttons -->
+    <!-- TK-REQUESTED FIX (2026-07-24): weightSum="4" was hardcoded, but
+         Enquiry/Visit stage only show 3 of these 4 buttons (btnCall is
+         View.GONE there), so with a fixed weightSum=4, 3 visible buttons
+         (weight=1 each) only filled 3/4 of the row, leaving a visible
+         empty gap at the end instead of spanning the full width edge-to-
+         edge ("পাশাপাশি শুরু থেকে শেষ অবধি"). Removing weightSum lets
+         LinearLayout auto-size to however many buttons are ACTUALLY
+         visible: 3 visible buttons now split 100% of the width evenly,
+         same for 4. Outer horizontal padding also reduced (12dp to 6dp)
+         so the row reaches closer to the true screen edges.
+
+         🎨🔒 V1492 (১৫.০৯.২০২৬, TK-নির্দেশ, ডেমো-প্রুফ পাশ) — TK: "উপরের
+         প্রায় ৪০% জায়গা খেয়ে নিয়েছি, একটু কম্প্যাক্ট করুন"। চারটে বোতামের
+         উচ্চতা 46dp → 40dp। ⛔ রং/লেখা/ক্রম/কাজ কিছুই বদলায়নি। -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="6dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="4dp">
+
+        <!-- TK-REQUESTED (2026-07-22): was "📞 Call" — replaced with Full
+             Journey (same colour family as the identical action inside Take
+             Action, for visual consistency across the app). Mobile-number
+             tap-to-call (in the header) already covers calling. -->
+        <Button
+            android:id="@+id/btnCall"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_btn_navy"
+            app:backgroundTint="#7A3FF2"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:lineSpacingExtra="-2sp"
+            android:textSize="11sp"
+            android:paddingHorizontal="2dp"
+            android:text="Checkup\nHistory" />
+
+        <!-- TK-REQUESTED (2026-07-22): was "💬 WhatsApp" — replaced with
+             Report Card (same teal used for that action inside Take
+             Action). Generic tintable background instead of the
+             WhatsApp-green one, since this is no longer a WhatsApp button. -->
+        <Button
+            android:id="@+id/btnWhatsApp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_btn_navy"
+            app:backgroundTint="#0E7C7B"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="12.5sp"
+            android:paddingHorizontal="2dp"
+            android:text="Report Card" />
+
+        <Button
+            android:id="@+id/btnPayment"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_btn_green"
+            app:backgroundTint="#C98A1E"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="12.5sp"
+            android:paddingHorizontal="2dp"
+            android:text="Payment" />
+
+        <!-- TK-REQUESTED ADDITION (2026-07-18): "Take Action" menu — opens a
+             bottom sheet with context-aware actions (Remark, Registration,
+             Edit Patient, Next Follow-up, Reject, Delete, etc.) so staff
+             don't need to leave this screen for common tasks. -->
+        <Button
+            android:id="@+id/btnTakeAction"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_btn_navy"
+            app:backgroundTint="#10223A"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="12.5sp"
+            android:paddingHorizontal="2dp"
+            android:text="⚡ Action" />
+    </LinearLayout>
+
+    <!-- TK-REQUESTED ADDITION (2026-07-16): summary chips (approved design). -->
+    <LinearLayout
+        android:id="@+id/billSummaryRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingTop="10dp">
+
+        <!-- TK-STANDING RULE (restated 2026-07-27): a box whose amount is
+             zero is not shown at all. Each box therefore needs its own id so
+             it can be hidden on its own, and weightSum was removed so the
+             boxes that DO show spread evenly across the full width instead
+             of leaving a gap where a hidden one used to be. -->
+        <LinearLayout
+            android:id="@+id/boxEstimated"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_summary_chip"
+            android:paddingVertical="8dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Estimated" android:textSize="8.5sp" android:textColor="#8A97AB" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tvChipEstimated" android:text="—" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#10223A" android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/boxPaid"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_summary_chip"
+            android:paddingVertical="8dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Paid" android:textSize="8.5sp" android:textColor="#8A97AB" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tvChipPaid" android:text="—" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#0EA25F" android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/boxDue"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_summary_chip"
+            android:paddingVertical="8dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Due" android:textSize="8.5sp" android:textColor="#8A97AB" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tvChipDue" android:text="—" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#B42318" android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <!-- 🏷️ TK-APPROVED (03.09.2026): the Discount box. Same "a box whose
+             amount is zero is not shown at all" rule as the three above.
+             When no discount was ever given this box is GONE and the other
+             three sit exactly as they always did. -->
+        <LinearLayout
+            android:id="@+id/boxDiscount"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_summary_chip"
+            android:paddingVertical="8dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Discount" android:textSize="8.5sp" android:textColor="#8A97AB" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tvChipDiscount" android:text="—" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#0B7A34" android:layout_marginTop="2dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- TK-REQUESTED (2026-07-20): default Updates/Paid/Due table, shown
+         for every stage EXCEPT Enquiry (Enquiry gets its own history table
+         below, since Paid/Due mean nothing before a bill exists). -->
+    <LinearLayout
+        android:id="@+id/defaultUpdatesGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="6dp"
+        android:text="⏱️ Updates — latest first"
+        android:textStyle="bold"
+        android:textColor="#1D3C67"
+        android:textSize="14sp" />
+
+    <!-- TK-REQUESTED ADDITION (2026-07-16): register table column header. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="14dp"
+        android:background="@drawable/bg_btn_green"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="6dp">
+        <TextView android:layout_width="22dp" android:layout_height="wrap_content" android:text="#" android:textColor="@color/white" android:textStyle="bold" android:textSize="8.5sp" android:gravity="center" />
+        <TextView android:layout_width="58dp" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="Date" android:textColor="@color/white" android:textStyle="bold" android:textSize="8.5sp" />
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="4dp" android:text="Progress" android:textColor="@color/white" android:textStyle="bold" android:textSize="8.5sp" />
+        <TextView android:layout_width="52dp" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="Paid" android:textColor="@color/white" android:textStyle="bold" android:textSize="8.5sp" android:gravity="end" />
+        <TextView android:layout_width="52dp" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="Due" android:textColor="@color/white" android:textStyle="bold" android:textSize="8.5sp" android:gravity="end" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressLoad"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="No updates yet"
+        android:textColor="@color/clinic_text_secondary"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        android:clipToPadding="false"
+        android:paddingHorizontal="14dp"
+        android:paddingBottom="16dp" />
+    </LinearLayout>
+
+    <!-- TK-APPROVED (2026-07-20): Enquiry-stage only, replaces the
+         Paid/Due table above with call/enquiry history (Date, Time, By,
+         Note), all columns side-by-side with clear gaps, small text instead
+         of wrapping. Built and filled entirely in code
+         (buildEnquiryHistoryTable in PatientTimelineActivity.kt); gone
+         unless the patient's stage is Enquiry. -->
+    <ScrollView
+        android:id="@+id/enquiryHistoryScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        android:visibility="gone">
+        <LinearLayout
+            android:id="@+id/enquiryHistoryContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp" />
+    </ScrollView>
+
+    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

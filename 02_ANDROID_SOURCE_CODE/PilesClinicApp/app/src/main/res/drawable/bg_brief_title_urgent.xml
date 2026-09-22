@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🟢🔒 V641 (২৪.০৮.২০২৬, TK-নির্দেশ, ডেমো-প্রুফ পাশ — কমপ্যাক্ট ডিজাইন) —
+     Briefing কার্ডের শিরোনাম এখন ছোট পিল (chip), পুরো-চওড়া টেক্সট নয়। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#FEF3F2" />
+    <corners android:radius="9dp" />
+</shape>

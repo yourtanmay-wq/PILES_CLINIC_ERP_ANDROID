@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🎨 V1084 — টাইলের রঙিন আইকন-ঘর। রং কোড থেকে বসে (V1084-এর আগেও একই ধরন)। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFF3DC" />
+    <corners android:radius="11dp" />
+</shape>

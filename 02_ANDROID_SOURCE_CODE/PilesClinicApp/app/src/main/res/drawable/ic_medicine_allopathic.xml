@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-APPROVED (2026-07-17): two-tone capsule icon for the Medicine Slip
+     Print card, replacing the emoji; symbolizes allopathic medicine
+     (paired with the Ayurvedic mortar icon on the Prescription card). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <group
+        android:pivotX="12"
+        android:pivotY="12"
+        android:rotation="-45">
+        <path
+            android:fillColor="#DCE9FF"
+            android:pathData="M6,9L12,9L12,15L6,15A3,3 0,0,1 6,9Z" />
+        <path
+            android:fillColor="#FFD9D9"
+            android:pathData="M18,9L12,9L12,15L18,15A3,3 0,0,0 18,9Z" />
+        <path
+            android:fillColor="#8A93A3"
+            android:pathData="M11.7,9L12.3,9L12.3,15L11.7,15Z" />
+    </group>
+</vector>

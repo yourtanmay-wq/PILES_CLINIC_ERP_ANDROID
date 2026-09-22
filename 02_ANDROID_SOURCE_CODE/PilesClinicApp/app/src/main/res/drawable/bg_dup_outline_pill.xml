@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK APPROVED (2026-07-27, photo proof): the two side buttons of the
+     "number already exists" popup. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#FFFFFF" />
+    <corners android:radius="26dp" />
+    <stroke android:width="2dp" android:color="#D6DBE2" />
+</shape>

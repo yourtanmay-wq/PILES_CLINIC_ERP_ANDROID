@@ -1,0 +1,493 @@
+[
+  {
+    "sql_file": "V839_NEXT_VISIT_PLAN.sql",
+    "run_by": "TK",
+    "when": "29.08.2026 · 8.49 (স্ক্রিনশটে দেখা সময়)",
+    "result": "Success. No rows returned — patients.nextVisitPlan (jsonb) ঘরটি যোগ হয়েছে",
+    "proof": "screenshot — Supabase SQL Editor, প্রোজেক্ট biswasayurvedkis…, শাখা main"
+  },
+  {
+    "sql_file": "V384_RMP_REFERRED_PATIENT_DISEASE_2026-08-14.sql",
+    "run_by": "TK",
+    "when": "15.08.2026 (confirmed via has_function_privilege check)",
+    "result": "Success — authenticated_can_call=true, anon_can_call=false",
+    "proof": "screenshot"
+  },
+  {
+    "sql_file": "V316_referral_edit_requests_2026-08-11.sql",
+    "run_by": "TK",
+    "when": "15.08.2026 (confirmed via information_schema check)",
+    "result": "already done — table exists",
+    "proof": "screenshot+csv"
+  },
+  {
+    "sql_file": "V318_doctor_altMobiles_2026-08-11.sql",
+    "run_by": "TK",
+    "when": "15.08.2026 (confirmed via information_schema check)",
+    "result": "already done — column exists",
+    "proof": "screenshot+csv"
+  },
+  {
+    "sql_file": "V329_FIVE_CONFIRMED_DEMO_NUMBERS_SAFE_CLEANUP_2026-08-12.sql",
+    "run_by": "TK",
+    "when": "15.08.2026 (confirmed — demo numbers no longer present)",
+    "result": "already done",
+    "proof": "screenshot+csv"
+  },
+  {
+    "sql_file": "V369_STAFF_SALARY_FULL_HISTORY_2026-08-13.sql",
+    "run_by": "TK",
+    "when": "15.08.2026 (confirmed via information_schema check)",
+    "result": "already done — for_month column exists",
+    "proof": "screenshot+csv"
+  },
+  {
+    "sql_file": "V380_RMP_PAYMENT_EDIT_DELETE_RULE_2026-08-14.sql",
+    "run_by": "TK",
+    "when": "15.08.2026 (confirmed via information_schema check)",
+    "result": "already done — function exists",
+    "proof": "screenshot+csv"
+  },
+  {
+    "sql_file": "V382_RMP_PAID_TOTAL_DEDUP_2026-08-14.sql",
+    "run_by": "TK",
+    "when": "15.08.2026 (confirmed via information_schema check)",
+    "result": "already done — table exists",
+    "proof": "screenshot+csv"
+  },
+  {
+    "sql_file": "V383_RMP_DIRECT_PAYMENT_DUE_CORRECTION_2026-08-14.sql",
+    "run_by": "TK",
+    "when": "15.08.2026 (confirmed via information_schema check)",
+    "result": "already done — function exists",
+    "proof": "screenshot+csv"
+  },
+  {
+    "sql_file": "V311_LEAVE_APPROVAL_AND_SUSPEND_2026-08-11.sql",
+    "run_by": "TK",
+    "when": "11.08.2026 12.27 pm",
+    "result": "Success. No rows returned",
+    "proof": "screenshot",
+    "note": "B618 — wn.leave_requests + hr.staff_profiles.suspended_until + public.suspended_until_for + hr.my_role(). Idempotent."
+  },
+  {
+    "sql_file": "V253_LEDGER_SHEET_COLUMNS_2026-08-02.sql",
+    "run_by": "TK",
+    "when": "02.08.2026 07.28 pm",
+    "result": "Success. No rows returned",
+    "proof": "screenshot"
+  },
+  {
+    "sql_file": "V252_STAFF_PHOTO_COLUMN_2026-08-02.sql",
+    "run_by": "TK",
+    "when": "02.08.2026 06.31 pm",
+    "result": "Success. No rows returned",
+    "proof": "screenshot"
+  },
+  {
+    "sql_file": "V251_STAFF_PROFILE_DATA_9_STAFF_2026-08-02.sql",
+    "run_by": "TK",
+    "when": "02.08.2026 06.30 pm",
+    "result": "Success. No rows returned",
+    "proof": "screenshot"
+  },
+  {
+    "sql_file": "V251_STAFF_PROFILE_EXTRA_FIELDS_2026-08-02.sql",
+    "run_by": "TK",
+    "when": "02.08.2026 06.30 pm",
+    "result": "Success. No rows returned",
+    "proof": "screenshot"
+  },
+  {
+    "sql_file": "V509_MY_ATTENDANCE_SHEET_2026-08-21.sql",
+    "run_by": "TK",
+    "when": "21.08.2026 05.58 pm",
+    "result": "Success. No rows returned",
+    "proof": "screenshot",
+    "what": "hr.perf_attendance_sheet(): guard changed from hr.is_master() to hr.is_master() or p_code = hr.my_code() — staff can now open ONLY their own monthly attendance sheet (DATE/IN/OUT/LEAVE). Master unchanged. No table/column/row created or deleted."
+  },
+  {
+    "sql_file": "V533_PAYMENTS_PROGRESS_COLUMN_2026-08-22.sql",
+    "run_by": "TK",
+    "when": "22.08.2026 01.53 pm",
+    "result": "Success. No rows returned",
+    "proof": "screenshot",
+    "what": "alter table public.payments add column if not exists progress text; + notify pgrst 'reload schema'. Only ONE new empty column. No table/row/column deleted or changed, no RLS touched. The chamber treatment note now goes to payments.progress instead of overwriting payments.remarks (which was destroying refund reasons, medicine remarks and the amount/mode edit audit trail). Old rows keep progress empty, so the app falls back to remarks and no old note is lost. Needs V533 or later build."
+  },
+  {
+    "sql_file": "V586_REALTIME_CHOBI_CHARA_CHALU_2026-08-23.sql",
+    "run_by": "TK",
+    "when": "চালানোর তারিখ জানা নেই — ০৯.০৯.২০২৬-এ প্রমাণ পাওয়া গেল",
+    "result": "চালানো হয়েছে — pg_publication_tables-এ patients/followups/medical-এর ঘরের তালিকায় photo/photos নেই",
+    "proof": "TK-র চালানো SQL-এর CSV (pg_publication_tables, ০৯.০৯.২০২৬ ১.২৯ pm)",
+    "note": "এই সারিটা আগে খাতায় ছিল না, তাই ০৯.০৯.২০২৬-এ আমি ভুল করে 'খুঁজে পাইনি' বলেছিলাম। প্রমাণ পেয়ে বসানো হলো।"
+  },
+  {
+    "sql_file": "V1270_DUPLICATE_PATIENT_DELETE_2026-09-09 (কোনো ফাইল নয় — চ্যাটে দেওয়া SQL)",
+    "run_by": "TK",
+    "when": "০৯.০৯.২০২৬ বিকেল ৫.০৯",
+    "result": "Success. No rows returned — লেনদেন (BEGIN/COMMIT) সম্পূর্ণ হয়েছে · **মিলিয়ে দেখা হয়েছে (৫.১২ pm): যাচাই-SQL-এ ০ সারি — patients/payments/followups তিন জায়গার একটাও সারি আর নেই**",
+    "proof": "TK-র Supabase পর্দার ছবি (০৯.০৯.২০২৬ ৫.০৯ pm) + যাচাই-SQL-এর ছবি (০ rows, ৫.১২ pm)",
+    "note": "Yearly Registration-এর ৩ জোড়া ডুপ্লিকেটের বাড়তি সারি মোছা হলো — patients ৩ · payments ৩ (৪০০×৩ = ১,২০০ টাকা) · followups ৩; সঙ্গে deleted_records-এ ৯টা 'মোছা হয়েছে' চিহ্ন, যাতে কোনো ফোন/ব্রাউজারের পুরনো কপি সারিগুলো আবার ক্লাউডে না তোলে। মোছা হয়েছে: pat_7482046466 (SAGAR KUMAR SHING KNE-02062026-005) · pat_8967577917 (DHARMENDRA SAH KNE-02092026-004) · pat_9932648277 (SAHA ALAM KNE-29082026-004)। রাখা হয়েছে যেটায় চিকিৎসা/টাকা আছে, নইলে ওই দিনের প্রথম রেজিস্ট্রেশন। KALPANA BAKCHI ও HABIB TK-র নির্দেশে রাখা হয়েছে (স্টাফ ইচ্ছে করে 'Different Patient — Same Mobile' চেপেছিলেন)।"
+  },
+  {
+    "sql_file": "যাচাই — BABLU ROY-এর ১৯/০৮ পেমেন্ট সারির আসল amount (চ্যাটে দেওয়া SELECT)",
+    "run_by": "TK",
+    "when": "০৯.০৯.২০২৬ বিকেল ৫.১৮",
+    "result": "১টা সারি — amount = 1, cashAmount = 1, label '3rd Payment', date 2026-08-19, createdAt 2026-08-21T14:18Z",
+    "proof": "TK-র পাঠানো CSV (০৯.০৯.২০২৬ ৫.১৮ pm)",
+    "note": "প্রমাণ হলো Briefing-এর Delete Payment কার্ড ঠিক অঙ্কই দেখাচ্ছে (₹১) — অ্যাপে দোষ নেই। শুধু-পড়ার SQL, কিছু বদলায়নি।"
+  },
+  {
+    "sql_file": "গোনা — HISTORICAL স্যালারি সারি কতগুলো ও তারিখ কতটা সরবে (চ্যাটে দেওয়া SELECT)",
+    "run_by": "TK",
+    "when": "০৯.০৯.২০২৬ সন্ধ্যা ৫.৫৩",
+    "result": "মোট ৮৫টা HISTORICAL সারি — COB-4 ১ · COB-UTTAMA ১৬ · FLK-1 ৯ · JPE-CRP ২৯ · JPE-JALPAI-13 ৪ · JPE-RUPAM ৫ · KNE-KISHAN5 ৪ · KNE-LAXMI ১৭। ৮৫টারই paid_on-এর মাস = for_month; for_month ফাঁকা ০; আগে থেকে আলাদা ০; এক মাস এগোলে ভবিষ্যতে যেত ১টা (FLK-1)",
+    "proof": "TK-র পাঠানো ২টা CSV (০৯.০৯.২০২৬ ৫.৫৩ pm)",
+    "note": "শুধু-পড়ার SQL, কিছু বদলায়নি।"
+  },
+  {
+    "sql_file": "সংশোধন — HISTORICAL স্যালারি সারির paid_on এক মাস এগিয়ে দেওয়া (চ্যাটে দেওয়া transactional UPDATE)",
+    "run_by": "TK",
+    "when": "০৯.০৯.২০২৬ সন্ধ্যা ৬.০০",
+    "result": "Success. No rows returned — ভিতরের পাহারা (মোট=৮৫ · বাকি=০ · ভবিষ্যৎ=০ · সরেছে=৮৫) পাশ করেছে, তাই commit হয়েছে",
+    "proof": "TK-র ছবি (Supabase 'Success. No rows returned', ০৯.০৯.২০২৬ ৬.০০ pm) + মিলিয়ে দেখার CSV — KNE-LAXMI for_month 2026-08 → paid_on 2026-09-03",
+    "note": "কারণ: V369 (১৩.০৮.২০২৬) ও V424 (১৭.০৮.২০২৬) ব্যাকফিল SQL paid_on = for_month-এর মাস বসিয়েছিল, অথচ TK-র নিয়ম আগের মাসের বেতন পরের মাসে দেওয়া। ⛔ amount · for_month · mode — কিচ্ছু ছোঁয়া হয়নি, শুধু তারিখ। ⛔ FLK-1-এর ১টা সারি ভবিষ্যতে যেত বলে আজকের তারিখে থামানো হয়েছে। ⛔ SQL আবার চালালে কিছুই হবে না (শর্ত: paid_on-এর মাস = for_month)।"
+  },
+  {
+    "sql_file": "যাচাই — REHANA BAGUM (KNE-04082026-003): patients · followups · payments (চ্যাটে দেওয়া SELECT)",
+    "run_by": "TK",
+    "when": "০৯.০৯.২০২৬ রাত ৯.০৫",
+    "result": "patients bill 20000 · Treatment Running · doctorComplete false; payments: Advance 1500 (04/08) · Visit Fee 400 · Expected 0; followups Treatment Active nextFollow 2026-08-11 + একটা Closed Patient সারি",
+    "proof": "TK-র পাঠানো CSV (০৯.০৯.২০২৬ ৯.০৫ pm)",
+    "note": "অ্যাপে দোষ নয় — মাত্র ₹1,500 জমা লেখা, বাকি নেই; কার্ডে Paid ₹0 দেখানোটা আলাদা ছোট অমিল, নিশ্চিত নয়। শুধু-পড়ার SQL।"
+  },
+  {
+    "sql_file": "মাপ — টেবিলের সারি ও মাপ (চ্যাটে দেওয়া SELECT)",
+    "run_by": "TK",
+    "when": "০৯.০৯.২০২৬ রাত ৯.১৪",
+    "result": "patients 843 সারি 14 MB (photo 12 MB) · followups 1631 সারি 4.5 MB (history 359 kB, photo 274 kB) · payments 2754 সারি 2.6 MB · enquiries 455 সারি 840 kB · medical 378 সারি 1.3 MB",
+    "proof": "TK-র পাঠানো CSV (০৯.০৯.২০২৬ ৯.১৪ pm)",
+    "note": "শুধু-পড়া। Egress হিসাবের ভিত্তি (তালিকা সারি ৪০৫)।"
+  },
+  {
+    "sql_file": "V1283 — থামানো সারির জোড়া-সারিতেও noMoreCalls বসানো (চ্যাটে দেওয়া transactional UPDATE)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ ভোর ৫.৪০",
+    "result": "Success — stopped_rows_now = 52 (রাত ১১.০০-এ ছিল 40)",
+    "proof": "screenshot",
+    "what": "update followups set noMoreCalls=true, nextFollow='' where not noMoreCalls and status not terminal and exists (sibling same last-10 mobile with noMoreCalls). 43 বলেছিলাম কারণ আগের গোনা-SQL শুধু তারিখওয়ালা জোড়া (৩টা) গুনেছিল; UPDATE-টা তারিখ-ফাঁকা জোড়াও ধরেছে (ইচ্ছাকৃত — ওগুলোও থামানো রোগীরই সারি), তাছাড়া মাঝরাতে/সকালে স্টাফের নতুন থামানোও থাকতে পারে। কোনোটাই থামানো রোগী ছাড়া অন্য কারও নয় (শর্ত: থামানো সারির জোড়া)।"
+  },
+  {
+    "sql_file": "তালিকা ৪০৮ — SADDAM HUSSAIN ডুপ্লিকেট (চ্যাটে দেওয়া transactional SQL)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ সকাল ৬.১০",
+    "result": "Success — payments_now 13 · patients_now 1",
+    "proof": "screenshot",
+    "what": "KNE-15072026-002 (Saddam, bill 49000) রাখা, নাম SADDAM HUSSAIN (patients/followups/payments); KNE-01072026-001-এর ₹400 ওতে সরানো; ওই patients+followups সারি মোছা, deleted_records-এ চিহ্ন।"
+  },
+  {
+    "sql_file": "তালিকা ৪০৮ — HABIB ডুপ্লিকেট (চ্যাটে দেওয়া transactional SQL)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ সকাল ৬.১৩",
+    "result": "Success — payments_now 2 · patients_now 1",
+    "proof": "screenshot",
+    "what": "KNE-02062026-002 রাখা; KNE-02062026-003-এর ₹400 ওতে সরানো; ওই patients+followups মোছা, deleted_records-এ চিহ্ন।"
+  },
+  {
+    "sql_file": "তালিকা ৪০৮ — KALPANA BAKCHI ডুপ্লিকেট (চ্যাটে দেওয়া transactional SQL)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ সকাল ৬.১৫",
+    "result": "Success — payments_now 5 · patients_now 1",
+    "proof": "screenshot",
+    "what": "pat_9547593030 (KNE-01052026-001) রাখা; pat_9547593030_2022571e (KNE-01052026-002)-এর ₹400 ওতে সরানো; ওই patients+followups মোছা, deleted_records-এ চিহ্ন।"
+  },
+  {
+    "sql_file": "তালিকা ৪০৮ — GOURI SUTRADHAR ডুপ্লিকেট (চ্যাটে দেওয়া transactional SQL)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ সকাল ৬.২৯",
+    "result": "Success — payments_row1 2 · patients_now 1",
+    "proof": "screenshot",
+    "what": "TK-র সিদ্ধান্তে COB-06062026-001 (bill 22,800 · জমা 21,300) রাখা; COB-19072026-005 সারি + ৪ পেমেন্ট (7000+5000+8000+500 = 20,500 — একই টাকার দ্বিতীয় লেখা) + followups মোছা; deleted_records-এ সব চিহ্ন।"
+  },
+  {
+    "sql_file": "তালিকা ৪০৯ — SANDIP BASAK ₹400 ভিজিট-ফি দ্বিগুণ-লেখা (চ্যাটে দেওয়া transactional SQL)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ সকাল ৬.৩৭",
+    "result": "Success — visit_fee_rows_now 1",
+    "proof": "screenshot",
+    "what": "pay_f089b11d… ও pay_62548a6d… (একই মিলিসেকেন্ডে লেখা) মোছা, deleted_records-এ চিহ্ন; pay_bc3da956… রাখা। বাড়তি ₹800 বাদ।"
+  },
+  {
+    "sql_file": "তালিকা ৪১১-② — টাকার ঘরে CHECK-পাহারা (চ্যাটে দেওয়া SQL)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ সকাল ৯.২০",
+    "result": "Success. No rows returned",
+    "proof": "screenshot",
+    "what": "payments.amount · patients.bill · patients.discount — সংখ্যা বা ফাঁকা ছাড়া লেখা ঢুকবে না (add constraint … not valid + validate)। আগে মাপা: ভুল লেখা ০টা। ঘরের ধরন বদলানো হয়নি (১৫টা SQL ফাংশন লেখা-ধরনে চলে)।"
+  },
+  {
+    "sql_file": "তালিকা ৪১১-④ — followups জোড়া সারি মেলানো (চ্যাটে দেওয়া transactional SQL, temp table m)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ সকাল ৯.৪৪",
+    "result": "groups_merged 24 · leftover_dups 0",
+    "proof": "screenshot",
+    "what": "একই মোবাইল+stage-এর চালু সারি (২১ জোড়া + ৩ তিন-সারি): সবচেয়ে বেশি history-র সারি রাখা; history সব জুড়ে, callCount max, nextFollow max (থামানো হলে ফাঁকা), noMoreCalls OR, lastCallDate/lastRemarkAt max, lastRemark নবীনটা, patientId ফাঁকা হলে অন্যটার; বাড়তি ২৭ সারি মোছা + deleted_records চিহ্ন। প্রথম চেষ্টায় lastRemarkAt-এ nullif(…,'') ভুল (timestamptz) → rollback, ঠিক করে দ্বিতীয়বার সফল।"
+  },
+  {
+    "sql_file": "00_SQL/V1286_MAPA_WEB_JOMA_JAYGA_2026-09-10.sql (তালিকা ৪১১-⑤ মাপা — শুধু পড়া)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ সকাল ১০.০৩",
+    "result": "MOT 8860 সারি · 8.14 MB (payments 2.76 · followups 1.53 · doctor_visits 1.49 · patients 1.10 · medical 0.61 · briefings 0.35 · enquiries 0.28 · products 0.01 · address_tags 0)",
+    "proof": "CSV",
+    "what": "কম্পিউটারের অ্যাপ ব্রাউজারে যা জমা রাখে (ছবি বাদে) তার মাপ। প্রথম পাঠানো সংস্করণে jsonb_each-এর ঘরের নাম ভুল (k,v) → 42703 → TK ধরলেন; ঠিক করে (to_jsonb - 'photo' - 'patientPhoto') আবার। এরপর থেকে sql_local_check.py PASS ছাড়া SQL যাবে না।"
+  },
+  {
+    "sql_file": "00_SQL/V1289_MAPA_UPDATEDAT_CHANCH_2026-09-10.sql (⑦ মাপা — শুধু পড়া)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ সকাল ১০.৩৩",
+    "result": "followups 736/1600 · patients 3 · enquiries 2 · payments 1 · medical 0 · doctor_visits 0 · collation en_US.UTF-8",
+    "proof": "CSV",
+    "what": "updatedAt-এ অ্যাপের T…Z ছাঁচ ছাড়া অন্য ছাঁচ কত সারিতে"
+  },
+  {
+    "sql_file": "00_SQL/V1289_UPDATEDAT_EK_CHANCH_2026-09-10.sql (⑦ ক)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ সকাল ১০.৩৯",
+    "result": "baki: followups 0 · patients 0 · enquiries 1 · payments 0",
+    "proof": "CSV",
+    "what": "সব টেবিলের অন্য-ছাঁচের updatedAt একবার অ্যাপের ছাঁচে + ১৪ টেবিলে tk_fix_updated_at_format trigger। enquiries-এ ১টা সারি বাকি (সময়-ছাঁচে নয়, তাই ইচ্ছে করে ছোঁয়া হয়নি) — দেখার SQL দেওয়া।"
+  },
+  {
+    "sql_file": "00_SQL/V1289B_MOCHA_TOBU_ACHE_17_MUCHE_2026-09-10.sql (⑦ — মোছা-চিহ্ন আছে তবু টেবিলে ফিরে-আসা সারি)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ সকাল ১০.৪৮",
+    "result": "baki: enquiries 0 · followups 0 (১৭ সারি মোছা: enquiries 4 · followups 13, সব Cancelled)",
+    "proof": "screenshot",
+    "what": "deleted_records-এ 'টেবিল|id' চিহ্ন আছে অথচ সারি টেবিলে আছে এবং status='Cancelled' — শুধু সেগুলো মোছা। patients/payments/doctor_visits/medical-এ এমন সারি ০ ছিল, টাকা জড়িত নয়। TK: 'হ্যাঁ, মুছে দিন'।"
+  },
+  {
+    "sql_file": "00_SQL/V1290_SERVER_AT_GHOR_2026-09-10.sql (⑧ ক)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ সকাল ১০.৫৯",
+    "result": "৬ টেবিলে server_at timestamptz default now() — CSV-তে ৬ সারি",
+    "proof": "CSV",
+    "what": "payments/patients/followups/enquiries/doctor_visits/medical-এ সার্ভার-সময়ের ঘর; কোনো সারি/মান বদলায়নি; পুরনো সারি NULL। পরে DEKHAR_SQL_GHORI_MIL_server_at.sql দিয়ে ফোনের ঘড়ি মেলানো যাবে (কিছু দিন তথ্য জমার পরে)।"
+  },
+  {
+    "sql_file": "00_SQL/DEKHAR_SQL_2026-09-10_CHOBI_MAPA.sql (⑩ মাপা — শুধু পড়া)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ বেলা ১১.২০",
+    "result": "patients.photo 167/839 · 11.50 MB · গড় 71 KB · বড় 129 KB; followups.photo 6 · 0.27 MB; medical.photos 6 · 0.32 MB; DB মোট 66 MB",
+    "proof": "CSV",
+    "what": "টেবিলের ভিতরে base64 ছবির মাপ"
+  },
+  {
+    "sql_file": "00_SQL/DEKHAR_SQL_2026-09-10_DELETED_RECORDS_MAPA.sql (⑪ মাপা — শুধু পড়া)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ বেলা ১১.২৩",
+    "result": "MOT 1126 (followups 657 · payments 186 · trash 120 · enquiries 97 · patients 48 · chamber_close 17 · medical 1) · ৩০ দিনের পুরনো 275 · টেবিল 624 kB · প্রথম 29.07 · শেষ 10.09",
+    "proof": "CSV",
+    "what": "deleted_records-এর মাপ"
+  },
+  {
+    "sql_file": "00_SQL/DEKHAR_SQL_2026-09-10_BACKUP_MAPA.sql (⑬ মাপা — শুধু পড়া)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ বেলা ১১.৫৫",
+    "result": "backuprecords 53 সারি · 7.7 MB · টেবিল 7864 kB · আসল payload আছে মাত্র ২টায় (4.83 MB ২৮.০৮/০৮.০৯-এর enquiries, 2.92 MB) — বাকি ৫১টা ফাঁকা (0.00 MB)",
+    "proof": "CSV",
+    "what": "কম্পিউটারের Backup Center যে কপি ডেটাবেসের ভিতরে রাখে তার মাপ"
+  },
+  {
+    "sql_file": "00_SQL/V1295_SERVER_UPDATED_AT_2026-09-10.sql (⑭ ক)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ বেলা ১২.২২",
+    "result": "followups/medical/patients: column_default now(), trigger_ache 1",
+    "proof": "CSV",
+    "what": "৩ টেবিলে server_updated_at ঘর + trigger + index; কোনো সারি/মান বদলায়নি। এরপর কম্পিউটার (V1295 ওয়েব) এই তিন টেবিলে লাইভের বদলে প্রতি মিনিটে হালকা পড়বে।"
+  },
+  {
+    "sql_file": "00_SQL/V1298_PUSH_DEVICE_TOKENS_TRIGGER_2026-09-10.sql (তালিকা ৪১৪ push; চ্যাটে দেওয়া সংস্করণে গোপন-শব্দ বসানো)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ দুপুর ২.১০",
+    "result": "device_tokens 0 · trigger 1 · pg_net 1",
+    "proof": "screenshot",
+    "what": "device_tokens টেবিল + pg_net + briefings INSERT trigger → Netlify /notify-push। কোনো পুরনো সারি/মান বদলায়নি। বাকি: APK V1298 বিল্ড — ফোন লগইন করলে token জমা হবে।"
+  },
+  {
+    "sql_file": "00_SQL/V1300_MD_RIYAZ_QUEUEDAT_AJ_2026-09-10.sql (তালিকা ৪১৬)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ দুপুর ২.৪৪",
+    "result": "pat_8337885258 KNE-01082026-001 · queuedAt=2026-09-10 · stage Doctor Queue · queue true · doctorComplete false",
+    "proof": "CSV 547b9271",
+    "what": "MD RIYAZ-এর লাইনে-ওঠার দিন আজকের বসানো (১ সারি, শুধু queuedAt+updatedAt)। কোড-ফাঁক V1300-এ ঠিক (ফোন+ওয়েব)।"
+  },
+  {
+    "sql_file": "00_SQL/V1297A_TINKU_3000_ASOL_PAYMENT_2026-09-10.sql (তালিকা ৪১৩)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ বিকেল ৩.১০",
+    "result": "pay_4a81fb54f47e4ea893875ab2d4ba95e2 → treatment · 3000 · 2nd Payment · 2026-08-07",
+    "proof": "CSV 58630b97",
+    "what": "Tinku Bauli-র bill_edit চিহ্ন-সারি আসল পেমেন্টে (ব্রাঞ্চ: ₹3,000 নেওয়া হয়েছিল)। এখন সব পর্দায় Paid ₹13,000 / Due ₹12,000।"
+  },
+  {
+    "sql_file": "00_SQL/V1302_MARKER_ROW_TAKA_NISHEDH_2026-09-10.sql (তালিকা ৪১৩)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ বিকেল ৩.১৩",
+    "result": "trigger 1 · marker_rows_with_money 0",
+    "proof": "screenshot",
+    "what": "payments-এ ট্রিগার tk_marker_rows_no_money — চিহ্ন-সারিতে টাকা আর কখনো ঢুকবে না (যে পথেই হোক)। কোনো পুরনো সারি বদলায়নি।"
+  },
+  {
+    "sql_file": "00_SQL/V1309_RMP_SHEET_COVER_2026-09-10.sql (তালিকা ৪১৮)",
+    "run_by": "TK",
+    "when": "১০.০৯.২০২৬ রাত ৭.৫২",
+    "result": "rmp_sheet_cover(p_from date, p_to date, p_branch text) বসেছে",
+    "proof": "CSV 61a2f469",
+    "what": "RMP Commission Sheet-এর 'কোন রোগীর জন্য' হিসাব — শুধু পড়ার ফাংশন; কোনো সারি বদলায়নি।"
+  },
+  {
+    "sql_file": "00_SQL/V1404_RMP_ONE_LEDGER_2026-09-12.sql (তালিকা ৫০৯-৫১১)",
+    "run_by": "TK",
+    "when": "১২.০৯.২০২৬ রাত ১১.০৭",
+    "result": "Success. No rows returned — fin.rmp_patient_breakdown (নতুন), rmp_rmp_summary / rmp_summary / rmp_branch_due (এক-খাতার নিয়মে), rmp_cap_patient (নতুন), capped_* ৩টা ঘর বসেছে",
+    "proof": "ফটো bb34c5a0",
+    "what": "RMP টাকার এক খাতা — কোনো সারি মোছা/বদলানো হয়নি; শুধু নতুন ঘর ও হিসাবের ফাংশন।"
+  },
+  {
+    "sql_file": "00_SQL/V1405_RMP_ONE_LEDGER_DEBUG_CHECK_2026-09-12.sql (তালিকা ৫১২)",
+    "run_by": "TK",
+    "when": "১২.০৯.২০২৬ রাত ১১.২১",
+    "result": "CSV: PKB/PK/JAKIR রোগী-ধরে হিসাব সঠিক (PK ₹4 = SADIKA KHATUN, PKB ₹8,504 = FRANCIS SOREN)",
+    "proof": "CSV cc958a61",
+    "what": "শুধু পড়া — pg_temp ফাংশন, কিছু বদলায়নি"
+  },
+  {
+    "sql_file": "00_SQL/V1406_RMP_ONE_LEDGER_NO_TEMP_TABLE_2026-09-12.sql (তালিকা ৫১২)",
+    "run_by": "TK",
+    "when": "১২.০৯.২০২৬ রাত ১১.২৯",
+    "result": "Success — এরপর ফোনে PKB Ref. Due ₹8,504 ঠিক এলো (V1404-এ ₹0 ছিল) ⇒ কারণ নিশ্চিত: অ্যাপ-পথে create temp table আটকাচ্ছিল",
+    "proof": "ফটো dec97dc8 · 4718ac44",
+    "what": "তিনটে হিসাব-ফাংশন অস্থায়ী টেবিল ছাড়া; কোনো সারি বদলায়নি"
+  },
+  {
+    "sql_file": "00_SQL/V1407_PKB_FRANCIS_SOREN_STOP_COMMISSION_2026-09-12.sql (তালিকা ৫১৩)",
+    "run_by": "TK",
+    "when": "১২.০৯.২০২৬ রাত ১১.৩৪",
+    "result": "FRANCIS SOREN · capped_amount 5496 · audit_rows 1",
+    "proof": "CSV 1cdc4ea7",
+    "what": "PKB-র এক রোগীর কমিশন এখানেই বন্ধ (cap) + audit-সারি; অন্য কিছু বদলায়নি"
+  },
+  {
+    "sql_file": "00_SQL/V1408_ALL_BRANCH_RMP_DUE_AUDIT_2026-09-12.sql (তালিকা ৫১৪)",
+    "run_by": "TK",
+    "when": "১২.০৯.২০২৬ রাত ১১.৪২",
+    "result": "232 সারি — A_DUE 50 (Falakata TK BISWAS ₹1,74,900 · Kishanganj AMIT GOLDAR ₹1,33,300 · Jalpaiguri JAYANTA BANE ₹13,395 …), B_OVERPAID 2 (JAKIR HOSSAIN 2,800 · PRANAB GHOSH 1,500), C_DUP 180 (বেশিরভাগ একই নাম আলাদা মোবাইল; একই মোবাইল: PKB/PRANAB BISWAS Jalpaiguri, NIPEN ROY, PROSANTO SARKAR, Dr. Md Answar)",
+    "proof": "CSV ce9ef431 → 00_SQL/V1408_RESULT_2026-09-12.csv",
+    "what": "শুধু পড়া"
+  },
+  {
+    "sql_file": "00_SQL/V1410_JAKIR_HOSSAIN_DUPLICATE_MERGE_2026-09-12.sql (তালিকা ৫১৫)",
+    "run_by": "TK",
+    "when": "১৩.০৯.২০২৬ রাত ১২.০১",
+    "result": "JAKIR HOSSAIN +917407407675 KHOCHABARI · call_notes 1 · referral_entries 1 · jakir_records_now 1 (নকলটা মিশে গেছে)",
+    "proof": "CSV 8ec11c3b",
+    "what": "নকল রেকর্ডের কল-নোট/রিমার্ক আসলটায় তোলা হয়েছে, নকলটা মুছে deleted_records-এ চিহ্ন"
+  },
+  {
+    "sql_file": "00_SQL/V1411_JH_MANDAL_GULGAR_HOSSAIN_STOP_COMMISSION_2026-09-12.sql (তালিকা ৫১৫)",
+    "run_by": "TK",
+    "when": "১৩.০৯.২০২৬ রাত ১২.০৬",
+    "result": "GULGAR HOSSAIN · capped_amount 2205.50 · audit_rows 1",
+    "proof": "CSV 9be5008d",
+    "what": "JH MANDAL-এর এক রোগীর কমিশন এখানেই বন্ধ"
+  },
+  {
+    "sql_file": "00_SQL/V1413_JAYANTA_BANE_RECORD_14000_PAYMENT_2026-09-13.sql (তালিকা ৫১৫)",
+    "run_by": "TK",
+    "when": "১৩.০৯.২০২৬ রাত ১২.১১",
+    "result": "JAYANTA BANE · amount 14000 · expense_id 1987524a · audit_rows 1",
+    "proof": "CSV e14344cc",
+    "what": "সরাসরি RMP-পেমেন্ট ₹14,000 (তারিখ ১২.০৯.২০২৬, অনলাইন) ঢোকানো — ব্রাঞ্চের খরচেও যোগ হয়েছে"
+  },
+  {
+    "sql_file": "00_SQL/V1415_VOICE_REPORT_PHASE1_2026-09-13.sql (তালিকা ৫২০-৫২১)",
+    "run_by": "TK",
+    "when": "১৩.০৯.২০২৬ সকাল ৮.২৯",
+    "result": "Success. No rows returned — reports স্কিমা + can_access_branch (Master-only) + patients_registered_count/list + collection_summary/list বসেছে",
+    "proof": "ফটো 1b77a386",
+    "what": "ভয়েস-প্রশ্নের প্রথম দুটো বিষয়ের জন্য সার্ভার-ফাংশন, শুধু পড়া"
+  },
+  {
+    "sql_file": "00_SQL/VOICE_ALL_V1415_TO_V1421_2026-09-13.sql (V1415→V1421 এক ফাইলে, তালিকা ৫২০-৫৩০)",
+    "run_by": "TK",
+    "when": "১৩.০৯.২০২৬ সকাল ১১.১৪",
+    "result": "Success. No rows returned — reports স্কিমার সব ভয়েস-রিপোর্ট ফাংশন (২৯টা প্রশ্ন) বসেছে",
+    "proof": "ফটো b18d6b7e (Supabase-এ 'Grace period is over' billing-সতর্কতাও দেখা গেছে — TK-কে জানানো)",
+    "what": "ভয়েস-প্রশ্নের V1415-V1421 সব ফাংশন, শুধু পড়া"
+  },
+  {
+    "sql_file": "00_SQL/V1424_JAKIR_HOSSAIN_PAID_TRACE_READ_ONLY_2026-09-13.sql (তালিকা ৫৩৪)",
+    "run_by": "TK",
+    "when": "১৩.০৯.২০২৬ সকাল ১১.৩১",
+    "result": "CSV: HAND-WRITTEN একটাই (TOTA MIYA ₹5,000 Paid, 2026-08-10) + ADVANCE ₹3,000 (2026-09-07) — মোট ₹8,000 = বাস্তব; ডেটাবেসে ভুল নেই",
+    "proof": "CSV 63820f0d",
+    "what": "শুধু পড়া — JAKIR HOSSAIN-এর Ref. Paid কোথা থেকে আসছে; ₹13,000 পুরনো V1400 অ্যাপের নিজের যোগ (V1406-এর পরে দ্বিগুণ), নতুন বিল্ডে ঠিক"
+  },
+  {
+    "sql_file": "00_SQL/V1428_VOICE_REPORT_PHASE3_RMP_PAID_IN_MISSING_2026-09-13.sql (তালিকা ৫৩৮)",
+    "run_by": "TK",
+    "when": "১৩.০৯.২০২৬ দুপুর ১.০৬ (ফোনের ছবি)",
+    "result": "Success. No rows returned",
+    "proof": "ছবি f7ecc243 — লাইন ১০৩-১০৬ (in_missing_summary grant · notify · commit)",
+    "what": "reports.rmp_paid_list/summary · in_missing_list/summary বসল। ⚠️ ছবিতে আবার Supabase-এর 'Grace period is over' হলুদ সতর্কতা (তালিকা ৫৩২) — quota ফুরোলে অ্যাপ বন্ধ হবে, billing দেখা দরকার। V1422 চালানো হয়েছে কিনা TK-কে জিজ্ঞাসা।"
+  },
+  {
+    "sql_file": "00_SQL/V1422_VOICE_REPORT_PHASE2_NEWPT_FUCALLS_DISEASE_RMPCALLS_FIELD_HOURS_PRESENT_2026-09-13.sql",
+    "run_by": "TK",
+    "when": "১৩.০৯.২০২৬ দুপুর ১.১৭ (ফোনের ছবি)",
+    "result": "Success. No rows returned",
+    "proof": "ছবি b15400d6 — লাইন ৩১৫-৩১৮ (staff_present_summary grant · notify · commit)",
+    "what": "ভয়েস-প্রশ্নের ৮টা ফাংশন-জোড়া (নতুন রোগী · ফলো-আপ কল · রোগ-ভিত্তিক · RMP কল/কল-বাকি · ফিল্ড · ঘণ্টা · হাজিরা) বসল। এখন V1415–V1422 + V1428 সব সার্ভারে আছে।"
+  },
+  {
+    "sql_file": "00_SQL/V1429_FIELD_VISIT_TODAY_PING_CHECK_READ_ONLY_2026-09-13.sql (তালিকা ৫৪২)",
+    "run_by": "TK",
+    "when": "১৩.০৯.২০২৬ দুপুর ১.৪১",
+    "result": "CSV ab9ff0ae — ৯ সারি",
+    "proof": "CSV",
+    "what": "আজ: COB-4 (ping 13:40, 9.3 km) · UTTAMA (ping 12:02) · JPE-CRP (ping 10:51) · KISHAN10 (ping 10:40) — চারজনেরই LOCATION OK; JPE-RUPAM — সেবা 10:18 পর্যন্ত ping দিয়েছে কিন্তু একটাও GPS-অবস্থান নেই (ফোনে Location/Precise বন্ধ); কাল ARMAN — IN 16:10, একটাই ping 16:13, তারপর সেবা মরে গেছে। ⚠️ ছক: CRP/KISHAN10/RUPAM-এর ping IN-এর ~১ ঘণ্টা পরে (10:18–10:51) একসাথে থেমেছে, UTTAMA 12:02 — নতুন ফাইল ইনস্টলের সময়ের সাথে মেলে (ইনস্টলে সেবা বন্ধ, V1429-এ সারানো ফাঁক); কাল পুরনো বিল্ডে RUPAM/LAXMI/JALPAI-13 OUT পর্যন্ত ping দিয়েছে।"
+  },
+  {
+    "sql_file": "00_SQL/V1430_EXTRA_INCOME_UTTAMA_LAXMI_HAND_ENTRY_2026-09-13.sql (তালিকা ৫৪৪/৫৪৬)",
+    "run_by": "TK",
+    "when": "১৩.০৯.২০২৬ দুপুর ১.৫৮",
+    "result": "CSV bc01af9d — total_hand_extra: COB-UTTAMA 47,500 · JPE-CRP 33,900 · KNE-LAXMI 24,410",
+    "proof": "CSV",
+    "what": "নতুন ২৮ সারি বসেছে (UTTAMA 47,100 · CRP 26,300 · LAXMI 24,410 — LAXMI হুবহু মিলেছে)। UTTAMA-র মোটে +400 ও CRP-র মোটে +7,600 = আগে থেকেই থাকা হাতে-লেখা Extra সারি (UTTAMA-র ₹400 = V1093-এর Treatment · COB-21082026-004 DUE সারি; CRP-র ৭,৬০০ আগের হাতে-এন্ট্রি) — যোগফল-প্রশ্নটা সব হাতে-লেখা EXTRA সারি (PAID+DUE) গোনে।"
+  },
+  {
+    "sql_file": "00_SQL/V1433_RMP_WHOLE_RUPEE_PAID_POOL_2026-09-13.sql (তালিকা ৫৫২)",
+    "run_by": "",
+    "when": "১৩.০৯.২০২৬ বিকেল ৫.৪৯ (ফোনের ছবি)",
+    "result": "Success. No rows returned — fin.rmp_patient_breakdown / rmp_rmp_summary পুরো-টাকা নিয়মে",
+    "proof": "",
+    "what": ""
+  },
+  {
+    "sql_file": "00_SQL/V1409_PK_SADIKA_KHATUN_STOP_COMMISSION_2026-09-12.sql (তালিকা ৫১৪/৫৫২, আবার দেওয়া)",
+    "run_by": "",
+    "when": "১৩.০৯.২০২৬ বিকেল ৫.৪৯",
+    "result": "CSV: SADIKA KHATUN · capped_amount 14997.00 · audit_rows 1",
+    "proof": "",
+    "what": ""
+  },
+  {
+    "sql_file": "00_SQL/V1435_WORK_REPORTS_REPORT_TEXT_2026-09-13.sql (তালিকা ৫৫৪)",
+    "run_by": "",
+    "when": "১৩.০৯.২০২৬ সন্ধ্যা ৬.৫১",
+    "result": "CSV: report_text | text — ঘর তৈরি",
+    "proof": "",
+    "what": ""
+  }
+]

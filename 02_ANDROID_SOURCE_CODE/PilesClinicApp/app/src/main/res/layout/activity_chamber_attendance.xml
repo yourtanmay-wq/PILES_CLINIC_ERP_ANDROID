@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK APPROVED FEATURE (2026-07-16): "Chamber Attendance", a daily
+     branch-wise board of who was expected vs who actually showed up, their
+     Fees/Payment, and what happened, all of which write into the SAME
+     existing Registration Fee / Advance Payment / Follow-up Last Remark
+     records (TK's explicit requirement: no separate duplicate data entry;
+     see ChamberAttendanceRepository.kt and ChamberAttendanceActivity.kt for
+     exactly how). A date-picker (btnCalendar) lets TK reopen any past day's
+     record; past dates are shown view-only (no Payment/Remark quick
+     actions), same-day rule as the rest of the app. See
+     00_PROJECT_STATE_MASTER_NOTE.md for the full agreed plan; do not change
+     scope here without asking TK first. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:id="@+id/chamberHero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <!-- 🎨🔒 V1475 (১৪.০৯.২০২৬, TK-নির্দেশ) — নিচের বাংলা সাবটাইটেল
+                 ("চেম্বারের দিন") হেডার থেকে তুলে দেওয়া হলো, শুধু এই একটা
+                 পর্দায়। উপরের ইংরেজি শিরোনাম (CHAMBER DATE) অপরিবর্তিত। -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CHAMBER DATE"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- TK-REQUESTED (2026-07-21): Branch box moved up here, to the LEFT of
+             the calendar with a clear gap between them. Master-only (shown by
+             the activity for Master); same id/behaviour as before.
+             🔒 খাতার সারি B84 (29.07.2026): পুরনো Spinner **মোছা হয়নি, শুধু
+             লুকানো** — দিনের বোর্ড · তারিখ · Close Chamber-এর সব নিয়ম এখনো
+             এটাই চালায়; নিচের পিল কেবল একে বেছে দেয়। -->
+        <Spinner
+            android:id="@+id/spBranch"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:background="@drawable/bg_branch_chip"
+            android:visibility="gone" />
+
+        <!-- 🔒 TK-APPROVED (29.07.2026, খাতার সারি B84): ব্রাঞ্চ বাছার ঘর
+             ক্যালেন্ডারের বাঁয়ে, বাকি সব পর্দার হুবহু একই পিল। শুধু মাস্টার। -->
+        <TextView
+            android:id="@+id/branchPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_branch_pill"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="🏥 All ▾"
+            android:textColor="@color/white"
+            android:textSize="10.5sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/btnCalendar"
+            android:layout_width="30dp"
+            android:layout_height="33dp"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/tvCalMonth"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_cal_badge_top"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="Jul"
+                android:textColor="@color/white"
+                android:textSize="8.5sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvCalDay"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:background="@drawable/bg_cal_badge_bottom"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="16"
+                android:textColor="@color/brand_navy"
+                android:textSize="13.5sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <!-- TK-REQUESTED (2026-07-18): was a plain "⏰" emoji whose built-in
+             glyph artwork shows a fixed, wrong-looking date baked into the
+             emoji itself (same bug already fixed this way on the Follow-up
+             screen — see bg_cal_badge_top.xml). Now a real 2-line badge kept
+             accurate by updateDateLabel() below. Tap action (pickDate())
+             unchanged. -->
+    </LinearLayout>
+
+    <!-- TK-REQUESTED (2026-07-21): action buttons moved ABOVE the stat cards.
+         All 6 boxes (3 buttons + 3 cards) are the SAME size (56dp). -->
+    <!-- 🔴🎨🔒 খাতার সারি B448 (TK-নির্দেশ, 05.08.2026) — Registration/Mark
+         Expected/Patient বোতাম ও Expected/Arrived বাক্স এখান থেকে সরিয়ে
+         `item_chamber_header.xml`-এ নেওয়া হয়েছে, যাতে তালিকার সাথেই স্ক্রল
+         করে উপরে সরে যায় (আগে এখানে স্থির থেকে বেশি জায়গা খেত)। ⛔
+         ConcatAdapter-এর মাধ্যমে RecyclerView-এর প্রথম আইটেম হিসেবে বসে,
+         Kotlin কোডে (`ChamberHeaderAdapter.kt`) দেখুন — নিচের tvDateChip
+         (আগে থেকেই লুকানো, 0dp) এখানেই থেকে গেল, স্থানান্তরের দরকার নেই। -->
+    <TextView
+        android:id="@+id/tvDateChip"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+
+    <!-- TK-REQUESTED ADDITION (2026-07-19): table header row for the
+         paper-register-style list below — column titles matching
+         item_chamber_attendance.xml's weights exactly (SL / Patient
+         Details / Status / Fees / Cash / Online), so the header lines up
+         with each row's columns. -->
+    <!-- 🔒 TK-APPROVED (28.07.2026, ফটো-প্রুফে লক · খাতার সারি B35): বন্ধ করা
+         দিনের লাইন ও Share/Print বোতাম। আজকের চালু দিনে দুটোই লুকানো থাকে,
+         তাই আগের চেহারার এক চুলও বদলায় না। -->
+    <TextView
+        android:id="@+id/tvClosedNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="6dp"
+        android:padding="11dp"
+        android:gravity="center"
+        android:lineSpacingExtra="3dp"
+        android:textSize="12.5sp"
+        android:textColor="#0F5C4A"
+        android:background="@drawable/bg_closed_note"
+        android:visibility="gone" />
+
+    <!-- 🆕 B419 (04.08.2026, TK-নির্দেশ — "ভুল করে চেম্বার বন্ধ হয়ে গেলে
+         আবার খোলা যাবে কি করে?") — বন্ধ হয়ে যাওয়া (locked) দিনে দেখা যায়।
+         যেকোনো স্টাফ চাপলে Master-এর ঘন্টায় (Briefing) অনুরোধ যায়, Master
+         Approve করলে তবেই দিনটা আবার এডিটযোগ্য হয়। ⛔ এই বোতাম শুধু
+         "closed && past" অবস্থায় দেখা যাবে — আজকের চালু দিনে/এখনো-বন্ধ-না-
+         হওয়া বিগত দিনে লুকানো থাকে। -->
+    <Button
+        android:id="@+id/btnRequestReopen"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="6dp"
+        android:minHeight="0dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingVertical="2dp"
+        android:background="@drawable/bg_btn_green"
+        app:backgroundTint="@null"
+        android:text="🔓 Send Reopen Request (Master approval needed)"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textSize="11.5sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <!-- 🔒🎨 খাতার সারি B473 (05.08.2026): পুরনো স্থির "tableHeaderRow"
+         ব্লক এখান থেকে সরানো হলো — এখন হেডারটা RecyclerView-এর ভিতরে
+         (৫টা বক্সের ঠিক পরের আইটেম হিসেবে, `ChamberColumnHeaderAdapter`)
+         স্বাভাবিক আইটেম হিসেবে বসে, তাই স্ক্রল করলে বক্সের সাথে সাথেই
+         সরে যায়। নিচের `pinnedTableHeaderRow` (initially gone) — বক্স+
+         আসল হেডার দুটোই স্ক্রল করে সরে গেলে তবেই দেখা যায় (`ChamberAttendanceActivity.kt`-এর স্ক্রল-লিসেনার), তখন স্ক্রিনের উপরে
+         আটকে (pin) থাকে। ⛔ রং/মাপ/আইডি — item_chamber_column_header.xml-এ
+         হুবহু আগের মতোই, একটা অক্ষরও বদলায়নি। -->
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- TK-REQUESTED (2026-07-27): pull the list down to refresh, the same
+             way as Follow-up. Only this wrapper is new; the list inside it,
+             its id and every rule stay exactly as they were. -->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerBoard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="12dp" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <include
+            android:id="@+id/pinnedTableHeaderRow"
+            layout="@layout/item_chamber_column_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progressLoad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="No one expected or arrived on this date."
+            android:textColor="@color/clinic_text_secondary"
+            android:textSize="13sp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <!-- TK-REQUESTED CHANGE (2026-07-16): "Today's Collection" totals moved
+         here, to the bottom, right above Close Chamber (was near the top
+         before) - same tvTotals id/text logic, only the position changed. -->
+    <LinearLayout
+        android:id="@+id/collectionBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginBottom="8dp"
+        android:padding="12dp"
+        android:background="@drawable/bg_collection_box">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="💰 TODAY'S COLLECTION"
+            android:textStyle="bold"
+            android:textSize="11.5sp"
+            android:textColor="#8A5A00" />
+
+        <TextView
+            android:id="@+id/tvTotals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Fees: Cash ₹0 · Online ₹0    Payment: Cash ₹0 · Online ₹0"
+            android:textSize="11.5sp"
+            android:textColor="#10223A" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/closedActionRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btnSharePastPdf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:text="📄 Share PDF"
+            android:textAllCaps="false"
+            android:textSize="12.5sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/bg_share_pdf_btn" />
+
+        <Button
+            android:id="@+id/btnPrintPast"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:text="🖨️ Print"
+            android:textAllCaps="false"
+            android:textSize="12.5sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/bg_print_btn" />
+    </LinearLayout>
+
+    <!-- TK APPROVED (2026-07-16): "Close Chamber" - finalizes the day. If
+         any Arrived patient still has an empty Treatment/Remark, tapping
+         this shows a warning and jumps to that patient's card (1st/2nd
+         tap); a 3rd tap proceeds anyway. See
+         ChamberAttendanceActivity.attemptCloseChamber(). -->
+    <Button
+        android:id="@+id/btnCloseChamber"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginBottom="5dp"
+        android:minHeight="0dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:paddingVertical="2dp"
+        android:background="@drawable/bg_btn_green"
+        app:backgroundTint="@null"
+        android:text="✅ Close Chamber (Save &amp; Print Arrived)\nSave before closing the chamber"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:gravity="center"
+        android:lineSpacingExtra="0dp"
+        android:textSize="9.5sp" />
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

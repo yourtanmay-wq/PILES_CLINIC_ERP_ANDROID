@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK APPROVED (2026-07-16): Chamber Attendance row background for
+     "No-show" / not-yet-arrived status — plain light grey, same shape as
+     bg_follow_card.xml, deliberately a normal/neutral color (not alarming
+     red) since TK asked for "a different normal light color". -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#AEB4BD" />
+            <corners android:radius="18dp" />
+        </shape>
+    </item>
+    <item android:left="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#EEF0F2" />
+            <corners android:radius="18dp" />
+            <stroke android:width="1dp" android:color="#DCE0E5" />
+        </shape>
+    </item>
+</layer-list>

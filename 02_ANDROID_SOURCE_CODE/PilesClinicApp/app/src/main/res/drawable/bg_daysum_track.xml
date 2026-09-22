@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🟢🔒 V1440 (১৩.০৯.২০২৬, TK ছবি-প্রুফে "Option C" পাশ করেছেন) —
+     Income/Expense "Day Summary" পপ-আপের বার-ট্র্যাকের হালকা ধূসর পিছন। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/clinic_divider" />
+    <corners android:radius="99dp" />
+</shape>

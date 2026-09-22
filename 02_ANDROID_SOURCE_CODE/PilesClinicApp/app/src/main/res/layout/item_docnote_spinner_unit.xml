@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔵🔒 V578 — `item_docnote_spinner.xml`-এর হুবহু যমজ, শুধু লেখাটা একটু ছোট
+     (১২.৫sp) ও বাঁ দিকে সামান্য ফাঁক। কারণ Days/Months/Years-এর ঘরটা এখন
+     সংখ্যার ঘরের **সমান মাপের** (TK-নির্দেশ), তাই ১৪.৫sp-এ "Months" ধরত না।
+     ⛔ পুরোনো item ফাইলটা ছোঁয়া হয়নি — Occupation ইত্যাদি আগের মতোই আছে. -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="0dp"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="0dp"
+    android:paddingVertical="1dp"
+    android:singleLine="true"
+    android:ellipsize="end"
+    android:textSize="12.5sp"
+    android:textStyle="bold"
+    android:textColor="@color/clinic_text_primary" />

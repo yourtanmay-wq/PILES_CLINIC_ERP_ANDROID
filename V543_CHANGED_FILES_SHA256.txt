@@ -1,0 +1,10 @@
+# V543 — বদলানো ফাইলের SHA256 (২২.০৮.২০২৬)
+
+b92c5f3113e60b5d4509780a63dc06fa87413f8dae8fdc2ff370c9ec8b502b14  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/build.gradle.kts
+2870ee5ea7b3ad40a69b2d291c1b93888bdbc87de33613bdf058c477494eb11d  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/native/DoctorVisitAdapter.kt
+adcb73cd81a33a45845132d8373e1cac1a78fe5f3f0fbae42c2b2fbe57e29cba  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/native/DoctorVisitModel.kt
+889e9c5314fc6fc9dfdb608f5a15407af682bfd16798a83dc56eccd6b43bb8d8  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/native/FollowUpActivity.kt
+fd5ef6aeeb6cb16d1954969f1618628bea430212b2a0527355e304ae9b6f9528  02_ANDROID_SOURCE_CODE/PilesClinicApp/app/src/main/java/com/tkbiswas/pilesclinic/native/FollowUpModel.kt
+2bfb34896bccd5cdc38c9e360d6dad3dc2d6ea50f7d5e87c178fcea3c5d29106  03_NETLIFY_READY/app.js
+32a39a4be8bb5b4f1f72e444e1cc33de110c18558879bdee5fcf81c01c7357c0  03_NETLIFY_READY/index.html
+ed5a0acf839950125e62543ed4f99eb1272dfa933859c3625e5c9fc2215b9c99  03_NETLIFY_READY/version.json

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <!-- TK-REPORTED BUG FIX (2026-07-25): this header was locked to a
+         fixed 48dp when the headers were made smaller, so any title that
+         needs two lines (or a title plus the patient name/ID line under it)
+         had its lower line cut off. Height is now "only as much as the text
+         needs", with 48dp as the MINIMUM . short titled screens stay exactly
+         as small as they are now, and only a long title grows, by about
+         8dp. -->
+    <!-- 🎨🔒 V767 (২৭.০৮.২০২৬, TK-অনুমোদিত **ডিজাইন B**, ডেমো ফটো দেখে বাছা)
+         TK: *"পেশেন্ট ডিটেইলসের হেডারটা Check Up সেকশনের হেডারের সাথে
+         মিলিয়ে দিন"*। Check-Up পর্দায় (activity_doctor_checkup.xml) কোনো
+         সবুজ টুলবার নেই — রোগীর কার্ডই পাতার প্রথম জিনিস। এখানেও হুবহু তাই।
+         ⛔ আগে টুলবারের সাবটাইটেলে রোগীর নাম·ID·রোগ ঢুকত, জায়গা না থাকায়
+            নিচের লাইনটা **কেটে যেত** — সেটাই TK ধরিয়ে দিয়েছেন।
+         ⛔ পিছনে ফেরা: ফোনের নিজের Back (গেসচার/বোতাম) — Check-Up-এ ঠিক
+            যেভাবে চলে। এই পর্দায় আলাদা কোনো onBackPressed override নেই। -->
+    <!-- 🎨🔒 V1473 (১৪.০৯.২০২৬, TK-অনুমোদিত ফটো-প্রুফ, "প্রস্তাব ১ পাশ") —
+         আগের সাদাসিধা tvPatientHead বাক্সের বদলে প্রফেশনাল কার্ড (আদ্যক্ষর-
+         অক্ষরের অ্যাভাটার + নাম + রোগ/ব্রাঞ্চ + ID-চিপ) — যা এমনিতেই এই
+         পর্দায় আগে থেকে জমা আছে (নাম·ID·রোগ) তা দিয়েই, নতুন কোনো নেটওয়ার্ক
+         ডাক নেই। -->
+    <LinearLayout
+        android:id="@+id/llInvPatientCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_inv_patient_card"
+        android:padding="12dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvInvAvatarInitials"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:background="@drawable/bg_inv_avatar"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="17sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvInvPatientName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#0F2B45"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/tvInvPatientSub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="#3A5674"
+                android:textSize="12.5sp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <LinearLayout
+                android:id="@+id/llInvIdChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_inv_id_outer"
+                android:paddingStart="9dp"
+                android:paddingEnd="3dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID"
+                    android:textColor="#0B66D8"
+                    android:textStyle="bold"
+                    android:textSize="11.5sp" />
+
+                <TextView
+                    android:id="@+id/tvInvPatientIdValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/bg_inv_id_inner"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="7dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 🟢 V600 (২৩.০৮.২০২৬, TK-অনুমোদিত, ছবি-প্রুফ পাশ): "Blood Test /
+         Investigation Advice" লম্বা বলে ২ লাইনে ভেঙে বড় দেখাত। TK-এর
+         নির্দেশে লেখা ছোট করে "Test / Investigation" আর সাইজ 16sp —
+         শুধু এই স্ক্রিনেই (নতুন style, বাকি সব হেডার আগের ডিফল্টেই)। -->
+
+    <TextView
+        android:id="@+id/tvRoleNotice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/clinic_accent_amber"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:text="Staff can request tests. Only Doctor can mark them Advised." />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:id="@+id/llCategoryContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="14dp" />
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:background="@color/clinic_card">
+
+        <!-- 🔴 V430 (TK-সিদ্ধান্ত ১৮.০৮.২০২৬) — কম্পিউটারের পর্দায় এই ঘরটা
+             অনেকদিন ধরেই আছে ও কাগজেও ছাপে; ফোনে ছিল না। TK বললেন ঘরটা
+             কাজে লাগে, তাই ফোনেও বসানো হলো — দুই জায়গা এক হলো। -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Advice / Remarks"
+            android:textSize="12sp"
+            android:textColor="#5B6B81"
+            android:paddingBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etInvRemarks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minLines="2"
+            android:maxLines="3"
+            android:gravity="top|start"
+            android:inputType="textMultiLine|textCapSentences"
+            android:textSize="13sp"
+            android:background="@drawable/bg_input_rounded"
+            android:padding="10dp"
+            android:layout_marginBottom="10dp" />
+
+        <!-- 🩸🔒 V1464 (১৪.০৯.২০২৬, TK-নির্দেশ ও ফটো-প্রুফ পাশ) — ব্লাড টেস্টের
+             রিপোর্টের ছবি এখানেই জমা রাখা যায়, ঠিক আগে-পরের ছবির মতোই। -->
+        <TextView
+            android:id="@+id/tvReportPhotoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📎 Report Photo (optional)"
+            android:textSize="12sp"
+            android:textColor="#0B66D8"
+            android:textStyle="bold"
+            android:paddingBottom="4dp" />
+
+        <LinearLayout
+            android:id="@+id/llReportPhotos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp" />
+
+        <TextView
+            android:id="@+id/tvPrevReportsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🗂 Previous Reports"
+            android:textSize="12sp"
+            android:textColor="#5B6B81"
+            android:paddingBottom="4dp"
+            android:visibility="gone" />
+
+        <HorizontalScrollView
+            android:id="@+id/hsvPrevReports"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:paddingBottom="10dp">
+            <LinearLayout
+                android:id="@+id/llPrevReports"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaveInvestigations"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/bg_btn_silver"
+            app:backgroundTint="@null"
+                android:textColor="#1B2432"
+                android:elevation="3dp"
+                android:textSize="12sp"
+                android:text="Save" />
+
+            <!-- 🔒 TK-এর নির্দেশ (01.08.2026): ক্রম এখন Save · Share · Print
+                 (আগে ছিল Save · Save&Print, তারপর Share পাশে) — কাজ একই। -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShareInvestigations"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/bg_btn_navy"
+            app:backgroundTint="@null"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:text="Share" />
+
+            <!-- 🔒 TK-এর নির্দেশ (01.08.2026): পুরনো Save-and-Print মিলিত নামটা
+                 সরিয়ে শুধু "Print"-এ বদলানো হলো, ক্রমে শেষে সরানো হলো — কিন্তু কাজ এক
+                 অক্ষরও বদলায়নি (saveInvestigations(openPrintAfter = true),
+                 আগে সেভ তারপর প্রিন্ট প্রিভিউ)। -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaveAndPrintInvestigations"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_btn_green"
+            app:backgroundTint="@null"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:text="Print" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

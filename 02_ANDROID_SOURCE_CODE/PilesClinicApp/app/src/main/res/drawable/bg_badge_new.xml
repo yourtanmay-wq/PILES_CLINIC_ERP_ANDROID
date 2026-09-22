@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🟢🔒 V842 (২৯.০৮.২০২৬, TK-নির্দেশ, ফটো-প্রুফ পাশ) — CHECK-UP তালিকায়
+     আজ প্রথম আসা রোগীর ব্যাজ। `bg_badge`-এর হুবহু একই আকার (radius 8dp),
+     শুধু রং আলাদা — প্রজেক্টের নিজের `clinic_accent_green`। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/clinic_accent_green" />
+    <corners android:radius="8dp" />
+</shape>

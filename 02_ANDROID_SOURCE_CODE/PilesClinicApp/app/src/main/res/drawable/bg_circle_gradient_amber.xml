@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🟢🔒 V671 (২৫.০৮.২০২৬) — Doctor Note & Reminder আইকনের হলুদাভ গোল
+     ব্যাকগ্রাউন্ড, bg_circle_gradient.xml-এর একই ছাঁচে। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <gradient
+        android:startColor="#B8860B"
+        android:endColor="#F2C94C"
+        android:angle="135" />
+</shape>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    🆕 (06.08.2026, TK-অনুমোদনে, খাতার সারি — "ঘন্টায় সংখ্যা আছে কিন্তু ভিতরে ফাঁকা")
+
+    ঘন্টা চাপলে এখন এই পাতা খোলে — BellCounter যা যা গোনে (নোটিশ, রিমার্ক
+    বাকি, আজ ডাক্তার কল/EXPECTED, মিসড কল-ব্যাক) সবকটাই এক জায়গায় দেখায়।
+    হেডারের রং/স্টাইল Briefing-এর হেডারের সাথে হুবহু মিলিয়ে রাখা হয়েছে,
+    যাতে চেহারা প্রজেক্টের বাকি পাতার সাথে মিলে যায়।
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <TextView
+            android:id="@+id/tvHeaderTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Notifications"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- 🆕🔒 B486 (06.08.2026) — 📜 সরাসরি Briefing খোলে, ➕ Briefing-এর
+             ভিতরের প্রমাণিত Post Notice ডায়ালগ সরাসরি খোলে। -->
+        <TextView
+            android:id="@+id/btnBrowseNotices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📜"
+            android:textSize="16sp"
+            android:padding="6dp" />
+
+        <TextView
+            android:id="@+id/btnAddNotice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="➕"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="6dp" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressLoad"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="No pending items"
+        android:textColor="@color/clinic_text_secondary"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp">
+
+        <LinearLayout
+            android:id="@+id/sectionsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </ScrollView>
+
+</LinearLayout>

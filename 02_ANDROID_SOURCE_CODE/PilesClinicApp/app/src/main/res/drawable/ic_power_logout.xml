@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔴🆕🔒 TK-নির্দেশ (08.08.2026, TK পছন্দ করা লাল-বোতাম) — Log Out বোতামের সাদা পাওয়ার
+     চিহ্ন (ভেক্টর, তাই সব ফোনে ঠিকঠাক আঁকে — আগের ⏻ ফন্ট-গ্লিফ কিছু ফোনে
+     বাক্স হয়ে যেত)। দাগটা গোলের ঠিক মাঝখানে। -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M7.76,7.76 a6,6 0 1 0 8.48,0"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M12,3 L12,12"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+</vector>

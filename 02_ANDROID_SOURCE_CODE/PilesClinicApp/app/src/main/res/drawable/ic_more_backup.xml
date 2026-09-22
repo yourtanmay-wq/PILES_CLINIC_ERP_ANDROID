@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔒 TK-LOCKED DESIGN (04.08.2026) — More মেনুর Backup কার্ডের আইকন। -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M7,18 C4.24,18 2,15.76 2,13 C2,10.51 3.79,8.44 6.16,8.06 C7.14,5.68 9.47,4 12.2,4 C15.71,4 18.58,6.73 18.83,10.18 C20.66,10.71 22,12.39 22,14.4 C22,16.84 20.05,18.83 17.63,18.99"
+        android:strokeColor="#3E7A4C"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M12,12 L12,20 M9,15 L12,12 L15,15"
+        android:strokeColor="#3E7A4C"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+</vector>

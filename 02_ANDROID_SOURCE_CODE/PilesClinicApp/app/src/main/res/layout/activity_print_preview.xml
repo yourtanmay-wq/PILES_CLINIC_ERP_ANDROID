@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#EEF3F8">
+
+    <!-- TK-REPORTED BUG FIX (2026-07-25): this header was locked to a
+         fixed 48dp when the headers were made smaller, so any title that
+         needs two lines (or a title plus the patient name/ID line under it)
+         had its lower line cut off. Height is now "only as much as the text
+         needs", with 48dp as the MINIMUM . short titled screens stay exactly
+         as small as they are now, and only a long title grows, by about
+         8dp. -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:background="@drawable/bg_login_hero"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:titleTextColor="@color/white"
+        app:title="Print Preview" />
+
+    <TextView android:id="@+id/tvError" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:padding="24dp" android:gravity="center" android:textColor="@color/clinic_text_secondary" android:visibility="gone" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/pageNavRow"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_margin="10dp" app:cardCornerRadius="14dp" app:cardElevation="3dp" app:cardBackgroundColor="@color/clinic_card">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:padding="6dp">
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnPrevPage"
+                style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="wrap_content" android:layout_height="44dp" android:text="◀ PREV" />
+            <TextView android:id="@+id/tvPageIndicator" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:gravity="center" android:textStyle="bold" android:textColor="@color/clinic_text_primary" android:text="Page 1 of 1" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnNextPage"
+                style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="wrap_content" android:layout_height="44dp" android:text="NEXT ▶" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- 🔵🔒 V954 (০১.০৯.২০২৬, TK-নির্দেশ, ফটো-প্রুফ পাশ) — TK: *"কী প্রিন্ট আউট
+         হবে সেটা যেন এখানে দেখতে পারি, এবং জুম করলে যেন বড়-ছোট হয়"*।
+         আগে WebView-টা ScrollView-এর ভিতরে **ফিক্সড ৬০০dp** ছিল, তাই কাগজের
+         এক টুকরোই দেখা যেত আর জুম কাজ করত না (ScrollView নিজেই স্ক্রল ধরে নিত)।
+         এখন WebView **আলাদা**, পুরো জায়গা জুড়ে — নিজের স্ক্রল ও চিমটি-জুম চলে।
+         ⛔ ivPreview-এর পুরনো পথ (বাকি সব কাগজ) এক অক্ষরও বদলায়নি। -->
+    <androidx.cardview.widget.CardView android:id="@+id/cardRxPreview"
+        android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:layout_marginHorizontal="10dp" android:layout_marginBottom="10dp"
+        app:cardCornerRadius="8dp" app:cardElevation="8dp" app:cardBackgroundColor="@color/white"
+        android:visibility="gone">
+        <WebView android:id="@+id/wvRxPreview" android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView android:id="@+id/scrollImgPreview" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:paddingHorizontal="10dp" android:clipToPadding="false">
+        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp" app:cardCornerRadius="8dp" app:cardElevation="8dp" app:cardBackgroundColor="@color/white">
+            <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                <ImageView android:id="@+id/ivPreview" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:adjustViewBounds="true" android:background="@color/white" android:contentDescription="PDF preview page" />
+                <!-- 🟢🔒🔒 V670 (২৫.০৮.২০২৬, TK-নির্দেশ — "যেটা প্রিন্ট আউট হলো
+                     এটা যেন দেখা যায়") — Prescription/Medicine Slip HTML-প্রিন্ট
+                     পথে ivPreview (bitmap) কাজ করে না; একই HTML এখানে সরাসরি
+                     WebView-তে দেখানো হয়। ⛔ ivPreview-এর নিজের ব্যবহার
+                     (বাকি সব কাগজে) এক অক্ষরও বদলায়নি। -->
+
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
+
+    <!-- 💰🔒 V984 (০২.০৯.২০২৬, TK-নির্দেশ: *"টাকা বুঝিয়ে দেয়ার সিস্টেমটা এই
+         পর্দাতে রাখুন"*) — শুধু **Chamber Register**-এর সময় এই ঘরটা ভরে ও
+         দেখা যায়; বাকি প্রতিটা কাগজে (Prescription · Registration · Report
+         Card…) এটা লুকানোই থাকে, তাই ওখানে কিচ্ছু বদলায়নি। -->
+    <LinearLayout android:id="@+id/handoverSlot" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="vertical"
+        android:visibility="gone" android:paddingHorizontal="10dp" />
+
+    <!-- 🔒 B601 (TK-নির্দেশ 09.08.2026): ওয়েবের মতো সমান ৪ বোতাম — WhatsApp / Save /
+         Print / Close (২x২ গ্রিড, সব একই মাপ)। এই পর্দা Print Center + বার্তা-বাক্স
+         দুটোতেই ব্যবহার হয়, তাই সব প্রিন্ট-প্রিভিউতে একরকম। ⛔ বোতামের কাজ অপরিবর্তিত;
+         SHARE PDF এখন সরাসরি WhatsApp টার্গেট করে (না থাকলে সাধারণ Share)।
+         📱🔒 V1495 (১৫.০৯.২০২৬, TK-রিপোর্ট — Report Card-এ এই বোতাম-বার নিচে
+         কাটা দেখাচ্ছিল) — `id/actionButtonBar` যোগ হলো যাতে PrintPreviewActivity
+         থেকে ফোনের নিজের নিচের নেভিগেশন-বার (gesture bar) বাদ দিয়ে বাড়তি
+         প্যাডিং বসানো যায়। ⛔ বোতামের রং/লেখা/মাপ/কাজ কিছুই বদলায়নি। -->
+    <LinearLayout android:id="@+id/actionButtonBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"
+        android:padding="10dp" android:background="@color/clinic_card" android:elevation="8dp">
+        <!-- 🔵🔒 V954 (TK-নির্দেশ: *"প্রিন্ট শেয়ার ক্লোজ — এগুলো এক লাইনে পাশাপাশি
+             থাকবে"*) — আগে ২x২ গ্রিড ছিল। ⛔ একটাও বোতাম বাদ যায়নি, কাজও
+             অপরিবর্তিত; Save আগের মতোই শুধু যেসব কাগজে ছিল সেখানেই দেখায়। -->
+        <!-- 🎨🔒 V1330 (১১.০৯.২০২৬, TK-নির্দেশ ও ফটো-প্রুফ পাশ: "নেভি ব্লু আর
+             সবুজ কালার রাখতে হবে না... কোন কালার দরকার নেই") — চারটে বোতামই
+             এখন একই রকম (সাদা বাক্স, হালকা ধূসর বর্ডার, গাঢ় ধূসর লেখা), উচ্চতা
+             ৫২dp→৪৪dp। ⛔ বোতামের কাজ/ক্রম এক অক্ষরও বদলায়নি। -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnPrint"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_marginEnd="4dp" android:layout_height="44dp"
+                android:textSize="12sp" android:textStyle="bold" android:text="🖨 Print"
+                app:cornerRadius="12dp" app:strokeColor="@color/clinic_divider" android:textColor="@color/clinic_text_primary" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnSharePdf"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_marginHorizontal="4dp" android:layout_height="44dp"
+                android:textSize="12sp" android:textStyle="bold" android:text="💬 Share"
+                app:cornerRadius="12dp" app:strokeColor="@color/clinic_divider" android:textColor="@color/clinic_text_primary" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnSavePdf"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_marginHorizontal="4dp" android:layout_height="44dp" android:textSize="12sp" android:text="💾 Save"
+                app:cornerRadius="12dp" app:strokeColor="@color/clinic_divider" android:textColor="@color/clinic_text_primary" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/btnClosePreview"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" android:layout_width="0dp" android:layout_weight="1"
+                android:layout_marginStart="4dp" android:layout_height="44dp" android:textSize="12sp" android:text="✕ Close"
+                app:cornerRadius="12dp" app:strokeColor="@color/clinic_divider" android:textColor="@color/clinic_text_secondary" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

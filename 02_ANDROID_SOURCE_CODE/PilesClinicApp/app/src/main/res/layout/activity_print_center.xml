@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <!-- TK-REPORTED BUG FIX (2026-07-25): this header was locked to a
+         fixed 48dp when the headers were made smaller, so any title that
+         needs two lines (or a title plus the patient name/ID line under it)
+         had its lower line cut off. Height is now "only as much as the text
+         needs", with 48dp as the MINIMUM . short titled screens stay exactly
+         as small as they are now, and only a long title grows, by about
+         8dp. -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:background="@drawable/bg_login_hero"
+        app:titleTextColor="@color/white"
+        app:title="Print Center">
+
+        <!-- 🔒 TK-APPROVED (29.07.2026, ফটো-প্রুফ পাশ · খাতার সারি B84):
+             ব্রাঞ্চ বাছার ঘর হেডারের ডান দিকে, Follow-up · Draft · CHECK-UP
+             Queue-র হুবহু একই পিল (`bg_branch_pill`, ১০.৫sp, সাদা লেখা)।
+             ⛔ শুধু জায়গা ও চেহারা বদলেছে — চাপ দিলে ঠিক আগের কাজটাই হয়
+             (`setupBranchToggle()`), স্টাফের জন্য আগের নিষেধ-বার্তাও অক্ষত। -->
+        <TextView
+            android:id="@+id/branchPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_branch_pill"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="🏥 Kishanganj ▾"
+            android:textColor="@color/white"
+            android:textSize="10.5sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- 🔒 খাতার সারি B84: পুরনো ব্রাঞ্চের সারিটা **মোছা হয়নি, শুধু লুকানো** —
+         যাতে দরকারে ফেরানো যায় এবং পুরনো কোনো কোড ভেঙে না পড়ে। -->
+    <LinearLayout
+        android:id="@+id/rowBranchOld"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="@color/clinic_card"
+        android:visibility="gone"
+        android:gravity="center_vertical">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Branch:" android:textStyle="bold" android:textColor="@color/clinic_text_secondary"
+            android:layout_marginEnd="10dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBranchToggle"
+            android:layout_width="0dp" android:layout_weight="1" android:layout_height="48dp"
+            android:background="@drawable/bg_btn_silver"
+            app:backgroundTint="@null"
+            android:textColor="#1B2432"
+            android:elevation="3dp"
+            android:textSize="13sp" android:text="Kishanganj Branch" />
+    </LinearLayout>
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:padding="14dp">
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="🖨  Important Clinical Prints" android:textStyle="bold"
+                android:textSize="17sp" android:textColor="@color/clinic_text_primary"
+                android:paddingBottom="10dp" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:baselineAligned="false">
+                <androidx.cardview.widget.CardView android:id="@+id/cardPrescription"
+                    android:layout_width="0dp" android:layout_weight="1" android:layout_height="118dp"
+                    android:layout_marginEnd="5dp" android:layout_marginBottom="8dp"
+                    app:cardCornerRadius="16dp" app:cardElevation="3dp" app:cardBackgroundColor="#FFFFFF">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                        android:gravity="center" android:orientation="vertical" android:padding="8dp">
+                        <FrameLayout android:layout_width="42dp" android:layout_height="42dp"
+                            android:background="@drawable/bg_badge_ayurvedic" android:layout_marginBottom="6dp">
+                            <ImageView android:layout_width="22dp" android:layout_height="22dp"
+                                android:layout_gravity="center" android:src="@drawable/ic_prescription_ayurvedic"
+                                android:contentDescription="Prescription" />
+                        </FrameLayout>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+                            android:text="Prescription" android:textStyle="bold" android:textSize="11sp" android:textColor="@color/clinic_text_primary" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+                            android:text="Ayurvedic Rx" android:textSize="8.5sp" android:textColor="@color/clinic_text_secondary" android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView android:id="@+id/cardMedicineSlip"
+                    android:layout_width="0dp" android:layout_weight="1" android:layout_height="118dp"
+                    android:layout_marginHorizontal="3dp" android:layout_marginBottom="8dp"
+                    app:cardCornerRadius="16dp" app:cardElevation="3dp" app:cardBackgroundColor="#FFFFFF">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                        android:gravity="center" android:orientation="vertical" android:padding="8dp">
+                        <FrameLayout android:layout_width="42dp" android:layout_height="42dp"
+                            android:background="@drawable/bg_badge_allopathic" android:layout_marginBottom="6dp">
+                            <ImageView android:layout_width="20dp" android:layout_height="20dp"
+                                android:layout_gravity="center" android:src="@drawable/ic_medicine_allopathic"
+                                android:contentDescription="Medicine Slip" />
+                        </FrameLayout>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+                            android:text="Medicine Slip" android:textStyle="bold" android:textSize="11sp" android:textColor="@color/clinic_text_primary" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+                            android:text="Allopathic Rx" android:textSize="8.5sp" android:textColor="@color/clinic_text_secondary" android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView android:id="@+id/cardBloodTest"
+                    android:layout_width="0dp" android:layout_weight="1" android:layout_height="118dp"
+                    android:layout_marginStart="5dp" android:layout_marginBottom="8dp"
+                    app:cardCornerRadius="16dp" app:cardElevation="3dp" app:cardBackgroundColor="#FFFFFF">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                        android:gravity="center" android:orientation="vertical" android:padding="8dp">
+                        <FrameLayout android:layout_width="42dp" android:layout_height="42dp"
+                            android:background="@drawable/bg_badge_bloodtest" android:layout_marginBottom="6dp">
+                            <ImageView android:layout_width="20dp" android:layout_height="20dp"
+                                android:layout_gravity="center" android:src="@drawable/ic_blood_test_tube"
+                                android:contentDescription="Blood Test" />
+                        </FrameLayout>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+                            android:text="Blood Test" android:textStyle="bold" android:textSize="11sp" android:textColor="@color/clinic_text_primary" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+                            android:text="Print report" android:textSize="8.5sp" android:textColor="@color/clinic_text_secondary" android:layout_marginTop="2dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="🖨  Other Important Prints" android:textStyle="bold"
+                android:textSize="17sp" android:textColor="@color/clinic_text_primary" android:paddingTop="4dp" android:paddingBottom="10dp" />
+
+            <androidx.cardview.widget.CardView android:id="@+id/cardDietChart"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp" app:cardCornerRadius="12dp" app:cardElevation="2dp" app:cardBackgroundColor="#FFFFFF">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical" android:padding="10dp">
+                    <FrameLayout android:layout_width="34dp" android:layout_height="34dp" android:background="@drawable/bg_badge_amber">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="🥗" android:textSize="16sp" />
+                    </FrameLayout>
+                    <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginStart="10dp">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Diet Chart Print" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/clinic_text_primary" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Search patient by mobile, print diet chart" android:textSize="10sp" android:textColor="@color/clinic_text_secondary" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView android:id="@+id/cardRegistration"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp" app:cardCornerRadius="12dp" app:cardElevation="2dp" app:cardBackgroundColor="#FFFFFF">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical" android:padding="10dp">
+                    <FrameLayout android:layout_width="34dp" android:layout_height="34dp" android:background="@drawable/bg_badge_indigo">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="🪪" android:textSize="16sp" />
+                    </FrameLayout>
+                    <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginStart="10dp">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Patient Registration" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/clinic_text_primary" />
+                        <TextView android:id="@+id/tvRegistrationSub" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Print registration" android:textSize="10sp" android:textColor="@color/clinic_text_secondary" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView android:id="@+id/cardPaymentReceipt"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp" app:cardCornerRadius="12dp" app:cardElevation="2dp" app:cardBackgroundColor="#FFFFFF">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical" android:padding="10dp">
+                    <FrameLayout android:layout_width="34dp" android:layout_height="34dp" android:background="@drawable/bg_badge_emerald">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="🧾" android:textSize="16sp" />
+                    </FrameLayout>
+                    <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginStart="10dp">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Payment Receipt" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/clinic_text_primary" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Print payment" android:textSize="10sp" android:textColor="@color/clinic_text_secondary" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView android:id="@+id/cardDoctorVisitPrint"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp" app:cardCornerRadius="12dp" app:cardElevation="2dp" app:cardBackgroundColor="#FFFFFF">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:gravity="center_vertical" android:padding="10dp">
+                    <FrameLayout android:layout_width="34dp" android:layout_height="34dp" android:background="@drawable/bg_badge_skyblue">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="👨‍⚕️" android:textSize="16sp" />
+                    </FrameLayout>
+                    <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginStart="10dp">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Doctor Checkup" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/clinic_text_primary" />
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Print checkup sheet" android:textSize="10sp" android:textColor="@color/clinic_text_secondary" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

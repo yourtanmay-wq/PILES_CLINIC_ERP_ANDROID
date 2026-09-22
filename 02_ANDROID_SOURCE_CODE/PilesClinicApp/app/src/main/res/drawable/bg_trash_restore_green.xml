@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔴 V511 (21.08.2026, TK-approved proof): green Restore button for the new
+     compact Trash Bin card. Same shape as bg_action_view, only the colour. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#16A34A" />
+    <corners android:radius="9dp" />
+</shape>

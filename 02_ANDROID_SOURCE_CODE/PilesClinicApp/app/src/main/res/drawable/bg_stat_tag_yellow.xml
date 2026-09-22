@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-LOCKED (2026-07-25, photo proof): "আসার কথা Expected" box in the same
+     solid tag style the Follow-up card's KISHANGANJ / PILES tags use .
+     filled colour, rounded corners, white bold writing. Used only by that
+     one box. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#E8A100" />
+    <corners android:radius="12dp" />
+</shape>

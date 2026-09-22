@@ -1,0 +1,4 @@
+# V1298 — Netlify: push-পাঠানোর function এই ফোল্ডারে (03_NETLIFY_READY/netlify/functions)
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

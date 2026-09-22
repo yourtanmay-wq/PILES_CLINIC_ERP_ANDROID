@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🟢🔒 V641 (২৪.০৮.২০২৬, TK-নির্দেশ, ডেমো-প্রুফ পাশ) — Delete/Refund/
+     Reopen অনুরোধ-নোটিশে গঠিত তথ্য (Type/Mobile/ID) হালকা ধূসর বক্সে। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#F9FAFB" />
+    <corners android:radius="9dp" />
+    <stroke android:width="1dp" android:color="#EAECF0" />
+</shape>

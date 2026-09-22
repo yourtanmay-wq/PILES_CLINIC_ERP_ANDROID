@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK APPROVED (2026-07-15): navy premium dialog header, top corners only,
+     so it sits flush inside bg_dialog_round's 18dp rounded card. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/brand_navy" />
+    <corners
+        android:topLeftRadius="18dp"
+        android:topRightRadius="18dp"
+        android:bottomLeftRadius="0dp"
+        android:bottomRightRadius="0dp" />
+</shape>

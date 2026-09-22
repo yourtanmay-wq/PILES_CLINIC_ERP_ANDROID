@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🆕🔒 TK-LOCKED (06.08.2026) — Doctor Note "1 History & Previous" ধাপের
+     নতুন প্রফেশনাল ফিল্ড-বক্স ডিজাইন। TK ধাপে ধাপে HTML মকআপ দেখে
+     "ঠিক আছে, লক করে রাখুন" বলেছেন। সাদা ব্যাকগ্রাউন্ড + হালকা বর্ডার +
+     ১২dp গোল কোণা — বাঁ পাশের সবুজ দাগ এই ব্যাকগ্রাউন্ড-এর বাইরে,
+     আলাদা View দিয়ে বসানো (item_field_box_doctor_note.xml দেখুন)। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/white" />
+    <corners android:radius="12dp" />
+    <stroke android:width="1dp" android:color="#EDF1F4" />
+</shape>

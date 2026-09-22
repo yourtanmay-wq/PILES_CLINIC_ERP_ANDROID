@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Draft"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- 🔒 TK-APPROVED (01.08.2026, ফটো-প্রুফে "ওকে" — Enquiry Reject
+             List): Master-এর জন্য ব্রাঞ্চ বাছাই বোতাম, Sheet-এর বাঁ পাশে।
+             Draft-এর হোম পর্দার (DraftActivity) branchPicker-এর **হুবহু
+             একই বাক্স ও নিয়ম** — নতুন ডিজাইন নয়। স্টাফ/ডাক্তারের পর্দায়
+             এই বোতাম কখনো দেখা যায় না (GONE), তাঁদের জন্য কিছুই বদলায়নি। -->
+        <TextView
+            android:id="@+id/branchPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:gravity="center"
+            android:textAllCaps="false"
+            android:textSize="11.5sp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_visit_advance"
+            android:textColor="#0B4F2A"
+            android:textStyle="bold"
+            android:text="🏥 All ▾"
+            android:visibility="gone" />
+
+        <!-- 🆕🔒 V1650 (২১.০৯.২০২৬, TK-নির্দেশ) — "My Enquiry (All Branch)"-এ
+             সব ব্রাঞ্চের এনকোয়ারি একসাথে থাকে বলে স্টাফের নিজের ব্রাঞ্চের
+             সারি খুঁজতে অনেক স্ক্রল করতে হয়। এটা উপরের branchPicker-এর মতো
+             নতুন করে ক্লাউড থেকে আনে না (Master-এর ওই বোতাম অক্ষত, ছোঁয়া
+             হয়নি) — এটা যা ইতিমধ্যে পর্দায় আছে, শুধু সেটাই ব্রাঞ্চ ধরে
+             আলাদা করে দেখায়, তাই কোনো বাড়তি খরচ (egress) নেই। সবার (Staff/
+             Doctor/Master) জন্য, শুধু "My Enquiry (All Branch)"-তেই। -->
+        <TextView
+            android:id="@+id/myEnqBranchFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:gravity="center"
+            android:textAllCaps="false"
+            android:textSize="11.5sp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_visit_advance"
+            android:textColor="#0B4F2A"
+            android:textStyle="bold"
+            android:text="🏥 All ▾"
+            android:visibility="gone" />
+
+        <!-- 🔒 TK-APPROVED (30.07.2026 সন্ধ্যা, ফটো-প্রুফে "ঠিক আছে" · খাতার
+             সারি B192): TK: "শুধুমাত্র ইনকমপ্লিট পেশেন্ট এর ক্ষেত্রেই নয়,
+             সমস্ত সেকশনের ক্ষেত্রেই Google Sheets এ ডাউনলোড করার ব্যবস্থা
+             রাখবেন।" — Draft-এর ছয়টা সেকশনই এই একটা পর্দা (DraftListActivity)
+             দিয়ে খোলে, তাই এই একটা বোতামেই ছয়টাতে কাজ করে। Follow-up
+             পর্দার "⬇ Sheet" বোতামের (খাতার সারি B69) হুবহু একই স্টাইল ও
+             রং — নতুন কোনো ডিজাইন নয়, প্রজেক্টে যা আগে থেকেই আছে তারই
+             পুনর্ব্যবহার। -->
+        <Button
+            android:id="@+id/btnSheet"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:textAllCaps="false"
+            android:minWidth="0dp"
+            android:textSize="11.5sp"
+            android:paddingHorizontal="12dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:backgroundTint="#E2F6E8"
+            android:textColor="#0F7A3C"
+            android:text="⬇ Sheet"
+            android:visibility="gone" />
+
+        <!-- V1521: compact history controls live in the top-right overflow.
+             Existing Sheet action is preserved, only moved into this menu. -->
+        <TextView
+            android:id="@+id/btnMore"
+            android:layout_width="36dp"
+            android:layout_height="32dp"
+            android:gravity="center"
+            android:text="⋮"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:contentDescription="More options" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:gravity="center"
+        android:text="No records in this category"
+        android:textColor="#667085"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <!-- TK-REQUESTED (2026-07-27): pull the list down to refresh, the same
+         way as Follow-up. Only this wrapper is new; the list inside it,
+         its id and every rule stay exactly as they were. -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerDraft"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingVertical="6dp"
+            android:clipToPadding="false" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- 🆕 TK-নির্দেশ (07.08.2026, ফটো-প্রুফ অনুমোদিত) — "অনেকগুলো একসাথে মার্ক
+         করেও ডিলিট করতে পারি, অথবা একসাথে Restore করতে পারি"। কার্ডে টিক পড়লেই
+         এই বারটা নিচে দেখা যায়, নইলে সম্পূর্ণ লুকানো (পুরনো চেহারা অপরিবর্তিত)।
+         ⛔ উপরের SwipeRefreshLayout-এর উচ্চতা match_parent → 0dp+weight=1 করা
+         হলো, নইলে এই বার পর্দার নিচে জায়গা পেত না (তালিকার নিজের আচরণ একই)। -->
+    <LinearLayout
+        android:id="@+id/pickBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="7dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvPickCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#10223A" />
+
+        <TextView
+            android:id="@+id/btnPickCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="6dp"
+            android:layout_marginEnd="6dp"
+            android:text="Cancel"
+            android:textSize="11.5sp"
+            android:textStyle="bold"
+            android:textColor="#64748B" />
+
+        <TextView
+            android:id="@+id/btnPickRestore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_field_box_doctor_note"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="7dp"
+            android:layout_marginEnd="6dp"
+            android:text="↩️ Restore"
+            android:textSize="11.5sp"
+            android:textStyle="bold"
+            android:textColor="#0B4F2A" />
+
+        <TextView
+            android:id="@+id/btnPickDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_field_box_doctor_note"
+            android:backgroundTint="#C0392B"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="7dp"
+            android:text="🗑️ Delete"
+            android:textSize="11.5sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🩺🔒 V839 — NEXT VISIT PLAN ট্যাগের হালকা নীল বাক্স (TK-অনুমোদিত ফটো-প্রুফ)।
+     ⛔ প্রকল্পের অন্য কোনো drawable ছোঁয়া হয়নি; এটা নতুন ও শুধু এই ট্যাগে চলে। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#E8F1FF" />
+    <stroke android:width="1dp" android:color="#BBD4F7" />
+    <corners android:radius="8dp" />
+</shape>

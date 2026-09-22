@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="clinic_primary">#0F2748</color>
+    <color name="clinic_primary_dark">#081A33</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Phase 4: Clinical Modules -->
+    <color name="clinic_surface">#F4F6F9</color>
+    <color name="clinic_card">#FFFFFF</color>
+    <color name="clinic_text_primary">#1A1A1A</color>
+    <color name="clinic_text_secondary">#6B7280</color>
+    <color name="clinic_divider">#E2E5EA</color>
+    <color name="clinic_accent_green">#16A36D</color>
+    <color name="clinic_accent_red">#D92D20</color>
+    <color name="clinic_accent_amber">#F79009</color>
+    <color name="clinic_locked">#9AA1AC</color>
+
+    <!-- Native rebuild Step 1 (Login/Dashboard): matches the existing
+         WebView app's blue-to-green brand gradient (styles.css .logo/.hero)
+         so the native screens look like the same app, not a different one. -->
+    <color name="brand_blue">#1167D8</color>
+    <color name="brand_green">#16A36D</color>
+    <color name="brand_navy">#0B2B59</color>
+    <color name="input_border">#D8E4F2</color>
+    <!-- 🔒 B548 (08.08.2026, TK-অনুমোদিত প্রুফ "বিকল্প খ" — আরও হালকা, জল ছবির
+         মতো): বক্সের ভিতরের নির্দেশ-লেখার (hint/placeholder) রং। এই এক জায়গা
+         থেকেই পুরো অ্যাপ চলে (থিমের android:textColorHint, রেজিস্ট্রেশন, লগইন,
+         ডাক্তার-ভিজিট, Chamber বক্স — সব)। আগে #8A97AB (মাঝারি) ছিল; TK আরও
+         হালকা চেয়েছেন। ⛔ শুধু নির্দেশ-লেখা; আসল টাইপ-করা লেখা অপরিবর্তিত। -->
+    <color name="field_hint">#C7CDD6</color>
+    <!-- Role accent colors, matching the WebView role themes
+         (.admin/.staff/.doctor/.field role blue). -->
+    <color name="role_master">#0B2B59</color>
+    <color name="role_staff">#16A36D</color>
+    <color name="role_doctor">#6941C6</color>
+    <color name="role_field">#F79009</color>
+</resources>

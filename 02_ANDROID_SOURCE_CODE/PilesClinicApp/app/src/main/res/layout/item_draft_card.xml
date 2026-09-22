@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- APPROVED UPDATE #10: uses the SAME card shell (bg_follow_card, margins,
+     padding) as the original Enquiry/Visit/Patient follow-up card — no
+     separate Draft Card design. Only the Restore button is added on top of
+     the existing Call/WhatsApp/View action row. -->
+<!-- 🔒 TK-APPROVED COMPACT DESIGN (01.08.2026, ফটো-প্রুফে "ওকে" — Enquiry
+     Reject List; Draft-এর ছয়টা সেকশনই এই একই কার্ড ব্যবহার করে): কার্ড
+     আগের চেয়ে ছোট — কম padding/margin, ছোট ফন্ট, কম উচ্চতার action row —
+     যাতে একই স্ক্রিনে আগের চেয়ে বেশি রোগী দেখা যায়। নাম/মোবাইল/আইডি/
+     ব্রাঞ্চ/ডিজিজ/রিমার্ক — কোনো তথ্যই বাদ পড়েনি, শুধু আকার ছোট। -->
+<!-- 🆕 B420 (05.08.2026, TK-নির্দেশে ফটো-প্রুফ দেখানো ও "OK" পাওয়ার পরে) —
+     আরও কমপ্যাক্ট: মোবাইল+নাম এখন একই সারিতে (আগে দুই সারিতে ছিল),
+     সিরিয়াল/ব্রাঞ্চ/Patient ID/সেকশন-লেবেল এখন একই দ্বিতীয় সারিতে (আগে
+     আলাদা tvMeta+tvExtra দুটো সারি ছিল — এখন একটাই সারি, tvExtra আর
+     ব্যবহার হয় না)। বোতামের উচ্চতা 30dp থেকে কমিয়ে 24dp। ⛔ কোনো তথ্যই
+     বাদ যায়নি (Patient ID/Section এখনো দেখা যায়), শুধু বিন্যাস বদলেছে। -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    android:padding="8dp"
+    android:background="@drawable/bg_follow_card">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- মোবাইল নম্বর তারপর নাম, একই সারিতে, একই ফন্ট সাইজ (TK-নির্দেশ) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvMobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="📞 0000000000"
+                android:textSize="12.5sp"
+                android:textStyle="bold"
+                android:textColor="#10223A" />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="👤 Patient Name"
+                android:textSize="12.5sp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="#10223A" />
+
+            <!-- 🆕 TK-নির্দেশ (07.08.2026, ফটো-প্রুফ অনুমোদিত) — "অনেকগুলো একসাথে
+                 মার্ক করেও ডিলিট বা Restore করতে পারি"। শুধু যেসব তালিকায় এটা
+                 প্রযোজ্য সেখানেই দেখা যায় (DraftCardAdapter ঠিক করে), বাকি সব
+                 তালিকায় সম্পূর্ণ gone — তাই পুরনো চেহারা অপরিবর্তিত। -->
+            <CheckBox
+                android:id="@+id/cbPick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="0dp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- সিরিয়াল · ব্রাঞ্চ · Patient ID (থাকলে) · কোন সেকশন থেকে — একই সারিতে -->
+        <TextView
+            android:id="@+id/tvMeta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="BRANCH · DISEASE"
+            android:textSize="9.5sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#1167D8" />
+
+        <!-- 🆕 B420: এখন আর ব্যবহার হয় না (আগের আলাদা সারির লেখা tvMeta-তেই
+             একসাথে বসে) — ViewBinding-এর জন্য id/view রাখা হলো, DraftCardAdapter.kt
+             সবসময় GONE রাখে, যাতে অন্য কোনো পুরনো রেফারেন্স ভেঙে না যায়। -->
+        <TextView
+            android:id="@+id/tvExtra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text=""
+            android:textSize="10.5sp"
+            android:textColor="#667085"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvRemark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:background="@drawable/bg_remark_dashed"
+            android:text="—"
+            android:textSize="10.5sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#10223A"
+            android:visibility="gone" />
+
+        <!-- Call / WhatsApp / View / Restore -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:id="@+id/btnCall"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="22dp"
+                android:layout_marginEnd="4dp"
+                android:gravity="center"
+                android:background="@drawable/bg_action_call"
+                android:text="📞"
+                android:textSize="12sp"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/btnWhatsapp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="22dp"
+                android:layout_marginEnd="4dp"
+                android:gravity="center"
+                android:background="@drawable/bg_action_whatsapp"
+                android:text="💬"
+                android:textSize="12sp"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/btnView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="22dp"
+                android:layout_marginEnd="4dp"
+                android:gravity="center"
+                android:background="@drawable/bg_action_view"
+                android:text="👁"
+                android:textSize="12sp"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/btnRestore"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="22dp"
+                android:gravity="center"
+                android:background="@drawable/bg_visit_advance"
+                android:text="↩️ Restore"
+                android:textAllCaps="false"
+                android:textColor="#0B4F2A"
+                android:textStyle="bold"
+                android:textSize="10.5sp" />
+
+            <!-- 🔴 TK-নির্দেশ (02.08.2026, B302.1): শুধু "Refunded" ঘরে দ্বিতীয়
+                 একটা বোতাম — Delete (রোগীর রেকর্ড, বাকি Delete-এর মতোই Trash-এ
+                 যায়)। ডিফল্ট GONE, অন্য কোনো ঘরে দেখা যায় না। -->
+            <TextView
+                android:id="@+id/btnDelete2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="22dp"
+                android:layout_marginStart="4dp"
+                android:gravity="center"
+                android:background="@drawable/bg_btn_delete_red"
+                android:text="🗑️"
+                android:textSize="12sp"
+                android:textColor="#FFFFFF"
+                android:visibility="gone" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

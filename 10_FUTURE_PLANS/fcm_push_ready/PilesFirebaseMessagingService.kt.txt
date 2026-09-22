@@ -1,0 +1,48 @@
+// ⛔ V216 (§15) — FCM PUSH READY (drop-in source, NOT yet in the build).
+// এই ফাইলটা .kt.txt রাখা হয়েছে ইচ্ছে করেই — যাতে google-services.json ও
+// Firebase dependency যোগ করার আগে build না ভাঙে। Instant push চালু করতে হলে:
+//   1) নিচের gantব্য (README_FCM.md) ধাপ মেনে Firebase setup করুন,
+//   2) এই ফাইলটা `.kt` করে
+//      app/src/main/java/com/tkbiswas/pilesclinic/native/ -তে সরান,
+//   3) AndroidManifest ও build.gradle-এ README অনুযায়ী কয়েক লাইন যোগ করুন।
+// ⛔ এই মুহূর্তে এটা compile হয় না বলে বর্তমান app-এর কিছুই বদলায় না।
+
+package com.tkbiswas.pilesclinic.native
+
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
+
+/**
+ * নতুন Staff Request / Approval / Refund Request / Briefing এলে Supabase Edge
+ * Function এই device-এ FCM push পাঠাবে (data message)। এখানে সেটা ধরা হয় ও
+ * প্রজেক্টের নিজস্ব BellNotifier দিয়ে সাউন্ড+ভাইব্রেশনসহ notification দেখানো হয়
+ * — App বন্ধ থাকলেও। ⛔ কোনো নতুন design নয়, বিদ্যমান BellNotifier/NoticeChannels।
+ */
+class PilesFirebaseMessagingService : FirebaseMessagingService() {
+
+    override fun onNewToken(token: String) {
+        // এই ফোনের FCM token Supabase-এ (device_tokens টেবিলে, mobile সহ) সেভ করুন,
+        // যাতে Edge Function জানে কোন master-কে push পাঠাতে হবে।
+        try {
+            val user = NativeSession.current(applicationContext) ?: return
+            val row = org.json.JSONObject()
+                .put("id", "tok_" + user.mobile.filter { it.isDigit() }.takeLast(10))
+                .put("mobile", user.mobile)
+                .put("role", user.role)
+                .put("branch", user.branch)
+                .put("token", token)
+                .put("updatedAt", java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", java.util.Locale.US).format(java.util.Date()))
+            SupabaseClient.upsert("device_tokens", row)
+        } catch (_: Throwable) { }
+    }
+
+    override fun onMessageReceived(message: RemoteMessage) {
+        try {
+            val user = NativeSession.current(applicationContext) ?: return
+            // সবচেয়ে নিরাপদ: push এলে বিদ্যমান সস্তা BellCounter দিয়ে সংখ্যা মিলিয়ে
+            // BellNotifier (de-dup সহ) সাউন্ড/ভাইব্রেশন দেয় — instant।
+            val count = try { BellCounter.count(applicationContext, user) } catch (_: Throwable) { return }
+            BellNotifier.onCount(applicationContext, user, count)
+        } catch (_: Throwable) { }
+    }
+}

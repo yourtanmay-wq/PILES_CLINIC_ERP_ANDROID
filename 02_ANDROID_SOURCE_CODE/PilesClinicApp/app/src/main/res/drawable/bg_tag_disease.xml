@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- DISEASE tag: solid green, white text, matching WebView .tag.disease (#079b28). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#079B28" />
+    <corners android:radius="8dp" />
+</shape>

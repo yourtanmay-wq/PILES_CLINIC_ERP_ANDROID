@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Briefing / Notice Board"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="➕"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <!-- 🔴🆕🔒 V439 (TK-রিপোর্ট ১৮.০৮.২০২৬, ছবিসহ — "এখানে স্ক্রোল ও হয় না
+         কোন কাজ ও হয় না")। নিচের আটটা খোপ (Remark Pending · Backdate Requests ·
+         Edit Requests · Salary Due · Refund · Leave · Missing Visit Fee ·
+         Backdate Permissions) এতদিন **কোনো ScrollView ছাড়াই** বসত। কোনো খোপ
+         খুললে ভিতরের তালিকা পর্দার চেয়ে লম্বা হয়ে যেত ⇒ নিচের সারিগুলো
+         পর্দার বাইরে চলে যেত আর স্ক্রোলও করা যেত না — বোতামে আঙুল পৌঁছাত না।
+         এখন আটটাই এই একটা ScrollView-এর ভিতরে। উচ্চতা দরকারমতো, তবে পর্দার
+         ৬২%-এর বেশি নয় (BriefingActivity.clampPanelsHeight)।
+         ⛔ ভিতরের কোনো খোপের id/চেহারা/নিয়ম একটুও বদলায়নি — শুধু মোড়ক। -->
+    <ScrollView
+        android:id="@+id/panelsScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="false"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <!-- 🔒 TK-REQUESTED ADDITION (2026-07-28, khata row B51): "Remark
+             Pending" section, built dynamically in Kotlin
+             (BriefingActivity.loadPendingRemarks()). Shows the people this
+             staff called but has not written a remark for yet. GONE by
+             default and GONE whenever nothing is pending, so the existing
+             screen is unchanged for everyone else. -->
+        <LinearLayout
+            android:id="@+id/pendingRemarkContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        <!-- TK-REQUESTED ADDITION (2026-07-24): Master-only "Pending Backdate
+             Payment Requests" section, built dynamically in Kotlin
+             (BriefingActivity.loadBackdateRequests()). GONE by default / for
+             any non-Master role, and GONE whenever there are zero pending
+             requests. Nothing changes for the existing Briefing list below. -->
+        <LinearLayout
+            android:id="@+id/backdateRequestsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        <!-- TK-REQUESTED ADDITION (2026-07-25): Master-only "Edit Payment
+             Amount" pending-approval section, built dynamically in Kotlin
+             (BriefingActivity.loadEditRequests()). Same GONE-by-default
+             behaviour as backdateRequestsContainer just above. -->
+        <LinearLayout
+            android:id="@+id/editRequestsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        <!-- 🟢 B629 (2026-08-11, TK-নির্দেশ): Master ও Doctor-এর "Salary Due" মনে
+             করানো — কোডে (BriefingActivity.loadSalaryDue()) তৈরি, ডিফল্টে GONE। -->
+        <LinearLayout
+            android:id="@+id/salaryDueContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        <!-- V216 (§13, 2026-07-31): Master-only "Refund Requests" pending-approval
+             section, built dynamically in Kotlin (BriefingActivity.loadRefundRequests()).
+             Same GONE-by-default behaviour as backdateRequestsContainer just above. -->
+        <LinearLayout
+            android:id="@+id/refundRequestsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        <!-- 🔵 B618 (11.08.2026, TK-নির্দেশ): master/ব্রাঞ্চ-ডাক্তারের "Leave Requests"
+             অপেক্ষমাণ-অনুমোদন সেকশন, Kotlin-এ তৈরি (BriefingActivity.loadLeaveRequests())।
+             refundRequestsContainer-এর মতোই ডিফল্ট GONE — শুধু pending থাকলে দেখায়। -->
+        <LinearLayout
+            android:id="@+id/leaveRequestsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        <!-- 🏠 V1179 (07.09.2026, TK-order): Master's pending "Work From Home"
+             approvals, built in Kotlin (BriefingActivity.loadWfhRequests()).
+             GONE by default like leaveRequestsContainer just above. -->
+        <LinearLayout
+            android:id="@+id/wfhRequestsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        <!-- TK-REQUESTED ADDITION (2026-07-24): Master-only "Visit Fee Missing"
+             visibility section, built dynamically in Kotlin
+             (BriefingActivity.loadMissingVisitFees()). Same GONE-by-default
+             behaviour as backdateRequestsContainer just above. -->
+        <LinearLayout
+            android:id="@+id/missingVisitFeeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        <!-- 🆕 B337 (03.08.2026, TK-নির্দেশ): Master-only "Backdate Payment
+             Permissions" section — নির্দিষ্ট স্টাফকে নির্দিষ্ট দিন/সময়ের জন্য
+             ব্যাকডেট-পেমেন্ট (তোলা/Edit/ডিলিট) করার সাময়িক অনুমতি দেওয়া/দেখা/
+             Revoke করা যায়, built dynamically in Kotlin
+             (BriefingActivity.loadBackdateGrants()). Same GONE-by-default
+             behaviour as backdateRequestsContainer just above. -->
+        <LinearLayout
+            android:id="@+id/backdateGrantsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressLoad"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="No briefing / notice yet"
+        android:textColor="@color/clinic_text_secondary"
+        android:visibility="gone" />
+
+    <!-- TK-REQUESTED (2026-07-27): pull the list down to refresh, the same
+         way as Follow-up. Only this wrapper is new; the list inside it,
+         its id and every rule stay exactly as they were. -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- 🆕 TK-নির্দেশ (07.08.2026) — "অনুমতি অনেকগুলো একসাথে হয়ে গেলে সেগুলো
+         মার্ক করে একবারে অনুমোদন দেওয়া যাবে"। কার্ডের বাছাই-বক্সে টিক পড়লেই
+         এই বারটা নিচে ভেসে ওঠে (নইলে সম্পূর্ণ লুকানো, তাই পুরনো চেহারা
+         অপরিবর্তিত)। লাল — কারণ এটা ডিলিট/নিরাপত্তার কাজ। -->
+    <LinearLayout
+        android:id="@+id/bulkApproveBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#FDECEA"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvBulkCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0 selected"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#8E2A20" />
+
+        <TextView
+            android:id="@+id/btnBulkCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Cancel"
+            android:textSize="11.5sp"
+            android:textStyle="bold"
+            android:textColor="#8E2A20" />
+
+        <TextView
+            android:id="@+id/btnBulkApprove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_brief_btn_dark"
+            android:backgroundTint="#C0392B"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="9dp"
+            android:text="Approve selected"
+            android:textSize="11.5sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

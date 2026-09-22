@@ -1,0 +1,98 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.PilesClinic" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/clinic_primary</item>
+        <item name="colorPrimaryDark">@color/clinic_primary_dark</item>
+        <item name="colorAccent">@color/clinic_primary</item>
+        <item name="android:statusBarColor">@color/clinic_primary_dark</item>
+        <item name="android:windowBackground">@drawable/bg_app_gradient</item>
+        <!-- 🔒 B546 (08.08.2026, TK-নির্দেশ, স্ক্রিনশট-প্রুফ — "বক্সের ভিতরের
+             ডেমি/নির্দেশ-লেখা এত গাঢ় যে মনে হয় কেউ লিখেছে, বিভ্রান্ত হই; ওটা
+             জলছাপের মতো হালকা হবে, পুরো প্রজেক্টে যেখানে যেখানে আছে")। আগে
+             থিমে কোনো hint-রং সেট করা ছিল না, তাই যে বক্সগুলো নিজেরা রং দেয়নি
+             সেগুলোর নির্দেশ-লেখা ফোনের ডিফল্ট (গাঢ়) রঙে আসত — আসল লেখা বলে
+             ভুল হতো। এখন পুরো অ্যাপের ডিফল্ট hint-রং = @color/field_hint
+             (#8A97AB — অ্যাপে আগে থেকেই লগইন/রেজিস্ট্রেশন হিন্টে ব্যবহৃত,
+             প্রমাণিত হালকা)। ⛔ শুধু নির্দেশ-লেখার (placeholder) রং — আসল
+             টাইপ-করা লেখা, কোনো লজিক/লেবেল/বাটন কিছু বদলায় না। নিজেদের রং
+             দেওয়া বক্স (money dialog ইত্যাদি) আগের মতোই থাকে। ভবিষ্যতে আরও
+             হালকা চাইলে শুধু colors.xml-এর field_hint একবার বদলালেই পুরো
+             অ্যাপ বদলাবে। -->
+        <item name="android:textColorHint">@color/field_hint</item>
+        <!-- 🔒 TK-ORDER (2026-08-06, জলপাইগুড়ির ফোনে "OUT TIME" পপ-আপ ফাঁকা
+             দেখানোর কারণ): কিছু ফোনের "সব অ্যাপে জোর করে ডার্ক" (force-dark)
+             সেটিং এই light অ্যাপের পপ-আপের অপশন-লেখা সাদা করে দিত — সাদা
+             ব্যাকগ্রাউন্ডে অদৃশ্য। এই অ্যাপ পুরোটাই light-ডিজাইন (সব রঙ পাকা
+             করা), তাই OS-কে বলে দেওয়া হলো এটিকে জোর করে ডার্ক না করতে। ফোনে
+             ডার্ক মোড চালু থাকলেও অ্যাপ পরিষ্কার/পড়ার-মতো থাকবে। (API 29+; এর
+             নিচের ফোনে force-dark নেই, তাই কিছু বদলায় না।) -->
+        <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
+        <!-- TK-DECISION (2026-07-22): ONE professional look for EVERY popup in
+             the app, applied automatically so no dialog looks plain/bland
+             white. Rounded corners + brand-coloured bold buttons + brand
+             title. Purely visual; no dialog's content or logic changes.
+             Custom-view premium dialogs (premiumDialogShell) set their own
+             transparent window and are unaffected. -->
+        <item name="alertDialogTheme">@style/PilesAlertDialog</item>
+        <item name="materialAlertDialogTheme">@style/PilesAlertDialog</item>
+    </style>
+
+    <!-- App-wide professional AlertDialog: rounded white card, brand buttons. -->
+    <style name="PilesAlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/clinic_primary</item>
+        <item name="colorAccent">@color/clinic_primary</item>
+        <item name="android:textColorPrimary">#10223A</item>
+        <!-- 🔒 TK-ORDER (2026-08-06): pin the popup option-list AND body text to
+             a dark colour so a phone's dark/force-dark mode can never turn them
+             white-on-white (invisible) — the exact "OUT TIME popup looks empty"
+             bug. Purely a colour guarantee; no dialog logic/content changes. -->
+        <item name="android:textColorAlertDialogListItem">#10223A</item>
+        <item name="android:textColorSecondary">#33445C</item>
+        <!-- 🔒 B546 — পপ-আপের ভিতরের বক্সের নির্দেশ-লেখাও (যেমন Chamber-এর
+             "Treatment Progress" বক্স, যেটা AlertDialog-এ খোলে) একই হালকা
+             জলছাপ-রঙে থাকে, যাতে কোথাও গাঢ় ডেমি-লেখা না দেখায়। -->
+        <item name="android:textColorHint">@color/field_hint</item>
+        <item name="android:windowBackground">@drawable/bg_dialog_rounded</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PilesAlertButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/PilesAlertButtonMuted</item>
+        <item name="buttonBarNeutralButtonStyle">@style/PilesAlertButtonMuted</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/PilesAlertTitle</item>
+    </style>
+
+    <style name="PilesAlertButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="backgroundTint">@color/clinic_primary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">10dp</item>
+        <item name="android:minWidth">88dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+    </style>
+
+    <style name="PilesAlertButtonMuted" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#5B6B80</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="PilesAlertTitle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">#0B2B59</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+
+    <!-- Date picker: guarantees a visible "OK/Set" and "Cancel" button
+         (blue text on white), so the Set option is never hidden. -->
+    <style name="PilesDatePicker" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorAccent">#0B66D8</item>
+        <item name="colorPrimary">#0B66D8</item>
+        <item name="android:textColorPrimary">#10223A</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/PilesDialogButton</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/PilesDialogButton</item>
+    </style>
+
+    <style name="PilesDialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#0B66D8</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

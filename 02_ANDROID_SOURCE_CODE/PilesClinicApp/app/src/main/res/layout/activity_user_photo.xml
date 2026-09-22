@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="My Photo"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imgPhoto"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="12dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg_remark_box" />
+
+        <!-- 🔒 TK-APPROVED (28.07.2026, ফটো-প্রুফে পাশ · খাতার সারি B47):
+             Patient Photo-র মতো এখানেও একটাই বোতাম, চাপলে Camera/Gallery-র
+             পপ-আপ। আগে এই পর্দায় **ক্যামেরাই ছিল না**, শুধু গ্যালারি। -->
+        <Button
+            android:id="@+id/btnPick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_btn_photo_pill"
+            app:backgroundTint="@null"
+            android:paddingVertical="10dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textAllCaps="false"
+            android:text="📷 Add Photo"
+            android:textColor="#0A7A28"
+            android:textStyle="bold"
+            android:textSize="15sp" />
+
+        <!-- 🔄🔒 V524 (২২.০৮.২০২৬, TK-নির্দেশ): ভুল করে কাত হয়ে তোলা ছবি
+             পরে ঘুরিয়ে সোজা করার বোতাম। ছবি পর্দায় থাকলে তবেই দেখা যায়
+             (কোডে VISIBLE/GONE) — Patient Photo পর্দার হুবহু একই নিয়ম। -->
+        <Button
+            android:id="@+id/btnRotate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_btn_photo_pill"
+            app:backgroundTint="@null"
+            android:paddingVertical="10dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textAllCaps="false"
+            android:text="🔄 Rotate"
+            android:textColor="#1D4ED8"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <!-- নতুন ছবি বাছার আগে দেখানোই হয় না। -->
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Save Photo"
+            android:visibility="gone"
+            android:enabled="false"
+            android:textAllCaps="false" />
+
+        <!-- ছবি না থাকলে দেখানোই হয় না। -->
+        <Button
+            android:id="@+id/btnRemove"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:text="Remove Photo"
+            android:textAllCaps="false" />
+    </LinearLayout>
+</LinearLayout>

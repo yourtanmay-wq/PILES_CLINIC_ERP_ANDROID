@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>PILES CLINIC | TK BISWAS</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f2748">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="styles.css?v=v1640" />
+  <script defer src="config.js?v=v1538"></script>
+  <script defer src="app.js?v=v1660"></script>
+  <!-- V245 additive modules (separate, isolated; do not change existing app) -->
+  <script defer src="module_core.js?v=v1570"></script>
+  <script defer src="profile.js?v=v1649"></script>
+  <!-- 🔔 V1186 (07.09.2026, TK-order): Doctor Note & Reminder (create · accept · history) -->
+  <script defer src="doctorreminder.js?v=v1571"></script>
+  <script defer src="notebook.js?v=v1536"></script>
+  <script defer src="finance.js?v=v1610"></script>
+  <script defer src="partners.js?v=v1658"></script>
+  <script defer src="rmp_commission.js?v=v1640"></script>
+</head>
+<body>
+  <div id="app"><div class="loader">PILES CLINIC loading...</div></div>
+  <div id="modalRoot"></div>
+  <div id="toast"></div>
+  <script>
+(function(){window.addEventListener('load',function(){try{if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister();});}).catch(function(){});}}catch(e){}});})();
+</script>
+</body>
+</html>

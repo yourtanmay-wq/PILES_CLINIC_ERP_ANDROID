@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  🔵🔒 V594 (২৩.০৮.২০২৬, TK-অনুমোদিত ডেমো-ফটো দেখে) — হেডারের **ছোট**
+  বাছাই-ঘরের জন্য। TK: *"উপরে ডান দিকে যে সিলেক্ট ব্রাঞ্চ, এত বড় রাখা যাবে
+  না … মাস্টারের ফোনে অন্যান্য জায়গায় যেমন ব্রাঞ্চ সিলেক্ট করার জায়গায় একটু
+  ছোট সাইজের, ঠিক সেরকমই রাখবেন"*।
+
+  `bg_input_field_picker.xml`-এর হুবহু নকল, শুধু ছোট মাপে:
+    · কোণ 14dp → 8dp   (28dp উঁচু ঘরে 14dp বড্ড গোল দেখাত)
+    · তীর 18dp → 12dp, ডান দিক থেকে 14dp → 6dp
+  ⛔ **পুরোনো ফাইলটা এক অক্ষরও ছোঁয়া হয়নি** — ফর্মের বাকি সব বাছাই-ঘর
+     (Occupation · Duration · Ref By …) আগের মতোই বড় থাকবে।
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <corners android:radius="8dp" />
+            <stroke android:width="1dp" android:color="@color/input_border" />
+        </shape>
+    </item>
+    <item
+        android:drawable="@drawable/ic_picker_chevron"
+        android:gravity="center_vertical|right"
+        android:right="6dp"
+        android:width="12dp"
+        android:height="12dp" />
+</layer-list>

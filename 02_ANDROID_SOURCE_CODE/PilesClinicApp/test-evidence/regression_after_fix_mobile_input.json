@@ -1,0 +1,10 @@
+{
+  "afterTyping10Digits": "9876543210",
+  "badgeVisibleAfter10": true,
+  "afterOneBackspace": "987654321",
+  "badgeHiddenAfterBackspace": true,
+  "afterFullBackspace": "",
+  "afterMiddleDelete": "912456789",
+  "cursorPosAfterMiddleDelete": 3,
+  "jsErrors": []
+}

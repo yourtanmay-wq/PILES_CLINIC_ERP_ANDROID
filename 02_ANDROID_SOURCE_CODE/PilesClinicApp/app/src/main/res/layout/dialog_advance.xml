@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog_round">
+
+    <!-- Navy premium header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_header_navy_top_round"
+        android:padding="18dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="💰 Advance Payment" android:textSize="17sp" android:textStyle="bold" android:textColor="#FFFFFF" />
+        <TextView android:id="@+id/tvAdvWho" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="3dp" android:textSize="12sp" android:textColor="#B8C6D8" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Total Amount row -->
+        <LinearLayout android:id="@+id/rowAdvTotal" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:background="@drawable/bg_input_field"
+            android:clickable="true" android:focusable="true"
+            android:paddingHorizontal="14dp" android:paddingVertical="6dp">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="Total Amount" android:textSize="12.5sp" android:textColor="#5B6B81" android:textStyle="bold" />
+            <EditText android:id="@+id/etAdvTotal" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:background="@null" android:gravity="end" android:hint="Enter amount" android:textSize="17sp"
+                android:textStyle="bold" android:textColor="#B26A00" android:textColorHint="#B7C0CE" android:inputType="number"
+                android:minWidth="90dp" android:importantForAutofill="no" />
+            <TextView android:id="@+id/tvAdvLock" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text=" 🔒" android:textSize="14sp" />
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="10dp" android:background="@android:color/transparent" />
+
+        <!-- Advance row -->
+        <LinearLayout android:id="@+id/rowAdvAmount" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:background="@drawable/bg_input_field"
+            android:clickable="true" android:focusable="true"
+            android:paddingHorizontal="14dp" android:paddingVertical="6dp">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="Advance" android:textSize="12.5sp" android:textColor="#5B6B81" android:textStyle="bold" />
+            <EditText android:id="@+id/etAdvAmount" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:background="@null" android:gravity="end" android:hint="Enter amount" android:textSize="20sp"
+                android:textStyle="bold" android:textColor="@color/brand_green" android:textColorHint="#B7C0CE" android:inputType="number"
+                android:minWidth="90dp" android:importantForAutofill="no" />
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="14dp" android:background="@android:color/transparent" />
+
+        <!-- Mode row -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="Payment Mode" android:textSize="12.5sp" android:textColor="#5B6B81" android:textStyle="bold" />
+            <TextView android:id="@+id/chipCash" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="CASH" android:textSize="11.5sp" android:textStyle="bold" android:textColor="#FFFFFF"
+                android:background="@drawable/bg_chip_seg_on" android:paddingHorizontal="14dp" android:paddingVertical="7dp"
+                android:layout_marginEnd="6dp" android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/chipOnline" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="ONLINE" android:textSize="11.5sp" android:textStyle="bold" android:textColor="#5B6B81"
+                android:background="@drawable/bg_chip_seg" android:paddingHorizontal="14dp" android:paddingVertical="7dp"
+                android:clickable="true" android:focusable="true" />
+        </LinearLayout>
+
+        <!-- Buttons -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginTop="18dp">
+            <TextView android:id="@+id/btnAdvClose" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="Close" android:gravity="center" android:textSize="13.5sp" android:textStyle="bold" android:textColor="#5B6B81"
+                android:background="@drawable/bg_pill_ghost" android:paddingVertical="13dp" android:layout_marginEnd="9dp"
+                android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/btnAdvSave" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="Save Advance" android:gravity="center" android:textSize="13.5sp" android:textStyle="bold" android:textColor="#FFFFFF"
+                android:background="@drawable/bg_btn_green" android:paddingVertical="13dp"
+                android:clickable="true" android:focusable="true" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

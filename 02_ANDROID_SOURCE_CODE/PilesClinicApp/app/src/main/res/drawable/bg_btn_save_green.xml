@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK APPROVED (2026-07-27, photo proof): the Registration screen's
+     SAVE PATIENT bar is green. A separate file is used so the shared
+     bg_btn_green (10 other screens) is not touched. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#0C9E33" />
+    <corners android:radius="14dp" />
+</shape>

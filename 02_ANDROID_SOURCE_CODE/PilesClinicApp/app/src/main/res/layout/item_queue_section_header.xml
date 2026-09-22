@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-REQUESTED ADDITION (2026-07-20): section header row used to split
+     CHECK-UP Queue into "Today" and "Pending / Overdue" groups. -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvSectionHeader"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:background="?attr/selectableItemBackground"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="10dp"
+    android:textColor="@color/clinic_text_secondary"
+    android:textSize="13sp"
+    android:textStyle="bold" />

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK APPROVED (2026-07-15): opened by tapping the Patient card's payment
+     ring. Shows Total Bill / Already Paid / Due as a summary, and lets the
+     next installment ("This Payment") be entered and saved — no separate
+     Payment Collection screen needed. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog_round">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_header_navy_top_round"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp">
+
+        <ImageView android:id="@+id/ivNthPhoto" android:layout_width="40dp" android:layout_height="40dp"
+            android:scaleType="centerCrop" android:background="@drawable/bg_avatar_square"
+            android:src="@android:drawable/ic_menu_camera" />
+
+        <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+            android:orientation="vertical" android:layout_marginStart="10dp">
+            <TextView android:id="@+id/tvNthName" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="15.5sp" android:textStyle="bold" android:textColor="#FFFFFF" android:maxLines="1" android:ellipsize="end" />
+            <TextView android:id="@+id/tvNthIdMobile" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="10.5sp" android:textColor="#B8C6D8" android:maxLines="1" android:ellipsize="end" />
+            <TextView android:id="@+id/tvNthAddress" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:textSize="10sp" android:textColor="#8FA2BE" android:maxLines="1" android:ellipsize="end" />
+        </LinearLayout>
+
+        <TextView android:id="@+id/tvNthTitle" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="📜" android:textSize="13sp" android:textStyle="bold" android:textColor="#FFFFFF"
+            android:background="@drawable/bg_badge_gold" android:paddingHorizontal="9dp" android:paddingVertical="7dp"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Total Bill row (locked once set; silent 3-tap to unlock) -->
+        <LinearLayout android:id="@+id/rowNthTotal" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:background="@drawable/bg_input_field"
+            android:clickable="true" android:focusable="true"
+            android:paddingHorizontal="14dp" android:paddingVertical="6dp">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="Total Bill" android:textSize="12.5sp" android:textColor="#5B6B81" android:textStyle="bold" />
+            <EditText android:id="@+id/etNthTotal" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:background="@null" android:gravity="end" android:hint="Enter amount" android:textSize="17sp"
+                android:textStyle="bold" android:textColor="#B26A00" android:textColorHint="#B7C0CE" android:inputType="number"
+                android:minWidth="90dp" android:importantForAutofill="no" />
+            <TextView android:id="@+id/tvNthLock" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text=" 🔒" android:textSize="14sp" />
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="10dp" android:background="@android:color/transparent" />
+
+        <!-- Already Paid + Due — TK APPROVED (2026-07-15): one box, side by side -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:background="@drawable/bg_visit_advance"
+            android:paddingHorizontal="14dp" android:paddingVertical="10dp">
+            <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Already Paid" android:textSize="11.5sp" android:textColor="#0B4F2A" android:textStyle="bold" />
+                <TextView android:id="@+id/tvNthPaid" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="₹0" android:textSize="16sp" android:textStyle="bold" android:textColor="#0B4F2A" />
+            </LinearLayout>
+            <View android:layout_width="1dp" android:layout_height="34dp" android:background="#BFE9CE" android:layout_marginHorizontal="10dp" />
+            <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:orientation="vertical" android:gravity="end">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Due" android:textSize="11.5sp" android:textColor="#D92D20" android:textStyle="bold" />
+                <TextView android:id="@+id/tvNthDue" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="₹0" android:textSize="16sp" android:textStyle="bold" android:textColor="#D92D20" />
+            </LinearLayout>
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="14dp" android:background="@android:color/transparent" />
+
+        <!-- This Payment (the new installment being entered) -->
+        <LinearLayout android:id="@+id/rowNthAmount" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:background="@drawable/bg_input_field"
+            android:clickable="true" android:focusable="true"
+            android:paddingHorizontal="14dp" android:paddingVertical="6dp">
+            <TextView android:id="@+id/tvNthThisLabel" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="This Payment" android:textSize="12.5sp" android:textColor="#5B6B81" android:textStyle="bold" />
+            <EditText android:id="@+id/etNthAmount" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:background="@null" android:gravity="end" android:hint="Enter amount" android:textSize="20sp"
+                android:textStyle="bold" android:textColor="@color/brand_green" android:textColorHint="#B7C0CE" android:inputType="number"
+                android:minWidth="90dp" android:importantForAutofill="no" />
+        </LinearLayout>
+        <View android:layout_width="match_parent" android:layout_height="14dp" android:background="@android:color/transparent" />
+
+        <!-- Mode row -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical">
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="Payment Mode" android:textSize="12.5sp" android:textColor="#5B6B81" android:textStyle="bold" />
+            <TextView android:id="@+id/chipNthCash" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="CASH" android:textSize="11.5sp" android:textStyle="bold" android:textColor="#FFFFFF"
+                android:background="@drawable/bg_chip_seg_on" android:paddingHorizontal="14dp" android:paddingVertical="7dp"
+                android:layout_marginEnd="6dp" android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/chipNthOnline" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="ONLINE" android:textSize="11.5sp" android:textStyle="bold" android:textColor="#5B6B81"
+                android:background="@drawable/bg_chip_seg" android:paddingHorizontal="14dp" android:paddingVertical="7dp"
+                android:clickable="true" android:focusable="true" />
+        </LinearLayout>
+
+        <!-- Buttons -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:layout_marginTop="18dp">
+            <TextView android:id="@+id/btnNthClose" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="Close" android:gravity="center" android:textSize="13.5sp" android:textStyle="bold" android:textColor="#5B6B81"
+                android:background="@drawable/bg_pill_ghost" android:paddingVertical="13dp" android:layout_marginEnd="9dp"
+                android:clickable="true" android:focusable="true" />
+            <TextView android:id="@+id/btnNthSave" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="Save Payment" android:gravity="center" android:textSize="13.5sp" android:textStyle="bold" android:textColor="#FFFFFF"
+                android:background="@drawable/bg_btn_green" android:paddingVertical="13dp"
+                android:clickable="true" android:focusable="true" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

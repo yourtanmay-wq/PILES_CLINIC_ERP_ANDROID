@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🧮🔒 V1280 (০৯.০৯.২০২৬, TK-নির্দেশ ও ফটো-প্রুফ পাশ — তালিকা সারি ৪০৩) — ধাপ ৩-এর
+     বড় "COST ESTIMATE" বোতামের ব্যাকগ্রাউন্ড: bg_circle_gradient_violet-এর একই রং,
+     শুধু গোলের বদলে গোল-কোণা আয়ত (পুরো চওড়ার বোতাম বলে)। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="14dp" />
+    <gradient
+        android:startColor="#6D28D9"
+        android:endColor="#7C3AED"
+        android:angle="135" />
+</shape>

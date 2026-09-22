@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-APPROVED (2026-07-26, photo proof, option C): chocolate/amber button
+     used ONLY on the Payment Collection screen's four buttons. A new file, so
+     bg_btn_navy.xml (used by Prescription, Medicine Slip, Timeline, Print
+     Preview) stays exactly as it is and those screens are untouched. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="315"
+        android:startColor="#8A4B12"
+        android:endColor="#C07A28" />
+    <corners android:radius="16dp" />
+</shape>

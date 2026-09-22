@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-ORDER (31.07.2026, khata row B211): "RMP Performance Report" button
+     background, Master-only screen. Solid purple pill, matching the
+     approved mockup. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#7C3AED" />
+    <corners android:radius="12dp" />
+</shape>

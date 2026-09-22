@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Patient Photo"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/etMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Patient mobile (10 digits)"
+            android:inputType="phone" />
+
+        <Button
+            android:id="@+id/btnFind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Find Patient"
+            android:textAllCaps="false" />
+
+        <!-- ⛔ মোছা হয়নি — পুরনো এক-লাইনের লেখাটা কোডে এখনো ভরা হয়, শুধু
+             পর্দায় দেখানো হয় না। নিচের নতুন কার্ডটাই TK-অনুমোদিত চেহারা। -->
+        <TextView
+            android:id="@+id/tvPatient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:textColor="@color/clinic_text_primary" />
+
+        <!-- 🔒 TK-APPROVED (29.07.2026, ফটো-প্রুফে পাশ · খাতার সারি B64):
+             TK-এর কথা: *"ফটোর উপরে যে পেশেন্ট ডিটেলস ছিন্ন বিচ্ছিন্ন কেন?
+             সুন্দর করে ডিজাইন করে বানান... পেশেন্টের নাম বাঁ দিক থেকে
+             সেন্টারে রাখুন। নামের নিচে বাঁদিকে থাকবে মোবাইল নাম্বার,
+             ডানদিকে থাকবে পেশেন্ট আইডি।"*
+             ⛔ প্রুফে যা দেখানো হয়েছে ঠিক তা-ই — নাম মাঝখানে, নিচে দুই কোণে
+                দুটো পিল। -->
+        <LinearLayout
+            android:id="@+id/cardPatientInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_pp_card"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvPatientName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:textColor="#10223A" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tvPatientMobile"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_pp_pill_blue"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:text=""
+                    android:textSize="13.5sp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="#1C5AA8" />
+
+                <!-- 🔵🔒 V544 (২২.০৮.২০২৬, TK-রিপোর্ট: *"পেশেন্ট আইডি কেটে গেল কেন?"*)
+                     **আসল কারণ:** দুটো পিল-ই সমান জায়গা (`weight=1`) পেত, অথচ
+                     ID-র লেখা মোবাইলের চেয়ে অনেক লম্বা — তাই `ellipsize="end"`
+                     ওটাকে `COB-21082…` করে কেটে দিত।
+                     ⇒ ID-কে বেশি জায়গা, ভিতরের ফাঁক একটু কম, আর দরকারে
+                       **দু'লাইনে গুটিয়ে যায়** — কাটে না।
+                     ⛔ মোবাইলের পিল, রং, মাপ, কোড — কিছুই বদলায়নি। -->
+                <TextView
+                    android:id="@+id/tvPatientId"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.6"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_pp_pill_purple"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:text=""
+                    android:textSize="13.5sp"
+                    android:textStyle="bold"
+                    android:maxLines="2"
+                    android:ellipsize="none"
+                    android:textColor="#5B21B6" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 🔒 TK-APPROVED (29.07.2026, ফটো-প্রুফে পাশ · খাতার সারি B64):
+             TK: *"অন্যান্য অ্যাপ্লিকেশনের ফটো জুম করা যায়, এখানে আমি কেন
+             জুম করতে পারছি না?"*
+             ছবিটা এখন বড় কার্ডে, **পুরো ছবি দেখা যায় (কিছু কাটা পড়ে না)**,
+             আর আঙুলে পিঞ্চ বা দুবার ট্যাপ করলে জুম হয়, টেনে সরানোও যায়। -->
+        <FrameLayout
+            android:id="@+id/photoCard"
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_pp_card"
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imgPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_pp_photo_area"
+                android:contentDescription="Patient photo"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <!-- 🔒 TK-APPROVED (28.07.2026, ফটো-প্রুফে পাশ · খাতার সারি B47):
+             TK-এর কথা: *"ফটো যখন তোলা হয়ে গেছে, পুরনো ফটো আমি দেখছি — তারপরও
+             তার নিচে এরকম লেখা কেন থাকবে?"*
+             তাই এখন **একটাই বোতাম** — চাপলে Camera/Gallery-র পপ-আপ ওঠে।
+             ⛔ নতুন কোনো ডিজাইন বানানো হয়নি: এটা Registration-এর
+             `btnPatientPhoto`-র হুবহু একই সবুজ পিল ও একই পপ-আপ। -->
+        <!-- 🔒 TK-APPROVED (29.07.2026, ফটো-প্রুফে পাশ · খাতার সারি B64):
+             TK: *"চেঞ্জ ফটো এত বড় করে লেখার কি মানে?"* — তাই বোতামটা এখন
+             পুরো চওড়া নয়, **ছোট ও মাঝখানে বসানো**। রং, আকার, পপ-আপ সবই
+             আগের মতোই — শুধু মাপটা ছোট হয়েছে। -->
+                <!-- 🔵🔒 V544 (২২.০৮.২০২৬, TK-নির্দেশ: *"change photo and rotate — এগুলি
+             পাশাপাশি থাকবে"*) — দুটো বোতাম এখন এক সারিতে, মাঝে ফাঁক রেখে
+             (TK-এর আগের নিয়ম: *"একটা যেন আরেকটার গায়ে ঘেঁষে না যায়"*)।
+             ⛔ দুটোই `wrap_content`, সারিটা মাঝখানে — তাই **ছবি না থাকলে
+                (Rotate লুকানো) Change Photo আগের মতোই ছোট ও মাঝখানেই থাকে**।
+             ⛔ বোতামের id · রং · মাপ · লেখা · কোড — কিচ্ছু বদলায়নি, শুধু
+                বসার জায়গা। -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+                <Button
+                android:id="@+id/btnCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                
+                android:background="@drawable/bg_btn_photo_pill"
+                app:backgroundTint="@null"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:paddingVertical="8dp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textAllCaps="false"
+                android:text="📷 Add Patient Photo"
+                android:textColor="#0A7A28"
+                android:textStyle="bold"
+                android:textSize="13.5sp"
+                android:enabled="false" />
+
+                <Button
+                android:id="@+id/btnRotate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+            
+                android:background="@drawable/bg_btn_photo_pill"
+                app:backgroundTint="@null"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:paddingVertical="8dp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textAllCaps="false"
+                android:text="🔄 Rotate"
+                android:textColor="#1D4ED8"
+                android:textStyle="bold"
+                android:textSize="13.5sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- ⛔ মোছা হয়নি — উপরের পপ-আপের "Gallery" ঘরটাই এখন এর কাজ করে,
+             তাই পর্দায় আর দেখানো হয় না (PatientPhotoActivity-তে GONE)। -->
+        <Button
+            android:id="@+id/btnPick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Pick Photo from Gallery"
+            android:visibility="gone"
+            android:enabled="false"
+            android:textAllCaps="false" />
+
+        <!-- নতুন ছবি তোলার আগে দেখানোই হয় না (খাতার সারি B47)। -->
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Save Photo"
+            android:visibility="gone"
+            android:enabled="false"
+            android:textAllCaps="false" />
+
+        <ProgressBar
+            android:id="@+id/progressLoad"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

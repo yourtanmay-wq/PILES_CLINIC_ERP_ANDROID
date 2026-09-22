@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Follow-up"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- TK-REQUESTED ADDITION (2026-07-23): branch picker, Master only.
+             🔽🔒 (16.09.2026, TK photo-proof reviewed and reverted: TK said
+             "আমি তো সেরকম বলি নাই" — the branch pill must stay visible here
+             in the header row, same tap target (showBranchPickerMenu()) as
+             always. Only the Year picker moved into the new ⋮ menu. -->
+        <TextView
+            android:id="@+id/branchPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/bg_branch_pill"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="🏥 All Branch ▾"
+            android:textColor="@color/white"
+            android:textSize="10.5sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <!-- 🔽🔒 (16.09.2026, TK photo-proof reviewed and reverted) — the
+             calendar badge stays visible in the header row exactly as
+             before; only the new Year picker lives inside ⋮, not this. -->
+        <LinearLayout
+            android:id="@+id/btnCalendar"
+            android:layout_width="30dp"
+            android:layout_height="33dp"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/tvCalMonth"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_cal_badge_top"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="Jul"
+                android:textColor="@color/white"
+                android:textSize="8.5sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvCalDay"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:background="@drawable/bg_cal_badge_bottom"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="16"
+                android:textColor="@color/brand_navy"
+                android:textSize="13.5sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- 🆕⋮🔒 (16.09.2026, TK photo-proof approved) — single overflow
+             button replacing the branch pill + date badge in this row.
+             Style copied from StaffProfileActivity's ⋮ button (20sp bold,
+             #0B7A3E, white circle background) — background set in Kotlin,
+             same as that precedent. Opens showFollowUpOverflowMenu(). -->
+        <TextView
+            android:id="@+id/btnFollowMenu"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:gravity="center"
+            android:text="⋮"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="More" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="2dp"
+        android:padding="8dp"
+        android:background="@drawable/bg_input_field"
+        android:hint="🔍 Search name or mobile"
+        android:inputType="text"
+        android:maxLines="1"
+        android:textSize="14sp" />
+
+    <!-- TK-APPROVED (2026-07-25, photo proof): search moved ABOVE this row,
+         and each tab is now ONE line (icon + count + name) instead of two,
+         so the whole top of the screen is much shorter. Same three ids,
+         same taps, same counts . only the shape/order changed. -->
+
+    <!-- 🟣🔒 V710 (২৬.০৮.২০২৬, TK-নির্দেশ, ডেমো-প্রুফে অনুমোদিত) — id দুটো
+         (`tabRow` · `filterRow`) **নতুন যোগ করা হলো**, শুধু যাতে ড্যাশবোর্ডের
+         "N calls pending" ব্যানার থেকে এলে সারি দুটো লুকানো যায়।
+         ⛔ ভিতরের একটাও ঘর/বোতাম/মাপ/রং বদলায়নি — Follow-up আলাদা করে খুললে
+            সব হুবহু আগের মতোই। -->
+    <LinearLayout
+        android:id="@+id/tabRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="4dp">
+
+        <TextView
+            android:id="@+id/tabEnquiry"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/bg_tab_active"
+            android:gravity="center"
+            android:text="👥 42 Enquiry"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tabVisit"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/bg_tab_inactive"
+            android:gravity="center"
+            android:text="👣 22 Visit"
+            android:textColor="@color/clinic_text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tabPatient"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_tab_inactive"
+            android:gravity="center"
+            android:text="👤 11 Patient"
+            android:textColor="@color/clinic_text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <HorizontalScrollView
+        android:id="@+id/filterRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp">
+            <Button android:id="@+id/fAll" android:layout_width="wrap_content" android:layout_marginEnd="4dp" android:textAllCaps="false" android:minWidth="0dp" android:textSize="11.5sp" android:paddingHorizontal="12dp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_height="32dp" android:text="All" />
+            <!-- TK-ORDER (31.07.2026, খাতার সারি B213 — TK: "all এর পরে তাহলে my call হবে"):
+                 এই স্টাফ শেষ যাঁর সাথে কথা বলেছিলেন (last caller = এই স্টাফ), তারিখ যাই হোক। -->
+            <Button android:id="@+id/fMyCall" android:layout_width="wrap_content" android:layout_marginEnd="4dp" android:textAllCaps="false" android:minWidth="0dp" android:textSize="11.5sp" android:paddingHorizontal="12dp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_height="32dp" android:text="My Call" />
+            <Button android:id="@+id/fToday" android:layout_width="wrap_content" android:layout_marginEnd="4dp" android:textAllCaps="false" android:minWidth="0dp" android:textSize="11.5sp" android:paddingHorizontal="12dp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_height="32dp" android:text="Today" />
+            <Button android:id="@+id/fOverdue" android:layout_width="wrap_content" android:layout_marginEnd="4dp" android:textAllCaps="false" android:minWidth="0dp" android:textSize="11.5sp" android:paddingHorizontal="12dp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_height="32dp" android:text="Overdue" />
+            <Button android:id="@+id/fWeek" android:layout_width="wrap_content" android:layout_marginEnd="4dp" android:textAllCaps="false" android:minWidth="0dp" android:textSize="11.5sp" android:paddingHorizontal="12dp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_height="32dp" android:text="This Week" />
+            <Button android:id="@+id/fMonth" android:layout_width="wrap_content" android:layout_marginEnd="4dp" android:textAllCaps="false" android:minWidth="0dp" android:textSize="11.5sp" android:paddingHorizontal="12dp" android:insetTop="0dp" android:insetBottom="0dp" android:layout_height="32dp" android:text="This Month" />
+            <Button android:id="@+id/fCustom" android:layout_width="wrap_content" android:layout_marginEnd="4dp" android:layout_height="32dp" android:textAllCaps="false" android:minWidth="0dp" android:textSize="11.5sp" android:paddingHorizontal="12dp" android:insetTop="0dp" android:insetBottom="0dp" android:text="Custom Date" />
+            <!-- 🔒 TK-APPROVED (29.07.2026, ফটো-প্রুফে পাশ · খাতার সারি B68):
+                 TK: *"যেখানে ফিল্টার করার অপশন, একদম শেষ লাইনে যেখানে কাস্টম ডেট,
+                 তার পাশে ফিল্টার by সিরিয়াল নাম্বার — এটা বানাইতে হবে। সেখানে চাপ
+                 দিলে এক নম্বর থেকে সমস্ত পেশেন্টের ডিটেলস দেখা যাবে।"*
+                 বাকি চিপগুলোর হুবহু একই মাপ ও ধাঁচ — নতুন কোনো ডিজাইন নয়। -->
+            <Button android:id="@+id/fSerial" android:layout_width="wrap_content" android:layout_marginEnd="4dp" android:layout_height="32dp" android:textAllCaps="false" android:minWidth="0dp" android:textSize="11.5sp" android:paddingHorizontal="12dp" android:insetTop="0dp" android:insetBottom="0dp" android:text="Serial No." />
+            <!-- 🟢🔒 V646 (২৫.০৮.২০২৬, TK-নির্দেশ) — Enquiry ট্যাবে "Unexpected
+                 Time" ফিল্টার-চিপ, বাকিগুলোর হুবহু একই মাপ/ধাঁচ। Draft-এর
+                 "Unexpected Time Calls" যে একই followups সারি থেকে আসে, এই
+                 চিপ চাপলে ঠিক সেই একই সারিগুলো এখানেই দেখা যাবে (client-side
+                 ফিল্টার, নতুন কোনো Supabase কল লাগে না)। -->
+            <Button android:id="@+id/fUnexpected" android:layout_width="wrap_content" android:layout_marginEnd="4dp" android:layout_height="32dp" android:textAllCaps="false" android:minWidth="0dp" android:textSize="11.5sp" android:paddingHorizontal="12dp" android:insetTop="0dp" android:insetBottom="0dp" android:text="Unexpected Time" />
+            <!-- 🔒 TK-APPROVED (29.07.2026, ফটো-প্রুফে পাশ · খাতার সারি B69):
+                 TK: *"সিরিয়াল নাম্বারের পাশে আরো একটা জিনিস রাখতে হবে — গুগল সিট,
+                 অর্থাৎ আমি ডাউনলোড করলে যেন গুগল সিটে দেখতে পাই।"*
+                 চাপ দিলে পর্দায় তখন যা দেখা যাচ্ছে ঠিক সেটাই CSV হয়ে নামে। -->
+            <!-- 🟢🔒 V646 (২৫.০৮.২০২৬, TK-নির্দেশ — "২ যায়গায়ই থাকবে, Unexpected
+                 Time-এর মতন") — Patient ট্যাবের জন্য (stage="Treatment")
+                 Running/Incomplete/Complete ফিল্টার-চিপ — Draft-এর একই
+                 নিয়মে (V644/V645), client-side, নতুন Supabase কল নেই। -->
+            <Button android:id="@+id/fRunning" android:layout_width="wrap_content" android:layout_marginEnd="4dp" android:layout_height="32dp" android:textAllCaps="false" android:minWidth="0dp" android:textSize="11.5sp" android:paddingHorizontal="12dp" android:insetTop="0dp" android:insetBottom="0dp" android:text="Running" />
+            <Button android:id="@+id/fIncompletePatient" android:layout_width="wrap_content" android:layout_marginEnd="4dp" android:layout_height="32dp" android:textAllCaps="false" android:minWidth="0dp" android:textSize="11.5sp" android:paddingHorizontal="12dp" android:insetTop="0dp" android:insetBottom="0dp" android:text="Incomplete" />
+            <Button android:id="@+id/fCompletePatient" android:layout_width="wrap_content" android:layout_marginEnd="4dp" android:layout_height="32dp" android:textAllCaps="false" android:minWidth="0dp" android:textSize="11.5sp" android:paddingHorizontal="12dp" android:insetTop="0dp" android:insetBottom="0dp" android:text="Complete" />
+            <Button android:id="@+id/fSheet" android:layout_width="wrap_content" android:layout_height="32dp" android:textAllCaps="false" android:minWidth="0dp" android:textSize="11.5sp" android:paddingHorizontal="12dp" android:insetTop="0dp" android:insetBottom="0dp" android:text="Sheet" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- 🟣🔒 V710 — ব্যানার থেকে এলে ট্যাব ও ফিল্টারের জায়গায় **একটাই পরিষ্কার
+         লাইন**, যাতে স্টাফ বুঝতে পারেন এটা তিন সেকশন মেশানো কল-তালিকা।
+         ⛔ ডিফল্ট `gone` — স্বাভাবিক Follow-up-এ এটা কখনো দেখা যায় না। -->
+    <TextView
+        android:id="@+id/tvAllSectionsHead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_all_sections_head"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="10dp"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressLoad"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="No records found"
+        android:textColor="@color/clinic_text_secondary"
+        android:visibility="gone" />
+
+    <!-- TK-REQUESTED (2026-07-27): "উপর থেকে নিচে টানলে যেন অটোমেটিক রিফ্রেশ হয়" .
+         standard pull to refresh, exactly like other phone apps. Only this
+         wrapper is new; the scrolling list inside it is untouched. -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- TK-APPROVED (2026-07-28, khata row B19 step 2): the Enquiry list now
+             uses a RecyclerView so only the cards actually on screen exist.
+             The old ScrollView is NOT deleted, only hidden when the RecyclerView
+             is in use, so Visit / Patient keep working exactly as before and the
+             old path can be brought back at any time. Both live inside this
+             FrameLayout; Kotlin shows exactly one of them at a time. -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:id="@+id/scrollList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp">
+
+                <LinearLayout
+                    android:id="@+id/listContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp"
+                android:visibility="gone" />
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

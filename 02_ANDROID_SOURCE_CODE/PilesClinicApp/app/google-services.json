@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "470578792305",
+    "project_id": "piles-clinic-5ec97",
+    "storage_bucket": "piles-clinic-5ec97.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:470578792305:android:a5ec7ab103683cde8258d0",
+        "android_client_info": {
+          "package_name": "com.tkbiswas.pilesclinic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdhB64VDmsaZLcqwYzVZqT0C4rHzOFo2c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

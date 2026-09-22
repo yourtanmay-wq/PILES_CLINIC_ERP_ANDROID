@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Web-parity bottom navigation (WebView bottomNav): Home · Enquiry ·
+     Follow Up · Registration · Menu. Wire with BottomNav.wire(activity). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#FFFFFF"
+    android:elevation="12dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp"
+    android:visibility="gone">
+    <!-- TK-REQUESTED (2026-07-20): the bottom navigation bar must NOT appear on
+         ANY screen (only the Dashboard's own top-right Menu stays). Hidden here
+         in one place so it disappears everywhere at once. BottomNav.wire() is
+         left untouched; it still drains the pending-sync queues (findViewById
+         is null-safe, so the hidden/absent buttons cause no crash). No other
+         layout or design is changed. -->
+
+    <LinearLayout android:id="@+id/navHome" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:clickable="true" android:focusable="true" android:padding="4dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🏠" android:textSize="20sp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Home" android:textSize="11sp" android:textColor="#1167D8" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/navEnquiry" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:clickable="true" android:focusable="true" android:padding="4dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📝" android:textSize="20sp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Enquiry" android:textSize="11sp" android:textColor="#1167D8" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/navFollow" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:clickable="true" android:focusable="true" android:padding="4dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🔁" android:textSize="20sp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Follow Up" android:textSize="11sp" android:textColor="#1167D8" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/navReg" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:clickable="true" android:focusable="true" android:padding="4dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🧾" android:textSize="20sp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Registration" android:textSize="10sp" android:textColor="#1167D8" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/navMenu" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center" android:clickable="true" android:focusable="true" android:padding="4dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="☰" android:textSize="20sp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Menu" android:textSize="11sp" android:textColor="#1167D8" />
+    </LinearLayout>
+</LinearLayout>

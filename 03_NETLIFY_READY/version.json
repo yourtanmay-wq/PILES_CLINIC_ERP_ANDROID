@@ -1,0 +1,5 @@
+{
+  "versionCode": 1660,
+  "versionName": "16.60",
+  "note": "V1660: More screen Reports + Password side-by-side. Adds Master-controlled cross-branch RMP Calling Access for staff: remote branch exposes Call + mandatory Remark only through authenticated HR RPCs, with confirmation and audit logging; no patient/payment/commission/edit/delete access is granted. Existing branch workflows remain unchanged."
+}

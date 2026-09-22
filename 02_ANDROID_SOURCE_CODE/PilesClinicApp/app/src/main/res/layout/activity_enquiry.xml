@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <ScrollView
+        android:id="@+id/scrollForm"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:background="@drawable/bg_login_hero">
+
+            <TextView
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="←"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:padding="4dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:text="New Enquiry"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/clinic_card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="📞 Mobile *" />
+                <EditText
+                    android:id="@+id/etMobile"
+                    style="@style/RegFieldInput"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:importantForAutofill="no"
+                    android:autofillHints="@null"
+                    android:hint="Enter mobile number" />
+
+                <TextView
+                    android:id="@+id/tvDupWarning"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:padding="8dp"
+                    android:background="#FFF4E5"
+                    android:textColor="#B26A00"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="⏰ Date" />
+                <TextView
+                    android:id="@+id/tvDate"
+                    style="@style/RegFieldInput"
+                    android:text="" />
+
+                <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="🏥 Branch *" />
+                <Spinner
+                    android:id="@+id/spBranch"
+                    style="@style/RegFieldInput"
+                    android:background="@drawable/bg_input_field_picker"
+                    android:paddingEnd="40dp" />
+
+                <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="👤 Name" />
+                <EditText
+                    android:id="@+id/etName"
+                    style="@style/RegFieldInput"
+                    android:inputType="textPersonName|textCapWords"
+                    android:hint="Patient name" />
+
+                <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="🩺 Disease *" />
+                <!-- 📏🔒 V1000 (০৩.০৯.২০২৬, TK-নির্দেশ ও ফটো-প্রুফ পাশ:
+                     "রোগের নামের বক্সগুলো এক সমান করতে হবে") — ছয়টা বাক্সই
+                     আগে থেকেই ৩১৮×১২৬ px, কিন্তু GridLayout লেখার baseline
+                     মিলিয়ে বসায় বলে "Other" বাক্সটা ২৩ px উপরে উঠে যেত।
+                     `fill` গ্র্যাভিটি দিলে baseline নয়, ঘরটাই পুরো ভরে —
+                     তাই ছয়টা বাক্স এক সারিতে বসে। লেখার মাপও এক রাখতে
+                     autoSize-এর সীমা ১০–১২sp (আগে ৯–১৪sp, তাই "Hydrocele"
+                     ছোট হরফে দেখাত)। ⛔ id · কাজ · রং কিছুই বদলায়নি। -->
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:layout_marginTop="6dp">
+                    <Button android:id="@+id/btnDisPiles" android:layout_width="0dp" android:layout_height="48dp" android:layout_columnWeight="1" android:layout_gravity="fill" android:layout_margin="3dp" android:padding="2dp" android:textAllCaps="false" android:maxLines="1" app:autoSizeTextType="uniform" app:autoSizeMinTextSize="10sp" app:autoSizeMaxTextSize="12sp" android:text="🩸 Piles" />
+                    <Button android:id="@+id/btnDisFissure" android:layout_width="0dp" android:layout_height="48dp" android:layout_columnWeight="1" android:layout_gravity="fill" android:layout_margin="3dp" android:padding="2dp" android:textAllCaps="false" android:maxLines="1" app:autoSizeTextType="uniform" app:autoSizeMinTextSize="10sp" app:autoSizeMaxTextSize="12sp" android:text="✂️ Fissure" />
+                    <Button android:id="@+id/btnDisFistula" android:layout_width="0dp" android:layout_height="48dp" android:layout_columnWeight="1" android:layout_gravity="fill" android:layout_margin="3dp" android:padding="2dp" android:textAllCaps="false" android:maxLines="1" app:autoSizeTextType="uniform" app:autoSizeMinTextSize="10sp" app:autoSizeMaxTextSize="12sp" android:text="🔄 Fistula" />
+                    <Button android:id="@+id/btnDisHydrocele" android:layout_width="0dp" android:layout_height="48dp" android:layout_columnWeight="1" android:layout_gravity="fill" android:layout_margin="3dp" android:padding="2dp" android:textAllCaps="false" android:maxLines="1" app:autoSizeTextType="uniform" app:autoSizeMinTextSize="10sp" app:autoSizeMaxTextSize="12sp" android:text="💧 Hydrocele" />
+                    <Button android:id="@+id/btnDisGupt" android:layout_width="0dp" android:layout_height="48dp" android:layout_columnWeight="1" android:layout_gravity="fill" android:layout_margin="3dp" android:padding="2dp" android:textAllCaps="false" android:maxLines="1" app:autoSizeTextType="uniform" app:autoSizeMinTextSize="10sp" app:autoSizeMaxTextSize="12sp" android:text="🛡️ Gupt Rog" />
+                    <Button android:id="@+id/btnDisOther" android:layout_width="0dp" android:layout_height="48dp" android:layout_columnWeight="1" android:layout_gravity="fill" android:layout_margin="3dp" android:padding="2dp" android:textAllCaps="false" android:maxLines="1" app:autoSizeTextType="uniform" app:autoSizeMinTextSize="10sp" app:autoSizeMaxTextSize="12sp" android:text="📋 Other" />
+                </GridLayout>
+
+                <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="📍 Address" />
+                <!-- 📏🔒 V989 (০৩.০৯.২০২৬, TK-নির্দেশ: "address and remarks এই
+                     বক্সগুলোর উচ্চতা কম হবে, অন্যান্যগুলির মতোই হবে") — শুরুতে
+                     এক লাইন, বাকি ঘরগুলোর সমান উঁচু; লিখতে গেলে নিজে থেকেই
+                     বড় হয়, তাই লম্বা ঠিকানাও পুরো লেখা যায়।
+                     ⛔ শুধু এই দুটো ঘর — সাঝা style-এ হাত দেওয়া হয়নি, তাই
+                        অন্য কোনো পর্দা বদলায়নি। -->
+                <EditText
+                    android:id="@+id/etAddress"
+                    style="@style/FieldInputMultiline"
+                    android:padding="10dp"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:minLines="1" />
+
+                <!-- 🩺🔒 V1070 (০৪.০৯.২০২৬, TK-নির্দেশ) — কোন RMP রোগী পাঠিয়েছেন।
+                     রোগী না এলে রেজিস্ট্রেশনই হয় না, তাই এতদিন তথ্যটা কোথাও
+                     থাকত না ⇒ পরে রেফারেল টাকা নিয়ে দ্বন্দ্ব হত।
+                     ⛔ Registration-এর হুবহু একই ঘর ও একই তালিকা।
+                     ⛔ **বাধ্যতামূলক নয়** — লেবেলে `*` নেই, না ভরলেও সেভ হয়। -->
+                <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="🩺 Referred By" />
+                <Spinner
+                    android:id="@+id/spEnqRefBy"
+                    style="@style/RegFieldInput"
+                    android:popupBackground="@color/white" />
+                <LinearLayout
+                    android:id="@+id/llEnqRefDoctor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginTop="10dp"
+                    android:padding="12dp"
+                    android:background="@drawable/bg_reveal_panel">
+                    <TextView style="@style/FieldLabel" android:layout_marginTop="0dp" android:text="Doctor / RMP Name" />
+                    <EditText
+                        android:id="@+id/etEnqRefDoctorName"
+                        style="@style/RegFieldInput"
+                        android:hint="Doctor / RMP name"
+                        android:inputType="textPersonName"
+                        android:maxLines="1" />
+                    <!-- 🩺🔒 V1095 (০৫.০৯.২০২৬, TK: *"All Branch Enquiry Form-এ RMP-র
+                         নাম সাজেশন কেন দেখাচ্ছে না"*) — V1070-এ ঘর দুটো বসিয়েছিলাম,
+                         কিন্তু Registration-এর টাইপ-করতে-করতে সাজেশনটা এখানে
+                         বসাতে ভুলে গিয়েছিলাম। ⛔ Registration-এর `llRmpSuggest`-এর
+                         হুবহু একই ঘর ও একই চেহারা। ⛔ তালিকা ফোনে জমা থাকা ঘর
+                         থেকেই আসে — ইন্টারনেট-খরচ এক বাইটও বাড়ে না। -->
+                    <LinearLayout
+                        android:id="@+id/llEnqRmpSuggest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_rmp_suggest" />
+                    <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="Doctor Mobile" />
+                    <EditText
+                        android:id="@+id/etEnqRefDoctorMobile"
+                        style="@style/RegFieldInput"
+                        android:hint="Doctor mobile"
+                        android:inputType="phone"
+                        android:maxLines="1" />
+                </LinearLayout>
+
+                <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="📝 Remarks *" />
+                <EditText
+                    android:id="@+id/etRemarks"
+                    style="@style/FieldInputMultiline"
+                    android:padding="10dp"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:minLines="1"
+                    android:hint="Required" />
+
+                <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="🎧 Call Received By" />
+                <Spinner
+                    android:id="@+id/spReceivedBy"
+                    style="@style/RegFieldInput"
+                    android:popupBackground="@color/white" />
+
+                <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="⏱️ Call Timing" />
+                <!-- 📏🔒 V1000 (০৩.০৯.২০২৬, TK-নির্দেশ ও ফটো-প্রুফ পাশ:
+                     "Official Time · Unexpected Time — এই বক্সগুলো এক সমান
+                     করতে হবে") — আগে দুটোই wrap_content ছিল, তাই "Unexpected
+                     Time" দু লাইনে ভেঙে বাক্সটা উঁচু হয়ে যেত (মাপা: ১২৬ px
+                     বনাম ১৫৪ px) আর baseline মিলিয়ে বসায় উপরের ধারও আলাদা
+                     হত। এখন দুটোরই উচ্চতা ৪৮dp, লেখা এক লাইনে, আর
+                     baselineAligned বন্ধ — তাই বাক্স দুটো হুবহু এক সমান।
+                     ⛔ id · কাজ · রং কিছুই বদলায়নি। -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false"
+                    android:layout_marginTop="6dp">
+                    <Button
+                        android:id="@+id/btnTimingOfficial"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="6dp"
+                        android:padding="2dp"
+                        android:textAllCaps="false"
+                        android:maxLines="1"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMinTextSize="10sp"
+                        app:autoSizeMaxTextSize="14sp"
+                        android:text="Official Time" />
+                    <Button
+                        android:id="@+id/btnTimingUnexpected"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:padding="2dp"
+                        android:textAllCaps="false"
+                        android:maxLines="1"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMinTextSize="10sp"
+                        app:autoSizeMaxTextSize="14sp"
+                        android:text="Unexpected Time" />
+                </LinearLayout>
+
+                <TextView style="@style/FieldLabel" android:layout_marginTop="8dp" android:text="⏰ Next Follow-up Date *" />
+                <TextView
+                    android:id="@+id/tvNextFollow"
+                    style="@style/RegFieldInput"
+                    android:text="Tap to select (optional)" />
+
+                <TextView
+                    android:id="@+id/tvError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text=""
+                    android:textColor="@color/clinic_accent_red"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_gradient_button"
+                    android:text="Save Enquiry"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+            android:textAllCaps="false" />
+
+                <ProgressBar
+                    android:id="@+id/progressSave"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

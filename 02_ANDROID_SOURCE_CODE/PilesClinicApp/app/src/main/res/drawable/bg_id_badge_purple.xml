@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🆕 TK-নির্দেশ (04.08.2026): Doctor Note-এর নতুন "Patient's Details"
+     হেডারে ছোট "ID" ব্যাজ — Patient Timeline-এ TK আগে অনুমোদিত করা একই
+     বেগুনি রং। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#7B4FCC" />
+    <corners android:radius="5dp" />
+</shape>

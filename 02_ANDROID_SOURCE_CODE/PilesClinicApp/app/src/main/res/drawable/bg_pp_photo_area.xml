@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK APPROVED (29.07.2026, photo proof) : soft backdrop behind the photo so a
+     portrait photo can be shown WHOLE (never cropped). Patient Photo screen only. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#EDF1F6" />
+    <corners android:radius="14dp" />
+</shape>

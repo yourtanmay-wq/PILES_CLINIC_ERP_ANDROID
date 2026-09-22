@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-APPROVED (2026-07-25, photo proof): Master Admin only screen that shows
+     "Monthly Collection" (one month) and "Collection History" (everything),
+     with a BRANCH selector on top . TK asked for the branch selector twice, so
+     it must never be removed. Opened from the two new buttons at the bottom of
+     the Payment Collection screen. Nothing on the daily Payment screen changed. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Monthly Collection"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- 🔒 TK-APPROVED (29.07.2026, খাতার সারি B84): ব্রাঞ্চ বাছার ঘর
+             হেডারের ডান দিকে, সব পর্দার হুবহু একই পিল। চাপ দিলে ঠিক আগের
+             সেই তালিকাই খোলে আর **পুরনো Spinner-কেই** বেছে দেয় — তাই টাকার
+             হিসাব ও ছাঁকনির নিয়ম এক অক্ষরও বদলায়নি। -->
+        <TextView
+            android:id="@+id/branchPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_branch_pill"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="🏥 All Branch ▾"
+            android:textColor="@color/white"
+            android:textSize="10.5sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnMore"
+            android:layout_width="36dp"
+            android:layout_height="32dp"
+            android:gravity="center"
+            android:text="⋮"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:contentDescription="More options"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Branch picker (Master sees every branch) and, for Monthly only, the month picker. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="10dp">
+
+        <!-- 🔒 খাতার সারি B84: পুরনো ব্রাঞ্চ Spinner **মোছা হয়নি, শুধু লুকানো** —
+             সব নিয়ম এখনো এটাই চালায়, হেডারের পিল শুধু এটাকে বেছে দেয়। -->
+        <Spinner
+            android:id="@+id/spBranch"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:visibility="gone"
+            android:background="@drawable/bg_branch_chip"
+            android:popupBackground="@color/white" />
+
+        <Spinner
+            android:id="@+id/spMonth"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="@drawable/bg_input_field"
+            android:popupBackground="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="10dp"
+        android:padding="12dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/tvTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₹0"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvSubTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 Transactions"
+            android:textColor="#E8F2FF"
+            android:textSize="11.5sp" />
+
+        <!-- 🟢 B634 (11.08.2026, TK-অনুমোদিত প্রুফ): Today's Collection-এর হুবহু একই
+             Cash/Online/Patients বক্স (একই drawable/রং/মাপ)। সংখ্যা এই পর্দার আগেই-আনা
+             rows থেকেই হিসাব হয় (renderCollection) — নতুন কোনো query/Egress নেই। -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="7dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/bg_pay_box_green"
+                android:paddingVertical="7dp"
+                android:paddingHorizontal="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="💵 Cash"
+                    android:textSize="10.5sp"
+                    android:textStyle="bold"
+                    android:textColor="#0B7A34" />
+
+                <TextView
+                    android:id="@+id/tvClCash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="₹0"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#0B7A34" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="7dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/bg_pay_box_blue"
+                android:paddingVertical="7dp"
+                android:paddingHorizontal="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📱 Online"
+                    android:textSize="10.5sp"
+                    android:textStyle="bold"
+                    android:textColor="#1457B8" />
+
+                <TextView
+                    android:id="@+id/tvClOnline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="₹0"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#1457B8" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/bg_pay_box_purple"
+                android:paddingVertical="7dp"
+                android:paddingHorizontal="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="👥 Patients"
+                    android:textSize="10.5sp"
+                    android:textStyle="bold"
+                    android:textColor="#6B28C9" />
+
+                <TextView
+                    android:id="@+id/tvClPatients"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="0"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#6B28C9" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="No collection found"
+        android:textColor="@color/clinic_text_secondary"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <!-- TK-REQUESTED (2026-07-27): pull the list down to refresh, the same
+         way as Follow-up. Only this wrapper is new; the list inside it,
+         its id and every rule stay exactly as they were. -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:paddingBottom="12dp" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>

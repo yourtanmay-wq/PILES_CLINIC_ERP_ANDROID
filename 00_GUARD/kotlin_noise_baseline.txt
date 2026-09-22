@@ -1,0 +1,1083 @@
+# 🛡️ Kotlin কম্পাইলারের **জানা গোলমাল** (Android SDK নেই বলে)।
+# ⛔ হাতে লিখবেন না — `verify_kotlin_compile.py --update-baseline`
+# প্রতিটা সারি:  ফাইল <TAB> ভুলের বার্তা (সংখ্যা N দিয়ে ঢাকা)
+# মোট: 1079
+com/tkbiswas/pilesclinic/clinical/ClinicalModulesActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/clinical/ClinicalModulesActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/clinical/ClinicalModulesActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/clinical/ClinicalModulesActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/clinical/ClinicalModulesActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/clinical/ClinicalModulesActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/clinical/ClinicalModulesActivity.kt	unresolved reference: setSupportActionBar
+com/tkbiswas/pilesclinic/clinical/ClinicalModulesActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/clinical/ClinicalModulesActivity.kt	unresolved reference: window
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	type mismatch: inferred type is DietChartActivity but Activity was expected
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	type mismatch: inferred type is DietChartActivity but Context was expected
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	type mismatch: inferred type is DietChartActivity but Context! was expected
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	unresolved reference: material
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	unresolved reference: onSaveInstanceState
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	unresolved reference: setSupportActionBar
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	unresolved reference: supportActionBar
+com/tkbiswas/pilesclinic/clinical/DietChartActivity.kt	unresolved reference: window
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	type mismatch: inferred type is DoctorCheckupActivity but Activity was expected
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	type mismatch: inferred type is DoctorCheckupActivity but Context was expected
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	type mismatch: inferred type is DoctorCheckupActivity but Context! was expected
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: RESULT_OK
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: cacheDir
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: checkedIconTint
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: chipBackgroundColor
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: getSystemService
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: isCheckable
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: isCloseIconVisible
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: length
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: material
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: mkdirs
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: onActivityResult
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: onSaveInstanceState
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: registerForActivityResult
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: setTextColor
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: startActivityForResult
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: text
+com/tkbiswas/pilesclinic/clinical/DoctorCheckupActivity.kt	unresolved reference: window
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	type mismatch: inferred type is EstimatePaperActivity but Activity was expected
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	type mismatch: inferred type is EstimatePaperActivity but Context was expected
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	type mismatch: inferred type is EstimatePaperActivity but Context! was expected
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	unresolved reference: RESULT_OK
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	unresolved reference: getSystemService
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	unresolved reference: onRestoreInstanceState
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	unresolved reference: onSaveInstanceState
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	unresolved reference: setResult
+com/tkbiswas/pilesclinic/clinical/EstimatePaperActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/clinical/InvestigationAdapter.kt	unresolved reference: bindingAdapterPosition
+com/tkbiswas/pilesclinic/clinical/InvestigationAdapter.kt	unresolved reference: itemView
+com/tkbiswas/pilesclinic/clinical/InvestigationAdapter.kt	unresolved reference: notifyItemChanged
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	type mismatch: inferred type is InvestigationAdviceActivity but Activity was expected
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	type mismatch: inferred type is InvestigationAdviceActivity but Context was expected
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	type mismatch: inferred type is InvestigationAdviceActivity but Context! was expected
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: cacheDir
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: material
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: mkdirs
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: onSaveInstanceState
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: optJSONArray
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: optString
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: putExtra
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: registerForActivityResult
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: rightMargin
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: setBackgroundResource
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: setTextColor
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: text
+com/tkbiswas/pilesclinic/clinical/InvestigationAdviceActivity.kt	unresolved reference: window
+com/tkbiswas/pilesclinic/clinical/InvestigationCategoryActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/clinical/InvestigationCategoryActivity.kt	type mismatch: inferred type is InvestigationCategoryActivity but Context! was expected
+com/tkbiswas/pilesclinic/clinical/InvestigationCategoryActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/clinical/InvestigationCategoryActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/clinical/InvestigationCategoryActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/clinical/InvestigationCategoryActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/clinical/InvestigationCategoryActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	type mismatch: inferred type is MedicineSlipActivity but Activity was expected
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	type mismatch: inferred type is MedicineSlipActivity but Context was expected
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	type mismatch: inferred type is MedicineSlipActivity but Context? was expected
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	unresolved reference: material
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	unresolved reference: onSaveInstanceState
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	unresolved reference: setSupportActionBar
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/clinical/MedicineSlipActivity.kt	unresolved reference: window
+com/tkbiswas/pilesclinic/clinical/PatientClinicalHistoryActivity.kt	type mismatch: inferred type is PatientClinicalHistoryActivity but Context? was expected
+com/tkbiswas/pilesclinic/clinical/PatientClinicalHistoryActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/clinical/PatientClinicalHistoryActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/clinical/PatientClinicalHistoryActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/clinical/PatientClinicalHistoryActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/clinical/PatientClinicalHistoryActivity.kt	unresolved reference: onSaveInstanceState
+com/tkbiswas/pilesclinic/clinical/PatientClinicalHistoryActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/clinical/PatientClinicalHistoryActivity.kt	unresolved reference: setSupportActionBar
+com/tkbiswas/pilesclinic/clinical/PatientClinicalHistoryActivity.kt	unresolved reference: window
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	type mismatch: inferred type is PrescriptionActivity but Activity was expected
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	type mismatch: inferred type is PrescriptionActivity but Context was expected
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: material
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: notifyItemRemoved
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: onSaveInstanceState
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: setSupportActionBar
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/clinical/PrescriptionActivity.kt	unresolved reference: window
+com/tkbiswas/pilesclinic/clinical/PrescriptionAdapter.kt	unresolved reference: bindingAdapterPosition
+com/tkbiswas/pilesclinic/clinical/PriceListActivity.kt	type mismatch: inferred type is PriceListActivity but Activity was expected
+com/tkbiswas/pilesclinic/clinical/PriceListActivity.kt	type mismatch: inferred type is PriceListActivity but Context was expected
+com/tkbiswas/pilesclinic/clinical/PriceListActivity.kt	type mismatch: inferred type is PriceListActivity but Context! was expected
+com/tkbiswas/pilesclinic/clinical/PriceListActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/data/local/AppDatabase.kt	unresolved reference: close
+com/tkbiswas/pilesclinic/data/remote/RetrofitProvider.kt	unresolved reference: gson
+com/tkbiswas/pilesclinic/data/remote/RetrofitProvider.kt	unresolved reference: level
+com/tkbiswas/pilesclinic/data/remote/RetrofitProvider.kt	unresolved reference: retrofitN
+com/tkbiswas/pilesclinic/data/remote/SupabaseAuthApi.kt	unresolved reference: retrofitN
+com/tkbiswas/pilesclinic/data/remote/SyncApis.kt	unresolved reference: retrofitN
+com/tkbiswas/pilesclinic/data/repository/AuthRepository.kt	suspension functions can be called only within coroutine body
+com/tkbiswas/pilesclinic/data/repository/SyncManager.kt	property delegate must have a 'getValue(SyncManager, KProperty<*>)' method. None of the following functions is suitable:
+com/tkbiswas/pilesclinic/data/repository/SyncManager.kt	suspension functions can be called only within coroutine body
+com/tkbiswas/pilesclinic/data/session/SessionManager.kt	property delegate must have a 'getValue(SessionManager, KProperty<*>)' method. None of the following functions is suitable:
+com/tkbiswas/pilesclinic/data/sync/SyncWorker.kt	one type argument expected for class Result<out T>
+com/tkbiswas/pilesclinic/data/sync/SyncWorker.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/data/sync/SyncWorker.kt	unresolved reference: retry
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	type mismatch: inferred type is FieldVisitActivity but Activity was expected
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	type mismatch: inferred type is FieldVisitActivity but Context was expected
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	type mismatch: inferred type is FieldVisitActivity but Context! was expected
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: cacheDir
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: controller
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: invalidate
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: layoutParams
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: onDestroy
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: onPause
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: osmdroid
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: position
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: setAnchor
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: setMultiTouchControls
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: setPoints
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: setTileSource
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/modules/FieldVisitActivity.kt	unresolved reference: title
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	type mismatch: inferred type is IncomeExpenseActivity but Activity was expected
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	type mismatch: inferred type is IncomeExpenseActivity but Context was expected
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	type mismatch: inferred type is IncomeExpenseActivity but Context! was expected
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	unresolved reference: getSystemService
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/modules/IncomeExpenseActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/modules/ModuleAuth.kt	'return' is not allowed here
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	type mismatch: inferred type is StaffProfileActivity but Activity was expected
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	type mismatch: inferred type is StaffProfileActivity but Context was expected
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	type mismatch: inferred type is StaffProfileActivity but Context! was expected
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	unresolved reference: getSystemService
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	unresolved reference: optLong
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	unresolved reference: registerForActivityResult
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/modules/StaffProfileActivity.kt	unresolved reference: theme
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	type mismatch: inferred type is WorkNotebookActivity but Activity was expected
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	type mismatch: inferred type is WorkNotebookActivity but Context was expected
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	type mismatch: inferred type is WorkNotebookActivity but Context! was expected
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	type mismatch: inferred type is WorkNotebookActivity but Context? was expected
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: getSystemService
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: registerForActivityResult
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/modules/WorkNotebookActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/AppVersionCheck.kt	property delegate must have a 'getValue(AppVersionCheck, KProperty<*>)' method. None of the following functions is suitable:
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	suspend function 'checkDuplicate' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	type mismatch: inferred type is AppointmentActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	type mismatch: inferred type is AppointmentActivity but Context was expected
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	type mismatch: inferred type is AppointmentActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	type mismatch: inferred type is AppointmentActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	unresolved reference: material
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	unresolved reference: setSupportActionBar
+com/tkbiswas/pilesclinic/native/AppointmentActivity.kt	unresolved reference: window
+com/tkbiswas/pilesclinic/native/AttendanceReminderWorker.kt	one type argument expected for class Result<out T>
+com/tkbiswas/pilesclinic/native/AttendanceReminderWorker.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/AttendanceReminderWorker.kt	unresolved reference: inputData
+com/tkbiswas/pilesclinic/native/BackgroundRefreshWorker.kt	one type argument expected for class Result<out T>
+com/tkbiswas/pilesclinic/native/BackgroundRefreshWorker.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	type mismatch: inferred type is BriefingActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	type mismatch: inferred type is BriefingActivity but Context was expected
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	type mismatch: inferred type is BriefingActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	type mismatch: inferred type is BriefingActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	type mismatch: inferred type is JSONArray? but JSONArray was expected
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference. None of the following candidates is applicable because of receiver type mismatch:
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: childCount
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: getChildAt
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: layoutParams
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: length
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: marginStart
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: optJSONObject
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: post
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: theme
+com/tkbiswas/pilesclinic/native/BriefingActivity.kt	unresolved reference: width
+com/tkbiswas/pilesclinic/native/BriefingAdapter.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/BriefingAdapter.kt	unresolved reference: itemView
+com/tkbiswas/pilesclinic/native/BriefingAdapter.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/BriefingAdapter.kt	unresolved reference: notifyItemRemoved
+com/tkbiswas/pilesclinic/native/BriefingReminderWorker.kt	one type argument expected for class Result<out T>
+com/tkbiswas/pilesclinic/native/BriefingReminderWorker.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/CallIdSetupActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/CallIdSetupActivity.kt	type mismatch: inferred type is CallIdSetupActivity but Context was expected
+com/tkbiswas/pilesclinic/native/CallIdSetupActivity.kt	type mismatch: inferred type is CallIdSetupActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/CallIdSetupActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/CallIdSetupActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/native/CallIdSetupActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/CallIdSetupActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/CallIdSetupActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/native/CallIdSetupActivity.kt	unresolved reference: registerForActivityResult
+com/tkbiswas/pilesclinic/native/CallIdSetupActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/CallIdSetupActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/CallIdSetupActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/CallRemarkActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/CallRemarkActivity.kt	type mismatch: inferred type is CallRemarkActivity but Context was expected
+com/tkbiswas/pilesclinic/native/CallRemarkActivity.kt	type mismatch: inferred type is CallRemarkActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/CallRemarkActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/CallRemarkActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/CallRemarkActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/CallRemarkActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/CallRemarkActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/CallRemarkActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/CallReminderWorker.kt	one type argument expected for class Result<out T>
+com/tkbiswas/pilesclinic/native/CallReminderWorker.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	suspend function 'askWhichByName' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	suspend function 'askWhichChamberPatient' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	suspend function 'resolveBestFollowUpId' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	suspend function 'resolveOrHealFollowUpId' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	suspend function 'saveExpectedFromChamber' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	suspend function 'searchByNameForExpected' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	type mismatch: inferred type is ChamberAttendanceActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	type mismatch: inferred type is ChamberAttendanceActivity but Context was expected
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	type mismatch: inferred type is ChamberAttendanceActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	type mismatch: inferred type is ChamberAttendanceActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	type mismatch: inferred type is Unit but String was expected
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: bill
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: cacheDir
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: findFirstVisibleItemPosition
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: findViewByPosition
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: itemCount
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: mainLooper
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: mkdirs
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: onPause
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: onWindowFocusChanged
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: paid
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: setDropDownViewResource
+com/tkbiswas/pilesclinic/native/ChamberAttendanceActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/ChamberAttendanceAdapter.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/ChamberAttendanceAdapter.kt	unresolved reference: itemView
+com/tkbiswas/pilesclinic/native/ChamberAttendanceAdapter.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/ChamberBacklogReminderWorker.kt	one type argument expected for class Result<out T>
+com/tkbiswas/pilesclinic/native/ChamberBacklogReminderWorker.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	type mismatch: inferred type is ChamberCloseActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	type mismatch: inferred type is ChamberCloseActivity but Context was expected
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	type mismatch: inferred type is ChamberCloseActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	type mismatch: inferred type is ChamberCloseActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	unresolved reference: setDropDownViewResource
+com/tkbiswas/pilesclinic/native/ChamberCloseActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/ChamberCloseReminderWorker.kt	one type argument expected for class Result<out T>
+com/tkbiswas/pilesclinic/native/ChamberCloseReminderWorker.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/ChamberColumnHeaderAdapter.kt	unresolved reference: itemView
+com/tkbiswas/pilesclinic/native/ChamberHeaderAdapter.kt	unresolved reference: itemView
+com/tkbiswas/pilesclinic/native/CloudBackup.kt	suspension functions can be called only within coroutine body
+com/tkbiswas/pilesclinic/native/CloudPasswordCheck.kt	'return' is not allowed here
+com/tkbiswas/pilesclinic/native/CollectionAdapter.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/CollectionAdapter.kt	unresolved reference: itemView
+com/tkbiswas/pilesclinic/native/CollectionAdapter.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	type mismatch: inferred type is CollectionListActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	type mismatch: inferred type is CollectionListActivity but Context was expected
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	type mismatch: inferred type is CollectionListActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	type mismatch: inferred type is CollectionListActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: itemCount
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: onPause
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: onWindowFocusChanged
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/CollectionListActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	suspend function 'exportIfStale' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	type mismatch: inferred type is DashboardActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	type mismatch: inferred type is DashboardActivity but Context was expected
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	type mismatch: inferred type is DashboardActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	type mismatch: inferred type is DashboardActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: await
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: getSystemService
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: mainLooper
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/DashboardActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	type mismatch: inferred type is DialerActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	type mismatch: inferred type is DialerActivity but Context was expected
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	type mismatch: inferred type is DialerActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: currentFocus
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: getSystemService
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: onBackPressed
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: packageManager
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: registerForActivityResult
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: setOnClickListener
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: setOnTouchListener
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/DialerActivity.kt	unresolved reference: window
+com/tkbiswas/pilesclinic/native/DiseaseDetailActivity.kt	type mismatch: inferred type is DiseaseDetailActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/DiseaseDetailActivity.kt	type mismatch: inferred type is DiseaseDetailActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/DiseaseDetailActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/native/DiseaseDetailActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/DiseaseDetailActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/DiseaseDetailActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/DiseaseDetailActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/DiseaseDetailActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	type mismatch: inferred type is DoctorQueueActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	type mismatch: inferred type is DoctorQueueActivity but Context was expected
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	type mismatch: inferred type is DoctorQueueActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	type mismatch: inferred type is DoctorQueueActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	unresolved reference: onPause
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	unresolved reference: onWindowFocusChanged
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/DoctorQueueActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/DoctorQueueAdapter.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/DoctorQueueAdapter.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/DoctorReminderActivity.kt	type mismatch: inferred type is DoctorReminderActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/DoctorReminderActivity.kt	type mismatch: inferred type is DoctorReminderActivity but Context was expected
+com/tkbiswas/pilesclinic/native/DoctorReminderActivity.kt	type mismatch: inferred type is DoctorReminderActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/DoctorReminderActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/DoctorReminderActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/DoctorReminderActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/DoctorReminderActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/DoctorReminderActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/DoctorReminderWorker.kt	one type argument expected for class Result<out T>
+com/tkbiswas/pilesclinic/native/DoctorReminderWorker.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	suspend function 'findVisitPatient' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	type mismatch: inferred type is DoctorVisitActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	type mismatch: inferred type is DoctorVisitActivity but Context was expected
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	type mismatch: inferred type is DoctorVisitActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	type mismatch: inferred type is DoctorVisitActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	type mismatch: inferred type is Triple<DoctorVisitItem, ???, Boolean> but Nothing? was expected
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference. None of the following candidates is applicable because of receiver type mismatch:
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: cacheDir
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: due
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: length
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: mkdirs
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: optJSONObject
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/DoctorVisitActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/DoctorVisitAdapter.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/DoctorVisitAdapter.kt	unresolved reference: itemView
+com/tkbiswas/pilesclinic/native/DoctorVisitAdapter.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/DraftActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/DraftActivity.kt	type mismatch: inferred type is DraftActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/DraftActivity.kt	type mismatch: inferred type is DraftActivity but Context was expected
+com/tkbiswas/pilesclinic/native/DraftActivity.kt	type mismatch: inferred type is DraftActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/DraftActivity.kt	type mismatch: inferred type is DraftActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/DraftActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/DraftActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/DraftActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/DraftActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/DraftActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/DraftActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/DraftActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/DraftCardAdapter.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/DraftCardAdapter.kt	unresolved reference: itemView
+com/tkbiswas/pilesclinic/native/DraftCardAdapter.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	type mismatch: inferred type is DraftListActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	type mismatch: inferred type is DraftListActivity but Context was expected
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	type mismatch: inferred type is DraftListActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	type mismatch: inferred type is DraftListActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	unresolved reference: exists
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	unresolved reference: name
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/DraftListActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/DuplicateCheckActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/DuplicateCheckActivity.kt	type mismatch: inferred type is DuplicateCheckActivity but Context was expected
+com/tkbiswas/pilesclinic/native/DuplicateCheckActivity.kt	type mismatch: inferred type is DuplicateCheckActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/DuplicateCheckActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/DuplicateCheckActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/DuplicateCheckActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/DuplicateCheckActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/DuplicateCheckActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/DuplicateCheckActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/DuplicateCheckActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	suspend function 'askWhichRestorePatient' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	suspend function 'checkDuplicate' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	type mismatch: inferred type is EnquiryActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	type mismatch: inferred type is EnquiryActivity but Context was expected
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	type mismatch: inferred type is EnquiryActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/EnquiryActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	type mismatch: inferred type is ExpectedTomorrowActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	type mismatch: inferred type is ExpectedTomorrowActivity but Context was expected
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	type mismatch: inferred type is ExpectedTomorrowActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowReminderWorker.kt	one type argument expected for class Result<out T>
+com/tkbiswas/pilesclinic/native/ExpectedTomorrowReminderWorker.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/ExportDataActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/ExportDataActivity.kt	type mismatch: inferred type is ExportDataActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/ExportDataActivity.kt	type mismatch: inferred type is ExportDataActivity but Context was expected
+com/tkbiswas/pilesclinic/native/ExportDataActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/ExportDataActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/ExportDataActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/ExportDataActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/ExportDataActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/native/ExportDataActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/ExportDataActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/FieldVisitAlertWorker.kt	one type argument expected for class Result<out T>
+com/tkbiswas/pilesclinic/native/FieldVisitAlertWorker.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	type mismatch: inferred type is FollowCalendarActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	type mismatch: inferred type is FollowCalendarActivity but Context was expected
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	type mismatch: inferred type is FollowCalendarActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	type mismatch: inferred type is FollowCalendarActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	unresolved reference: marginEnd
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/FollowCalendarActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	property delegate must have a 'getValue(FollowUpActivity, KProperty<*>)' method. None of the following functions is suitable:
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	type mismatch: inferred type is FollowUpActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	type mismatch: inferred type is FollowUpActivity but Context was expected
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	type mismatch: inferred type is FollowUpActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	type mismatch: inferred type is FollowUpActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: getColor
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: getSystemService
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: isClickable
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: isFocusable
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: itemCount
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: onPause
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: onWindowFocusChanged
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: setOnClickListener
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/FollowUpActivity.kt	unresolved reference: theme
+com/tkbiswas/pilesclinic/native/FollowUpAdapter.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/FollowUpAdapter.kt	unresolved reference: itemView
+com/tkbiswas/pilesclinic/native/FollowUpAdapter.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/FollowUpRepository.kt	function '<Error function>' should return Unit to be used by corresponding operator '+='
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	type mismatch: inferred type is GlobalSearchActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	type mismatch: inferred type is GlobalSearchActivity but Context was expected
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	type mismatch: inferred type is GlobalSearchActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	type mismatch: inferred type is GlobalSearchActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	unresolved reference: setMargins
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	unresolved reference: setSupportActionBar
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/GlobalSearchActivity.kt	unresolved reference: window
+com/tkbiswas/pilesclinic/native/LoginActivity.kt	'when' expression must be exhaustive, add necessary 'else' branch
+com/tkbiswas/pilesclinic/native/LoginActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/LoginActivity.kt	type mismatch: inferred type is LoginActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/LoginActivity.kt	type mismatch: inferred type is LoginActivity but Context was expected
+com/tkbiswas/pilesclinic/native/LoginActivity.kt	type mismatch: inferred type is LoginActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/LoginActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/LoginActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/LoginActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/LoginActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/native/LoginActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/LoginActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/LoginActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/LoginActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/MasterOutTimeWorker.kt	one type argument expected for class Result<out T>
+com/tkbiswas/pilesclinic/native/MasterOutTimeWorker.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	type mismatch: inferred type is JSONArray? but JSONArray was expected
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	type mismatch: inferred type is MedicinePaymentActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	type mismatch: inferred type is MedicinePaymentActivity but Context was expected
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	type mismatch: inferred type is MedicinePaymentActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	type mismatch: inferred type is MedicinePaymentActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	type mismatch: inferred type is Nothing? but JSONArray was expected
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	unresolved reference: getSystemService
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	unresolved reference: material
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	unresolved reference: setSupportActionBar
+com/tkbiswas/pilesclinic/native/MedicinePaymentActivity.kt	unresolved reference: window
+com/tkbiswas/pilesclinic/native/MoneyHandoverActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/MoneyHandoverActivity.kt	type mismatch: inferred type is MoneyHandoverActivity but Context was expected
+com/tkbiswas/pilesclinic/native/MoneyHandoverActivity.kt	type mismatch: inferred type is MoneyHandoverActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/MoneyHandoverActivity.kt	type mismatch: inferred type is MoneyHandoverActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/MoneyHandoverActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/MoneyHandoverActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/MoneyHandoverActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/MoneyHandoverActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/MoneyHandoverActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	type mismatch: inferred type is MoreMenuActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	type mismatch: inferred type is MoreMenuActivity but Context was expected
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	type mismatch: inferred type is MoreMenuActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	type mismatch: inferred type is MoreMenuActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/MoreMenuActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/NotificationsActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/NotificationsActivity.kt	type mismatch: inferred type is NotificationsActivity but Context was expected
+com/tkbiswas/pilesclinic/native/NotificationsActivity.kt	type mismatch: inferred type is NotificationsActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/NotificationsActivity.kt	type mismatch: inferred type is NotificationsActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/NotificationsActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/native/NotificationsActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/NotificationsActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/NotificationsActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/NotificationsActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/NotificationsActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/NotificationsActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/NotificationsActivity.kt	unresolved reference: theme
+com/tkbiswas/pilesclinic/native/ParallelCloud.kt	unresolved reference: await
+com/tkbiswas/pilesclinic/native/PasswordCenterActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/PasswordCenterActivity.kt	type mismatch: inferred type is PasswordCenterActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/PasswordCenterActivity.kt	type mismatch: inferred type is PasswordCenterActivity but Context was expected
+com/tkbiswas/pilesclinic/native/PasswordCenterActivity.kt	type mismatch: inferred type is PasswordCenterActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/PasswordCenterActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/PasswordCenterActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/PasswordCenterActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/PasswordCenterActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/PasswordCenterActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/PasswordCenterAdapter.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/PasswordCenterAdapter.kt	unresolved reference: itemView
+com/tkbiswas/pilesclinic/native/PasswordCenterAdapter.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	suspend function 'askWhichPatient' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	type mismatch: inferred type is PatientPhotoActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	type mismatch: inferred type is PatientPhotoActivity but Context was expected
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	unresolved reference: cacheDir
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	unresolved reference: mkdirs
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	unresolved reference: registerForActivityResult
+com/tkbiswas/pilesclinic/native/PatientPhotoActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	type mismatch: inferred type is PatientTimelineActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	type mismatch: inferred type is PatientTimelineActivity but Context was expected
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	type mismatch: inferred type is PatientTimelineActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	type mismatch: inferred type is PatientTimelineActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: getSystemService
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: marginEnd
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: onPause
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: setNeutralButton
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/PatientTimelineActivity.kt	unresolved reference: theme
+com/tkbiswas/pilesclinic/native/PatientTimelineRepository.kt	unresolved reference: length
+com/tkbiswas/pilesclinic/native/PatientTimelineRepository.kt	unresolved reference: optDouble
+com/tkbiswas/pilesclinic/native/PatientTimelineRepository.kt	unresolved reference: optJSONArray
+com/tkbiswas/pilesclinic/native/PatientTimelineRepository.kt	unresolved reference: optJSONObject
+com/tkbiswas/pilesclinic/native/PatientTimelineRepository.kt	unresolved reference: optString
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	suspend function 'askWhichPatient' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	type mismatch: inferred type is PaymentActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	type mismatch: inferred type is PaymentActivity but Context was expected
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	type mismatch: inferred type is PaymentActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	type mismatch: inferred type is PaymentActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: backgroundTintList
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: cornerRadius
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: getSystemService
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: insetBottom
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: insetTop
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: letterSpacing
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: material
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: maxLines
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: minWidth
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: minimumWidth
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: onPause
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: onWindowFocusChanged
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: setPadding
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: setTextColor
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: strokeColor
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: text
+com/tkbiswas/pilesclinic/native/PaymentActivity.kt	unresolved reference: textSize
+com/tkbiswas/pilesclinic/native/PublicSiteActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/PublicSiteActivity.kt	type mismatch: inferred type is PublicSiteActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/PublicSiteActivity.kt	type mismatch: inferred type is PublicSiteActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/PublicSiteActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/native/PublicSiteActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/PublicSiteActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/PublicSiteActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/PublicSiteActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/PushService.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/PushService.kt	unresolved reference: firebase
+com/tkbiswas/pilesclinic/native/PushTokenSync.kt	unresolved reference: firebase
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	type mismatch: inferred type is RegistrationActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	type mismatch: inferred type is RegistrationActivity but Context was expected
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	type mismatch: inferred type is RegistrationActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	type mismatch: inferred type is RegistrationActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: cacheDir
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: checkedIconTint
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: chipBackgroundColor
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: isCheckable
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: isClickable
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: isCloseIconVisible
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: length
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: material
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: mkdirs
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: optJSONObject
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: registerForActivityResult
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: setAllCaps
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: setTextColor
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: text
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: textEndPadding
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: textSize
+com/tkbiswas/pilesclinic/native/RegistrationActivity.kt	unresolved reference: textStartPadding
+com/tkbiswas/pilesclinic/native/ReminderActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/ReminderActivity.kt	type mismatch: inferred type is ReminderActivity but Context was expected
+com/tkbiswas/pilesclinic/native/ReminderActivity.kt	type mismatch: inferred type is ReminderActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/ReminderActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/ReminderActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/ReminderActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/ReminderActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/ReminderActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/ReminderActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/ReminderAddActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/ReminderAddActivity.kt	type mismatch: inferred type is ReminderAddActivity but Context was expected
+com/tkbiswas/pilesclinic/native/ReminderAddActivity.kt	type mismatch: inferred type is ReminderAddActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/ReminderAddActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/ReminderAddActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/ReminderAddActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/ReminderAddActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/ReportCardActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/ReportCardActivity.kt	type mismatch: inferred type is ReportCardActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/ReportCardActivity.kt	type mismatch: inferred type is ReportCardActivity but Context was expected
+com/tkbiswas/pilesclinic/native/ReportCardActivity.kt	type mismatch: inferred type is ReportCardActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/ReportCardActivity.kt	type mismatch: inferred type is ReportCardActivity but Context? was expected
+com/tkbiswas/pilesclinic/native/ReportCardActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/ReportCardActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/ReportCardActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/ReportCardActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/ReportCardActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/ReportCardActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/ReportCardActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	type mismatch: inferred type is ReportsActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	type mismatch: inferred type is ReportsActivity but Context was expected
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	type mismatch: inferred type is ReportsActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	unresolved reference: gravity
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	unresolved reference: marginEnd
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/ReportsActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/RmpCommissionSheetActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/RmpCommissionSheetActivity.kt	type mismatch: inferred type is RmpCommissionSheetActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/RmpCommissionSheetActivity.kt	type mismatch: inferred type is RmpCommissionSheetActivity but Context was expected
+com/tkbiswas/pilesclinic/native/RmpCommissionSheetActivity.kt	type mismatch: inferred type is RmpCommissionSheetActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/RmpCommissionSheetActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/RmpCommissionSheetActivity.kt	unresolved reference: getSystemService
+com/tkbiswas/pilesclinic/native/RmpCommissionSheetActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/RmpCommissionSheetActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/RmpCommissionSheetActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/RmpCommissionSheetActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/RmpCommissionSheetActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/RmpCommissionSheetActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/SupabaseAuth.kt	'return' is not allowed here
+com/tkbiswas/pilesclinic/native/SupabaseAuth.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/SupabaseClient.kt	'return' is not allowed here
+com/tkbiswas/pilesclinic/native/SupabaseClient.kt	type mismatch: inferred type is Pair<???, ???> but Nothing? was expected
+com/tkbiswas/pilesclinic/native/SupabaseClient.kt	unresolved reference: maxRequests
+com/tkbiswas/pilesclinic/native/SupabaseClient.kt	unresolved reference: maxRequestsPerHost
+com/tkbiswas/pilesclinic/native/SupabaseClient.kt	unresolved reference: optString
+com/tkbiswas/pilesclinic/native/SuspendedActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/SuspendedActivity.kt	type mismatch: inferred type is SuspendedActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/SuspendedActivity.kt	type mismatch: inferred type is SuspendedActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/SuspendedActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/SuspendedActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/SuspendedActivity.kt	unresolved reference: onBackPressed
+com/tkbiswas/pilesclinic/native/SuspendedActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/SuspendedActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/SuspendedActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/SuspendedActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/TimelineAdapter.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/TimelineAdapter.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/TrashAdapter.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/TrashAdapter.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	type mismatch: inferred type is TrashBinActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	type mismatch: inferred type is TrashBinActivity but Context was expected
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	type mismatch: inferred type is TrashBinActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	unresolved reference: getSharedPreferences
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	unresolved reference: notifyDataSetChanged
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	unresolved reference: onResume
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/TrashBinActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/TrashSourceCard.kt	unresolved reference: itemView
+com/tkbiswas/pilesclinic/native/TrashSourceCard.kt	unresolved reference: layoutParams
+com/tkbiswas/pilesclinic/native/UnexpectedEnquiryActivity.kt	type mismatch: inferred type is UnexpectedEnquiryActivity but Context was expected
+com/tkbiswas/pilesclinic/native/UnexpectedEnquiryActivity.kt	type mismatch: inferred type is UnexpectedEnquiryActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/UnexpectedEnquiryActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/UnexpectedEnquiryActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/UnexpectedEnquiryActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/UnexpectedEnquiryActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/UnexpectedEnquiryActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/UnexpectedEnquiryActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/UnexpectedEnquiryActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/UnexpectedEnquiryActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/UserPhotoActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/UserPhotoActivity.kt	type mismatch: inferred type is UserPhotoActivity but Activity was expected
+com/tkbiswas/pilesclinic/native/UserPhotoActivity.kt	type mismatch: inferred type is UserPhotoActivity but Context was expected
+com/tkbiswas/pilesclinic/native/UserPhotoActivity.kt	unresolved reference: cacheDir
+com/tkbiswas/pilesclinic/native/UserPhotoActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/UserPhotoActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/UserPhotoActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/UserPhotoActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/UserPhotoActivity.kt	unresolved reference: mkdirs
+com/tkbiswas/pilesclinic/native/UserPhotoActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/UserPhotoActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/native/UserPhotoActivity.kt	unresolved reference: registerForActivityResult
+com/tkbiswas/pilesclinic/native/UserPhotoActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/VoiceReportDetailActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/VoiceReportDetailActivity.kt	type mismatch: inferred type is VoiceReportDetailActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/VoiceReportDetailActivity.kt	unresolved reference: databinding
+com/tkbiswas/pilesclinic/native/VoiceReportDetailActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/VoiceReportDetailActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/VoiceReportDetailActivity.kt	unresolved reference: layoutInflater
+com/tkbiswas/pilesclinic/native/VoiceReportDetailActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/VoiceReportDetailActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/VoiceReportDetailActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/VoiceReportDetailActivity.kt	unresolved reference: setSupportActionBar
+com/tkbiswas/pilesclinic/native/VoiceReportDetailActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/native/YearlyRegistrationActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/native/YearlyRegistrationActivity.kt	type mismatch: inferred type is YearlyRegistrationActivity but Context was expected
+com/tkbiswas/pilesclinic/native/YearlyRegistrationActivity.kt	type mismatch: inferred type is YearlyRegistrationActivity but Context! was expected
+com/tkbiswas/pilesclinic/native/YearlyRegistrationActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/native/YearlyRegistrationActivity.kt	unresolved reference: intent
+com/tkbiswas/pilesclinic/native/YearlyRegistrationActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/native/YearlyRegistrationActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/native/YearlyRegistrationActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/native/YearlyRegistrationActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/native/YearlyRegistrationActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/native/YearlyRegistrationActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/native/YearlyRegistrationActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	suspend function 'pickPatientForPrint' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	suspension functions can be called only within coroutine body
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	type mismatch: inferred type is PrintCenterActivity but Activity was expected
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	type mismatch: inferred type is PrintCenterActivity but Context was expected
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	type mismatch: inferred type is PrintCenterActivity but Context! was expected
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	type mismatch: inferred type is PrintCenterActivity but Context? was expected
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: applicationContext
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: backgroundTintList
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: cornerRadius
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: icon
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: iconTint
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: isDestroyed
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: isFinishing
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: material
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: onSaveInstanceState
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: resources
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: setSupportActionBar
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: setTextColor
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: strokeColor
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: text
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: textSize
+com/tkbiswas/pilesclinic/print/PrintCenterActivity.kt	unresolved reference: window
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	type mismatch: inferred type is PrintPreviewActivity but Activity was expected
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	type mismatch: inferred type is PrintPreviewActivity but Context was expected
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: cacheDir
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: filesDir
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: getExternalFilesDir
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: getSystemService
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: material
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: mkdirs
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: packageName
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: runOnUiThread
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: setSupportActionBar
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: startActivity
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: supportActionBar
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: text
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: visibility
+com/tkbiswas/pilesclinic/print/PrintPreviewActivity.kt	unresolved reference: window
+com/tkbiswas/pilesclinic/print/QrCodeGenerator.kt	unresolved reference: zxing
+com/tkbiswas/pilesclinic/security/BackupManager.kt	unresolved reference: openHelper
+com/tkbiswas/pilesclinic/security/SettingsActivity.kt	none of the following functions can be called with the arguments supplied:
+com/tkbiswas/pilesclinic/security/SettingsActivity.kt	suspend function 'export' should be called only from a coroutine or another suspend function
+com/tkbiswas/pilesclinic/security/SettingsActivity.kt	type mismatch: inferred type is SettingsActivity but Activity was expected
+com/tkbiswas/pilesclinic/security/SettingsActivity.kt	type mismatch: inferred type is SettingsActivity but Context was expected
+com/tkbiswas/pilesclinic/security/SettingsActivity.kt	unresolved reference: findViewById
+com/tkbiswas/pilesclinic/security/SettingsActivity.kt	unresolved reference: finish
+com/tkbiswas/pilesclinic/security/SettingsActivity.kt	unresolved reference: getExternalFilesDir
+com/tkbiswas/pilesclinic/security/SettingsActivity.kt	unresolved reference: material
+com/tkbiswas/pilesclinic/security/SettingsActivity.kt	unresolved reference: onCreate
+com/tkbiswas/pilesclinic/security/SettingsActivity.kt	unresolved reference: setContentView
+com/tkbiswas/pilesclinic/security/SettingsActivity.kt	unresolved reference: setSupportActionBar
+com/tkbiswas/pilesclinic/security/SettingsActivity.kt	unresolved reference: window

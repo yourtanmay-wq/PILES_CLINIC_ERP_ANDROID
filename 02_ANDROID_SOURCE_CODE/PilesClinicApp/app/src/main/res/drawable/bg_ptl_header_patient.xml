@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK-APPROVED (2026-07-27, via photo proof): Patient Details header for a
+     PATIENT (Treatment) stage patient. Pale green with a thin darker line
+     along the bottom edge. Header text is dark on this, never white. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#B8D9C0" />
+        </shape>
+    </item>
+    <item android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#ECF7EE" />
+        </shape>
+    </item>
+</layer-list>

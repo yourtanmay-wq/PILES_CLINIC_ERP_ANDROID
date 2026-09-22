@@ -1,0 +1,79 @@
+{
+  "steps": [
+    {
+      "step": "1_Enquiry",
+      "ok": true,
+      "followCreated": true
+    },
+    {
+      "step": "2_Registration",
+      "ok": true,
+      "enquiryClosed": true,
+      "visitFollowCreated": true
+    },
+    {
+      "step": "3_VisitQueue",
+      "ok": true
+    },
+    {
+      "step": "4_DoctorCheckup",
+      "ok": false,
+      "doctorCompleteFlag": true
+    },
+    {
+      "step": "5_Prescription",
+      "ok": true,
+      "recordCount": 1
+    },
+    {
+      "step": "6_Payment",
+      "ok": true,
+      "totals": {
+        "bill": 5000,
+        "paid": 5000,
+        "due": 0,
+        "pct": 100,
+        "pays": [
+          {
+            "id": "pay_mrdhxtgy_dv4qo",
+            "payType": "treatment",
+            "payLabel": "1st Payment",
+            "patientId": "pat_mrdhxtgo_q9hio",
+            "mobile": "+919812345670",
+            "branch": "Kishanganj",
+            "name": "Journey Test Patient",
+            "date": "2026-07-09",
+            "amount": 5000,
+            "mode": "CASH",
+            "remarks": "Full payment",
+            "receivedBy": "TEST",
+            "createdBy": "TEST",
+            "updatedAt": "2026-07-09T12:42:04.786Z",
+            "createdAt": "2026-07-09T12:42:04.786Z"
+          }
+        ]
+      }
+    },
+    {
+      "step": "7_FollowUp",
+      "ok": true
+    },
+    {
+      "step": "8_Completed",
+      "ok": true
+    },
+    {
+      "step": "9_GlobalSearchSanity",
+      "mobile": "9812345670",
+      "note": "checked separately via searchResults() in UI test"
+    }
+  ],
+  "trace": [
+    "after add: count=1",
+    "after ensureFollow: enq count=1 fu count=1",
+    "step1 pushed, ok=true"
+  ],
+  "finalPatientId": "pat_mrdhxtgo_q9hio",
+  "success": false,
+  "jsErrors": []
+}

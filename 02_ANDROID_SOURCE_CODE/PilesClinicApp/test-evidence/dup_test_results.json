@@ -1,0 +1,27 @@
+{
+  "enquiryForm_duplicatePopupShown": true,
+  "enquiryForm_popupMentionsExisting": true,
+  "registrationForm_duplicatePopupShown": true,
+  "registrationForm_hasContinueButton": true,
+  "continueRegistration_opensForm": true,
+  "continueRegistration_prefilledMobile": "+919876500002",
+  "sameNumberDifferentFormats": {
+    "raw": "9876500002",
+    "plus91": "9876500002",
+    "noPlus": "9876500002",
+    "allEqual": true
+  },
+  "patientCount_beforeSecondRegistration": 1,
+  "patientCount_afterSecondRegistration": 1,
+  "noDuplicatePatientCreated": true,
+  "patientRecordAfterMerge": [
+    {
+      "id": "pat_mrcu05j3_s573q",
+      "name": "Existing Registered Patient (re-registered)",
+      "createdAt": "2026-07-09T01:32:02.944Z"
+    }
+  ],
+  "followupPatientStageRowCount": 1,
+  "globalSearch_cardCount": 1,
+  "jsErrors": []
+}

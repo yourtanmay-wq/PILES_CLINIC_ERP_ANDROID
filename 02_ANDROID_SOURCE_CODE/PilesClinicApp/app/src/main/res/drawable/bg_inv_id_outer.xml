@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- V1473 (14.09.2026, TK-approved photo-proof, Option 1) — outer white pill
+     around the patient ID chip on the Investigation Advice header. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#FFFFFF" />
+    <corners android:radius="20dp" />
+    <stroke android:width="1dp" android:color="#B9CBE0" />
+</shape>

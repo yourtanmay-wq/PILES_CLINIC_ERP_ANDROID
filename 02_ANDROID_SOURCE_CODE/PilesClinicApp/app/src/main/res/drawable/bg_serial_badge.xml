@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🟢🔒 V640 (২৪.০৮.২০২৬, TK-নির্দেশ, ডেমো-প্রুফ পাশ) — Payment-এর
+     Today's Collection তালিকায় নামের আগে ছোট গোল সিরিয়াল নম্বর ব্যাজ। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+    <solid android:color="#0B4F2A" />
+</shape>

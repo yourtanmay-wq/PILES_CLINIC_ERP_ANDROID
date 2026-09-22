@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK APPROVED (2026-07-20): purple action button used for Full Journey and
+     Action on the CHECK-UP Queue card. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#7A3FF2" />
+    <corners android:radius="10dp" />
+</shape>

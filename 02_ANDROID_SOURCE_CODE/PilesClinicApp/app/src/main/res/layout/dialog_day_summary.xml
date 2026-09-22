@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+🟢🔒 V1440 (১৩.০৯.২০২৬, TK ছবি-প্রুফে "Option C" পাশ — খাতার সারি ৫৬৪)
+IncomeExpenseActivity.showDaySummary()-এর পপ-আপ, আগে শুধু সাদা লেখার লাইন
+ছিল। TK তিনটে ডিজাইন দেখে "C" (বড় Net সংখ্যা আগে, নিচে দুটো তুলনা-বার) পাশ
+করেছেন — এই লেআউটটা ঠিক সেটাই।
+⛔ হিসাব/নিয়ম কিছুই বদলায়নি — শুধু showDaySummary()-এর plain
+   .setMessage(...) এর বদলে .setView(এই লেআউট) বসেছে। PremiumAlert-এর
+   হেডার ও OK বোতাম আগের মতোই অক্ষত।
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="18dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="4dp">
+
+    <TextView
+        android:id="@+id/tvDsNetLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="NET (Collection − Expense)"
+        android:textAllCaps="true"
+        android:textSize="10.5sp"
+        android:letterSpacing="0.04"
+        android:textStyle="bold"
+        android:textColor="@color/clinic_text_secondary" />
+
+    <TextView
+        android:id="@+id/tvDsNetAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/brand_navy"
+        tools:text="₹19,500" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="18dp" />
+
+    <!-- Collection -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Collection"
+            android:textSize="12.5sp"
+            android:textStyle="bold"
+            android:textColor="#41506A" />
+        <TextView
+            android:id="@+id/tvDsCollAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="@color/clinic_accent_green"
+            tools:text="₹50,100" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_daysum_track">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_daysum_fill_green" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvDsCollSplit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:textSize="10.5sp"
+        android:textColor="@color/clinic_text_secondary"
+        tools:text="Cash ₹33,100 · Online ₹17,000" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="12dp" />
+
+    <!-- Expense -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Expense"
+            android:textSize="12.5sp"
+            android:textStyle="bold"
+            android:textColor="#41506A" />
+        <TextView
+            android:id="@+id/tvDsExpAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="@color/clinic_accent_red"
+            tools:text="₹30,600" />
+    </LinearLayout>
+
+    <!-- ⛔ ভরাটের অনুপাত (Expense ÷ Collection, ০–১০০% বাঁধা) কোডে বসে —
+         দুই ঘরের layout_weight রানটাইমে বসানো হয়, XML-এ শুধু ভিত্তি। -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_daysum_track">
+        <View
+            android:id="@+id/viewDsExpFill"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:background="@drawable/bg_daysum_fill_red" />
+        <View
+            android:id="@+id/viewDsExpSpacer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvDsExpSplit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:textSize="10.5sp"
+        android:textColor="@color/clinic_text_secondary"
+        tools:text="Cash ₹30,600 · Online ₹0" />
+
+    <!-- শেষ জানা তথ্য (offline/stale) হলে এই লাইনটা দেখা যায়, নইলে GONE। -->
+    <TextView
+        android:id="@+id/tvDsStale"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="(শেষ জানা তথ্য — হালনাগাদ হচ্ছে…)"
+        android:textSize="10.5sp"
+        android:textColor="@color/clinic_accent_amber"
+        android:visibility="gone" />
+
+</LinearLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔵🔒 V842 (২৯.০৮.২০২৬, TK-নির্দেশ, ফটো-প্রুফ পাশ) — আগেও এসেছেন এমন
+     রোগীর ব্যাজ। `bg_badge`-এর হুবহু একই আকার (radius 8dp), শুধু রং —
+     গাঢ় নীল, যাতে সবুজ NEW-এর থেকে এক নজরেই আলাদা বোঝা যায়। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#0B3D91" />
+    <corners android:radius="8dp" />
+</shape>

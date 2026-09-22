@@ -1,0 +1,13 @@
+V1519 FINAL VERIFICATION — 17.09.2026
+
+PASS  Live Supabase: payments/patients/followups/enquiries are in supabase_realtime publication.
+PASS  Live Supabase: four updatedAt DESC indexes exist.
+PASS  Measured followups delta: ~3.18 ms seq scan -> ~0.47 ms index scan.
+PASS  Measured payments delta: ~3.82 ms seq scan -> ~0.27 ms index scan.
+PASS  All 14 direct Android payments UPDATE call sites include updatedAt.
+PASS  Realtime core + callback call-pattern compile with local Kotlin compiler/stubs.
+PASS  V1303/V1304 pagination safety retained: exact count, id de-dup, partial-read failure guard.
+PASS  Existing 30-second LiveRefresh count poll retained as fallback.
+PASS  Web source not modified; existing Web Supabase realtime row-merge remains intact.
+PASS  Android versionCode=1519, versionName=15.19.
+LIMIT Full Gradle/Android compile could not run here: Gradle 8.5 distribution is not cached and outbound services.gradle.org is blocked; Android SDK is also unavailable in this execution environment.

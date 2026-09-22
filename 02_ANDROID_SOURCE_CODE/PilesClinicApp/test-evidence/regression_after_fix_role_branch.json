@@ -1,0 +1,8 @@
+{
+  "master_seesBoth": true,
+  "staffA_seesOwnBranch": true,
+  "staffA_hidesOtherBranch": true,
+  "staffB_seesOwnBranch": true,
+  "staffB_hidesOtherBranch": true,
+  "creatorOverride_stillSeesOwnCreatedRecord": true
+}

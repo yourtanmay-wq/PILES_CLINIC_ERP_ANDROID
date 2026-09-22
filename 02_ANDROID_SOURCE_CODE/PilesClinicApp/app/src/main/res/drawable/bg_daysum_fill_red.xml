@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🟢🔒 V1440 — একই পপ-আপ, Expense বারের ভরাট (Collection-এর তুলনায় অনুপাতে)। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/clinic_accent_red" />
+    <corners android:radius="99dp" />
+</shape>

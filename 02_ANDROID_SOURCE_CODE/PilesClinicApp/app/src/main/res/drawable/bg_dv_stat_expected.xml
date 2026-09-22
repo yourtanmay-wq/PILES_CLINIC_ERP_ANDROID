@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔒 TK-APPROVED (30.07.2026 রাত, খাতার সারি B193): নতুন "EXPECTED" বক্সের
+     রং — বাকি তিনটে (Pending কমলা, Called সবুজ, All RMP বেগুনি) থেকে
+     আলাদা করা যায় সেজন্য গোলাপি/ম্যাজেন্টা। bg_dv_stat_today.xml-এর হুবহু
+     একই ধরন, শুধু রং বদলানো। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient android:type="linear" android:angle="135" android:startColor="#FDF2F8" android:endColor="#FCE0EC" />
+    <corners android:radius="14dp" />
+    <stroke android:width="1dp" android:color="#FFFFFF" />
+</shape>

@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:background="@drawable/bg_login_hero">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:padding="4dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Draft"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- 🔒 TK-REQUESTED (28.07.2026, খাতার সারি B43): *"আমি মাস্টার — সমস্ত
+             জায়গায় আমি চাইলে ব্রাঞ্চ চুজ করতে পারি, চাইলে অল ব্রাঞ্চ রাখতে পারি।"*
+             ⛔ Follow-up পর্দায় TK-এর আগেই পাশ করা **হুবহু একই বাক্স** — একই
+             ড্রয়েবল, একই মাপ, একই লেখা। নতুন কোনো ডিজাইন নয়।
+             ⛔ ডান দিকে, শিরোনামের সঙ্গে গা-ঘেঁষা নয় (নিজের ফাঁক আছে)।
+             ডিফল্টে লুকানো — শুধু মাস্টারের পর্দায় দেখা যায়। -->
+        <TextView
+            android:id="@+id/branchPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_branch_pill"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="🏥 All Branch ▾"
+            android:textColor="@color/white"
+            android:textSize="10.5sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Filter: All / This Month / Custom Date -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="12dp">
+
+        <TextView
+            android:id="@+id/chipAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:background="@drawable/bg_chip_seg_on"
+            android:text="All"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/chipMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:background="@drawable/bg_chip_seg"
+            android:text="This Month"
+            android:textColor="#0B2B59"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/chipCustom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:background="@drawable/bg_chip_seg"
+            android:text="⏰ Custom Date"
+            android:textColor="#0B2B59"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvFilterInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="6dp"
+        android:text=""
+        android:textColor="#667085"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressLoad"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+    <!-- 🔴🎨🔒 TK-নির্দেশ (07.08.2026 · রাত ~১২:১৫, ফটো-প্রুফ অনুমোদনের পরে) —
+         "এবার ওটাকে প্রফেশনাল বানাতে হবে"। আগে সাতটা ঘরই ছিল বড়, ভরাট-রঙের
+         `<Button>` (সব লেখা বড় হাতের, সংখ্যা লেখার সাথে "— 141" ভাবে জোড়া)।
+         এখন প্রতিটা ঘর একটা সাদা কার্ড: বাঁয়ে নিজের রঙের সরু দাগ + হালকা রঙের
+         আইকন-বাক্স, মাঝে নাম ও ছোট ব্যাখ্যা, ডানে বড় করে সংখ্যা ও "›" চিহ্ন।
+         B539-এর অনুমোদিত ক্রম অনুযায়ী দুই ভাগে — 📩 ENQUIRY (৪টি) ও
+         🧑‍⚕️ PATIENT (৩টি)।
+         ⛔ **প্রতিটা ঘরের `id` হুবহু আগেরটাই** (btnReceived/btnUnexpectedTime/
+            btnEnqReject/btnVisitReject/btnNotComplete/btnComplete/btnRefunded) —
+            তাই `DraftActivity`-র ক্লিক-অ্যাকশন ও তালিকা-লোডের কোড অপরিবর্তিত।
+         ⛔ প্রতিটার নিজের রংও আগেরটাই, শুধু এখন দাগ/আইকন/সংখ্যায় ব্যবহার।
+         ⛔ সংখ্যাটা এখন আলাদা `tvCount*` ঘরে বসে (আগে বোতামের লেখার সাথে
+            জোড়া ছিল) — `DraftActivity`-তে সেই সাতটা লাইনই শুধু বদলেছে। -->
+    <!-- 🔴🔒 V852 (৩০.০৮.২০২৬, TK-রিপোর্ট: *"স্ক্রোল করা যাচ্ছে না"* ·
+         *"refunded তার নিচে একটা লাইন মনে হচ্ছে আধাদুরা কিছু রয়ে গেছে"*) —
+         **আসল কারণ (কোড ধরে যাচাই, আন্দাজ নয়):** এই পর্দায় স্ক্রলের কোনো
+         ব্যবস্থাই ছিল না — পুরো তালিকা একটা সাধারণ LinearLayout-এ বসানো,
+         তাই পর্দার উচ্চতার বাইরে চলে যাওয়া শেষ সারিটা ("Return Visit")
+         অর্ধেক কাটা অবস্থায় থাকত আর কোনোভাবেই নাগাল পাওয়া যেত না।
+         এখন পুরো তালিকা ScrollView-এর ভিতরে; নিচের BottomNav আগের মতোই
+         স্থির থাকে। ⛔ একটাও সারি/আইডি/রং বদলায়নি — শুধু স্ক্রল যোগ। -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:overScrollMode="never">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="4dp"
+        android:paddingBottom="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="14dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="3dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📩" android:textSize="12sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:text="ENQUIRY" android:textStyle="bold" android:textSize="12sp" android:textColor="#0B3B73" />
+            <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" android:layout_marginStart="8dp" android:background="#DBE3EA" />
+            <View android:layout_width="6dp" android:layout_height="6dp" android:layout_marginStart="8dp" android:background="@drawable/bg_more_dot" android:backgroundTint="#1D6FE0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnReceived"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="7dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_more_card"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="#1D6FE0" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="9dp">
+
+                <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_more_icon_badge"
+                    android:backgroundTint="#E8F0FC">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="📥" android:textSize="15sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="My Enquiry" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#101828" android:maxLines="1" android:ellipsize="end" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="All branch" android:textSize="9.5sp" android:textColor="#7A8794" android:maxLines="1" android:ellipsize="end" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvCountReceived"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#1D6FE0" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="›" android:textSize="15sp" android:textColor="#C3CCD5" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnUnexpectedTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="7dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_more_card"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="#6A4C93" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="9dp">
+
+                <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_more_icon_badge"
+                    android:backgroundTint="#EFEAF7">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="🌙" android:textSize="15sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Unexpected Time Calls" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#101828" android:maxLines="1" android:ellipsize="end" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Off-hour enquiries" android:textSize="9.5sp" android:textColor="#7A8794" android:maxLines="1" android:ellipsize="end" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvCountUnexpected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#6A4C93" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="›" android:textSize="15sp" android:textColor="#C3CCD5" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnEnqReject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="7dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_more_card"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="#B8324A" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="9dp">
+
+                <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_more_icon_badge"
+                    android:backgroundTint="#FBE9EC">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="🚫" android:textSize="15sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Enquiry Reject" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#101828" android:maxLines="1" android:ellipsize="end" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Cancelled at enquiry" android:textSize="9.5sp" android:textColor="#7A8794" android:maxLines="1" android:ellipsize="end" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvCountEnqReject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#B8324A" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="›" android:textSize="15sp" android:textColor="#C3CCD5" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnVisitReject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="7dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_more_card"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="#C9702E" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="9dp">
+
+                <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_more_icon_badge"
+                    android:backgroundTint="#FBEFE5">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="🦶" android:textSize="15sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Visit Reject" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#101828" android:maxLines="1" android:ellipsize="end" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Cancelled at visit" android:textSize="9.5sp" android:textColor="#7A8794" android:maxLines="1" android:ellipsize="end" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvCountVisitReject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#C9702E" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="›" android:textSize="15sp" android:textColor="#C3CCD5" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="14dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="3dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🧑‍⚕️" android:textSize="12sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:text="PATIENT" android:textStyle="bold" android:textSize="12sp" android:textColor="#0B3B73" />
+            <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" android:layout_marginStart="8dp" android:background="#DBE3EA" />
+            <View android:layout_width="6dp" android:layout_height="6dp" android:layout_marginStart="8dp" android:background="@drawable/bg_more_dot" android:backgroundTint="#0C9E33" />
+        </LinearLayout>
+
+        <!-- 🟢🔒 V644 (২৫.০৮.২০২৬, TK-নির্দেশ, দুই দফা প্রশ্ন করে নিশ্চিত হওয়া) —
+             "Running Patient" — চিকিৎসা এখন চলমান এমন রোগী (stage=Treatment,
+             স্বাভাবিক active)। PATIENT সেকশনের সবচেয়ে উপরে, Incomplete
+             Patient-এর ঠিক আগে (TK-নির্দিষ্ট ক্রম)। btnNotComplete-এর হুবহু
+             একই সাজ, শুধু আইকন/রং/লেখা আলাদা। -->
+        <LinearLayout
+            android:id="@+id/btnRunningTreatment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="7dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_more_card"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="#1D7A46" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="9dp">
+
+                <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_more_icon_badge"
+                    android:backgroundTint="#E1F3E8">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="🏃" android:textSize="15sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Running Patient" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#101828" android:maxLines="1" android:ellipsize="end" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Treatment running" android:textSize="9.5sp" android:textColor="#7A8794" android:maxLines="1" android:ellipsize="end" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvCountRunningTreatment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#1D7A46" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="›" android:textSize="15sp" android:textColor="#C3CCD5" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnNotComplete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="7dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_more_card"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="#B8860B" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="9dp">
+
+                <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_more_icon_badge"
+                    android:backgroundTint="#FBF3DF">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="⏳" android:textSize="15sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Incomplete Patient" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#101828" android:maxLines="1" android:ellipsize="end" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Treatment ongoing" android:textSize="9.5sp" android:textColor="#7A8794" android:maxLines="1" android:ellipsize="end" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvCountNotComplete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#B8860B" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="›" android:textSize="15sp" android:textColor="#C3CCD5" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnComplete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="7dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_more_card"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="#0C9E33" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="9dp">
+
+                <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_more_icon_badge"
+                    android:backgroundTint="#E6F6EA">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="✅" android:textSize="15sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Complete Patient" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#101828" android:maxLines="1" android:ellipsize="end" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Bill fully paid" android:textSize="9.5sp" android:textColor="#7A8794" android:maxLines="1" android:ellipsize="end" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvCountComplete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#0C9E33" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="›" android:textSize="15sp" android:textColor="#C3CCD5" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 📊🔒 V824 (২৯.০৮.২০২৬, TK-নির্দেশ) — "Yearly Registration":
+             চলতি বছরে (০১ জানু → ৩১ ডিসে) বাছা ব্রাঞ্চে কত জনের সত্যিকারের
+             রেজিস্ট্রেশন হয়েছে। ⛔ শুধু মাস্টারের পর্দায় দেখা যায়
+             (DraftActivity-তে visibility ঠিক করা হয়) — স্টাফ/ডাক্তারের
+             পর্দায় এই সারিটা একেবারেই থাকে না।
+             ⛔ বাকি সারিগুলোর হুবহু একই কার্ড-ডিজাইন, শুধু রং ও আইকন আলাদা। -->
+        <LinearLayout
+            android:id="@+id/btnYearlyReg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="7dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_more_card"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:visibility="gone"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="#1D6FE0" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="9dp">
+
+                <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_more_icon_badge"
+                    android:backgroundTint="#E8F0FE">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="📊" android:textSize="15sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Yearly Registration" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#101828" android:maxLines="1" android:ellipsize="end" />
+                    <TextView android:id="@+id/tvYearlyRegSub" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="2026" android:textSize="9.5sp" android:textColor="#7A8794" android:maxLines="1" android:ellipsize="end" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvCountYearlyReg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#1D6FE0" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="›" android:textSize="15sp" android:textColor="#C3CCD5" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnRefunded"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="7dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_more_card"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="#8A5A2E" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="9dp">
+
+                <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_more_icon_badge"
+                    android:backgroundTint="#F5EDE4">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="💸" android:textSize="15sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Refunded" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#101828" android:maxLines="1" android:ellipsize="end" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Money returned" android:textSize="9.5sp" android:textColor="#7A8794" android:maxLines="1" android:ellipsize="end" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvCountRefunded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#8A5A2E" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="›" android:textSize="15sp" android:textColor="#C3CCD5" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 🟢🔒 V621 (২৪.০৮.২০২৬, TK-নির্দেশ) — "Return Visit": Fees Return
+             করা Visit-এর জন্য সম্পূর্ণ নতুন কার্ড, "Refunded" কার্ডের হুবহু
+             একই কাঠামো/স্টাইল অনুসরণ করে (নতুন কোনো ডিজাইন-প্যাটার্ন না)। -->
+        <LinearLayout
+            android:id="@+id/btnReturnVisit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="7dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_more_card"
+            android:clipToOutline="true"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="#B45309" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="9dp">
+
+                <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_more_icon_badge"
+                    android:backgroundTint="#FDECD2">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="↩️" android:textSize="15sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Return Visit" android:textStyle="bold" android:textSize="12.5sp" android:textColor="#101828" android:maxLines="1" android:ellipsize="end" />
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Fees returned" android:textSize="9.5sp" android:textColor="#7A8794" android:maxLines="1" android:ellipsize="end" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvCountReturnVisit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#B45309" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="›" android:textSize="15sp" android:textColor="#C3CCD5" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/bottom_nav_bar" />
+</LinearLayout>

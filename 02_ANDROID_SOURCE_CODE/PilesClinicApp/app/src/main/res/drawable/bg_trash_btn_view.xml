@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🎨 V764 (২৭.০৮.২০২৬, TK-অনুমোদিত ডিজাইন A, ডেমো ফটো দেখে বাছা)
+     TK: "View Restore Delete আলাদা আলাদা কালার হবে, উজ্জলতা কম, নেভি ব্লু থাকবে না"।
+     ⛔ **নতুন আলাদা ফাইল** — পুরনো bg_action_view / bg_trash_restore_green /
+        bg_btn_delete_red অন্য ৬টা পর্দাতেও ব্যবহার হয় (Draft · Queue · Follow-up ·
+        Credential · Doctor), তাই সেগুলো এক অক্ষরও ছোঁয়া হয়নি। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#E7F1F4" />
+    <corners android:radius="9dp" />
+</shape>

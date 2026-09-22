@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TK APPROVED (2026-07-15): premium touch: thin green left accent strip
+     added in front of the existing content row. All original TextViews/ids
+     are completely unchanged (same text sizes, same positions relative to
+     each other), just shifted right by the strip's own width. -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="3dp"
+    app:cardBackgroundColor="@color/clinic_card">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_payment_header" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- 🔒 B575 (TK-অনুমোদিত প্রুফ): নামের পাশে রোগ (chip)। -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <!-- 🟢🔒 V640 (২৪.০৮.২০২৬, TK-নির্দেশ, ডেমো-প্রুফ পাশ) — নামের
+                         ঠিক আগে ছোট গোল সিরিয়াল নম্বর (ওই দিনের তালিকায় কততম)
+                         CollectionAdapter-এ position+1 বসে। -->
+                    <TextView
+                        android:id="@+id/tvSerial"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginEnd="9dp"
+                        android:background="@drawable/bg_serial_badge"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Patient Name"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/clinic_text_primary" />
+
+                    <TextView
+                        android:id="@+id/tvDisease"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="2dp"
+                        android:text="PILES"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        android:textColor="#B0392B" />
+
+                    <!-- 🔴🔒 V566 (TK, ২২.০৮.২০২৬): *"এখানেও যদি কোন আরএমপির
+                         পেশেন্ট হয়ে থাকে অথবা আনএক্সপেক্টেড টাইমের পেশেন্ট
+                         হয়ে থাকে সেটাও যেন শো করে"* — রোগের চিপের ঠিক পাশে
+                         দুটো ছোট চিপ। ⛔ না থাকলে বসে না (খালি চিপ কখনো নয়)। -->
+                    <TextView
+                        android:id="@+id/tvRmpTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:paddingHorizontal="7dp"
+                        android:paddingVertical="2dp"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:visibility="gone"
+                        android:textColor="#0B4F2A" />
+
+                    <TextView
+                        android:id="@+id/tvTimeTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:paddingHorizontal="7dp"
+                        android:paddingVertical="2dp"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:visibility="gone"
+                        android:textColor="#8A5B00" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvMobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="9000000000"
+                    android:textSize="11.5sp"
+                    android:textColor="@color/clinic_text_secondary" />
+
+                <!-- 🔵 B611 (10.08.2026, TK-অনুমোদিত প্রুফ): Patient ID এখন নিজের
+                     লাইনে — মোবাইলের সাথে জড়িয়ে ভেঙে যেত না। ছোট বেগুনি "ID" চিপ +
+                     ধূসর ID নম্বর। ID না থাকলে (walk-in/medicine) পুরো সারি লুকানো। -->
+                <LinearLayout
+                    android:id="@+id/idRow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvIdTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_id_chip"
+                        android:paddingHorizontal="7dp"
+                        android:paddingVertical="1dp"
+                        android:text="ID"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textColor="#6B21A8" />
+
+                    <TextView
+                        android:id="@+id/tvPatientId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="JPE-00000000-000"
+                        android:textSize="11.5sp"
+                        android:textColor="@color/clinic_text_secondary" />
+                </LinearLayout>
+
+                <!-- source (Treatment/Medicine) — B575-এ লুকানো (রোগ+ঠিকানা এসেছে) -->
+                <TextView
+                    android:id="@+id/tvSource"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Treatment Payment"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:textColor="@color/clinic_text_secondary" />
+
+                <!-- 🔒 B575: ঠিকানা (দু'লাইন হতে পারে) -->
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Address"
+                    android:textSize="12sp"
+                    android:lineSpacingExtra="1dp"
+                    android:visibility="gone"
+                    android:textColor="@color/clinic_text_secondary" />
+            </LinearLayout>
+
+            <!-- 🔒 B576 (TK-অনুমোদিত প্রুফ): টাকা+মোড এখন গোল রাউন্ড বক্সে; রঙ
+                 মোড অনুযায়ী (ক্যাশ সবুজ / অনলাইন নীল) — CollectionAdapter-এ সেট। -->
+            <LinearLayout
+                android:id="@+id/amountBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginStart="9dp"
+                android:minWidth="78dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp">
+
+                <TextView
+                    android:id="@+id/tvAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹0"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/clinic_accent_green" />
+
+                <TextView
+                    android:id="@+id/tvMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="CASH"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/clinic_text_secondary" />
+
+                <!-- 🔵 B612 (10.08.2026, TK-অনুমোদিত): পেমেন্ট কখন হয়েছে — টাকা+মোডের
+                     নিচে ছোট সময় (ঘড়ি-আইকন ছাড়া)। সময় না থাকলে লুকানো। -->
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="3:42 PM"
+                    android:textSize="10.5sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    android:textColor="#98A2B3" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

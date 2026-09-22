@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🔒 B579 (TK-অনুমোদিত প্রুফ, 08.08.2026): Post Notice ডায়ালগের ইনপুট/ড্রপডাউন
+     ঘরের প্রফেশনাল রাউন্ড বর্ডার (হালকা সাদা ভেতর, ধূসর বর্ডার)। -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#FBFDFC" />
+    <stroke android:width="1.5dp" android:color="#D6DEE8" />
+    <corners android:radius="12dp" />
+</shape>

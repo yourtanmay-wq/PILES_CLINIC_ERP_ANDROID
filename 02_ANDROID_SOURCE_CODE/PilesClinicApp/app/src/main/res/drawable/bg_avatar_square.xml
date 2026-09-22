@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Blank patient avatar tile, matching WebView .miniPatient.blank / .photoWrap
+     (bg #edf1f7, radius 12). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#EDF1F7" />
+    <corners android:radius="12dp" />
+</shape>
